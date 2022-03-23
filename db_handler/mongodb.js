@@ -12,7 +12,6 @@
 import  mongoose from 'mongoose';
 const log = console.log;
 global.Promise = mongoose.Promise;
-//const config = require('../config/config')();
 const DB_URL = "mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 var againConnect = ()=>{

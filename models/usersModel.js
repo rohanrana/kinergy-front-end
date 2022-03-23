@@ -71,10 +71,8 @@ mongoose.model('Users',userSchema).findOne({type:"SUPERADMIN"}, (err,res)=>{
         const saltRounds = 10;
         bcrypt.genSalt(saltRounds, (err1,salt) => {
             bcrypt.hash(obj.password, salt, (err2,hash)=>{
-                console.log("hash=",hash)
                 obj.password = hash;
                 mongoose.model('Users',userSchema).create(obj, (error, success) => {
-                    console.log(error,success)
                     if(error)
                         console.log("Error is"+ error)
                     else
