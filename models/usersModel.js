@@ -33,8 +33,8 @@ const userSchema = new Schema({
 
     type: {
         type: String,
-        enum: ["CUSTOMER","SUPERADMIN","DOCTOR","STAFF","FACILITY"],
-        default: "CUSTOMER"
+        enum: ["SUPERADMIN","DOCTOR","STAFF","FACILITY"],
+        default: "STAFF"
     },
     status: {
         type: String,
