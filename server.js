@@ -5,10 +5,13 @@ import path from 'path';
 import cors from 'cors';
 const app = express();
 import dbconnection from './db_handler/mongodb.js';
-import user from './models/usersModel.js';
+import user from './models/userModel.js';
+import config from './config/env/config.js';
+import userRoutes from './routes/userRoute.js'
+const environment =config();
 
-app.listen(8080,()=>{
-    console.log(`Server is running on 8080`)
+app.listen(environment.port,()=>{
+    console.log(`Server is running on ${environment.port}`)
 })
 
 app.use(bodyParser.urlencoded({
@@ -19,6 +22,7 @@ app.use(bodyParser.json({
 }));
 
 app.use(cors());  
+app.use('/api/v1/user',userRoutes);
 const __dirname = path.resolve();
 
 

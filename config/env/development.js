@@ -1,7 +1,8 @@
-{
+export default {
 	"project_name" : "HEATH",
 	"version" : "v1",
 	"base_url" : "http://localhost/",	
+    "secret_key":"secre@tke@y",
     "token_expiry_time":"10h",
     "port":8080,
 	"db":"mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"

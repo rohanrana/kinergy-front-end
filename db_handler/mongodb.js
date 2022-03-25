@@ -12,7 +12,10 @@
 import  mongoose from 'mongoose';
 const log = console.log;
 global.Promise = mongoose.Promise;
-const DB_URL = "mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+import config from '../config/env/config.js';
+const environment =config();
+const DB_URL = environment.db
+//"mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 var againConnect = ()=>{
     setInterval(()=>{
