@@ -16,6 +16,11 @@ import AddingFacility from "./component/admin/AddingFacility";
 import StaffListing from "./component/admin/StaffListing";
 import AddStaff from "./component/admin/AddStaff";
 import ClientAuthorization from "./component/admin/ClientAuthorization";
+import DepartmentGeneral from "./component/admin/department/General";
+import DepartmentMedical from "./component/admin/department/Medical";
+import DepartmentPerformanceServices from "./component/admin/department/PerformanceServices";
+import CptCodelist from "./component/admin/department/CptCodeList";
+import BilledItem from "./component/admin/department/BilledItem";
 
 function App() {
   return (
@@ -36,6 +41,11 @@ function App() {
         <Route exact path="/staff-listing" component={StaffListing} />
         <Route exact path="/add-staff" component={AddStaff} />
         <Route exact path="/client-authorization" component={ClientAuthorization} />
+        <Route exact path="/department-general" component={DepartmentGeneral} />
+        <Route exact path="/department-medical" component={DepartmentMedical} />
+        <Route exact path="/department-performance-services" component={DepartmentPerformanceServices} />
+        <Route exact path="/cpt-code-list" component={CptCodelist} />
+        <Route exact path="/billed-item" component={BilledItem} />
       </Switch>
     </Router>
   );

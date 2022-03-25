@@ -33,9 +33,9 @@ const AdminLeftMenu = () => {
           }
           menuVariant="light"
         >
-          <NavDropdown.Item href="#/">General</NavDropdown.Item>
-          <NavDropdown.Item href="#/">Medical</NavDropdown.Item>
-          <NavDropdown.Item href="#/">Performance Services</NavDropdown.Item>
+          <NavDropdown.Item href="/department-general">General</NavDropdown.Item>
+          <NavDropdown.Item href="/department-medical">Medical</NavDropdown.Item>
+          <NavDropdown.Item href="/department-performance-services">Performance Services</NavDropdown.Item>
         </NavDropdown>
 
         <li>
@@ -44,11 +44,28 @@ const AdminLeftMenu = () => {
           </a>
         </li>
 
-        <li>
-          <a href="#/">
-            <i class="far fa-circle mr-2"></i>Finances
-          </a>
-        </li>
+        <NavDropdown
+          title={
+            <span>
+              <i className="far fa-circle mr-2"></i>Finances
+            </span>
+          }
+          menuVariant="light"
+        >
+          <NavDropdown
+          title={
+            <span>
+              <i className="far fa-circle mr-2"></i>Billable Items
+            </span>
+          }
+          menuVariant="light"
+        >
+          <NavDropdown.Item href="/billed-item">Services</NavDropdown.Item>
+          <NavDropdown.Item href="/">Products</NavDropdown.Item>
+        </NavDropdown>
+          <NavDropdown.Item href="/">Inventory</NavDropdown.Item>
+          
+        </NavDropdown>
 
       </ul>
     </div>

@@ -443,7 +443,24 @@ h6 {
 .btn-group{
     align-items: center;
 }
-
+.btn-group>:not(.btn-check)+.btn {
+  border-top-left-radius: .25rem !important;
+    border-bottom-left-radius: .25rem !important;
+}
 .btn-toolbar .form-control{
     min-height: unset;
+}
+
+.department-general{
+  padding: 2rem;
+  text-align: center;
+  background-color: #ECECEC;
+  border-radius: 10px;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.appointment-card .table td .dropdown button{
+  border-radius: .25rem !important;
+  padding: 0.1rem 0.75rem;
 }
