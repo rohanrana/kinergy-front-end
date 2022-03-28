@@ -136,6 +136,10 @@ h6 {
   padding: 2rem;
 }
 
+.error {
+  color: #ee2011;
+}
+
 .main-navbar {
   justify-content: right;
   width: 100%;
