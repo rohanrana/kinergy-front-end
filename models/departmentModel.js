@@ -6,24 +6,6 @@ const departmentsSchema = new Schema({
     deptName: {
         type: String
     },
-    contact: {
-        type: String
-    },
-    email: {
-        type: String,
-        trim: true,
-        lowercase: true
-    },
-    description: {
-        type: String
-    },
-    deptImg: {
-        type: String
-    },
-    type: {
-        type: String,
-        default: "CUSTOMER"
-    },
     status: {
         type: String,
         enum: ["ACTIVE", "INACTIVE", "BLOCK"],

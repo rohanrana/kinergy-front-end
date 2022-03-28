@@ -5,9 +5,9 @@ import path from 'path';
 import cors from 'cors';
 const app = express();
 import dbconnection from './db_handler/mongodb.js';
-import user from './models/userModel.js';
+import staff from './models/staffModel.js';
 import config from './config/env/config.js';
-import userRoutes from './routes/userRoute.js'
+import staffRoutes from './routes/staffRoute.js'
 const environment =config();
 
 app.listen(environment.port,()=>{
@@ -22,7 +22,7 @@ app.use(bodyParser.json({
 }));
 
 app.use(cors());  
-app.use('/api/v1/user',userRoutes);
+app.use('/api/v1/staff',staffRoutes);
 const __dirname = path.resolve();
 
 

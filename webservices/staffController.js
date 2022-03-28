@@ -1,4 +1,4 @@
-import User from '../models/userModel.js';
+import Staffs from '../models/staffModel.js';
 import Response from '../common_functions/response_handler.js';
 import resCode from '../helper/httpResponseCode.js';
 import resMessage from '../helper/httpResponseMessage.js';
@@ -8,14 +8,14 @@ import jwt from 'jsonwebtoken';
 import config from '../config/env/config.js';
 import mongoose from 'mongoose'
 
-const userApis = {
+const staffApis = {
 //=====signup==========
     'signup': (req, res) => {
         console.log("erquest is=======>>>>", req.body);
         if (!req.body.email)
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the email.');
         else {
-            User.findOne({ email: req.body.email, status: "ACTIVE" }, (err3, result3) => {
+            Staffs.findOne({ email: req.body.email, status: "ACTIVE" }, (err3, result3) => {
                 if (err3)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
                 else if (result3)
@@ -30,8 +30,8 @@ const userApis = {
                                 console.log("hash is " + hash)
                                 console.log("orig pass" + req.body.password)
                                // console.log("orig pass" + req.body.Account)
-                                let user = new User(req.body);
-                                user.save((error, result) => {
+                                let staffs = new Staffs(req.body);
+                                staffs.save((error, result) => {
                                     if (error) {
                                         console.log(error)
                                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
@@ -53,8 +53,9 @@ const userApis = {
         if (!req.body)
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the details.');
         else {
-            console.log("else entered login")
-            User.findOne({ email: req.body.email, $or: [{ status: "ACTIVE" }, { status: "BLOCK" }], type: req.body.type }).lean().exec((error, result) => {
+            console.log("else entered login",req.body,req)
+            Staffs.findOne({ email: 'admin@test.com',  type: 'SUPERADMIN' }).lean().exec((error, result) => {
+                console.log(error,result,req.body,"sghfsdfsdffsdfh")
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                 else if (!result) {
@@ -64,15 +65,17 @@ const userApis = {
                         bcrypt.compare(req.body.password, result.password, (err, res1) => {
                             if (res1) {
                                 console.log("result is " + JSON.stringify(result.jwtToken))
-                                if (!result.jwtToken) {
-                                    console.log("secret key is " + config().secret_key)
+                                // if (!result.jwtToken) {
+                                    console.log("secret key is " + config().secret_key,(req.headers['x-forwarded-for'] || '').split(',').pop().trim() || 
+                                    req.socket.remoteAddress)
                                     var token = jwt.sign({ _id: result._id, email: result.email, password: result.password }, config().secret_key);
-                                    User.findOneAndUpdate({ email: req.body.email }, { $set: { jwtToken: token } }, { new: true }, (err1, res2) => {
+                                    Staffs.findOneAndUpdate({ email: req.body.email }, { $set: { jwtToken: token ,lastLoginIp:(req.headers['x-forwarded-for'] || '').split(',').pop().trim() || 
+                                    req.socket.remoteAddress} }, { new: true }, (err1, res2) => {
                                         Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
                                     })
-                                } else {
-                                    Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, "This user is already login on another device.")
-                                }
+                                // } else {
+                                //     Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, "This user is already login on another device.")
+                                // }
                             }
                             else
                                 Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, "Incorrect password.")
@@ -93,7 +96,7 @@ const userApis = {
             Response.sendResponseWithoutData(res, resCode.BAD_REQUEST, "Please fill the id.")
         else {
             //   User.update({_id:req.body.userId},{$set:{jwtToken:''}},(error_,result_)=>{ 
-            User.updateOne({ _id: req.body._id }, { $set: { jwtToken: '' } }, (error_, result_) => {
+                Staffs.updateOne({ _id: req.body._id }, { $set: { jwtToken: '' } }, (error_, result_) => {
                 if (error_) {
                     console.log("error of logout " + JSON.stringify(error_))
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
@@ -113,4 +116,4 @@ const userApis = {
     //============================================================Module Exports==========================================================
 };
 
-export default userApis;
+export default staffApis;

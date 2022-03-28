@@ -9,43 +9,16 @@ const customersSchema = new Schema({
     lastName: {
         type: String
     },
-    contact: {
+    address: {
         type: String
-    },
-    email: {
-        type: String,
-        trim: true,
-        lowercase: true
-    },
-    doctorId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Users'
-    },
-    facilityId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Users'
     },
     profilePic: {
         type: String
-    },
-    password: {
-        type: String
-    },
-    address: {
-        country:{type:String},state:{type:String},address:{type:String},zipcode:{type:Number},city:{type:String},landmark:{type:String}
-    },
-
-    type: {
-        type: String,
-        default: "CUSTOMER"
     },
     status: {
         type: String,
         enum: ["ACTIVE","INACTIVE","BLOCK"],
         default: "ACTIVE"
-    },
-    jwtToken:{
-        type:String
     },
   
 },{
