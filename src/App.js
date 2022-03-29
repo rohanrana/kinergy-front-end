@@ -1,6 +1,11 @@
 import "./Style.css";
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import 'react-dropzone-uploader/dist/styles.css'
+import { 
+  // BrowserRouter as Router, 
+   Switch, 
+   Route, HashRouter as Router
+   } from "react-router-dom";
 import StaffLogin from "./component/logins/StaffLogin";
 import StaffLogin2 from "./component/logins/StaffLogin2";
 import CreateLogin from "./component/logins/CreateLogin";
@@ -21,15 +26,18 @@ import DepartmentMedical from "./component/admin/department/Medical";
 import DepartmentPerformanceServices from "./component/admin/department/PerformanceServices";
 import CptCodelist from "./component/admin/department/CptCodeList";
 import BilledItem from "./component/admin/department/BilledItem";
+import Inventory from "./component/admin/department/Inventory";
+import AddInventory from "./component/admin/department/AddInventory";
+import Communications from "./component/admin/Communication";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={StaffLogin} />
+        <Route exact path="/staff-login" component={StaffLogin} />
         <Route exact path="/staff-login2" component={StaffLogin2} />
         <Route exact path="/create-login" component={CreateLogin} />
-        <Route exact path="/dashboard" component={Home} />
+        <Route exact path="/" component={Home} />
         <Route exact path="/client-listing" component={ClientListing} />
         <Route exact path="/activity-log" component={ActivityLog} />
         <Route exact path="/client-details" component={ClientDetails} />
@@ -46,6 +54,9 @@ function App() {
         <Route exact path="/department-performance-services" component={DepartmentPerformanceServices} />
         <Route exact path="/cpt-code-list" component={CptCodelist} />
         <Route exact path="/billed-item" component={BilledItem} />
+        <Route exact path="/inventory" component={Inventory} />
+        <Route exact path="/add-inventory" component={AddInventory} />
+        <Route exact path="/communications" component={Communications} />
       </Switch>
     </Router>
   );

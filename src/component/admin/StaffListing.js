@@ -115,7 +115,7 @@ const StaffListing = () => {
                     <Dropdown.Item eventKey="2">Level 3</Dropdown.Item>
                     <Dropdown.Item eventKey="2">Level 4</Dropdown.Item>
                   </DropdownButton>
-                  <a href="/add-staff" className="btn btn-theme rounded ml-2">
+                  <a href="#/add-staff" className="btn btn-theme rounded ml-2">
                     + Add Staff
                   </a>
                 </ButtonGroup>
@@ -137,7 +137,7 @@ const StaffListing = () => {
                     <td>Receptionist</td>
                     <td>Level 3</td>
                     <td>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         Edit
                       </a>
                     </td>
@@ -149,7 +149,7 @@ const StaffListing = () => {
                     <td>Receptionist</td>
                     <td>Level 3</td>
                     <td>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         Edit
                       </a>
                     </td>
@@ -161,7 +161,7 @@ const StaffListing = () => {
                     <td>Receptionist</td>
                     <td>Level 3</td>
                     <td>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         Edit
                       </a>
                     </td>
@@ -173,7 +173,7 @@ const StaffListing = () => {
                     <td>Receptionist</td>
                     <td>Level 3</td>
                     <td>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         Edit
                       </a>
                     </td>
@@ -185,7 +185,7 @@ const StaffListing = () => {
                     <td>Receptionist</td>
                     <td>Level 3</td>
                     <td>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         Edit
                       </a>
                     </td>
@@ -197,7 +197,7 @@ const StaffListing = () => {
                     <td>Receptionist</td>
                     <td>Level 3</td>
                     <td>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         Edit
                       </a>
                     </td>

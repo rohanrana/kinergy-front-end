@@ -115,7 +115,7 @@ const ClientAuthorization = () => {
                     </td>
                     <td className="text-left">
                       <i class="fas fa-envelope icon-color-nav mr-2"></i>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         <i class="fas fa-lock icon-color-nav ml-2"></i>
                       </a>
                     </td>
@@ -134,7 +134,7 @@ const ClientAuthorization = () => {
                     </td>
                     <td className="text-left">
                       <i class="fas fa-envelope icon-color-nav mr-2"></i>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a  onClick={() => setModalShow(true)}>
                         <i class="fas fa-lock icon-color-nav ml-2"></i>
                       </a>
                     </td>
@@ -153,7 +153,7 @@ const ClientAuthorization = () => {
                     </td>
                     <td className="text-left">
                       <i class="fas fa-envelope icon-color-nav mr-2"></i>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         <i class="fas fa-lock icon-color-nav ml-2"></i>
                       </a>
                     </td>
@@ -172,7 +172,7 @@ const ClientAuthorization = () => {
                     </td>
                     <td className="text-left">
                       <i class="fas fa-envelope icon-color-nav mr-2"></i>
-                      <a href="#/" onClick={() => setModalShow(true)}>
+                      <a href onClick={() => setModalShow(true)}>
                         <i class="fas fa-lock icon-color-nav ml-2"></i>
                       </a>
                     </td>

@@ -15,20 +15,13 @@ const EditDetails = () => {
           <Col lg={10} sm={8} xs={12}>
             <div className="appointment-card form-type">
               <h5 className="pb-2">
-                <a href="/client-details" className="theme-color">
+                <a href="#/client-details" className="theme-color">
                   <i className="fas fa-chevron-left mr-2"></i>
                 </a>
                 Client Details
               </h5>
               <Form>
                 <Row>
-                  <Col lg={4} sm={4} xs={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control value="Elizabeth" />
-                    </Form.Group>
-                  </Col>
-
                   <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
                       <Form.Label>First Name</Form.Label>
@@ -38,15 +31,55 @@ const EditDetails = () => {
 
                   <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
+                      <Form.Label>Last Name</Form.Label>
+                      <Form.Control value="Elizabeth" />
+                    </Form.Group>
+                  </Col>
+
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Nick name / Preferred name</Form.Label>
+                      <Form.Control value="Scott" />
+                    </Form.Group>
+                  </Col>
+
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
                       <Form.Label>D.O.B</Form.Label>
-                      <Form.Control value="06-08-1999" />
+                      <Form.Control value="06/08/1999" />
                     </Form.Group>
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
                       <Form.Label>Gender</Form.Label>
-                      <Form.Control value="Male" />
+                      <Form.Control value="Female" />
+                    </Form.Group>
+                  </Col>
+
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>SSN</Form.Label>
+                      <Form.Control value="SSN5164685154" />
+                    </Form.Group>
+                  </Col>
+
+                </Row>
+                <hr />
+
+                <h5>Contact Information</h5>
+                <Row>
+                <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Phone 1</Form.Label>
+                      <Form.Control value="(123)-465-6544" />
+                    </Form.Group>
+                  </Col>
+
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Phone 2</Form.Label>
+                      <Form.Control value="(123)-465-6544" />
                     </Form.Group>
                   </Col>
 
@@ -54,20 +87,6 @@ const EditDetails = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Email</Form.Label>
                       <Form.Control value="scott@gmail.com" />
-                    </Form.Group>
-                  </Col>
-
-                  <Col lg={4} sm={4} xs={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Phone Number</Form.Label>
-                      <Form.Control value="(272)-343-4343" />
-                    </Form.Group>
-                  </Col>
-
-                  <Col lg={4} sm={4} xs={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>D.O.B</Form.Label>
-                      <Form.Control value="06-08-1999" />
                     </Form.Group>
                   </Col>
                 </Row>
@@ -115,28 +134,6 @@ const EditDetails = () => {
                 </Row>
 
                 <hr />
-                <h5>Account</h5>
-                <Row>
-                  <Col lg={4} sm={4} xs={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Membership Type</Form.Label>
-                      <Form.Select defaultValue="1">
-                        <option value="1">Premium</option>
-                        <option value="2">Option</option>
-                        <option value="3">Option</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-
-                  <Col lg={4} sm={4} xs={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Expires On</Form.Label>
-                      <Form.Control value="06-02-2021" />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <hr />
                 <h5>Communication Preferences</h5>
                 <Row>
                   <Col lg={4} sm={4} xs={12}>
@@ -155,6 +152,28 @@ const EditDetails = () => {
                       <Form.Label>Appointment Confirmation</Form.Label>
                       <Form.Select defaultValue="1">
                         <option value="1">Email</option>
+                        <option value="2">Option</option>
+                        <option value="3">Option</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <hr />
+                <h5>Work Information</h5>
+                <Row>
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Occupation</Form.Label>
+                      <Form.Control value="Technical Engineer" />
+                    </Form.Group>
+                  </Col>
+
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Employment Status</Form.Label>
+                      <Form.Select defaultValue="1">
+                        <option value="1">Fulltime</option>
                         <option value="2">Option</option>
                         <option value="3">Option</option>
                       </Form.Select>

@@ -55,150 +55,89 @@ const ClientListing = () => {
               <Table responsive>
                 <thead>
                   <tr>
-                    <th>Client Name</th>
+                    <th>Last Name</th>
+                    <th>Frist Name</th>
                     <th>Phone</th>
                     <th>Last Appointment</th>
-                    <th>Upcoming Appointment</th>
+                    <th>Last Provider</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Scott Elizabeth</td>
+                    <td>Elizabeth</td>
+                    <td>Scott</td>
                     <td>(123)-541-1154</td>
                     <td>02-02-2022</td>
-                    <td>02-03-2022</td>
+                    <td>Terill Lobo</td>
                     <td>
                       <Badge pill className="p-2" bg="success">
                         Active
                       </Badge>
                     </td>
                     <td>
-                      <a href="/client-details" className="theme-color">
+                      <a href="#/client-details" className="theme-color">
                         <b>View Details</b>
                       </a>
                     </td>
                   </tr>
 
                   <tr>
-                    <td>Scott Elizabeth</td>
+                    <td>Elizabeth</td>
+                    <td>Scott</td>
                     <td>(123)-541-1154</td>
                     <td>02-02-2022</td>
-                    <td>02-03-2022</td>
+                    <td>Terill Lobo</td>
                     <td>
                       <Badge pill className="p-2" bg="danger">
                         Inactive
                       </Badge>
                     </td>
                     <td>
-                      <a href="/client-details" className="theme-color">
+                      <a href="#/client-details" className="theme-color">
                         <b>View Details</b>
                       </a>
                     </td>
                   </tr>
 
                   <tr>
-                    <td>Scott Elizabeth</td>
+                    <td>Elizabeth</td>
+                    <td>Scott</td>
                     <td>(123)-541-1154</td>
                     <td>02-02-2022</td>
-                    <td>02-03-2022</td>
+                    <td>Terill Lobo</td>
+                    <td>
+                      <Badge pill className="p-2" bg="danger">
+                        Inactive
+                      </Badge>
+                    </td>
+                    <td>
+                      <a href="#/client-details" className="theme-color">
+                        <b>View Details</b>
+                      </a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Elizabeth</td>
+                    <td>Scott</td>
+                    <td>(123)-541-1154</td>
+                    <td>02-02-2022</td>
+                    <td>Terill Lobo</td>
                     <td>
                       <Badge pill className="p-2" bg="success">
                         Active
                       </Badge>
                     </td>
                     <td>
-                      <a href="/client-details" className="theme-color">
+                      <a href="#/client-details" className="theme-color">
                         <b>View Details</b>
                       </a>
                     </td>
                   </tr>
 
-                  <tr>
-                    <td>Scott Elizabeth</td>
-                    <td>(123)-541-1154</td>
-                    <td>02-02-2022</td>
-                    <td>02-03-2022</td>
-                    <td>
-                      <Badge pill className="p-2" bg="danger">
-                        Inactive
-                      </Badge>
-                    </td>
-                    <td>
-                      <a href="/client-details" className="theme-color">
-                        <b>View Details</b>
-                      </a>
-                    </td>
-                  </tr>
 
-                  <tr>
-                    <td>Scott Elizabeth</td>
-                    <td>(123)-541-1154</td>
-                    <td>02-02-2022</td>
-                    <td>02-03-2022</td>
-                    <td>
-                      <Badge pill className="p-2" bg="success">
-                        Active
-                      </Badge>
-                    </td>
-                    <td>
-                      <a href="/client-details" className="theme-color">
-                        <b>View Details</b>
-                      </a>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Scott Elizabeth</td>
-                    <td>(123)-541-1154</td>
-                    <td>02-02-2022</td>
-                    <td>02-03-2022</td>
-                    <td>
-                      <Badge pill className="p-2" bg="danger">
-                        Inactive
-                      </Badge>
-                    </td>
-                    <td>
-                      <a href="/client-details" className="theme-color">
-                        <b>View Details</b>
-                      </a>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Scott Elizabeth</td>
-                    <td>(123)-541-1154</td>
-                    <td>02-02-2022</td>
-                    <td>02-03-2022</td>
-                    <td>
-                      <Badge pill className="p-2" bg="success">
-                        Active
-                      </Badge>
-                    </td>
-                    <td>
-                      <a href="/client-details" className="theme-color">
-                        <b>View Details</b>
-                      </a>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Scott Elizabeth</td>
-                    <td>(123)-541-1154</td>
-                    <td>02-02-2022</td>
-                    <td>02-03-2022</td>
-                    <td>
-                      <Badge pill className="p-2" bg="danger">
-                        Inactive
-                      </Badge>
-                    </td>
-                    <td>
-                      <a href="/client-details" className="theme-color">
-                        <b>View Details</b>
-                      </a>
-                    </td>
-                  </tr>
                 </tbody>
               </Table>
 

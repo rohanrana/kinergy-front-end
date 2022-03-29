@@ -25,7 +25,7 @@ const StaffLogin = () => {
             <Form.Control placeholder="Password" />
           </Form.Group>
 
-          <a href="/dashboard" className="btn btn-theme btn-block w-100 ml-0 mt-5">
+          <a href="#/" className="btn btn-theme btn-block w-100 ml-0 mt-5">
             LOGIN
           </a>
         </Form>

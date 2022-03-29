@@ -52,7 +52,7 @@ const Sidebar = () => {
     <>
       <Navbar bg="white" expand="sm">
         <Container fluid>
-          <Navbar.Brand href="/dashboard">
+          <Navbar.Brand href="/">
             <img src={Logo} alt={Logo} height="60" />
           </Navbar.Brand>
 
@@ -63,7 +63,7 @@ const Sidebar = () => {
           </Nav>
 
           <Nav className="main-navbar">
-            <Nav.Link href="/">
+            <Nav.Link href="#/staff-login">
               <i class="fas fa-lock icon-color-nav"></i>
             </Nav.Link>
 

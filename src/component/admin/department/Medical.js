@@ -26,7 +26,7 @@ const DepartmentMedical = () => {
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
-                      <a href="/cpt-code-list">
+                      <a href="#/cpt-code-list">
                       <div className="department-general">
                           <p className="m-0">CPT Code List</p>
                       </div>

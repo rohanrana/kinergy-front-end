@@ -11,7 +11,7 @@ const ClientLeftMenu = () => {
       <p>45465453</p>
       <ul className="p-0">
         <li>
-          <a href="/client-details">
+          <a href="#/client-details">
             <i class="far fa-circle mr-2"></i>Client Profile
           </a>
         </li>
