@@ -29,6 +29,10 @@ import BilledItem from "./component/admin/department/BilledItem";
 import Inventory from "./component/admin/department/Inventory";
 import AddInventory from "./component/admin/department/AddInventory";
 import Communications from "./component/admin/Communication";
+import SocialHabits from "./component/clients/medical-history/SocialHabits";
+import FemalesOnly from "./component/clients/medical-history/FemalesOnly";
+import SurgicalHistory from "./component/clients/medical-history/SurgicalHistory";
+import MedicalInformation from "./component/clients/medical-history/MedicalInformation";
 
 function App() {
   return (
@@ -57,6 +61,10 @@ function App() {
         <Route exact path="/inventory" component={Inventory} />
         <Route exact path="/add-inventory" component={AddInventory} />
         <Route exact path="/communications" component={Communications} />
+        <Route exact path="/social-habits" component={SocialHabits} />
+        <Route exact path="/females-only" component={FemalesOnly} />
+        <Route exact path="/surgical-history" component={SurgicalHistory} />
+        <Route exact path="/medical-information" component={MedicalInformation} />
       </Switch>
     </Router>
   );
