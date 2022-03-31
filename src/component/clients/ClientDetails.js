@@ -485,7 +485,7 @@ const ClientDetails = () => {
                     Musculoskeletal History
                     <span className="float-right">
                       <a
-                        href="#/"
+                        href="#/musculoskeletal-history"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit

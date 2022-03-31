@@ -33,6 +33,10 @@ import SocialHabits from "./component/clients/medical-history/SocialHabits";
 import FemalesOnly from "./component/clients/medical-history/FemalesOnly";
 import SurgicalHistory from "./component/clients/medical-history/SurgicalHistory";
 import MedicalInformation from "./component/clients/medical-history/MedicalInformation";
+import MusculoskeletalHistory from "./component/clients/medical-history/MusculoskeletalHistory";
+import MedicalRecordListing from "./component/clients/chart-notes/MedicalRecordListing";
+import MedicalRecordMainPage from "./component/clients/chart-notes/MedicalRecordMainPage";
+import MedicalActivityLog from "./component/clients/chart-notes/MedicalActivityLog";
 
 function App() {
   return (
@@ -65,6 +69,10 @@ function App() {
         <Route exact path="/females-only" component={FemalesOnly} />
         <Route exact path="/surgical-history" component={SurgicalHistory} />
         <Route exact path="/medical-information" component={MedicalInformation} />
+        <Route exact path="/musculoskeletal-history" component={MusculoskeletalHistory} />
+        <Route exact path="/medical-record-listing" component={MedicalRecordListing} />
+        <Route exact path="/medical-record-main-page" component={MedicalRecordMainPage} />
+        <Route exact path="/medical-activity-log" component={MedicalActivityLog} />
       </Switch>
     </Router>
   );

@@ -24,7 +24,7 @@ const ClientLeftMenu = () => {
           }
           menuVariant="light"
         >
-          <NavDropdown.Item href="#/">Injury Cases</NavDropdown.Item>
+          <NavDropdown.Item href="#/medical-record-listing">Medical Recordes</NavDropdown.Item>
         </NavDropdown>
 
         <li>
