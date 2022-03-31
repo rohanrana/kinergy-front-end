@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: 
+  baseURL: 'http://34.194.219.49:3000/api/v1',
   //'http://localhost:8080/api/v1',
-  'http://34.194.219.49:3000/api/v1',//'http://localhost:8080/api/v1',
+  //'http://34.194.219.49:3000/api/v1',//'http://localhost:8080/api/v1',
   headers: {
     Authorization: JSON.parse(localStorage.getItem("auth-token"))
   }

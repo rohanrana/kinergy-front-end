@@ -1,5 +1,6 @@
 import React from "react";
 import { NavDropdown } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 const AdminLeftMenu = () => {
   return (
@@ -14,11 +15,13 @@ const AdminLeftMenu = () => {
         </li>
 
         <li>
-          <a href="/staff-listing">
+          <Link to="/staff-listing">
             <i class="far fa-circle mr-2"></i>Staff
-          </a>
+          </Link>
         </li>
-
+        {/* <Link to='/staff-listing'>
+      Go to Jane's profile
+    </Link> */}
         <li>
           <a href="/client-authorization">
             <i class="far fa-circle mr-2"></i>Client Authorization
