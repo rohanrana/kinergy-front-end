@@ -2,7 +2,9 @@ import {
   STAFF_LOGIN_SUCCESS,
   STAFF_LOGIN_FAILURE,
   STAFF_LOGOUT_SUCCESS,
-  STAFF_LOGOUT_FAILURE
+  STAFF_LOGOUT_FAILURE,
+  USER_LISTING_SUCCESS,
+  USER_LISTING_FAILURE
 } from '../actionTypes';
 
 const initialState = {
@@ -10,7 +12,9 @@ const initialState = {
   staffLoginData: null,
   staffLoginErr: null,
   staffLogoutData: null,
-  staffLogoutErr: false
+  staffLogoutErr: false,
+  userListingData: null,
+  userListingErr: null
 };
 
 const staffAuthReducer = (state = initialState, action) => {
@@ -39,7 +43,17 @@ const staffAuthReducer = (state = initialState, action) => {
         ...state,
         staffLogoutErr: action.payload,
       };
- 
+      case USER_LISTING_SUCCESS:
+        return {
+          ...state,
+          userListingData: action.payload,
+          userListingErr: null
+        };
+      case USER_LISTING_FAILURE:
+        return {
+          ...state,
+          userListingErr: action.payload,
+        };
 
     default:
       return state;

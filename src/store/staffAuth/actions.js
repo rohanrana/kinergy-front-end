@@ -2,7 +2,9 @@ import {
   STAFF_LOGIN_SUCCESS,
   STAFF_LOGIN_FAILURE,
   STAFF_LOGOUT_SUCCESS,
-  STAFF_LOGOUT_FAILURE
+  STAFF_LOGOUT_FAILURE,
+  USER_LISTING_SUCCESS,
+  USER_LISTING_FAILURE
 } from "../actionTypes";
 import { uiStartLoading, uiStopLoading } from "../loading/actions";
 import { api } from "../../utils/api";
@@ -27,7 +29,15 @@ const staffLogoutFailure = payload => ({
   payload
 });
 
+const userListingSuccess = payload => ({
+  type: USER_LISTING_SUCCESS,
+  payload
+});
 
+const userListingFailure = payload => ({
+  type: USER_LISTING_FAILURE,
+  payload
+});
 
 export const staffLogin = (email, password,type) => async dispatch => {
   dispatch(uiStartLoading());
@@ -42,7 +52,7 @@ export const staffLogin = (email, password,type) => async dispatch => {
       dispatch(uiStopLoading());
     }
     else{
-      localStorage.setItem("auth-token", JSON.stringify(`Bearer ${data.token}`));
+      localStorage.setItem("auth-token", JSON.stringify(data.token));
       dispatch(staffLoginSuccess(data));
       dispatch(uiStopLoading());
     }
@@ -69,6 +79,31 @@ export const staffLogout = (_id) => async dispatch => {
     }
   } catch (err) {
     dispatch(staffLogoutFailure(err));
+    dispatch(uiStopLoading());
+  }
+};
+
+export const userListing = () => async dispatch => {
+  dispatch(uiStartLoading());
+  try {
+    const token = JSON.parse(localStorage.getItem("auth-token"));
+    const headers = {
+      token: token
+    };
+    const { data } = await api.get("/staff/userList", {
+      headers
+    });
+    console.log("user list data",data)
+    if(data.response_code!=200){
+      dispatch(userListingFailure(data));
+      dispatch(uiStopLoading());
+    }
+    else{
+      dispatch(userListingSuccess(data));
+      dispatch(uiStopLoading());
+    }
+  } catch (err) {
+    dispatch(userListingFailure(err));
     dispatch(uiStopLoading());
   }
 };
