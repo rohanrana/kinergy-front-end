@@ -1,4 +1,4 @@
-export default {
+{
 	"project_name" : "HEATH",
 	"version" : "v1",
 	"base_url" : "http://localhost/",	

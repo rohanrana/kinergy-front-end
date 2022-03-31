@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate';
+const  mongoose =require( 'mongoose');
+const  mongoosePaginate =require ('mongoose-paginate');
 const Schema = mongoose.Schema;
 
 const departmentsSchema = new Schema({
@@ -18,4 +18,4 @@ const departmentsSchema = new Schema({
 });
 
 departmentsSchema.plugin(mongoosePaginate);
-export default mongoose.model("Departments", departmentsSchema);
+module.exports = mongoose.model("Departments", departmentsSchema);

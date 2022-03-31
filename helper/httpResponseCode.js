@@ -1,4 +1,4 @@
-export default {
+module.exports = {
 
 	EVERYTHING_IS_OK: 200,
 

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     NULL:null,
     MINUS_ONE: -1,
     ZERO: 0,

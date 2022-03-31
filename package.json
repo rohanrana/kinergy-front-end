@@ -2,7 +2,6 @@
   "name": "node_heath",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "dependencies": {
     "async-waterfall": "^0.1.5",
     "bcryptjs": "^2.4.3",
@@ -14,10 +13,14 @@
     "mongoose-paginate": "^5.0.3",
     "path": "^0.12.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/register": "^7.17.7"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC"

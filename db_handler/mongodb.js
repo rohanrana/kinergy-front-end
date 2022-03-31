@@ -9,10 +9,10 @@
 //  // client.close();
 // });
 
-import  mongoose from 'mongoose';
+const  mongoose =require( 'mongoose');
 const log = console.log;
 global.Promise = mongoose.Promise;
-import config from '../config/env/config.js';
+const config =require( '../config/env/config.js');
 const environment =config();
 const DB_URL = environment.db
 //"mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -23,7 +23,7 @@ var againConnect = ()=>{
     },1000)
 }
 
-export default function db_connect(){
+function db_connect(){
     mongoose.connection.openUri(DB_URL);
 };
 db_connect();

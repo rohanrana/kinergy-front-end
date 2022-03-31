@@ -1,6 +1,6 @@
-import mongoose from  'mongoose';
-import bcrypt from 'bcryptjs';
-import mongoosePaginate from 'mongoose-paginate';
+const mongoose = require( 'mongoose');
+const bcrypt = require('bcryptjs')
+const mongoosePaginate = require('mongoose-paginate')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -55,7 +55,7 @@ const userSchema = new Schema({
 });
 
 userSchema.plugin(mongoosePaginate);
-export default mongoose.model('Users',userSchema);
+module.exports = mongoose.model('Users',userSchema);
 
 // mongoose.model('Users',userSchema).findOne({type:"SUPERADMIN"}, (err,res)=>{
 //     if(!res){

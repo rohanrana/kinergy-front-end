@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     INTERNAL_SERVER_ERROR:'Internal server error.',
     REQUIRED_DATA:'Please fill all required data.',
     SUCCESSFULLY_DONE:'Data found successfully.',

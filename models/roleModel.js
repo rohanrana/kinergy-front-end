@@ -1,5 +1,5 @@
-import mongoose from  'mongoose';
-import mongoosePaginate from 'mongoose-paginate';
+const mongoose =require(  'mongoose')
+const mongoosePaginate =require( 'mongoose-paginate')
 const Schema = mongoose.Schema;
 
 const rolesSchema = new Schema({
@@ -15,4 +15,4 @@ const rolesSchema = new Schema({
 });
 
 rolesSchema.plugin(mongoosePaginate);
-export default mongoose.model("Roles",rolesSchema);
+module.exports = mongoose.model("Roles",rolesSchema);

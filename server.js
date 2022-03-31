@@ -1,13 +1,18 @@
-import express from 'express';
-import bodyParser  from  'body-parser';
-import mongoose from 'mongoose';
-import path from 'path';
-import cors from 'cors';
+// require("@babel/register")({
+//     presets: ["@babel/preset-env"]
+//   });
+  
+const express = require('express');
+const bodyParser  = require( 'body-parser');
+const mongoose = require('mongoose');
+const path = require('path');
+const cors = require('cors');
 const app = express();
-import dbconnection from './db_handler/mongodb.js';
-import staff from './models/staffModel.js';
-import config from './config/env/config.js';
-import staffRoutes from './routes/staffRoute.js'
+const dbconnection = require('./db_handler/mongodb');
+const staff = require('./models/staffModel');
+const config = require('./config/env/config');
+const staffRoutes = require('./routes/staffRoute');
+
 const environment =config();
 
 app.listen(environment.port,()=>{
@@ -23,7 +28,6 @@ app.use(bodyParser.json({
 
 app.use(cors());  
 app.use('/api/v1/staff',staffRoutes);
-const __dirname = path.resolve();
 
 
 app.use(express.static(path.join(__dirname, 'dist')));

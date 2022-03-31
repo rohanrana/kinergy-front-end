@@ -1,4 +1,4 @@
-export default {
+module.exports =  {
     sendResponseWithPagination : (responseObj, responseCode, responseMessage, data, paginationData) =>{
         return responseObj.send({'response_code':responseCode,'response_message':responseMessage,result:data,paginationData:paginationData})
     },

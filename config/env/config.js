@@ -1,7 +1,7 @@
 var current_env  = "development";
-import pord from './production.js';
-import dev from './development.js';
-import stage from './staging.js';
+const pord =require( './production')
+const dev =require( './development')
+const stage =require( './staging')
 
 const config_function=()=>{
     var config = {};    
@@ -25,4 +25,4 @@ const config_function=()=>{
     return config; 
 }
 
- export default config_function;
+module.exports =  config_function;

@@ -1,6 +1,6 @@
-import mongoose from  'mongoose';
-import bcrypt from 'bcryptjs';
-import mongoosePaginate from 'mongoose-paginate';
+const mongoose =require(  'mongoose')
+const bcrypt =require( 'bcryptjs')
+const mongoosePaginate =require( 'mongoose-paginate')
 const Schema = mongoose.Schema;
 
 const staffSchema = new Schema({
@@ -27,7 +27,7 @@ const staffSchema = new Schema({
     type: {
         type: String,
         enum: ["SUPERADMIN","DOCTOR"],
-        default: "STAFF"
+        default: "DOCTOR"
     },
     status: {
         type: String,
@@ -55,7 +55,7 @@ const staffSchema = new Schema({
 });
 
 staffSchema.plugin(mongoosePaginate);
-export default mongoose.model('Staffs',staffSchema);
+module.exports = mongoose.model('Staffs',staffSchema);
 
 mongoose.model('Staffs',staffSchema).findOne({type:"SUPERADMIN"}, (err,res)=>{
     if(!res){

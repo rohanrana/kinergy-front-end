@@ -1,12 +1,13 @@
-import Staffs from '../models/staffModel.js';
-import Response from '../common_functions/response_handler.js';
-import resCode from '../helper/httpResponseCode.js';
-import resMessage from '../helper/httpResponseMessage.js';
-import bcrypt from 'bcryptjs';
-import waterfall from 'async-waterfall';
-import jwt from 'jsonwebtoken';
-import config from '../config/env/config.js';
-import mongoose from 'mongoose'
+const Staffs =require( '../models/staffModel.js');
+const Customers =require( '../models/customersModel.js');
+const Response =require( '../common_functions/response_handler.js')
+const resCode =require( '../helper/httpResponseCode.js')
+const resMessage =require( '../helper/httpResponseMessage.js')
+const bcrypt =require( 'bcryptjs')
+const waterfall =require( 'async-waterfall')
+const jwt =require( 'jsonwebtoken')
+const config =require( '../config/env/config.js')
+const mongoose =require( 'mongoose')
 
 const staffApis = {
 //=====signup==========
@@ -15,35 +16,69 @@ const staffApis = {
         if (!req.body.email)
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the email.');
         else {
-            Staffs.findOne({ email: req.body.email, status: "ACTIVE" }, (err3, result3) => {
-                if (err3)
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
-                else if (result3)
-                    Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, resMessage.ALL_READY_EXIST_EMAIL)
-                else {
-                        var retVal = "";
-                        const saltRounds = 10;
-                        retVal = req.body.password;
-                        bcrypt.genSalt(saltRounds, (err, salt) => {
-                            bcrypt.hash(retVal, salt, (error, hash) => {
-                                req.body.password = hash;
-                                console.log("hash is " + hash)
-                                console.log("orig pass" + req.body.password)
-                               // console.log("orig pass" + req.body.Account)
-                                let staffs = new Staffs(req.body);
-                                staffs.save((error, result) => {
-                                    if (error) {
-                                        console.log(error)
-                                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
-                                    } else {
-                                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Signed up successfully.", result)
-                                    }
+            if(req.body.type=="CUSTOMER"){
+                Customers.findOne({ email: req.body.email, status: "ACTIVE", }, (err3, result3) => {
+                    if (err3)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                    else if (result3)
+                        Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, resMessage.ALL_READY_EXIST_EMAIL)
+                    else {
+                            var retVal = "";
+                            const saltRounds = 10;
+                            retVal = req.body.password;
+                            bcrypt.genSalt(saltRounds, (err, salt) => {
+                                bcrypt.hash(retVal, salt, (error, hash) => {
+                                    req.body.password = hash;
+                                    console.log("hash is " + hash)
+                                    console.log("orig pass" + req.body.password)
+                                   // console.log("orig pass" + req.body.Account)
+                                    let customer = new Customers(req.body);
+                                    customer.save((error, result) => {
+                                        if (error) {
+                                            console.log(error)
+                                            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                                        } else {
+                                                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Signed up successfully.", result)
+                                        }
+                                    })
                                 })
                             })
-                        })
-                    
-                }
-            })
+                        
+                    }
+                })
+            }
+            else{
+                Staffs.findOne({ email: req.body.email, status: "ACTIVE", }, (err3, result3) => {
+                    if (err3)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                    else if (result3)
+                        Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, resMessage.ALL_READY_EXIST_EMAIL)
+                    else {
+                            var retVal = "";
+                            const saltRounds = 10;
+                            retVal = req.body.password;
+                            bcrypt.genSalt(saltRounds, (err, salt) => {
+                                bcrypt.hash(retVal, salt, (error, hash) => {
+                                    req.body.password = hash;
+                                    console.log("hash is " + hash)
+                                    console.log("orig pass" + req.body.password)
+                                   // console.log("orig pass" + req.body.Account)
+                                    let staffs = new Staffs(req.body);
+                                    staffs.save((error, result) => {
+                                        if (error) {
+                                            console.log(error)
+                                            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                                        } else {
+                                                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Signed up successfully.", result)
+                                        }
+                                    })
+                                })
+                            })
+                        
+                    }
+                })
+            }
+           
         }
     },
     //=================login api =====
@@ -54,39 +89,97 @@ const staffApis = {
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the details.');
         else {
             console.log("else entered login",req.body,req)
-            Staffs.findOne({ email: 'admin@test.com',  type: 'SUPERADMIN' }).lean().exec((error, result) => {
-                console.log(error,result,req.body,"sghfsdfsdffsdfh")
-                if (error)
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                else if (!result) {
-                    Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, resMessage.NOT_MATCH);
-                }
-                else {
-                        bcrypt.compare(req.body.password, result.password, (err, res1) => {
-                            if (res1) {
-                                console.log("result is " + JSON.stringify(result.jwtToken))
-                                // if (!result.jwtToken) {
-                                    console.log("secret key is " + config().secret_key,(req.headers['x-forwarded-for'] || '').split(',').pop().trim() || 
-                                    req.socket.remoteAddress)
-                                    var token = jwt.sign({ _id: result._id, email: result.email, password: result.password }, config().secret_key);
-                                    Staffs.findOneAndUpdate({ email: req.body.email }, { $set: { jwtToken: token ,lastLoginIp:(req.headers['x-forwarded-for'] || '').split(',').pop().trim() || 
-                                    req.socket.remoteAddress} }, { new: true }, (err1, res2) => {
-                                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
-                                    })
-                                // } else {
-                                //     Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, "This user is already login on another device.")
-                                // }
-                            }
-                            else
-                                Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, "Incorrect password.")
-                        })
-                   // }
-                }
-
-            })
+            if(req.body.type=="SUPERADMIN"||req.body.type=="DOCTOR"){
+                Staffs.findOne({ email: req.body.email,  type: req.body.type ,status:"ACTIVE"}).lean().exec((error, result) => {
+                    console.log(error,result,req.body,"sghfsdfsdffsdfh")
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (!result) {
+                        Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, resMessage.NOT_MATCH);
+                    }
+                    else {
+                            bcrypt.compare(req.body.password, result.password, (err, res1) => {
+                                if (res1) {
+                                    console.log("result is " + JSON.stringify(result.jwtToken))
+                                    // if (!result.jwtToken) {
+                                        console.log("secret key is " + config().secret_key,(req.headers['x-forwarded-for'] || '').split(',').pop().trim() || 
+                                        req.socket.remoteAddress)
+                                        var token = jwt.sign({ _id: result._id, email: result.email, password: result.password }, config().secret_key);
+                                        Staffs.findOneAndUpdate({ email: req.body.email }, { $set: { jwtToken: token ,lastLoginIp:
+                                        req.socket.remoteAddress} }, { new: true }, (err1, res2) => {
+                                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
+                                        })
+                                    // } else {
+                                    //     Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, "This user is already login on another device.")
+                                    // }
+                                }
+                                else
+                                    Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, "Incorrect password.")
+                            })
+                       // }
+                    }
+    
+                })
+            }
+            else{
+                Customers.findOne({ email: req.body.email,  status:"ACTIVE" }).lean().exec((error, result) => {
+                    console.log(error,result,req.body,"sghfsdfsdffsdfh")
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (!result) {
+                        Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, resMessage.NOT_MATCH);
+                    }
+                    else {
+                            bcrypt.compare(req.body.password, result.password, (err, res1) => {
+                                if (res1) {
+                                    console.log("result is " + JSON.stringify(result.jwtToken))
+                                    // if (!result.jwtToken) {
+                                        console.log("secret key is " + config().secret_key,(req.headers['x-forwarded-for'] || '').split(',').pop().trim() || 
+                                        req.socket.remoteAddress)
+                                        var token = jwt.sign({ _id: result._id, email: result.email, password: result.password }, config().secret_key);
+                                        Customers.findOneAndUpdate({ email: req.body.email }, { $set: { jwtToken: token ,lastLoginIp:
+                                        req.socket.remoteAddress} }, { new: true }, (err1, res2) => {
+                                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
+                                        })
+                                    // } else {
+                                    //     Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, "This user is already login on another device.")
+                                    // }
+                                }
+                                else
+                                    Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, "Incorrect password.")
+                            })
+                       // }
+                    }
+    
+                })
+            }
+           
         }
     },
 
+        //=================user listing api =====
+        'userListing': (req, res) => {
+            console.log("userlist")
+                Staffs.find({ status:"ACTIVE"}).lean().exec((error, result) => {
+                console.log(error,result,"sghfsdfsdffsdfh")
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (!result) {
+                        Response.sendResponseWithoutData(res, 401, 'No User Found.');
+                    }
+                    else {
+                        Customers.find({ status:"ACTIVE"}).lean().exec((error1, result1) => {
+                            console.log(error1,result1)
+                            if (error1)
+                                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                            else
+                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.',[...result,...result1] )
+                    })
+                }
+    
+                })
+            //}
+        },
   
 
     //================ LOGOUT ===========================
@@ -116,4 +209,4 @@ const staffApis = {
     //============================================================Module Exports==========================================================
 };
 
-export default staffApis;
+module.exports =staffApis;

@@ -1,15 +1,15 @@
-import jwt from 'jsonwebtoken';
+const jwt =require( 'jsonwebtoken')
 
-//import app from 'express'(;
-import config from '../config/env/config.js';
-import Response from '../common_functions/response_handler.js';
-import resCode from '../helper/httpResponseCode.js'
-import resMessage from '../helper/httpResponseMessage.js';
-import User from '../models/userModel.js';
+//const app =require( 'express'()
+const config =require( '../config/env/config.js')
+const Response =require( '../common_functions/response_handler.js')
+const resCode =require( '../helper/httpResponseCode.js')
+const resMessage =require( '../helper/httpResponseMessage.js')
+const User =require( '../models/userModel.js')
 
 const auth = { 
    "auth_func": (req, res, next)=>{
-        var token = req.body.token || req.query.token || req.headers['x-access-token'];
+        var token = req.body.token || req.query.token || req.headers['token'];
         var userId = req.headers._id;
         if(token){
             console.log("secret key is "+config().secret_key)
@@ -23,16 +23,16 @@ const auth = {
                 }    
                 else{
                     console.log("token verified")
-                    User.findOne({_id:userId,status:"ACTIVE"},(error, result)=>{
-                        if(error)
-                            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG)
-                        else if(!result)
-                            Response.sendResponseWithoutData(res, resCode.NOT_FOUND, "User not found.")
-                        else{
+                    // User.findOne({_id:userId,status:"ACTIVE"},(error, result)=>{
+                    //     if(error)
+                    //         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG)
+                    //     else if(!result)
+                    //         Response.sendResponseWithoutData(res, resCode.NOT_FOUND, "User not found.")
+                    //     else{
                             req.decoded = decoded;
                             next();
-                        }                        
-                    })
+                        // }                        
+                    // })
                 }
             })
         }else{
@@ -43,4 +43,4 @@ const auth = {
 
 };
 
-export default auth;
+module.exports = auth;
