@@ -3,12 +3,15 @@ const mongoosePaginate =require( 'mongoose-paginate')
 const Schema = mongoose.Schema;
 
 const rolesSchema = new Schema({
-    name:{
+    roleName:{
         type: String
     },
-    premission: {
-        type: String
-    }
+    // premission: [
+    //   String
+    // ]
+    premission: [{premissionName:{type: String},
+        capabilities:[String]}]  
+    
   
 },{
     timestamps: true

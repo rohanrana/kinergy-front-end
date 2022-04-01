@@ -12,6 +12,7 @@ const dbconnection = require('./db_handler/mongodb');
 const staff = require('./models/staffModel');
 const config = require('./config/env/config');
 const staffRoutes = require('./routes/staffRoute');
+const roleRoutes = require('./routes/roleRoute');
 
 const environment =config();
 
@@ -28,6 +29,7 @@ app.use(bodyParser.json({
 
 app.use(cors());  
 app.use('/api/v1/staff',staffRoutes);
+app.use('/api/v1/role',roleRoutes);
 
 
 app.use(express.static(path.join(__dirname, 'dist')));

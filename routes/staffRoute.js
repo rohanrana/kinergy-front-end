@@ -7,6 +7,6 @@ router.post('/signup', staffApis.signup);
 router.post('/login', staffApis.login);
 router.post('/logOut',staffApis.logOut);
 router.get('/userList',authHandler.auth_func,staffApis.userListing);
-
+router.post('/addStaff',authHandler.auth_func,staffApis.addStaff);
 
 module.exports = router;
