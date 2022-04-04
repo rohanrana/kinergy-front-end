@@ -42,6 +42,9 @@ const customersSchema = new Schema({
     lastLoginIp: {
         type: String
     },
+    otp:{
+        type:String
+    }
   
 },{
     timestamps: true

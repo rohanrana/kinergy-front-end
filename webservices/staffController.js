@@ -8,7 +8,9 @@ const bcrypt = require('bcryptjs')
 const waterfall = require('async-waterfall')
 const jwt = require('jsonwebtoken')
 const config = require('../config/env/config.js')
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const message = require('../common_functions/message.js');
+const otp=Math.floor(1000 + Math.random() * 9000);
 
 const staffApis = {
     //=====signup==========
@@ -86,14 +88,14 @@ const staffApis = {
     //=================login api =====
     'login': (req, res) => {
         console.log("login request====++", req.body)
-        let id;
+        
         if (!req.body)
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the details.');
         else {
-            console.log("else entered login", req.body, req)
+           // console.log("else entered login", req.body, otp)
             if (req.body.type == "SUPERADMIN" || req.body.type == "DOCTOR") {
                 Staffs.findOne({ email: req.body.email, type: req.body.type, status: "ACTIVE" }).lean().exec((error, result) => {
-                    console.log(error, result, req.body, "sghfsdfsdffsdfh")
+                    //console.log(error, result, req.body, "sghfsdfsdffsdfh")
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                     else if (!result) {
@@ -102,7 +104,7 @@ const staffApis = {
                     else {
                         bcrypt.compare(req.body.password, result.password, (err, res1) => {
                             if (res1) {
-                                console.log("result is " + JSON.stringify(result.jwtToken))
+                               // console.log("result is " + JSON.stringify(result.jwtToken))
                                 // if (!result.jwtToken) {
                                 console.log("secret key is " + config().secret_key, (req.headers['x-forwarded-for'] || '').split(',').pop().trim() ||
                                     req.socket.remoteAddress)
@@ -110,10 +112,24 @@ const staffApis = {
                                 Staffs.findOneAndUpdate({ email: req.body.email }, {
                                     $set: {
                                         jwtToken: token, lastLoginIp:
-                                            req.socket.remoteAddress
+                                        req.socket.remoteAddress,
+                                        otp: otp
                                     }
                                 }, { new: true }, (err1, res2) => {
-                                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
+                                    //console.log('TEST',err1,res2,otp)
+                                    // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
+                                    message.sendemail(result.email, "OTP", "Your email id is " + result.email + " and OTP is " + otp, (err, success) => {
+                                        console.log("email error======", err,otp)
+                                        //          Response.sendResponseWithData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR,err)
+                                        //     }
+            
+                                        //   else{
+                                       // console.log("emaillllll", success, result,otp)
+                                        //  callback(null, success)
+                                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, res2, token)
+                                        // Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Signed up successfully.", result.id)
+                                        // }                    
+                                    });
                                 })
                                 // } else {
                                 //     Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, "This user is already login on another device.")
@@ -145,11 +161,25 @@ const staffApis = {
                                 var token = jwt.sign({ _id: result._id, email: result.email, password: result.password }, config().secret_key);
                                 Customers.findOneAndUpdate({ email: req.body.email }, {
                                     $set: {
-                                        jwtToken: token, lastLoginIp:
-                                            req.socket.remoteAddress
+                                        jwtToken: token,
+                                        lastLoginIp: req.socket.remoteAddress,
+                                        otp: otp
                                     }
                                 }, { new: true }, (err1, res2) => {
-                                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
+                                    console.log('TEST 2')
+                                    message.sendemail(result.email, "OTP", "Your email id is " + result.email + " and OTP is " + otp, (err, success) => {
+                                        console.log("email error======", err)
+                                        //          Response.sendResponseWithData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR,err)
+                                        //     }
+            
+                                        //   else{
+                                        console.log("emaillllll", success, result)
+                                        //  callback(null, success)
+                                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, res2, token)
+                                        // Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Signed up successfully.", result.id)
+                                        // }                    
+                                    });
+                                   // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.LOGIN_SUCCESS, result, token)
                                 })
                                 // } else {
                                 //     Response.sendResponseWithoutData(res, resCode.ALREADY_EXIST, "This user is already login on another device.")
@@ -214,13 +244,56 @@ const staffApis = {
         }
     },
 
+    //================ OTP ===========================
+    'otp': (req, res) => {
+        console.log("req for logout is " + JSON.stringify(req.body))
+        if (!req.body)
+            Response.sendResponseWithoutData(res, resCode.BAD_REQUEST, "Please provide the email.")
+        else {
+            //   User.update({_id:req.body.userId},{$set:{jwtToken:''}},(error_,result_)=>{ 
+            if (req.body.type == "SUPERADMIN" || req.body.type == "DOCTOR") {
+                Staffs.findOne({ email: req.body.email, status: "ACTIVE",type:req.body.type,otp:req.body.otp }, (error, result) => {
+                    console.log("STafffs======",error,result,req.body)
+                    if (error) {
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                    } else if (!result) {
+                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, resMessage.NOT_FOUND)
+                    }
+                    else {
+                       
+                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result)
+                            // Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Signed up successfully.", result.id)
+                            // }                    
+
+                    }
+                })
+            }
+            else {
+                Customers.findOne({ email: req.body.email, status: "ACTIVE",type:req.body.type,otp:req.body.otp }, (error, result) => {
+                    if (error) {
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                    } else if (!result) {
+                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, resMessage.NOT_FOUND)
+                    }
+                    else {
+                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result)
+                            // Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Signed up successfully.", result.id)
+                            // }                    
+                       //});
+                    }
+                })
+            }
+
+        }
+    },
+
 
 
     //=================add Staff by admin=====
     'addStaff': (req, res) => {
         if (req.body.type == "CUSTOMER") {
-            Customers.findOne({ email: req.body.email,status:"ACTIVE" }).lean().exec((error, result) => {
-                console.log('add user---',error,result)
+            Customers.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
+                console.log('add user---', error, result)
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                 else if (result) {
@@ -241,8 +314,8 @@ const staffApis = {
             })
         }
         else {
-            Staffs.findOne({ email:req.body.email,status:"ACTIVE"}).lean().exec((error, result) => {
-                console.log('add user---',error,result)
+            Staffs.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
+                console.log('add user---', error, result)
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                 else if (result) {
@@ -254,17 +327,17 @@ const staffApis = {
                         if (error1) {
                             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
                         } else {
-                                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Staff added successfully.", result1)
+                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Staff added successfully.", result1)
                         }
                     })
-            }
-    
+                }
+
             })
         }
 
         //}
     },
- 
+
     //============================================================Module Exports==========================================================
 };
 

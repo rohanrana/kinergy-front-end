@@ -44,6 +44,9 @@ const staffSchema = new Schema({
     lastLoginIp: {
         type: String
     },
+    otp:{
+        type:String
+    },
     // deviceToken:{
     //     type:String
     // },
@@ -66,7 +69,8 @@ mongoose.model('Staffs',staffSchema).findOne({type:"SUPERADMIN"}, (err,res)=>{
                 type: "SUPERADMIN",
                 email:'admin@test.com',
                 status:"ACTIVE",
-                contact: "+911234567897"
+                contact: "+911234567897",
+                otp:""
         };
         var pass;
         const saltRounds = 10;

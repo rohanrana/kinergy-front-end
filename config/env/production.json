@@ -7,6 +7,9 @@
     "secret_key":"secre@tke@y",
     "token_expiry_time":"10h",
     "port":3000,
-	"db":"mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
- 
+	"db":"mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+	"nodemailer":{
+        "pass": "",
+        "user": ""
+    }
 }
