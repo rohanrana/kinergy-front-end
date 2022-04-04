@@ -22,15 +22,22 @@ const StaffLogin = (props) => {
     }
   }
 
-  const passwordHandler=(val)=>{
-    if(!val){
-      setError('Enter password.')
-      setPassword(val)
+  const passwordHandler=(text)=>{
+    // if(!text){
+    //   setError('Enter password.')
+    //   setPassword(text)
+    // }
+    // else{
+      console.log("text",text.length)
+      if (text.length < 6){
+        setError('Password length must be atleast 6 characters');
+        setPassword(text);
+    } else {
+        setPassword(text);
+        setError('');
     }
-    else{
-      setPassword(val);
-      setError('')
-    }
+     
+    // }
   }
 
   const loginHandler=()=>{
@@ -39,8 +46,8 @@ const StaffLogin = (props) => {
   
   useEffect(()=>{
     if(props.staffLoginData){
-      if(props.staffLoginData.response_code)
-      props.history.push("/dashboard")
+      if(props.staffLoginData.response_code==200)
+      props.history.push("/otp")
     }
   },[props.staffLoginData])
 
@@ -56,7 +63,8 @@ const StaffLogin = (props) => {
         </Row>
       </Container>
       {props.isLoading?
-          <Spinner animation="grow" />:<div className="login-form">
+          <div style={{  position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" 
+        }}><Spinner animation="grow" /></div>:<div className="login-form">
         <h4>Welcome Back </h4>
         <p className="mb-5">Please login to continue</p>
         <Form>

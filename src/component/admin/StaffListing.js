@@ -143,7 +143,8 @@ const StaffListing = (props) => {
     <div className="clients">
       <Sidebar />
       {props.isLoading ?
-        <Spinner animation="grow" /> : <Container fluid className="mt-5">
+        <div style={{  position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" 
+      }}><Spinner animation="grow" /></div> : <Container fluid className="mt-5">
           <Row>
             <Col lg={2} sm={4} xs={12}>
               <AdminLeftMenu />

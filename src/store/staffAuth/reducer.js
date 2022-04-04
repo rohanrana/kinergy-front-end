@@ -4,7 +4,10 @@ import {
   STAFF_LOGOUT_SUCCESS,
   STAFF_LOGOUT_FAILURE,
   USER_LISTING_SUCCESS,
-  USER_LISTING_FAILURE
+  USER_LISTING_FAILURE,
+  OTP_SUCCESS,
+  OTP_FAILURE,
+  CLEAR_OTP
 } from '../actionTypes';
 
 const initialState = {
@@ -14,7 +17,9 @@ const initialState = {
   staffLogoutData: null,
   staffLogoutErr: false,
   userListingData: null,
-  userListingErr: null
+  userListingErr: null,
+  otpData: null,
+  otpErr: null
 };
 
 const staffAuthReducer = (state = initialState, action) => {
@@ -54,7 +59,23 @@ const staffAuthReducer = (state = initialState, action) => {
           ...state,
           userListingErr: action.payload,
         };
-
+     case OTP_SUCCESS:
+        return {
+          ...state,
+          otpData: action.payload,
+          otpErr: null
+        };
+      case OTP_FAILURE:
+        return {
+          ...state,
+          otpErr: action.payload,
+        };
+      case CLEAR_OTP:
+        return {
+          ...state,
+          otpErr: null,
+          otpData: null
+        };
     default:
       return state;
   }

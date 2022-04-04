@@ -21,6 +21,7 @@ import DepartmentMedical from "./component/admin/department/Medical";
 import DepartmentPerformanceServices from "./component/admin/department/PerformanceServices";
 import CptCodelist from "./component/admin/department/CptCodeList";
 import BilledItem from "./component/admin/department/BilledItem";
+import Otp from "./component/logins/Otp";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={StaffLogin} />
         <Route exact path="/staff-login2" component={StaffLogin2} />
+        <Route exact path="/otp" component={Otp} />
         <Route exact path="/create-login" component={CreateLogin} />
         <Route exact path="/dashboard" component={Home} />
         <Route exact path="/client-listing" component={ClientListing} />

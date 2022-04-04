@@ -4,7 +4,10 @@ import {
   STAFF_LOGOUT_SUCCESS,
   STAFF_LOGOUT_FAILURE,
   USER_LISTING_SUCCESS,
-  USER_LISTING_FAILURE
+  USER_LISTING_FAILURE,
+  OTP_SUCCESS,
+  OTP_FAILURE,
+  CLEAR_OTP
 } from "../actionTypes";
 import { uiStartLoading, uiStopLoading } from "../loading/actions";
 import { api } from "../../utils/api";
@@ -39,6 +42,21 @@ const userListingFailure = payload => ({
   payload
 });
 
+const otpSuccess = payload => ({
+  type: OTP_SUCCESS,
+  payload
+});
+
+const otpFailure = payload => ({
+  type: OTP_FAILURE,
+  payload
+});
+
+export const clearOtp = payload => ({
+  type: CLEAR_OTP,
+  payload
+});
+
 export const staffLogin = (email, password,type) => async dispatch => {
   dispatch(uiStartLoading());
   try {
@@ -53,6 +71,9 @@ export const staffLogin = (email, password,type) => async dispatch => {
     }
     else{
       localStorage.setItem("auth-token", JSON.stringify(data.token));
+      localStorage.setItem("email", JSON.stringify(data.result.email));
+      localStorage.setItem("type", JSON.stringify(data.result.type));
+      localStorage.setItem("otp", JSON.stringify(data.result.otp));
       dispatch(staffLoginSuccess(data));
       dispatch(uiStopLoading());
     }
@@ -74,6 +95,8 @@ export const staffLogout = (_id) => async dispatch => {
     }
     else{
       localStorage.removeItem("auth-token");
+      localStorage.removeItem("email");
+      localStorage.removeItem("type");
       dispatch(staffLogoutSuccess(data));
       dispatch(uiStopLoading());
     }
@@ -104,6 +127,33 @@ export const userListing = () => async dispatch => {
     }
   } catch (err) {
     dispatch(userListingFailure(err));
+    dispatch(uiStopLoading());
+  }
+};
+
+export const otpVerify = (otp) => async dispatch => {
+  dispatch(uiStartLoading());
+  try {
+    const email = JSON.parse(localStorage.getItem("email"));
+    const type = JSON.parse(localStorage.getItem("type"));
+    const { data } = await api.post("/staff/otp", 
+    {
+      email,
+      otp,
+      type
+    });
+    console.log("otp=====",data)
+    if(data.response_code!=200){
+      dispatch(otpFailure(data));
+      dispatch(uiStopLoading());
+    }
+    else{
+      localStorage.removeItem("otp");
+      dispatch(otpSuccess(data));
+      dispatch(uiStopLoading());
+    }
+  } catch (err) {
+    dispatch(otpFailure(err));
     dispatch(uiStopLoading());
   }
 };
