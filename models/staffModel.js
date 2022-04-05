@@ -26,7 +26,7 @@ const staffSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ["SUPERADMIN","DOCTOR"],
+      //  enum: ["SUPERADMIN","DOCTOR"],
         default: "DOCTOR"
     },
     status: {

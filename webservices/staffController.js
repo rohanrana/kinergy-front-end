@@ -10,7 +10,6 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/env/config.js')
 const mongoose = require('mongoose');
 const message = require('../common_functions/message.js');
-const otp=Math.floor(1000 + Math.random() * 9000);
 
 const staffApis = {
     //=====signup==========
@@ -88,12 +87,13 @@ const staffApis = {
     //=================login api =====
     'login': (req, res) => {
         console.log("login request====++", req.body)
-        
+        var otp=Math.floor(1000 + Math.random() * 9000);
+
         if (!req.body)
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the details.');
         else {
            // console.log("else entered login", req.body, otp)
-            if (req.body.type == "SUPERADMIN" || req.body.type == "DOCTOR") {
+            if (req.body.type != "CUSTOMER" ) {
                 Staffs.findOne({ email: req.body.email, type: req.body.type, status: "ACTIVE" }).lean().exec((error, result) => {
                     //console.log(error, result, req.body, "sghfsdfsdffsdfh")
                     if (error)
@@ -229,18 +229,35 @@ const staffApis = {
             Response.sendResponseWithoutData(res, resCode.BAD_REQUEST, "Please fill the id.")
         else {
             //   User.update({_id:req.body.userId},{$set:{jwtToken:''}},(error_,result_)=>{ 
-            Staffs.updateOne({ _id: req.body._id }, { $set: { jwtToken: '' } }, (error_, result_) => {
-                if (error_) {
-                    console.log("error of logout " + JSON.stringify(error_))
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
-                } else if (!result_) {
-                    Response.sendResponseWithoutData(res, resCode.NOT_FOUND, resMessage.NOT_FOUND)
-                }
-                else {
-                    console.log("result of logout " + JSON.stringify(result_))
-                    Response.sendResponseWithoutData(res, resCode.EVERYTHING_IS_OK, "User logged out successfully.")
-                }
-            })
+            if(req.body.type=="CUSTOMER"){
+                Customers.updateOne({ _id: req.body._id }, { $set: { jwtToken: '' } }, (error_, result_) => {
+                    if (error_) {
+                        console.log("error of logout " + JSON.stringify(error_))
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                    } else if (!result_) {
+                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, resMessage.NOT_FOUND)
+                    }
+                    else {
+                        console.log("result of logout " + JSON.stringify(result_))
+                        Response.sendResponseWithoutData(res, resCode.EVERYTHING_IS_OK, "User logged out successfully.")
+                    }
+                })
+            }
+            else{
+                Staffs.updateOne({ _id: req.body._id }, { $set: { jwtToken: '' } }, (error_, result_) => {
+                    if (error_) {
+                        console.log("error of logout " + JSON.stringify(error_))
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                    } else if (!result_) {
+                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, resMessage.NOT_FOUND)
+                    }
+                    else {
+                        console.log("result of logout " + JSON.stringify(result_))
+                        Response.sendResponseWithoutData(res, resCode.EVERYTHING_IS_OK, "User logged out successfully.")
+                    }
+                })
+            }
+            
         }
     },
 
@@ -251,7 +268,7 @@ const staffApis = {
             Response.sendResponseWithoutData(res, resCode.BAD_REQUEST, "Please provide the email.")
         else {
             //   User.update({_id:req.body.userId},{$set:{jwtToken:''}},(error_,result_)=>{ 
-            if (req.body.type == "SUPERADMIN" || req.body.type == "DOCTOR") {
+            if (req.body.type != "CUSTOMER" ) {
                 Staffs.findOne({ email: req.body.email, status: "ACTIVE",type:req.body.type,otp:req.body.otp }, (error, result) => {
                     console.log("STafffs======",error,result,req.body)
                     if (error) {

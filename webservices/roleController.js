@@ -7,7 +7,7 @@ const resMessage = require('../helper/httpResponseMessage.js')
 const bcrypt = require('bcryptjs')
 const waterfall = require('async-waterfall')
 const jwt = require('jsonwebtoken')
-const config = require('../config/env/config.js')
+const config = require('../config/env/config.js')();
 const mongoose = require('mongoose')
 
 const roleApis = {
