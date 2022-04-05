@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import Logo from "../../image/logo.png";
 import { staffLogin } from "../../store/staffAuth/actions";
+import Loader from "../../cmmon_module/Loader";
 
 const StaffLogin = (props) => {
   const [email,setEmail]=useState('');
@@ -63,8 +64,7 @@ const StaffLogin = (props) => {
         </Row>
       </Container>
       {props.isLoading?
-          <div style={{  position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" 
-        }}><Spinner animation="grow" /></div>:<div className="login-form">
+          <Loader/>:<div className="login-form">
         <h4>Welcome Back </h4>
         <p className="mb-5">Please login to continue</p>
         <Form>

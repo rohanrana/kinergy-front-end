@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import Logo from "../../image/logo.png";
 import { otpVerify } from "../../store/staffAuth/actions";
+import Loader from "../../cmmon_module/Loader";
 
 const Otp = (props) => {
   const [otp,setOtp]=useState('');
@@ -48,7 +49,7 @@ const Otp = (props) => {
         </Row>
       </Container>
       {props.isLoading?
-          <Spinner animation="grow"/>:<div className="login-form">
+          <Loader/>:<div className="login-form">
         <h4>OTP Verification</h4>
         <p className="mb-5">Please Enter the OTP:{showOtp}</p>
         <Form>

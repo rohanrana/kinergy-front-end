@@ -21,6 +21,7 @@ import AdminLeftMenu from "./AdminLeftMenu";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import { userListing } from "../../store/staffAuth/actions";
+import Loader from "../../cmmon_module/Loader";
 
 
 function MyVerticallyCenteredModal(props) {
@@ -142,9 +143,7 @@ const StaffListing = (props) => {
   return (
     <div className="clients">
       <Sidebar />
-      {props.isLoading ?
-        <div style={{  position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" 
-      }}><Spinner animation="grow" /></div> : <Container fluid className="mt-5">
+       <Container fluid className="mt-5">
           <Row>
             <Col lg={2} sm={4} xs={12}>
               <AdminLeftMenu />
@@ -176,7 +175,7 @@ const StaffListing = (props) => {
                     </a>
                   </ButtonGroup>
                 </ButtonToolbar>
-                <Table responsive>
+                {props.isLoading ?<Loader/>:<Table responsive>
                   <thead>
                     <tr>
                       <th>Staff ID</th>
@@ -190,7 +189,7 @@ const StaffListing = (props) => {
                     {data}
 
                   </tbody>
-                </Table>
+                </Table>}
                 <Pagination>{item}</Pagination>
                 {/* <Pagination size="sm">
                 <Pagination.First />
@@ -211,7 +210,7 @@ const StaffListing = (props) => {
               </div>
             </Col>
           </Row>
-        </Container>}
+        </Container>
 
       <MyVerticallyCenteredModal
         show={modalShow}
