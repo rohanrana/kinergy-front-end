@@ -88,13 +88,13 @@ const StaffListing = () => {
   return (
     <div className="clients">
       <Sidebar />
-      <Container fluid className="mt-5">
+      <Container fluid>
         <Row>
           <Col lg={2} sm={4} xs={12}>
             <AdminLeftMenu />
           </Col>
           <Col lg={10} sm={8} xs={12}>
-            <div className="appointment-card mt-3">
+            <div className="appointment-card">
               <ButtonToolbar
                 className="justify-content-between mb-3"
                 aria-label="Toolbar with Button groups"

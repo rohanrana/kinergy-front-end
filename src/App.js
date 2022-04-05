@@ -37,6 +37,14 @@ import MusculoskeletalHistory from "./component/clients/medical-history/Musculos
 import MedicalRecordListing from "./component/clients/chart-notes/MedicalRecordListing";
 import MedicalRecordMainPage from "./component/clients/chart-notes/MedicalRecordMainPage";
 import MedicalActivityLog from "./component/clients/chart-notes/MedicalActivityLog";
+import InsuranceProvider from "./component/clients/insurance/InsuranceProvider";
+import InsuranceProviderDetails from "./component/clients/insurance/InsuranceProviderDetails";
+import EditInsuranceDetail from "./component/clients/insurance/EditInsuranceDetail";
+import AddInsurance from "./component/clients/insurance/AddInsurance";
+import Appointment from "./component/clients/Appointment";
+import BillingListing from "./component/clients/billing/Billing";
+import BillingReview from "./component/clients/billing/BillingReview";
+import BillingReviewPrint from "./component/clients/billing/BillingReviewPrint";
 
 function App() {
   return (
@@ -73,6 +81,14 @@ function App() {
         <Route exact path="/medical-record-listing" component={MedicalRecordListing} />
         <Route exact path="/medical-record-main-page" component={MedicalRecordMainPage} />
         <Route exact path="/medical-activity-log" component={MedicalActivityLog} />
+        <Route exact path="/insurance-provider" component={InsuranceProvider} />
+        <Route exact path="/insurance-provider-details" component={InsuranceProviderDetails} />
+        <Route exact path="/edit-insurance-detail" component={EditInsuranceDetail} />
+        <Route exact path="/add-insurance" component={AddInsurance} />
+        <Route exact path="/appointment" component={Appointment} />
+        <Route exact path="/billing-list" component={BillingListing} />
+        <Route exact path="/billing-review" component={BillingReview} />
+        <Route exact path="/billing-review-print" component={BillingReviewPrint} />
       </Switch>
     </Router>
   );

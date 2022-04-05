@@ -26,13 +26,13 @@ const AddInventory = () => {
   return (
     <div className="clients">
       <Sidebar />
-      <Container fluid className="mt-5">
+      <Container fluid >
         <Row>
           <Col lg={2} sm={4} xs={12}>
             <AdminLeftMenu />
           </Col>
           <Col lg={10} sm={8} xs={12}>
-            <div className="appointment-card mt-3 mb-5">
+            <div className="appointment-card mb-5">
               <h5 className="mb-3">
                 Adding a New Product
                 <span className="float-right">

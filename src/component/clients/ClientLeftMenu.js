@@ -34,19 +34,19 @@ const ClientLeftMenu = () => {
         </li>
 
         <li>
-          <a href="#/">
+          <a href="#/insurance-provider">
             <i class="far fa-circle mr-2"></i>Insurance
           </a>
         </li>
 
         <li>
-          <a href="#/">
+          <a href="#/appointment">
             <i class="far fa-circle mr-2"></i>Appointment
           </a>
         </li>
 
         <li>
-          <a href="#/">
+          <a href="#/billing-list">
             <i class="far fa-circle mr-2"></i>Billing
           </a>
         </li>

@@ -7,7 +7,7 @@ const ClientDetails = () => {
   return (
     <div className="clients">
       <Sidebar />
-      <Container fluid>
+      <Container fluid className="mt-5">
         <Row>
           <Col lg={2} sm={4} xs={12}>
             <ClientLeftMenu />

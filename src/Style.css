@@ -1,10 +1,11 @@
+
 body {
   font-family: "Inter", sans-serif !important;
   font-size: 14px !important;
   color: #7d7d7d !important;
   position: relative;
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #b4b4b4 !important;
 }
 small {
   font-size: 14px !important;
@@ -51,7 +52,7 @@ p {
   color: #484848;
 }
 .text-right {
-  text-align: right;
+  text-align: right !important;
 }
 
 h1,
@@ -324,6 +325,10 @@ h6 {
 
 .page-left-sub-nav {
   margin-top: 1.5rem;
+  padding: 1rem;
+    background: #ffffff;
+    box-shadow: 0px 4px 20px 2px rgb(0 0 0 / 10%);
+    border-radius: 11px;
 }
 
 .page-left-sub-nav ul li a {
@@ -420,6 +425,16 @@ h6 {
   padding: 1rem;
 }
 
+.navbar-expand-sm .navbar-nav{
+  align-items: center;
+}
+
+.navbar-expand-sm .navbar-nav .form-control{
+  min-height: 35px !important;
+  width: 300px;
+  margin-left: 20px;
+}
+
 .staff-img {
   background: #c4c4c4;
   border-radius: 50%;
@@ -471,7 +486,7 @@ h6 {
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
-  background: #C4C4C4 !important;
+  background: #ffffff !important;
     /* opacity: 0.3; */
     border-radius: 20px !important;
     color: #000000 !important;
@@ -490,4 +505,42 @@ h6 {
 }
 .tab-content>.tab-pane{
   display: none;
+}
+
+.dashboard-widgets .round {
+  line-height: 64px;
+  color: #ffffff;
+  width: 60px;
+  height: 60px;
+  font-size: 36px;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  border-radius: 10%;
+  background: transparent;
+}
+.m-l-10 {
+  margin-left: 10px;
+}
+.m-b-30 {
+  margin-top: 30px;
+}
+
+.bg-danger {
+  background-color: #ef4f4c !important;
+}
+
+.billing-trash{
+  background-color: #000000;
+  color: #ffffff;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  line-height: 1.8;
+  border-radius: 50%;
+}
+
+.table tbody td .form-control {
+  min-height: 35px !important;
+  margin-left: auto;
 }
