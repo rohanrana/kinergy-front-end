@@ -57,4 +57,9 @@ export const SidebarData = [
     path: "/help",
     icon: <i class="fas fa-info-circle"></i>,
   },
+  {
+    title: "Logut",
+    path: "/logout",
+    icon: <i class="fas fa-sign-out"></i>,
+  },
 ];

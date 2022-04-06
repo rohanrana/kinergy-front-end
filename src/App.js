@@ -22,6 +22,7 @@ import DepartmentPerformanceServices from "./component/admin/department/Performa
 import CptCodelist from "./component/admin/department/CptCodeList";
 import BilledItem from "./component/admin/department/BilledItem";
 import Otp from "./component/logins/Otp";
+import Logout from "./component/Loout/logout";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route exact path="/edit-emergency-contact" component={EditEmergencyContact} />
         <Route exact path="/edit-client-medical" component={EditClientMedical} />
         <Route exact path="/admin" component={General} />
+        <Route exact path="/logout" component={Logout} />
         <Route exact path="/adding-facility" component={AddingFacility} />
         <Route exact path="/staff-listing" component={StaffListing} />
         <Route exact path="/add-staff" component={AddStaff} />

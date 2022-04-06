@@ -4,7 +4,7 @@ import { propTypes } from "react-bootstrap/esm/Image";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import Logo from "../../image/logo.png";
-import { staffLogin } from "../../store/staffAuth/actions";
+import { staffLogin,clearStaffLogin } from "../../store/staffAuth/actions";
 import Loader from "../../cmmon_module/Loader";
 
 const StaffLogin = (props) => {
@@ -45,6 +45,13 @@ const StaffLogin = (props) => {
     props.staffLogin(email, password,"SUPERADMIN")
   }
   
+  useEffect(()=>{
+    return()=>{
+      props.clearStaffLogin()
+    }
+  },[])
+
+
   useEffect(()=>{
     if(props.staffLoginData){
       if(props.staffLoginData.response_code==200)
@@ -98,7 +105,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  staffLogin: (email, password,type) => dispatch(staffLogin(email, password,type))
+  staffLogin: (email, password,type) => dispatch(staffLogin(email, password,type)),
+  clearStaffLogin : ()=>dispatch(clearStaffLogin())
 });
 
 export default connect(

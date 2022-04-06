@@ -4,7 +4,7 @@ import { propTypes } from "react-bootstrap/esm/Image";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import Logo from "../../image/logo.png";
-import { otpVerify } from "../../store/staffAuth/actions";
+import { otpVerify,clearOtp } from "../../store/staffAuth/actions";
 import Loader from "../../cmmon_module/Loader";
 
 const Otp = (props) => {
@@ -36,6 +36,12 @@ const Otp = (props) => {
      props.history.push("/dashboard")
     }
   },[props.otpData])
+
+  useEffect(()=>{
+    return()=>{
+      props.clearOtp()
+    }
+  },[])
 
   return (
     <div className="staff-login">
@@ -77,7 +83,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  otpVerify: (otp) => dispatch(otpVerify(otp))
+  otpVerify: (otp) => dispatch(otpVerify(otp)),
+  clearOtp :() =>dispatch(clearOtp())
 });
 
 export default connect(

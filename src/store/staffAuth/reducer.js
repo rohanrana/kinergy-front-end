@@ -7,7 +7,8 @@ import {
   USER_LISTING_FAILURE,
   OTP_SUCCESS,
   OTP_FAILURE,
-  CLEAR_OTP
+  CLEAR_OTP,
+  CLEAR_STAFF_LOGIN
 } from '../actionTypes';
 
 const initialState = {
@@ -37,6 +38,13 @@ const staffAuthReducer = (state = initialState, action) => {
       status: 'FAILED',
       staffLoginErr: action.payload
     };
+    case CLEAR_STAFF_LOGIN:
+      return {
+        ...state,
+        status: null,
+        staffLoginData: null,
+        staffLoginErr: null
+      };
     case STAFF_LOGOUT_SUCCESS:
       return {
         ...state,
