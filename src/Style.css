@@ -540,7 +540,22 @@ h6 {
   border-radius: 50%;
 }
 
+.dzu-dropzone{
+  overflow: auto !important;
+}
+
 .table tbody td .form-control {
   min-height: 35px !important;
   margin-left: auto;
+}
+
+.form-type-pdf input{
+  border-top: unset;
+  border-right: unset;
+  border-left: unset;
+  text-align: center;
+}
+
+.form-type-pdf ul{
+  list-style-type: square;
 }

@@ -45,6 +45,9 @@ import Appointment from "./component/clients/Appointment";
 import BillingListing from "./component/clients/billing/Billing";
 import BillingReview from "./component/clients/billing/BillingReview";
 import BillingReviewPrint from "./component/clients/billing/BillingReviewPrint";
+import Documents from "./component/clients/document/Document";
+import AddDocuments from "./component/clients/document/AddDocument";
+import DocumentDetails from "./component/clients/document/DocumentDetail";
 
 function App() {
   return (
@@ -89,6 +92,9 @@ function App() {
         <Route exact path="/billing-list" component={BillingListing} />
         <Route exact path="/billing-review" component={BillingReview} />
         <Route exact path="/billing-review-print" component={BillingReviewPrint} />
+        <Route exact path="/document-list" component={Documents} />
+        <Route exact path="/add-document" component={AddDocuments} />
+        <Route exact path="/document-detail" component={DocumentDetails} />
       </Switch>
     </Router>
   );

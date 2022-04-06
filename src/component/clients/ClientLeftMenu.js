@@ -28,7 +28,7 @@ const ClientLeftMenu = () => {
         </NavDropdown>
 
         <li>
-          <a href="#/">
+          <a href="#/document-list">
             <i class="far fa-circle mr-2"></i>Documents
           </a>
         </li>

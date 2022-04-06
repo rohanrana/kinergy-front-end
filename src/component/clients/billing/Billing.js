@@ -9,15 +9,12 @@ import {
   ButtonToolbar,
   FormControl,
   InputGroup,
-  Badge
-
+  Badge,
 } from "react-bootstrap";
 import Sidebar from "../../sidenav/Sidebar";
 import ClientLeftMenu from "../ClientLeftMenu";
 
-
 const BillingListing = () => {
-
   return (
     <div className="clients">
       <Sidebar />
@@ -33,18 +30,12 @@ const BillingListing = () => {
                 aria-label="Toolbar with Button groups"
               >
                 <h5>Billing</h5>
-             
 
                 <ButtonGroup className="rounded">
-             
                   <InputGroup>
-                  <FormControl
-                    className="rounded"
-                    type="date"
-                  />
-                </InputGroup>
-          
-              </ButtonGroup>
+                    <FormControl className="rounded" type="date" />
+                  </InputGroup>
+                </ButtonGroup>
               </ButtonToolbar>
 
               <Table responsive>
@@ -56,62 +47,103 @@ const BillingListing = () => {
                     <th className="text-left">Time Spent</th>
                     <th className="text-left">Amount</th>
                     <th className="text-left">Staff</th>
-                    <th colSpan="2" className="text-left">Status</th>
+                    <th colSpan="2" className="text-left">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="text-left"><u><a href="#/billing-review-print">0023319</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review-print">0023319</a>
+                      </u>
+                    </td>
                     <td className="text-left">10/18/2021</td>
                     <td className="text-left">Therapy / Rehabilitation</td>
                     <td className="text-left">50 min</td>
                     <td className="text-left">$100.00</td>
                     <td className="text-left">Lobo, Terril</td>
                     <td className="text-left">
-                      <Badge className="p-2" bg="warning">Pending</Badge>
+                      <Badge className="p-2" bg="warning">
+                        Pending
+                      </Badge>
                     </td>
-                    <td className="text-left"><u><a href="#/billing-review">View Details</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review">View Details</a>
+                      </u>
+                    </td>
                   </tr>
 
                   <tr>
-                    <td className="text-left"><u><a href="#/billing-review-print">0023319</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review-print">0023319</a>
+                      </u>
+                    </td>
                     <td className="text-left">10/18/2021</td>
                     <td className="text-left">Therapy / Rehabilitation</td>
                     <td className="text-left">50 min</td>
                     <td className="text-left">$100.00</td>
                     <td className="text-left">Lobo, Terril</td>
                     <td className="text-left">
-                      <Badge className="p-2" bg="success">Paid</Badge>
+                      <Badge className="p-2" bg="success">
+                        Paid
+                      </Badge>
                     </td>
-                    <td className="text-left"><u><a href="#/billing-review">View Details</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review">View Details</a>
+                      </u>
+                    </td>
                   </tr>
 
                   <tr>
-                    <td className="text-left"><u><a href="#/billing-review-print">0023319</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review-print">0023319</a>
+                      </u>
+                    </td>
                     <td className="text-left">10/18/2021</td>
                     <td className="text-left">Therapy / Rehabilitation</td>
                     <td className="text-left">50 min</td>
                     <td className="text-left">$100.00</td>
                     <td className="text-left">Lobo, Terril</td>
                     <td className="text-left">
-                      <Badge className="p-2" bg="warning">Pending</Badge>
+                      <Badge className="p-2" bg="warning">
+                        Pending
+                      </Badge>
                     </td>
-                    <td className="text-left"><u><a href="#/billing-review">View Details</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review">View Details</a>
+                      </u>
+                    </td>
                   </tr>
 
                   <tr>
-                    <td className="text-left"><u><a href="#/billing-review-print">0023319</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review-print">0023319</a>
+                      </u>
+                    </td>
                     <td className="text-left">10/18/2021</td>
                     <td className="text-left">Therapy / Rehabilitation</td>
                     <td className="text-left">50 min</td>
                     <td className="text-left">$100.00</td>
                     <td className="text-left">Lobo, Terril</td>
                     <td className="text-left">
-                      <Badge className="p-2" bg="success">Paid</Badge>
+                      <Badge className="p-2" bg="success">
+                        Paid
+                      </Badge>
                     </td>
-                    <td className="text-left"><u><a href="#/billing-review">View Details</a></u></td>
+                    <td className="text-left">
+                      <u>
+                        <a href="#/billing-review">View Details</a>
+                      </u>
+                    </td>
                   </tr>
-
                 </tbody>
               </Table>
               <Pagination size="sm">
@@ -133,8 +165,6 @@ const BillingListing = () => {
           </Col>
         </Row>
       </Container>
-
-     
     </div>
   );
 };
