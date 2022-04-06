@@ -94,7 +94,7 @@ const staffApis = {
         else {
            // console.log("else entered login", req.body, otp)
             if (req.body.type != "CUSTOMER" ) {
-                Staffs.findOne({ email: req.body.email, type: req.body.type, status: "ACTIVE" }).lean().exec((error, result) => {
+                Staffs.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
                     //console.log(error, result, req.body, "sghfsdfsdffsdfh")
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -308,6 +308,9 @@ const staffApis = {
 
     //=================add Staff by admin=====
     'addStaff': (req, res) => {
+        if (!req.body.type)
+            Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the type of user.');
+        else{
         if (req.body.type == "CUSTOMER") {
             Customers.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
                 console.log('add user---', error, result)
@@ -352,8 +355,81 @@ const staffApis = {
             })
         }
 
-        //}
+        }
     },
+
+    //================================Get profile api======================================
+    'getProfile': (req,res) => {
+        if (!req.body._id)
+            Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the id.');
+        else{
+        if (req.body.type == "CUSTOMER") {
+            Customers.findOne({ _id: req.body._id, status: "ACTIVE" }).lean().exec((error, result) => {
+                console.log('get user---', error, result)
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result) {
+                    Response.sendResponseWithoutData(res, 401, 'No user exists.');
+                }
+                else {
+                      Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "User found successfully.", result) 
+                }
+
+            })
+        }
+        else {
+            Staffs.findOne({ _id: req.body._id, status: "ACTIVE" }).lean().exec((error, result) => {
+                console.log('add user---', error, result)
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result) {
+                    Response.sendResponseWithoutData(res, 401, 'No user exists.');
+                }
+                else {
+                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "User found successfully.", result)
+                        }
+            })
+        }
+
+        }
+    },
+    //================================Get profile api======================================
+    'editProfile': (req,res) => {
+        if (!req.body._id)
+            Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the id.');
+        else{
+        if (req.body.type == "CUSTOMER") {
+            Customers.findOneAndUpdate({ _id: req.body._id, status: "ACTIVE" },{$set:{ "firstName": req.body.firstName,
+            "lastName":req.body.lastName,"contact": req.body.contact}},{new:true}).lean().exec((error, result) => {
+                console.log('edit user---', error, result)
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result) {
+                    Response.sendResponseWithoutData(res, 401, 'No user exists.');
+                }
+                else {
+                      Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "User updated successfully.", result) 
+                }
+
+            })
+        }
+        else {
+            Staffs.findOneAndUpdate({ _id: req.body._id, status: "ACTIVE" },{$set:{ "firstName": req.body.firstName,
+            "lastName":req.body.lastName,"contact": req.body.contact}},{new:true}).lean().exec((error, result) => {
+                console.log('add user---', error, result)
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result) {
+                    Response.sendResponseWithoutData(res, 401, 'No user exists.');
+                }
+                else {
+                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "User updated successfully.", result)
+                }
+            })
+        }
+
+        }
+    }
 
     //============================================================Module Exports==========================================================
 };
