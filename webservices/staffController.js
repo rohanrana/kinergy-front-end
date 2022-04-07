@@ -21,6 +21,7 @@ const staffApis = {
             if (req.body.type == "CUSTOMER") {
 
                 Customers.findOne({ email: req.body.email, status: "ACTIVE", }, (err3, result3) => {
+                    console.log("fdgghg----",err3,result3)
                     if (err3)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
                     else if (result3)
@@ -200,24 +201,31 @@ const staffApis = {
     //=================user listing api =====
     'userListing': (req, res) => {
         console.log("userlist")
-        Staffs.find({ status: "ACTIVE" }).lean().exec((error, result) => {
-            console.log(error, result, "sghfsdfsdffsdfh")
-            if (error)
-                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-            else if (!result) {
-                Response.sendResponseWithoutData(res, 401, 'No User Found.');
-            }
-            else {
-                Customers.find({ status: "ACTIVE" }).lean().exec((error1, result1) => {
-                    console.log(error1, result1)
-                    if (error1)
-                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                    else
-                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', [...result, ...result1])
-                })
-            }
-
-        })
+        if(req.body.type!="CUSTOMER"){
+            Staffs.find({ status: "ACTIVE" }).lean().exec((error, result) => {
+                console.log(error, result, "sghfsdfsdffsdfh")
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result) {
+                    Response.sendResponseWithoutData(res, 401, 'No User Found.');
+                }
+                else
+                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', result)
+    
+            })
+        }
+        else{
+                    Customers.find({ status: "ACTIVE" }).lean().exec((error1, result1) => {
+                        console.log(error1, result1)
+                        if (error1)
+                            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                        else
+                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', result1)
+                    })
+               
+           
+        }
+       
         //}
     },
 
