@@ -158,7 +158,7 @@ const General = () => {
               <h5 className="pb-2">
                 Facility Information
                 <span className="float-right">
-                  <a href="/adding-facility" className="btn btn-theme m-0 btn-sm pl-2 pr-2">
+                  <a href="#/adding-facility" className="btn btn-theme m-0 btn-sm pl-2 pr-2">
                     Edit
                   </a>
                 </span>

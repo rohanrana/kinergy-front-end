@@ -89,6 +89,8 @@ const StaffLogin = (props) => {
             LOGIN
           </Button>
           {/* <a href="/dashboard" className="btn btn-theme btn-block w-100 ml-0 mt-5">
+
+          <a href="#/" className="btn btn-theme btn-block w-100 ml-0 mt-5">
             LOGIN
           </a> */}
         </Form>

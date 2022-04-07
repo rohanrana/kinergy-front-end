@@ -3,7 +3,7 @@ import React from "react";
 export const SidebarData = [
   {
     title: "Dashboard",
-    path: "#/dashboard",
+    path: "/",
     icon: <i class="fas fa-box"></i>,
     // iconClosed: <RiIcons.RiArrowDownSFill />,
     // iconOpened: <RiIcons.RiArrowUpSFill />,
@@ -24,7 +24,7 @@ export const SidebarData = [
 
   {
     title: "Client",
-    path: "client-listing",
+    path: "/client-listing",
     icon: <i className="fas fa-users"></i>,
   },
 

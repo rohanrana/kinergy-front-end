@@ -8,8 +8,14 @@ const AdminLeftMenu = () => {
       <h3>Admin</h3>
       
       <ul className="p-0">
+      <li>
+          <a href="#/staff-onboarding">
+            <i class="far fa-circle mr-2"></i>Staff Onboarding
+          </a>
+        </li>
+
         <li>
-          <a href="/admin">
+          <a href="#/admin">
             <i class="far fa-circle mr-2"></i>General
           </a>
         </li>
@@ -23,7 +29,7 @@ const AdminLeftMenu = () => {
       Go to Jane's profile
     </Link> */}
         <li>
-          <a href="/client-authorization">
+          <a href="#/client-authorization">
             <i class="far fa-circle mr-2"></i>Client Authorization
           </a>
         </li>
@@ -36,13 +42,13 @@ const AdminLeftMenu = () => {
           }
           menuVariant="light"
         >
-          <NavDropdown.Item href="/department-general">General</NavDropdown.Item>
-          <NavDropdown.Item href="/department-medical">Medical</NavDropdown.Item>
-          <NavDropdown.Item href="/department-performance-services">Performance Services</NavDropdown.Item>
+          <NavDropdown.Item href="#/department-general">General</NavDropdown.Item>
+          <NavDropdown.Item href="#/department-medical">Medical</NavDropdown.Item>
+          <NavDropdown.Item href="#/department-performance-services">Performance Services</NavDropdown.Item>
         </NavDropdown>
 
         <li>
-          <a href="#/">
+          <a href="#/communications">
             <i class="far fa-circle mr-2"></i>Communication
           </a>
         </li>
@@ -63,12 +69,18 @@ const AdminLeftMenu = () => {
           }
           menuVariant="light"
         >
-          <NavDropdown.Item href="/billed-item">Services</NavDropdown.Item>
+          <NavDropdown.Item href="#/billed-item">Services</NavDropdown.Item>
           <NavDropdown.Item href="/">Products</NavDropdown.Item>
         </NavDropdown>
-          <NavDropdown.Item href="/">Inventory</NavDropdown.Item>
+          <NavDropdown.Item href="#/inventory">Inventory</NavDropdown.Item>
           
         </NavDropdown>
+
+        <li>
+          <a href="#/">
+            <i class="far fa-circle mr-2"></i>Security
+          </a>
+        </li>
 
       </ul>
     </div>

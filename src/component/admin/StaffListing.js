@@ -22,7 +22,7 @@ import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import { userListing } from "../../store/staffAuth/actions";
 import Loader from "../../cmmon_module/Loader";
-
+import { Link } from 'react-router-dom';
 
 function MyVerticallyCenteredModal(props) {
 
@@ -100,7 +100,7 @@ const StaffListing = (props) => {
     console.log(' list', list)
     if (!list) {
       console.log('No list')
-      props.userListing()
+      props.userListing("STAFF")
     }
 
   }, [list])
@@ -130,9 +130,15 @@ const StaffListing = (props) => {
       <td>{x.type}</td>
       <td>Level 3</td>
       <td>
-        <a href="#/" onClick={() => setModalShow(true)}>
+      <Link
+                        to="/edit-details"
+                        className="btn btn-theme m-0 btn-sm pl-2 pr-2"
+                      >
+                        Edit
+                      </Link>
+        {/* <a href="#/" onClick={() => setModalShow(true)}>
           Edit
-        </a>
+        </a> */}
       </td>
     </tr>
   }) : <tr>
@@ -227,7 +233,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  userListing: () => dispatch(userListing())
+  userListing: (val) => dispatch(userListing(val))
 });
 
 export default connect(

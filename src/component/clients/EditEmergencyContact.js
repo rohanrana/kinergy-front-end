@@ -1,31 +1,48 @@
 import React from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import Sidebar from "../sidenav/Sidebar";
 
+function MyVerticallyCenteredModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="md"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Body className="p-5 text-center">
+        <a className="close-modal-btn" onClick={props.onHide}>
+          <i className="fas fa-times"></i>
+        </a>
+        <p>
+          Do you want to delete this{" "}
+          <b>
+            Emergency <br />
+            Contact Information ?
+          </b>
+        </p>
+        <Button className="btn btn-theme-white">No</Button>
+        <Button className="btn btn-theme ml-2">Yes</Button>
+      </Modal.Body>
+    </Modal>
+  );
+}
 const EditEmergencyContact = () => {
+  const [modalShow, setModalShow] = React.useState(false);
   return (
     <div className="clients">
       <Sidebar />
       <Container fluid className="mt-5">
         <Row>
-          <Col lg={6} sm={6} xs={12}>
+          <Col lg={12} sm={12} xs={12}>
             <h4 className="m-0">Scott Elizabeth</h4>
-          </Col>
-
-          <Col lg={6} sm={6} xs={12}>
-            <p className="text-right m-0">
-              45465453{" "}
-              <b>
-                <i className="fas fa-circle mr-2 ml-2"></i>Active
-              </b>
-            </p>
           </Col>
         </Row>
         <Row>
           <Col lg={12} sm={12} xs={12}>
             <div className="appointment-card form-type mt-3">
               <h5 className="pb-2">
-                <a href="/client-details" className="theme-color">
+                <a href="#/client-details" className="theme-color">
                   <i className="fas fa-chevron-left mr-2"></i>
                 </a>
                 Emergency Contact
@@ -34,10 +51,10 @@ const EditEmergencyContact = () => {
                 <Row>
                   <Col lg={12} sm={12} xs={12}>
                     <p>
-                      Emergency contact information - 1{" "}
+                      Emergency contact information - 1
                       <span className="float-right">
                         <u>
-                          <a href="#/">
+                          <a onClick={() => setModalShow(true)}>
                             <b>Delete</b>
                           </a>
                         </u>
@@ -60,6 +77,17 @@ const EditEmergencyContact = () => {
 
                   <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
+                      <Form.Label>Phone Number Type</Form.Label>
+                      <Form.Select defaultValue="1">
+                        <option value="1">Home</option>
+                        <option value="2">Option</option>
+                        <option value="3">Option</option>
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
                       <Form.Label>Phone Number</Form.Label>
                       <Form.Control value="(272)-343-4343" />
                     </Form.Group>
@@ -67,8 +95,18 @@ const EditEmergencyContact = () => {
 
                   <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Location</Form.Label>
-                      <Form.Control value="Neavda" />
+                      <Form.Label>Alt Phone Number</Form.Label>
+                      <Form.Control value="(272)-343-4343" />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Language</Form.Label>
+                      <Form.Select defaultValue="1">
+                        <option value="1">Spanish</option>
+                        <option value="2">Option</option>
+                        <option value="3">Option</option>
+                      </Form.Select>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -95,6 +133,10 @@ const EditEmergencyContact = () => {
           </Col>
         </Row>
       </Container>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 };

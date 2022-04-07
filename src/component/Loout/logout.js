@@ -16,7 +16,7 @@ const Logout = (props) => {
 
     useEffect(()=>{
         if(props.staffLogoutData||props.staffLogoutErr){
-             props.history.push('/')
+             props.history.push('/staff-login')
         }
     },[props.staffLogoutData,props.staffLogoutErr])
 

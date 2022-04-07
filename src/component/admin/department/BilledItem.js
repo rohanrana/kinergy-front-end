@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import {
   Container,
   Row,
@@ -16,6 +15,7 @@ import {
   InputGroup,
   Badge,
   Form,
+
 } from "react-bootstrap";
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
@@ -111,21 +111,24 @@ const BilledItem = () => {
   return (
     <div className="clients">
       <Sidebar />
-      <Container fluid className="mt-5">
+      <Container fluid>
         <Row>
-          <Col lg={2} sm={4} xs={12}>
-            <AdminLeftMenu />
-          </Col>
-          <Col lg={10} sm={8} xs={12}>
-            <div className="text-right">
+          <Col lg={12} sm={12} xs={12}>
+          <div className="text-right bg-white mt-3 p-2 rounded">
               <Button
                 className="btn btn-theme"
                 onClick={() => setModalShow(true)}
               >
                 + Add New
               </Button>
-            </div>
-            <div className="appointment-card mt-3">
+            </div></Col>
+        </Row>
+        <Row>
+          <Col lg={2} sm={4} xs={12}>
+            <AdminLeftMenu />
+          </Col>
+          <Col lg={10} sm={8} xs={12}>
+            <div className="appointment-card">
               <ButtonToolbar
                 className="justify-content-between mb-3"
                 aria-label="Toolbar with Button groups"
@@ -181,7 +184,7 @@ const BilledItem = () => {
 
                     <td className="text-left">118.00$</td>
                     <td className="text-left">
-                      <Badge pill className="p-2" bg="success">
+                      <Badge pill className="p-2" bg="success" >
                         Active
                       </Badge>
                     </td>
@@ -410,6 +413,7 @@ const BilledItem = () => {
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
+
     </div>
   );
 };

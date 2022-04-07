@@ -115,14 +115,14 @@ export const staffLogout = (_id) => async dispatch => {
   }
 };
 
-export const userListing = () => async dispatch => {
+export const userListing = (val) => async dispatch => {
   dispatch(uiStartLoading());
   try {
     const token = JSON.parse(localStorage.getItem("auth-token"));
     const headers = {
       token: token
     };
-    const { data } = await api.get("/staff/userList", {
+    const { data } = await api.post("/staff/userList",{type:val}, {
       headers
     });
     console.log("user list data",data)

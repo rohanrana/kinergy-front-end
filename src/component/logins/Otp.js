@@ -33,7 +33,7 @@ const Otp = (props) => {
     if(props.otpData){
         console.log("otp------",props.otpData)
       if(props.otpData.response_code==200)
-     props.history.push("/dashboard")
+     props.history.push("/")
     }
   },[props.otpData])
 
