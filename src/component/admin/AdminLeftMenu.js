@@ -7,6 +7,12 @@ const AdminLeftMenu = () => {
       <h3>Admin</h3>
       
       <ul className="p-0">
+      <li>
+          <a href="#/staff-onboarding">
+            <i class="far fa-circle mr-2"></i>Staff Onboarding
+          </a>
+        </li>
+
         <li>
           <a href="#/admin">
             <i class="far fa-circle mr-2"></i>General
@@ -66,6 +72,12 @@ const AdminLeftMenu = () => {
           <NavDropdown.Item href="#/inventory">Inventory</NavDropdown.Item>
           
         </NavDropdown>
+
+        <li>
+          <a href="#/">
+            <i class="far fa-circle mr-2"></i>Security
+          </a>
+        </li>
 
       </ul>
     </div>

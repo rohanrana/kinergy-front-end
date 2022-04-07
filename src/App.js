@@ -48,6 +48,9 @@ import BillingReviewPrint from "./component/clients/billing/BillingReviewPrint";
 import Documents from "./component/clients/document/Document";
 import AddDocuments from "./component/clients/document/AddDocument";
 import DocumentDetails from "./component/clients/document/DocumentDetail";
+import StaffOnboarding from "./component/admin/staff-onboarding/StaffOnboarding";
+import AddStaffOnboarding from "./component/admin/staff-onboarding/AddStaffOnboarding";
+import StaffUploadDocument from "./component/admin/staff-onboarding/StaffUploadDocument";
 
 function App() {
   return (
@@ -95,6 +98,9 @@ function App() {
         <Route exact path="/document-list" component={Documents} />
         <Route exact path="/add-document" component={AddDocuments} />
         <Route exact path="/document-detail" component={DocumentDetails} />
+        <Route exact path="/staff-onboarding" component={StaffOnboarding} />
+        <Route exact path="/add-staff-onboarding" component={AddStaffOnboarding} />
+        <Route exact path="/staff-upload-document" component={StaffUploadDocument} />
       </Switch>
     </Router>
   );
