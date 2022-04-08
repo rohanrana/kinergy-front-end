@@ -47,6 +47,25 @@ const staffSchema = new Schema({
     otp:{
         type:String
     },
+    address:{
+        type:String
+    },
+    city:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    pin:{
+        type:String
+    },
+    gender:{
+        type:String,
+        enum:['MALE','FEMALE','OTHERS']
+    },
+    dob:{
+        type:String
+    },
     // deviceToken:{
     //     type:String
     // },
@@ -70,7 +89,13 @@ mongoose.model('Staffs',staffSchema).findOne({type:"SUPERADMIN"}, (err,res)=>{
                 email:'admin@test.com',
                 status:"ACTIVE",
                 contact: "+911234567897",
-                otp:""
+                otp:"",
+                address:"Tower Uniside",
+                city:"Noida",
+                state:"U.P",
+                pin:"201301",
+                dob:"1/11/1999",
+                gender:"MALE"
         };
         var pass;
         const saltRounds = 10;

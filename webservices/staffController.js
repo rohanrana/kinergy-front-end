@@ -408,7 +408,7 @@ const staffApis = {
         else{
         if (req.body.type == "CUSTOMER") {
             Customers.findOneAndUpdate({ _id: req.body._id, status: "ACTIVE" },{$set:{ "firstName": req.body.firstName,
-            "lastName":req.body.lastName,"contact": req.body.contact}},{new:true}).lean().exec((error, result) => {
+            "lastName":req.body.lastName,"contact": req.body.contact,"address":req.body.address,"city":req.body.city,"state":req.body.state,"pin":req.body.pin,"dob":req.body.dob,"gender":req.body.gender}},{new:true}).lean().exec((error, result) => {
                 console.log('edit user---', error, result)
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -423,7 +423,7 @@ const staffApis = {
         }
         else {
             Staffs.findOneAndUpdate({ _id: req.body._id, status: "ACTIVE" },{$set:{ "firstName": req.body.firstName,
-            "lastName":req.body.lastName,"contact": req.body.contact}},{new:true}).lean().exec((error, result) => {
+            "lastName":req.body.lastName,"contact": req.body.contact,"address":req.body.address,"city":req.body.city,"state":req.body.state,"pin":req.body.pin,"dob":req.body.dob,"gender":req.body.gender}},{new:true}).lean().exec((error, result) => {
                 console.log('add user---', error, result)
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);

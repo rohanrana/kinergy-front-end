@@ -7,8 +7,8 @@
     "port":8080,
 	"db":"mongodb+srv://techuser:Stillbon001@cluster0.iht4w.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
 	"nodemailer":{
-        "pass": "",
-        "user": ""
+        "pass": "Stillbon@001",
+        "user": "kinnergyyes@gmail.com"
     }
  
 }

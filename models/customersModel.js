@@ -44,7 +44,26 @@ const customersSchema = new Schema({
     },
     otp:{
         type:String
-    }
+    },
+    address:{
+        type:String
+    },
+    city:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    pin:{
+        type:String
+    },
+    gender:{
+        type:String,
+        enum:['MALE','FEMALE','OTHERS']
+    },
+    dob:{
+        type:String
+    },
   
 },{
     timestamps: true
