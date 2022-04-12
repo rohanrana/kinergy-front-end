@@ -18,9 +18,14 @@ module.exports = {
     EMAIL_VALID: "Please enter valid email address.",
     PASSWORD_REQUIRED: "Please enter  password.",
     PASSWORD_INCORRECT: "Incorrect password.",
-    PASSWORD_STRONG: "Please enter  password at least 8 character and  contain At least one uppercase.At least one lower case.At least one special character. "
+    PASSWORD_STRONG: "Please enter  password at least 8 character and  contain At least one uppercase.At least one lower case.At least one special character. ",
 
 
+    // Country
+    COUNTRY_NOT_FOUND: "Country not found.",
+    Country_ID_NOT_FOUND: "Please Enter country id.",
+    // State
+    STATE_NOT_FOUND: "State not found."
 
 
 };

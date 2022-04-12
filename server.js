@@ -1,9 +1,9 @@
 // require("@babel/register")({
 //     presets: ["@babel/preset-env"]
 //   });
-  
+
 const express = require('express');
-const bodyParser  = require( 'body-parser');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
@@ -13,10 +13,16 @@ const staff = require('./models/staffModel');
 const config = require('./config/env/config');
 const staffRoutes = require('./routes/staffRoute');
 const roleRoutes = require('./routes/roleRoute');
+const countryStateCityRoutes = require('./routes/countryStateCityRoutes');
 
-const environment =config();
 
-app.listen(environment.port,()=>{
+
+
+
+
+const environment = config();
+
+app.listen(environment.port, () => {
     console.log(`Server is running on ${environment.port}`)
 })
 
@@ -27,16 +33,16 @@ app.use(bodyParser.json({
     limit: '50mb'
 }));
 
-app.use(cors());  
-app.use('/api/v1/staff',staffRoutes);
-app.use('/api/v1/role',roleRoutes);
+app.use(cors());
+app.use('/api/v1/staff', staffRoutes);
+app.use('/api/v1/role', roleRoutes);
+app.use('/api/v1/Country', countryStateCityRoutes);
+
 
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('*', (req, res) => {
     console.log('Server Running')
-//res.sendFile(__dirname + '/dist/index.html')
+        //res.sendFile(__dirname + '/dist/index.html')
 });
-
-
