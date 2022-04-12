@@ -51,6 +51,13 @@ import DocumentDetails from "./component/clients/document/DocumentDetail";
 import StaffOnboarding from "./component/admin/staff-onboarding/StaffOnboarding";
 import AddStaffOnboarding from "./component/admin/staff-onboarding/AddStaffOnboarding";
 import StaffUploadDocument from "./component/admin/staff-onboarding/StaffUploadDocument";
+import AddNewMedicalRecords from "./component/clients/chart-notes/AddNewMedicalRecord";
+import AddSurgeryRecord from "./component/clients/chart-notes/AddSurgeryRecord";
+import AddSurgeryDocument from "./component/clients/chart-notes/AddDocument";
+import TherapyProgressReport from "./component/clients/chart-notes/TherapyProgressReport";
+import ExerciseLog from "./component/clients/chart-notes/ExerciseLog";
+import FileTransferTo from "./component/clients/chart-notes/FileTransferTo";
+import FileTransferToList from "./component/clients/chart-notes/FileTransferToList";
 
 function App() {
   return (
@@ -101,6 +108,14 @@ function App() {
         <Route exact path="/staff-onboarding" component={StaffOnboarding} />
         <Route exact path="/add-staff-onboarding" component={AddStaffOnboarding} />
         <Route exact path="/staff-upload-document" component={StaffUploadDocument} />
+        <Route exact path="/add-new-medical-record" component={AddNewMedicalRecords} />
+        <Route exact path="/add-surgery-record" component={AddSurgeryRecord} />
+        <Route exact path="/add-surgery-document" component={AddSurgeryDocument} />
+        <Route exact path="/therapy-progress-report" component={TherapyProgressReport} />
+        <Route exact path="/exercise-log" component={ExerciseLog} />
+        <Route exact path="/file-transfer-to" component={FileTransferTo} />
+        <Route exact path="/file-transfer-to-list" component={FileTransferToList} />
+
       </Switch>
     </Router>
   );

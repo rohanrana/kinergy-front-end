@@ -104,6 +104,11 @@ h6 {
   color: #ffffff !important;
 }
 
+.bg-theme {
+  background: #131313 !important;
+  color: #ffffff !important;
+}
+
 .btn-theme-white {
   border: 1px solid #b4b4b4 !important;
   box-sizing: border-box;
@@ -491,15 +496,44 @@ h6 {
     border-radius: 20px !important;
     color: #000000 !important;
     padding: 8px 18px;
+    border-color: #dee2e6 #dee2e6 !important;
+}
+.therapy-progress-tabs{
+  border-bottom: 1px solid #000000 !important;
+}
+.therapy-progress-tabs .nav-item.show .nav-link, .therapy-progress-tabs .nav-link.active{
+  background: #ffffff !important;
+    /* opacity: 0.3; */
+    border-radius: unset !important;
+    color: #000000 !important;
+    padding: 8px 18px;
+    border-left: unset;
+    border-right: unset;
+    font-weight: 600;
+    border-top: unset;
+    border-bottom: 4px solid #000000 !important;
+}
+.therapy-progress-tabs .nav-link:focus, .therapy-progress-tabs .nav-link:hover {
+  border-color: unset !important;
+  border: unset;
+  isolation: isolate;
+}
+
+.table-check-form .form-check {
+  min-height: unset;
+}
+.table-check-form-control {
+  min-height: 38px;
+  background-color: #f8f9fa !important;
 }
 .nav-tabs .nav-link{
   border-radius: 20px !important;
   color: #000000 !important;
   padding: 8px 18px;
 }
-.nav-tabs{
+/* .nav-tabs{
   border-bottom: unset !important;
-}
+} */
 .tab-content>.active{
   display: block;
 }
@@ -577,3 +611,14 @@ h6 {
 
 
 
+
+.add-new-row-btn a i{
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  color: #ffffff;
+  background-color: #000000;
+  text-align: center;
+  line-height: 1.8;
+  margin-top: 10px;
+}

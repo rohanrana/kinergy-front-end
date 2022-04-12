@@ -14,43 +14,71 @@ import Sidebar from "../../sidenav/Sidebar";
 
 
 
-const MedicalRecordMainPage = () => {
+const ViewNotes = () => {
 
   return (
     <div className="clients">
       <Sidebar />
       <Container fluid className="mt-5">
         <Row>
-          <Col lg={12}>
-              <h4 className="mb-3">Scott Elizabeth</h4>
-          </Col>
+       
           <Col lg={12} sm={12} xs={12}>
             <div className="appointment-card mt-3">
               <ButtonToolbar
                 className="justify-content-between mb-3"
                 aria-label="Toolbar with Button groups"
               >
-                <h5><a href="#/medical-record-listing" className="mr-2 theme-color"><i className="fas fa-chevron-left"></i></a>Medical Record Main Page</h5>
+                <h5><a href="#/medical-record-listing" className="mr-2 theme-color"><i className="fas fa-chevron-left"></i></a>View S.O.A.P Notes</h5>
              
                 <ButtonGroup className="rounded">
-                <a href="#/medical-activity-log" className="btn btn-theme rounded mr-2">
-                    View Activity Log
-                  </a>
                   <Button className="btn btn-theme-white">Select Action</Button>
                   <DropdownButton className=" p-0 rounded-0" title="">
-                    <Dropdown.Item eventKey="1">Add Surgery Record</Dropdown.Item>
-                    <Dropdown.Item eventKey="2">Add Progress Report</Dropdown.Item>
-                    <Dropdown.Item eventKey="3">View Exercise Record</Dropdown.Item>
-                    <Dropdown.Item href="#/file-transfer-to" eventKey="4">Transfer File to</Dropdown.Item>
-                    <Dropdown.Item eventKey="5">View/Print Record</Dropdown.Item>
-                    <Dropdown.Item eventKey="6">Notify Administrator</Dropdown.Item>
-                    <Dropdown.Item eventKey="7">Discharge Case</Dropdown.Item>
-                    <Dropdown.Item eventKey="8">View Case Statistics</Dropdown.Item>
-                    <Dropdown.Item eventKey="9">Add Documents</Dropdown.Item>
+                    <Dropdown.Item eventKey="1">Add Concussion File</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Add Dry Needling File</Dropdown.Item>
+                    <Dropdown.Item eventKey="3">Transfer Chart to</Dropdown.Item>
+                    <Dropdown.Item eventKey="4">Add Documents</Dropdown.Item>
+                    <Dropdown.Item eventKey="5">Add Exercise Log</Dropdown.Item>
                   </DropdownButton>
                 </ButtonGroup>
               </ButtonToolbar>
-              <p>Elbow (R) - 11-Aug-2020</p>
+              <p>File Created On : 31 Nov, 2021  |  10:30 AM PDT - LOBO TERILL(ID : 651651655151)</p>
+              <p>Last Updated On : 31 Nov, 2021  |  10:30 AM PDT - LOBO TERILL(ID : 651651655151)</p>
+              <hr />
+              <Row>
+                  <Col lg="4" sm="6" xs="12">
+                      <p></p>
+                  </Col>
+                  <Col lg="8" sm="6" xs="12">
+                      <p><b></b></p>
+                  </Col>
+              </Row>
+
+              <Row>
+                  <Col lg="4" sm="6" xs="12">
+                      <p></p>
+                  </Col>
+                  <Col lg="8" sm="6" xs="12">
+                      <p><b></b></p>
+                  </Col>
+              </Row>
+
+              <Row>
+                  <Col lg="4" sm="6" xs="12">
+                      <p></p>
+                  </Col>
+                  <Col lg="8" sm="6" xs="12">
+                      <p><b></b></p>
+                  </Col>
+              </Row>
+
+              <Row>
+                  <Col lg="4" sm="6" xs="12">
+                      <p></p>
+                  </Col>
+                  <Col lg="8" sm="6" xs="12">
+                      <p><b></b></p>
+                  </Col>
+              </Row>
               <Row>
                   <Col lg={4} sm={4} xs={12}>
                       <h6>Date Of Injury</h6>
@@ -171,4 +199,4 @@ const MedicalRecordMainPage = () => {
   );
 };
 
-export default MedicalRecordMainPage;
+export default ViewNotes;

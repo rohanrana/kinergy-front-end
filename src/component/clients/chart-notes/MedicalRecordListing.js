@@ -55,7 +55,7 @@ const MedicalRecordListing = () => {
                 </InputGroup>
                   </ButtonGroup>
                   
-                  <a href="#/" className="btn btn-theme rounded ml-2">
+                  <a href="#/add-new-medical-record" className="btn btn-theme rounded ml-2">
                     + Add New
                   </a>
                 </ButtonGroup>
