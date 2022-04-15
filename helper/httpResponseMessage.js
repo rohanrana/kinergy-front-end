@@ -20,12 +20,36 @@ module.exports = {
     PASSWORD_INCORRECT: "Incorrect password.",
     PASSWORD_STRONG: "Please enter  password at least 8 character and  contain At least one uppercase.At least one lower case.At least one special character. ",
 
+    // Name 
+    FIRST_NAME_REQUIRED: "Please enter first name",
+    // Contact
+    CONTACT_REQUIRED: "Please enter contact number",
+    // type
+    TYPE_REQUIRED: "Please enter type",
+    ADDRESS_REQUIRED: "Please enter eddress",
+    // city
+    CITY_REQUIRED: "Please enter city",
+    CITY_INT: "City id must be a numaric value",
+    // state
+    STATE_REQUIRED: "Please enter state",
+    STATE_INT: "State id must be a numaric value",
+    // Country
+    COUNTRY_REQUIRED: "Please enter country",
+    COUNTRY_INT: "Country id must be a numaric value",
 
+    PIN_REQUIRED: "Please enter pin code",
+    GENDER_REQUIRED: "Please select gender",
+    DOB_REQUIRED: "Please select date of birth",
     // Country
     COUNTRY_NOT_FOUND: "Country not found.",
     Country_ID_NOT_FOUND: "Please Enter country id.",
     // State
-    STATE_NOT_FOUND: "State not found."
+    STATE_NOT_FOUND: "State not found.",
+
+    // Service
+    TITLE_REQUIRED: "Please enter title.",
+    TITLE_ALREADY_EXIST: "Title already exist",
+    IMAGE_REQUIRED: "Please upload an image."
 
 
 };

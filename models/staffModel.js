@@ -13,6 +13,10 @@ const staffSchema = new Schema({
     contact: {
         type: String
     },
+    gender: {
+        enum: ["MALE", "FEMALE", ""],
+        default: '',
+    },
     email: {
         type: String,
         trim: true,
@@ -56,6 +60,9 @@ const staffSchema = new Schema({
     },
     state: {
         type: String
+    },
+    country: {
+        type: Number
     },
     pin: {
         type: String

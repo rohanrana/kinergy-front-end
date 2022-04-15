@@ -302,6 +302,17 @@ const staffApis = {
         if (!req.body.type)
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the type of user.');
         else {
+            if (req.body.password) {
+                var retVal = "";
+                const saltRounds = 10;
+                retVal = req.body.password;
+                bcrypt.genSalt(saltRounds, (err, salt) => {
+                    bcrypt.hash(retVal, salt, (error, hash) => {
+                        req.body.password = hash;
+                        console.log(req.body.password);
+                    })
+                })
+            }
             if (req.body.type == "CUSTOMER") {
                 Customers.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
                     console.log('add user---', error, result)
@@ -346,6 +357,99 @@ const staffApis = {
         }
     },
 
+    //================= edit Staff by Id=====
+    'editStaff': (req, res) => {
+
+        if (!req.body._id)
+            Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the id of user.');
+        else {
+            if (req.body.password) {
+                var retVal = "";
+                const saltRounds = 10;
+                retVal = req.body.password;
+                bcrypt.genSalt(saltRounds, (err, salt) => {
+                    bcrypt.hash(retVal, salt, (error, hash) => {
+                        req.body.password = hash;
+                        console.log(req.body.password);
+                    })
+                })
+            }
+            if (req.body.type == "CUSTOMER") {
+                Customers.findOne({ _id: req.body._id }).lean().exec((error, result) => {
+
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (!result) {
+                        Response.sendResponseWithoutData(res, 401, 'Staff not exists.');
+                    } else {
+                        Customers.findOneAndUpdate({ _id: req.body._id }, {
+                            $set: {
+                                "firstName": req.body.firstName,
+                                "lastName": req.body.lastName,
+                                "address": req.body.address,
+                                "contact": req.body.contact,
+                                "email": req.body.email,
+                                "status": req.body.status,
+                                "type": req.body.type,
+                                "city": req.body.city,
+                                "state": req.body.state,
+                                "country": req.body.country,
+                                "pin": req.body.pin,
+                                "gender": req.body.gender,
+                                "dob": req.body.dob,
+                            }
+                        }, { new: true }).lean().exec((error1, result1) => {
+                            if (error1) {
+                                console.log(error1)
+                                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                            } else {
+                                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Customer edit successfully.", result1)
+                            }
+                        })
+                    }
+
+                })
+            } else {
+                Staffs.findOne({ _id: req.body._id }).lean().exec((error, result) => {
+                    // console.log('Edit Staff---', error, result)
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (!result) {
+                        Response.sendResponseWithoutData(res, 401, 'Staff  not exists.');
+                    } else {
+                        console.log(req.body);
+                        Staffs.findOneAndUpdate({ _id: req.body._id }, {
+                            $set: {
+                                "firstName": req.body.firstName,
+                                "lastName": req.body.lastName,
+                                "address": req.body.address,
+                                "contact": req.body.contact,
+                                "email": req.body.email,
+                                "status": req.body.status,
+                                "type": req.body.type,
+                                "city": req.body.city,
+                                "state": req.body.state,
+                                "country": req.body.country,
+                                "pin": req.body.pin,
+                                "gender": req.body.gender,
+                                "dob": req.body.dob,
+                            }
+                        }, { new: true }).lean().exec((error1, result1) => {
+                            if (error1) {
+                                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                            } else {
+                                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Staff edit successfully.", result1)
+                            }
+                        })
+                    }
+
+                })
+            }
+
+        }
+    },
+
+
     //================================Get profile api======================================
     'getProfile': (req, res) => {
         if (!req.body._id)
@@ -378,6 +482,39 @@ const staffApis = {
 
         }
     },
+
+    //================================Get UserById api======================================
+    'getStaffById': (req, res) => {
+        if (!req.body._id)
+            Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the id.');
+        else {
+            if (req.body.type == "CUSTOMER") {
+                Customers.findOne({ _id: req.body._id }).lean().exec((error, result) => {
+                    console.log('get user---', error, result)
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (!result) {
+                        Response.sendResponseWithoutData(res, 401, 'No user exists.');
+                    } else {
+                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "User found successfully.", result)
+                    }
+
+                })
+            } else {
+                Staffs.findOne({ _id: req.body._id }).lean().exec((error, result) => {
+                    console.log('add user---', error, result)
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (!result) {
+                        Response.sendResponseWithoutData(res, 401, 'No user exists.');
+                    } else {
+                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "User found successfully.", result)
+                    }
+                })
+            }
+
+        }
+    },
     //================================Get profile api======================================
     'editProfile': (req, res) => {
         if (!req.body._id)
@@ -388,7 +525,17 @@ const staffApis = {
                     $set: {
                         "firstName": req.body.firstName,
                         "lastName": req.body.lastName,
-                        "contact": req.body.contact
+                        "address": req.body.address,
+                        "contact": req.body.contact,
+                        "email": req.body.email,
+                        "status": req.body.status,
+                        "type": req.body.type,
+                        "city": req.body.city,
+                        "state": req.body.state,
+                        "country": req.body.country,
+                        "pin": req.body.pin,
+                        "gender": req.body.gender,
+                        "dob": req.body.dob,
                     }
                 }, { new: true }).lean().exec((error, result) => {
                     console.log('edit user---', error, result)
