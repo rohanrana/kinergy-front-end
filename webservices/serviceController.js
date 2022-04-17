@@ -8,82 +8,29 @@ const path = require('path');
 
 const multer = require('multer')
 const serviceValidator = require('../Validators/serviceValidator');
-// const upload = multer({ dest: 'public/upload/service/' });
-
-
+const fs = require('fs');
+const maxSize = 1 * 1024 * 1024;
 const serviceApis = {
 
     // ===============Add Service List ==========================
 
     'add': (req, res) => {
-
         req.body.slug = slugify(req.body.title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true });
-        let service = new Service(req.body);
+        let service = new Service({
+            title: req.body.title,
+            subTitle: req.body.subTitle,
+            desription: req.body.description,
+            banner: req.body.banner,
+            logo: req.body.logo,
+            slug: req.body.slug
+        });
         service.save((err, result) => {
             // console.log(err, result);
             if (!err)
                 Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Save Successfully.', result);
             else
-                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG + '123');
+                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
         });
-        // return serviceValidator.add;
-
-
-        // var storage = multer.diskStorage({
-        //     destination: function(req, file, cb) {
-        //         // Uploads is the Upload_folder_name
-        //         cb(null, "public/upload/service")
-        //     },
-        //     filename: function(req, file, cb) {
-        //         // console.log(file);
-        //         var extname = path.extname(file.originalname).toLowerCase();
-        //         var imageName = file.fieldname + "-" + Date.now() + extname
-        //         req.body.image = imageName;
-        //         cb(null, imageName)
-        //     }
-        // })
-        // const maxSize = 1 * 1000 * 1000;
-
-        // var upload = multer({
-        //     storage: storage,
-        //     limits: { fileSize: maxSize },
-        //     fileFilter: (req, file, cb) => {
-        //         if (
-        //             file.mimetype == "image/png" ||
-        //             file.mimetype == "image/jpg" ||
-        //             file.mimetype == "image/jpeg"
-        //         ) {
-        //             cb(null, true);
-        //         } else {
-        //             cb(null, false);
-        //             return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
-        //         }
-        //     }
-
-
-        // }).single("mypic");
-        // // Error MiddleWare for multer file upload, so if any
-        // // error occurs, the image would not be uploaded!
-        // upload(req, res, function(err) {
-        //     console.log(req.body);
-        //     if (err) {
-        //         res.send(err)
-        //     } else {
-        //         req.body.slug = slugify(req.body.title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true });
-        //         let service = new Service(req.body);
-        //         service.save((err, result) => {
-        //             // console.log(err, result);
-        //             if (!err)
-        //                 Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Save Successfully.', result);
-        //             else
-        //                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG + '123');
-        //         });
-        //     }
-        // })
-
-
-
-
     },
 
     // =============get Service List=============================
@@ -125,32 +72,31 @@ const serviceApis = {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Service Id.');
         } else {
             const editData = {
-                "title": req.body.title,
-                "subTitle": req.body.subTitle,
-                "slug": slugify(req.body.title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true }),
-                "description": req.body.description,
-                "status": req.body.status
+                title: req.body.title,
+                subTitle: req.body.subTitle,
+                desription: req.body.description,
+                banner: req.body.banner,
+                logo: req.body.logo,
+                slug: req.body.slug
 
-            }
-            if (req.files && req.files.image !== "undefined") {
-                let image = req.files.image;
-                var timestamp = new Date().getTime();
-                filename = timestamp + '-' + image.name;
-                editData.image = filename;
-                image.mv('public/upload/service/' + filename, function(err) {
-                    if (err) {
-                        console.log(err);
-                        req.flash('error', 'Could not upload image. Please try again!')
-                        res.locals.message = req.flash();
-                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Could not upload image. Please try again!');
-                    }
-                });
             }
 
             Service.findOneAndUpdate({ _id: req.body._id }, editData, { new: true }).lean().exec((err, result) => {
-                if (!err)
+                if (!err) {
+                    if (req.body.oldLogoImage !== 'undefined' && req.body.oldLogoImage !== null) {
+                        let filePath = 'public/uploads/service/' + '/' + req.body.oldLogoImage;
+                        fs.unlink(filePath, function(err) {
+                            if (!err) console.log('removed');
+                        });
+                    }
+                    if (req.body.oldBannerImage !== 'undefined' && req.body.oldBannerImage !== null) {
+                        let filePath = 'public/uploads/service/' + '/' + req.body.oldBannerImage;
+                        fs.unlink(filePath, function(err) {
+                            if (!err) console.log('removed');
+                        });
+                    }
                     Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Update Successfully.', result);
-                else
+                } else
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
 
             });
@@ -171,6 +117,87 @@ const serviceApis = {
 
             });
         }
+    },
+    'fileUpload': (req, res, next) => {
+
+
+        var storage = multer.diskStorage({
+            destination: function(req, file, cb) {
+                // console.log(file);
+                // Uploads is the Upload_folder_name
+                if (file.fieldname == 'logo') {
+                    cb(null, "public/uploads/service")
+                } else if (file.fieldname == 'banner') {
+                    cb(null, "public/uploads/service")
+                } else {
+                    cb(null, "public/uploads/")
+                }
+            },
+            filename: function(req, file, cb) {
+                // console.log(req.body, file);
+                var extname = path.extname(file.originalname).toLowerCase();
+                var imageName = file.fieldname + "-" + Date.now() + extname
+                    // console.log(imageName);
+                req.body[file.fieldname] = imageName;
+                cb(null, imageName)
+            }
+        })
+
+
+        var upload = multer({
+            storage: storage,
+            limits: { fileSize: maxSize },
+            fileFilter: (req, file, cb) => {
+                // console.log(req.body, file);
+                if (
+                    file.mimetype == "image/png" ||
+                    file.mimetype == "image/jpg" ||
+                    file.mimetype == "image/jpeg"
+                ) {
+                    cb(null, true);
+                } else {
+                    cb(null, false);
+                    // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+                    req.file = {
+                        error: true,
+                        title: file.fieldname,
+                        msg: "Only .png, .jpg and .jpeg format allowed!",
+                        status: -6
+                    }
+
+
+                }
+
+            },
+            onFileSizeLimit: function(file) {
+                req.file = {
+                    error: true,
+                    title: file.fieldname,
+                    msg: "Image file is to large",
+                    status: -6
+                }
+            }
+        }).fields([{
+            name: 'logo',
+            maxCount: 1
+        }, {
+            name: 'banner',
+            maxCount: 1
+        }]);
+
+
+        upload(req, res, function(err) {
+            if (err instanceof multer.MulterError) {
+                console.log('uploading_err', err);
+                // A Multer error occurred when uploading.
+            } else if (err) {
+                // An unknown error occurred when uploading.
+                console.log('uploading_err', err);
+            }
+            // Everything went fine. 
+
+            next()
+        })
     }
 }
 

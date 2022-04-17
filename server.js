@@ -16,6 +16,7 @@ const countryStateCityRoutes = require('./routes/countryStateCityRoutes');
 const roleRoutes = require('./routes/roleRoute');
 const serviceRoutes = require('./routes/serviceRoute');
 const staffRoutes = require('./routes/staffRoute');
+const employeeRoutes = require('./routes/employeeRoutes');
 
 
 
@@ -47,6 +48,7 @@ app.use('/api/v1/Country', countryStateCityRoutes);
 app.use('/api/v1/role', roleRoutes);
 app.use('/api/v1/service', serviceRoutes);
 app.use('/api/v1/staff', staffRoutes);
+app.use('/api/v1/employee', employeeRoutes);
 
 
 

@@ -13,6 +13,10 @@ const countrySchema = new Schema({
     },
     phoneCode: {
         type: Number
+    },
+    employee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee'
     }
 });
 

@@ -1,42 +1,45 @@
 const { check, validationResult } = require('express-validator');
-
 const resCode = require('../helper/httpResponseCode.js');
 const resMessage = require('../helper/httpResponseMessage.js');
-const Service = require('../models/serviceModel');
-const slugify = require('slugify')
-var fs = require('fs');
-
+const path = require('path');
+const fs = require('fs');
 const generateAddValidation = (req, res, next) => [
-
-    check('title')
+    check('firstName')
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED)
-    .custom(value => {
-        return Service.findOne({ slug: slugify(value, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true }), }).then(service => {
-            if (service) {
-                return Promise.reject(resMessage.TITLE_ALREADY_EXIST);
-            }
-        });
-    })
-    // .withMessage('Only .png, .jpg and .jpeg format allowed!'), // custom error message that will be send back if the file in not a pdf. 
-
-
-];
-const generateEditValidation = (req, res, next) => [
-
-    check('title')
+    .withMessage(resMessage.FIRST_NAME_REQUIRED),
+    check('email')
+    .isEmail()
+    .withMessage(resMessage.EMAIL_VALID)
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED)
+    .withMessage(resMessage.EMAIL_REQUIRED)
+
 ]
-const reporter = (req, res, next) => {
+const generateEditValidation = (req, res, next) => [
+    check('firstName')
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.FIRST_NAME_REQUIRED),
+    check('email')
+    .isEmail()
+    .withMessage(resMessage.EMAIL_VALID)
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.EMAIL_REQUIRED)
 
-    // __if file has any error
+]
+
+const reporter = (req, res, next) => {
+    // ================== IF FILE ERROR =============
     if (req.file) {
         if (req.file.error !== 'undefined' && req.file.error == true) {
 
@@ -56,27 +59,10 @@ const reporter = (req, res, next) => {
             });
         }
     }
-
-    // unlink file if any error occurs
-
-    // Check validation other fields
+    // ==================
     var errors = validationResult(req);
+    // console.log(errors);
     if (!errors.isEmpty()) {
-        if (req.files !== 'undefined') {
-            for (let i = 0; i < Object.keys(req.files).length; i++) {
-
-                let fieldname = Object.keys(req.files)[i];
-                let filePath = 'public/uploads/service/' + '/' + req.body[fieldname];
-                fs.unlink(filePath,
-                    function(err) {
-                        if (!err) {
-                            console.info(`removed`);
-                        }
-                    });
-
-            }
-        }
-
         const errorMessages = errors.array().map(error => ({
             title: error.param,
             msg: error.msg

@@ -11,6 +11,10 @@ const citySchema = new Schema({
     state: {
         type: Number,
         ref: 'State'
+    },
+    employee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee'
     }
 });
 

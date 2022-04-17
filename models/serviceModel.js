@@ -7,16 +7,16 @@ const serviceSchema = new Schema({
     title: {
         type: String
     },
-    subTitle: {
-        type: String
-    },
     slug: {
         type: String
     },
     description: {
         type: String,
     },
-    image: {
+    logo: {
+        type: String
+    },
+    banner: {
         type: String
     },
     status: {

@@ -15,6 +15,10 @@ const stateSchema = new Schema({
     country: {
         type: Number,
         ref: 'Country'
+    },
+    employee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee'
     }
 });
 
