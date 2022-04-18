@@ -38,15 +38,15 @@ const MedicalRecordMainPage = () => {
                   </a>
                   <Button className="btn btn-theme-white">Select Action</Button>
                   <DropdownButton className=" p-0 rounded-0" title="">
-                    <Dropdown.Item eventKey="1">Add Surgery Record</Dropdown.Item>
+                    <Dropdown.Item href="#/add-surgery-record" eventKey="1">Add Surgery Record</Dropdown.Item>
                     <Dropdown.Item eventKey="2">Add Progress Report</Dropdown.Item>
-                    <Dropdown.Item eventKey="3">View Exercise Record</Dropdown.Item>
+                    <Dropdown.Item href="#/exercise-log" eventKey="3">View Exercise Record</Dropdown.Item>
                     <Dropdown.Item href="#/file-transfer-to" eventKey="4">Transfer File to</Dropdown.Item>
-                    <Dropdown.Item eventKey="5">View/Print Record</Dropdown.Item>
+                    <Dropdown.Item href="#/billing-review" eventKey="5">View/Print Record</Dropdown.Item>
                     <Dropdown.Item eventKey="6">Notify Administrator</Dropdown.Item>
                     <Dropdown.Item eventKey="7">Discharge Case</Dropdown.Item>
-                    <Dropdown.Item eventKey="8">View Case Statistics</Dropdown.Item>
-                    <Dropdown.Item eventKey="9">Add Documents</Dropdown.Item>
+                    <Dropdown.Item href="#/case-statistics" eventKey="8">View Case Statistics</Dropdown.Item>
+                    <Dropdown.Item href="#/document-list" eventKey="9">Add Documents</Dropdown.Item>
                   </DropdownButton>
                 </ButtonGroup>
               </ButtonToolbar>

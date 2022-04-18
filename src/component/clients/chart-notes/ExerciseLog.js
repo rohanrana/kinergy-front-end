@@ -168,7 +168,6 @@ const ExerciseLog = () => {
                 </Col>
               </Row>
 
-
                 <Row>
                   <Col Col lg={12} sm={12} xs={12}>
                     <div className="text-center form-action-btn mt-3">

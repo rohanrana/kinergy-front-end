@@ -58,6 +58,9 @@ import TherapyProgressReport from "./component/clients/chart-notes/TherapyProgre
 import ExerciseLog from "./component/clients/chart-notes/ExerciseLog";
 import FileTransferTo from "./component/clients/chart-notes/FileTransferTo";
 import FileTransferToList from "./component/clients/chart-notes/FileTransferToList";
+import ViewNotes from "./component/clients/chart-notes/ViewNotes";
+import CaseStatistics from "./component/clients/chart-notes/CaseStatistics";
+import AddTreatmentIntervention from "./component/clients/chart-notes/AddTreatmentIntervention";
 
 function App() {
   return (
@@ -115,7 +118,9 @@ function App() {
         <Route exact path="/exercise-log" component={ExerciseLog} />
         <Route exact path="/file-transfer-to" component={FileTransferTo} />
         <Route exact path="/file-transfer-to-list" component={FileTransferToList} />
-
+        <Route exact path="/view-notes" component={ViewNotes} />
+        <Route exact path="/case-statistics" component={CaseStatistics} />
+        <Route exact path="/add-treatment-intervention" component={AddTreatmentIntervention} />
       </Switch>
     </Router>
   );
