@@ -626,3 +626,7 @@ h6 {
 .accordian-mt-40{
   margin-top: 40px;
 }
+
+.pointer{
+  cursor: pointer;
+}

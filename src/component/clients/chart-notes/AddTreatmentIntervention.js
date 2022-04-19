@@ -58,13 +58,13 @@ const AddTreatmentIntervention = () => {
                         Add Concussion file
                       </Dropdown.Item>
                       <Dropdown.Item eventKey="3">Transfer File</Dropdown.Item>
-                      <Dropdown.Item eventKey="4">
+                      <Dropdown.Item href="#/importing-or-new" eventKey="4">
                         Import S.O.A.P Notes
                       </Dropdown.Item>
                       <Dropdown.Item eventKey="5">
                         Add Dry Needling File
                       </Dropdown.Item>
-                      <Dropdown.Item eventKey="6">Add Document</Dropdown.Item>
+                      <Dropdown.Item href="#/add-document" eventKey="6">Add Document</Dropdown.Item>
                     </DropdownButton>
                   </ButtonGroup>
                 </span>
@@ -121,9 +121,9 @@ const AddTreatmentIntervention = () => {
               <h5 className="mb-3">
                 S.O.A.P Notes
                 <span className="float-right">
-                  <Button className="btn btn-theme mt-0">
+                  <a href="#/exercise-log2" className="btn btn-theme mt-0">
                     Add Exercise Log
-                  </Button>
+                  </a>
                 </span>
               </h5>
 

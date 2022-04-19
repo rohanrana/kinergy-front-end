@@ -61,6 +61,13 @@ import FileTransferToList from "./component/clients/chart-notes/FileTransferToLi
 import ViewNotes from "./component/clients/chart-notes/ViewNotes";
 import CaseStatistics from "./component/clients/chart-notes/CaseStatistics";
 import AddTreatmentIntervention from "./component/clients/chart-notes/AddTreatmentIntervention";
+import RangeofMotionandStrenght from "./component/clients/chart-notes/RangeofMotionandStrength";
+import SpecialTests from "./component/clients/chart-notes/SpecialTests";
+import AddIcd from "./component/clients/chart-notes/AddIcd";
+import ExerciseLog2 from "./component/clients/chart-notes/ExerciseLog2";
+import ViewNotes2 from "./component/clients/chart-notes/ViewNotes2";
+import importingorNew from "./component/clients/chart-notes/ImportingorNew";
+import ViewNotes3 from "./component/clients/chart-notes/ViewNotes3";
 
 function App() {
   return (
@@ -121,6 +128,13 @@ function App() {
         <Route exact path="/view-notes" component={ViewNotes} />
         <Route exact path="/case-statistics" component={CaseStatistics} />
         <Route exact path="/add-treatment-intervention" component={AddTreatmentIntervention} />
+        <Route exact path="/range-of-motion" component={RangeofMotionandStrenght} />
+        <Route exact path="/special-tests" component={SpecialTests} />
+        <Route exact path="/add-icd" component={AddIcd} />
+        <Route exact path="/exercise-log2" component={ExerciseLog2} />
+        <Route exact path="/view-notes2" component={ViewNotes2} />
+        <Route exact path="/importing-or-new" component={importingorNew} />
+        <Route exact path="/view-notes3" component={ViewNotes3} />
       </Switch>
     </Router>
   );
