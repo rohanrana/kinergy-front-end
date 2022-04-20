@@ -54,7 +54,7 @@ const AddTreatmentIntervention = () => {
                       <Dropdown.Item eventKey="1">
                         View Prior Notes
                       </Dropdown.Item>
-                      <Dropdown.Item eventKey="2">
+                      <Dropdown.Item href="#/add-consussion-file" eventKey="2">
                         Add Concussion file
                       </Dropdown.Item>
                       <Dropdown.Item eventKey="3">Transfer File</Dropdown.Item>

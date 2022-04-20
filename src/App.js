@@ -68,6 +68,9 @@ import ExerciseLog2 from "./component/clients/chart-notes/ExerciseLog2";
 import ViewNotes2 from "./component/clients/chart-notes/ViewNotes2";
 import importingorNew from "./component/clients/chart-notes/ImportingorNew";
 import ViewNotes3 from "./component/clients/chart-notes/ViewNotes3";
+import AddConsussionfile from "./component/clients/chart-notes/AddConsussionfile";
+import UploadDocument from "./component/clients/chart-notes/UploadDocument";
+import CptCodes from "./component/clients/chart-notes/CptCodes";
 
 function App() {
   return (
@@ -135,6 +138,9 @@ function App() {
         <Route exact path="/view-notes2" component={ViewNotes2} />
         <Route exact path="/importing-or-new" component={importingorNew} />
         <Route exact path="/view-notes3" component={ViewNotes3} />
+        <Route exact path="/add-consussion-file" component={AddConsussionfile} />
+        <Route exact path="/upload-document" component={UploadDocument} />
+        <Route exact path="/cpt-codes" component={CptCodes} />
       </Switch>
     </Router>
   );

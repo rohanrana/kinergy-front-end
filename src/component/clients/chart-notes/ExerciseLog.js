@@ -12,6 +12,7 @@ const ExerciseLog = () => {
         <Row>
           <Col lg={12} sm={12} xs={12}>
               <h4 className="mt-3 text-white">Scott Elizabeth <span className="float-right"><small>45465453 <span className="ml-2"><i className="fas fa-circle mr-2"></i>Active</span></small></span></h4>
+            
             <div className="appointment-card">
               <h5 className="mb-3">
                 <a href="#/medical-record-listing" className="theme-color mr-2">
