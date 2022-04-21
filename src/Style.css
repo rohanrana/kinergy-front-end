@@ -630,3 +630,17 @@ h6 {
 .pointer{
   cursor: pointer;
 }
+
+.booking-detail{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.booking-detail .booking-detail-col1{
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: #C4C4C4;
+  padding-top: 15px;
+}

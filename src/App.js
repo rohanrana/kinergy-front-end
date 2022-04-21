@@ -71,6 +71,8 @@ import ViewNotes3 from "./component/clients/chart-notes/ViewNotes3";
 import AddConsussionfile from "./component/clients/chart-notes/AddConsussionfile";
 import UploadDocument from "./component/clients/chart-notes/UploadDocument";
 import CptCodes from "./component/clients/chart-notes/CptCodes";
+import BookAppointment from "./component/clients/chart-notes/BookAppointment";
+import AppointmentSummary from "./component/clients/chart-notes/AppointmentSummary";
 
 function App() {
   return (
@@ -141,6 +143,8 @@ function App() {
         <Route exact path="/add-consussion-file" component={AddConsussionfile} />
         <Route exact path="/upload-document" component={UploadDocument} />
         <Route exact path="/cpt-codes" component={CptCodes} />
+        <Route exact path="/book-appointment" component={BookAppointment} />
+        <Route exact path="/appointment-summary" component={AppointmentSummary} />
       </Switch>
     </Router>
   );
