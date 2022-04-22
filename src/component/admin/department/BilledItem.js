@@ -154,7 +154,7 @@ const BilledItem = () => {
                   <Button className="btn btn-theme-white ml-2">Status</Button>
                   <DropdownButton className=" p-0 rounded-0" title="">
                     <Dropdown.Item eventKey="1">Active</Dropdown.Item>
-                    <Dropdown.Item eventKey="2">Archived</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                   </DropdownButton>
                 </ButtonGroup>
               </ButtonToolbar>
@@ -191,7 +191,7 @@ const BilledItem = () => {
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -209,13 +209,13 @@ const BilledItem = () => {
                     <td className="text-left">118.00$</td>
                     <td className="text-left">
                       <Badge pill className="p-2" bg="primary">
-                        Archived
+                        Inactive
                       </Badge>
                     </td>
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -239,7 +239,7 @@ const BilledItem = () => {
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -263,7 +263,7 @@ const BilledItem = () => {
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -281,13 +281,13 @@ const BilledItem = () => {
                     <td className="text-left">118.00$</td>
                     <td className="text-left">
                       <Badge pill className="p-2" bg="primary">
-                        Archived
+                        Inactive
                       </Badge>
                     </td>
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -311,7 +311,7 @@ const BilledItem = () => {
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -335,7 +335,7 @@ const BilledItem = () => {
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -353,13 +353,13 @@ const BilledItem = () => {
                     <td className="text-left">118.00$</td>
                     <td className="text-left">
                       <Badge pill className="p-2" bg="primary">
-                        Archived
+                        Inactive
                       </Badge>
                     </td>
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>
@@ -383,7 +383,7 @@ const BilledItem = () => {
                     <td className="text-left">
                       <DropdownButton className="p-0 rounded-0" title="Actions">
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                   </tr>

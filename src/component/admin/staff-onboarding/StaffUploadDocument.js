@@ -6,7 +6,7 @@ import Dropzone from "react-dropzone-uploader";
 
 const MyUploader = () => {
   const getUploadParams = ({ meta }) => {
-    return { url: "" };
+    return { url: "asdas.png" };
   };
 
   const handleChangeStatus = ({ meta, file }, status) => {
@@ -17,7 +17,7 @@ const MyUploader = () => {
     <Dropzone
       getUploadParams={getUploadParams}
       onChangeStatus={handleChangeStatus}
-      accept="image/*,audio/*,video/*"
+      accept="image/*,audio/*,video/*"  
     />
   );
 };

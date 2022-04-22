@@ -75,7 +75,7 @@ const StaffOnboarding = () => {
                         title="Select Action"
                       >
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                  
@@ -91,7 +91,7 @@ const StaffOnboarding = () => {
                         title="Select Action"
                       >
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                  
@@ -107,7 +107,7 @@ const StaffOnboarding = () => {
                         title="Select Action"
                       >
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                  
@@ -123,7 +123,7 @@ const StaffOnboarding = () => {
                         title="Select Action"
                       >
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                  
@@ -139,7 +139,7 @@ const StaffOnboarding = () => {
                         title="Select Action"
                       >
                         <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Archive</Dropdown.Item>
+                        <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
                  

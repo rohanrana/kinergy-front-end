@@ -54,6 +54,10 @@ import StaffOnboarding from "./component/admin/staff-onboarding/StaffOnboarding"
 import AddStaffOnboarding from "./component/admin/staff-onboarding/AddStaffOnboarding";
 import StaffUploadDocument from "./component/admin/staff-onboarding/StaffUploadDocument";
 
+import Service from "./component/admin/service/Services";
+import AddService from "./component/admin/service/AddService";
+import EditService from "./component/admin/service/EditService";
+
 function App() {
   return (
     <Router>
@@ -62,7 +66,7 @@ function App() {
         <Route exact path="/staff-login2" component={StaffLogin2} />
         <Route exact path="/otp" component={Otp} />
         <Route exact path="/create-login" component={CreateLogin} />
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={StaffLogin} />
         <Route exact path="/client-listing" component={ClientListing} />
         <Route exact path="/activity-log" component={ActivityLog} />
         <Route exact path="/client-details" component={ClientDetails} />
@@ -105,6 +109,10 @@ function App() {
         <Route exact path="/staff-onboarding" component={StaffOnboarding} />
         <Route exact path="/add-staff-onboarding" component={AddStaffOnboarding} />
         <Route exact path="/staff-upload-document" component={StaffUploadDocument} />
+
+        <Route exact path="/services" component={Service} />
+        <Route exact path="/add-service" component={AddService} />
+        <Route exact path="/edit-service" component={EditService} />
       </Switch>
     </Router>
   );

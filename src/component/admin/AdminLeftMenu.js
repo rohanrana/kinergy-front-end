@@ -69,7 +69,8 @@ const AdminLeftMenu = () => {
           }
           menuVariant="light"
         >
-          <NavDropdown.Item href="#/billed-item">Services</NavDropdown.Item>
+          <NavDropdown.Item href="#/billed-item">Billable items</NavDropdown.Item>
+          <NavDropdown.Item href="#/services">Services</NavDropdown.Item>
           <NavDropdown.Item href="/">Products</NavDropdown.Item>
         </NavDropdown>
           <NavDropdown.Item href="#/inventory">Inventory</NavDropdown.Item>

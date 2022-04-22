@@ -111,7 +111,7 @@ const Inventory = () => {
                     <td className="text-left">118.00$</td>
                     <td className="text-left">
                       <Badge pill className="p-2" bg="primary">
-                        Archived
+                        Inactive
                       </Badge>
                     </td>
                     <td className="text-left">
@@ -183,7 +183,7 @@ const Inventory = () => {
                     <td className="text-left">118.00$</td>
                     <td className="text-left">
                       <Badge pill className="p-2" bg="primary">
-                        Archived
+                        Inactive
                       </Badge>
                     </td>
                     <td className="text-left">
@@ -255,7 +255,7 @@ const Inventory = () => {
                     <td className="text-left">118.00$</td>
                     <td className="text-left">
                       <Badge pill className="p-2" bg="primary">
-                        Archived
+                        Inactive
                       </Badge>
                     </td>
                     <td className="text-left">
