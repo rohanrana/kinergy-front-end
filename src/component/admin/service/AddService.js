@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { Container, Row, Col, Form ,Button,Modal} from "react-bootstrap";
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
@@ -6,32 +6,37 @@ import Dropzone from "react-dropzone-uploader";
 
 
 
-
-
-const AddService = () => {
+const AddService = (props) => {
   const [modalShow, setModalShow] = React.useState(false);
+ 
 
 
   const MyUploader = () => {
     const getUploadParams = ({ meta }) => {
+      
       return { url: "" };
     };
   
     const handleChangeStatus = ({ meta, file }, status) => {
       console.log(status, meta, file);
-      setModalShow(false)
+
     };
   
     return (
       <Dropzone
+        maxFiles={1}
         getUploadParams={getUploadParams}
         onChangeStatus={handleChangeStatus}
+        
+        multiple={false}
+
         accept="image/*,audio/*,video/*"
       />
     );
   };
 
   function MyVerticallyCenteredModal(props) {
+    
     return (
       <Modal
         {...props}
@@ -115,6 +120,7 @@ const AddService = () => {
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
+                 
                   <div className="upload-document-colum text-center">
                     <h6>Logo</h6>
                     <Button
@@ -142,9 +148,9 @@ const AddService = () => {
                 <Row>
                 <Col Col lg={12} sm={12} xs={12}>
                     <div className="text-center form-action-btn mt-3">
-                      <a href="#/add-service" className="btn btn-theme pl-2 pr-2 ml-0">
-                        Save
-                      </a> 
+                    <Button className="btn btn-theme btn-block ml-0 mt-5" >
+                      Save
+                    </Button>
                     </div>
                   </Col>
                 </Row>
@@ -163,3 +169,4 @@ const AddService = () => {
 };
 
 export default AddService;
+

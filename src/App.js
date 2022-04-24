@@ -17,7 +17,7 @@ import EditDetails from "./component/clients/EditDetails";
 import EditEmergencyContact from "./component/clients/EditEmergencyContact";
 import EditClientMedical from "./component/clients/EditClientMedical";
 import General from "./component/admin/General";
-import AddingFacility from "./component/admin/AddingFacility";
+// import AddingFacility from "./component/admin/AddingFacility";
 import StaffListing from "./component/admin/StaffListing";
 import AddStaff from "./component/admin/AddStaff";
 import ClientAuthorization from "./component/admin/ClientAuthorization";
@@ -58,6 +58,10 @@ import Service from "./component/admin/service/Services";
 import AddService from "./component/admin/service/AddService";
 import EditService from "./component/admin/service/EditService";
 
+import Facility from "./component/admin/facility/Facility";
+import AddingFacility from "./component/admin/facility/AddingFacility";
+import EditFacility from "./component/admin/facility/EditFacility";
+
 function App() {
   return (
     <Router>
@@ -67,6 +71,7 @@ function App() {
         <Route exact path="/otp" component={Otp} />
         <Route exact path="/create-login" component={CreateLogin} />
         <Route exact path="/" component={StaffLogin} />
+        <Route exact path="/home" component={Home} />
         <Route exact path="/client-listing" component={ClientListing} />
         <Route exact path="/activity-log" component={ActivityLog} />
         <Route exact path="/client-details" component={ClientDetails} />
@@ -75,7 +80,7 @@ function App() {
         <Route exact path="/edit-client-medical" component={EditClientMedical} />
         <Route exact path="/admin" component={General} />
         <Route exact path="/logout" component={Logout} />
-        <Route exact path="/adding-facility" component={AddingFacility} />
+        
         <Route exact path="/staff-listing" component={StaffListing} />
         <Route exact path="/add-staff" component={AddStaff} />
         <Route exact path="/client-authorization" component={ClientAuthorization} />
@@ -113,6 +118,12 @@ function App() {
         <Route exact path="/services" component={Service} />
         <Route exact path="/add-service" component={AddService} />
         <Route exact path="/edit-service" component={EditService} />
+
+        <Route exact path="/facility" component={Facility} />
+        <Route exact path="/adding-facility" component={AddingFacility} />
+        <Route exact path="/edit-facility" component={EditFacility} />
+
+
       </Switch>
     </Router>
   );

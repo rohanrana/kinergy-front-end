@@ -82,6 +82,12 @@ const AdminLeftMenu = () => {
             <i class="far fa-circle mr-2"></i>Security
           </a>
         </li>
+       
+        <li>
+          <a href="#/facility">
+            <i class="far fa-circle mr-2"></i>Facility
+          </a>
+        </li>
 
       </ul>
     </div>

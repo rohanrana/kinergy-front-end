@@ -19,13 +19,14 @@ const EditService = () => {
   
     const handleChangeStatus = ({ meta, file }, status) => {
       console.log(status, meta, file);
-      setModalShow(false)
+    //   setModalShow(false)
     };
   
     return (
       <Dropzone
         getUploadParams={getUploadParams}
         onChangeStatus={handleChangeStatus}
+        multiple={false}
         accept="image/*,audio/*,video/*"
       />
     );
@@ -141,7 +142,7 @@ const EditService = () => {
                 <Col Col lg={12} sm={12} xs={12}>
                     <div className="text-center form-action-btn mt-3">
                       <a href="#/add-service" className="btn btn-theme pl-2 pr-2 ml-0">
-                        Update
+                        Update 
                       </a> 
                     </div>
                   </Col>

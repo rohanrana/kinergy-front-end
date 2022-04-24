@@ -176,7 +176,7 @@ const StaffListing = (props) => {
                       <Dropdown.Item eventKey="2">Level 3</Dropdown.Item>
                       <Dropdown.Item eventKey="2">Level 4</Dropdown.Item>
                     </DropdownButton>
-                    <a href="/add-staff" className="btn btn-theme rounded ml-2">
+                    <a href="#/add-staff" className="btn btn-theme rounded ml-2">
                       + Add Staff
                     </a>
                   </ButtonGroup>

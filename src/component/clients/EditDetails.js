@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import { getUserProfile,clearGetUserProfile } from "../../store/userProfile/actions";
 import Loader from "../../cmmon_module/Loader";
+import { api } from "../../utils/api";
 
 const EditDetails = (props) => {
 const [profile,setProfile]=useState(null);
@@ -44,6 +45,51 @@ useEffect(()=>{
     }
   }
 },[props.getUserProfileData])
+
+const [stateList, setStateList] = useState(null);
+const [cityList, setCityList] = useState(null); 
+
+useEffect(() => {
+  if (!stateList) {
+    try {
+        api.post("/Country/getStateByCountry", { _id: 231 }).then(
+        (response)=>{
+          if(response.data.response_code === 200){
+            
+           const  data = response ? response.data.result ? response.data.result.length > 0 ? response.data.result.map((x, index) => {
+              return <option value={x._id} >{x.name}</option>
+            }) :    <option>State Not Found</option> :     <option>State Not Found</option> :     <option>State Not Found</option>
+            setStateList(data);
+          }else{
+            setStateList(<option>State Not Found</option>);
+          }          
+            
+        }
+        )        
+  } catch (err) {
+    setStateList(<option>State Not Found</option>);
+  }
+  }
+
+}, [stateList])
+
+const getCityByStateId = (stateId) =>{
+  api.post("/Country/getCityByState", { _id: stateId }).then(
+    (response)=>{
+      if(response.data.response_code === 200){
+        
+         const data = response ? response.data.result ? response.data.result.length > 0 ? response.data.result.map((x, index) => {
+          return <option value={x._id}>{x.name}</option>
+        }) :    <option>City Not Found</option> :     <option>City Not Found</option> :     <option>City Not Found</option>          
+        setCityList(data);
+      }else{
+        setCityList(<option>City Not Found</option>);
+      }
+      
+        
+    }
+    )
+}
 
   return (
     <div className="clients">
@@ -145,29 +191,23 @@ useEffect(()=>{
                 </Row>
 
                 <Row>
+                <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3" >
+                      <Form.Select onChange={(e)=>getCityByStateId(e.target.value)}>
+                        <option value="">State</option>
+                        {stateList}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
                   <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control value={city} onChange={(e)=>setCity(e.target.value)} />
-                      {/* <Form.Select defaultValue="1">
-                        <option value="1">Nevada</option>
-                        <option value="2">Option</option>
-                        <option value="3">Option</option>
-                      </Form.Select> */}
+                      <Form.Select>
+                        <option value="">City</option>                        
+                        {cityList}
+                      </Form.Select>
                     </Form.Group>
                   </Col>
 
-                  <Col lg={4} sm={4} xs={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>State</Form.Label>
-                      <Form.Control value={state} onChange={(e)=>setState(e.target.value)} />
-                      {/* <Form.Select defaultValue="1">
-                        <option value="1">Las Vegas</option>
-                        <option value="2">Option</option>
-                        <option value="3">Option</option>
-                      </Form.Select> */}
-                    </Form.Group>
-                  </Col>
 
                   <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
