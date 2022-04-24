@@ -74,7 +74,7 @@ const StaffOnboarding = () => {
                         className="p-0 rounded-0"
                         title="Select Action"
                       >
-                        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+                        <Dropdown.Item href="#/edit-StaffOnoarding">Edit</Dropdown.Item>
                         <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>

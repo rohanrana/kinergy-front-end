@@ -113,6 +113,7 @@ function App() {
         <Route exact path="/document-detail" component={DocumentDetails} />
         <Route exact path="/staff-onboarding" component={StaffOnboarding} />
         <Route exact path="/add-staff-onboarding" component={AddStaffOnboarding} />
+        <Route exact path="/edit-StaffOnoarding" component={AddStaffOnboarding} />
         <Route exact path="/staff-upload-document" component={StaffUploadDocument} />
 
         <Route exact path="/services" component={Service} />
