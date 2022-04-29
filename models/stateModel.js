@@ -3,22 +3,34 @@ const Schema = mongoose.Schema;
 
 const stateSchema = new Schema({
     _id: {
-        type: Number
+        type: Number,
+        default: null
     },
     name: {
-        type: String
+        type: String,
+        default: null
     },
     cities: [{
         type: Number,
         ref: 'City'
     }],
-    country: {
+    country: [{
         type: Number,
         ref: 'Country'
-    },
-    employee: {
+    }],
+    employee: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee'
+    }],
+    facilities: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Facility'
+
+    }],
+    status: {
+        type: String,
+        enum: ["ACTIVE", "INACTIVE", "BLOCK"],
+        default: "ACTIVE"
     }
 });
 

@@ -1,4 +1,4 @@
-const Staffs = require('../models/staffModel.js');
+const Staff = require('../models/staffModel.js');
 const Customers = require('../models/customersModel.js');
 const Roles = require('../models/roleModel.js');
 const Response = require('../common_functions/response_handler.js')
@@ -10,6 +10,13 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/env/config.js')
 const mongoose = require('mongoose');
 const message = require('../common_functions/message.js');
+
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+const maxSize = 1 * 1024 * 1024;
+
+
 
 const staffApis = {
     //=====signup==========
@@ -50,7 +57,7 @@ const staffApis = {
                     }
                 })
             } else {
-                Staffs.findOne({ email: req.body.email, status: "ACTIVE", }, (err3, result3) => {
+                Staff.findOne({ email: req.body.email, status: "ACTIVE", }, (err3, result3) => {
                     if (err3) {
 
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR);
@@ -69,7 +76,7 @@ const staffApis = {
                                 console.log("hash is " + hash)
                                 console.log("orig pass" + req.body.password)
                                     // console.log("orig pass" + req.body.Account)
-                                let staffs = new Staffs(req.body);
+                                let staffs = new Staff(req.body);
                                 staffs.save((error, result) => {
                                     if (error) {
                                         console.log(error)
@@ -96,12 +103,14 @@ const staffApis = {
             Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, 'Please enter the details.');
         else {
             // console.log("else entered login", req.body, otp)
+            console.log('UserType', req.body.type);
             if (req.body.type != "CUSTOMER") {
-                Staffs.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
+                Staff.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
                     //console.log(error, result, req.body, "sghfsdfsdffsdfh")
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                     else if (!result) {
+                        console.log('result', result);
                         Response.sendResponseWithoutData(res, resCode.UNAUTHORIZED, resMessage.NOT_MATCH);
                     } else {
                         bcrypt.compare(req.body.password, result.password, (err, res1) => {
@@ -111,7 +120,7 @@ const staffApis = {
                                     console.log("secret key is " + config().secret_key, (req.headers['x-forwarded-for'] || '').split(',').pop().trim() ||
                                         req.socket.remoteAddress)
                                     var token = jwt.sign({ _id: result._id, email: result.email, password: result.password }, config().secret_key);
-                                    Staffs.findOneAndUpdate({ email: req.body.email }, {
+                                    Staff.findOneAndUpdate({ email: req.body.email }, {
                                             $set: {
                                                 jwtToken: token,
                                                 lastLoginIp: req.socket.remoteAddress,
@@ -145,7 +154,7 @@ const staffApis = {
                 })
             } else {
                 Customers.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
-                    console.log(error, result, req.body, "sghfsdfsdffsdfh")
+                    // console.log(error, result, req.body, "sghfsdfsdffsdfh")
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                     else if (!result) {
@@ -198,8 +207,9 @@ const staffApis = {
     //=================user listing api =====
     'userListing': (req, res) => {
         console.log("userlist")
-        Staffs.find({ status: "ACTIVE" }).lean().exec((error, result) => {
-                console.log(error, result, "sghfsdfsdffsdfh")
+        if (req.body.type != 'CUSTOMER') {
+            Staff.find().lean().exec((error, result) => {
+                // console.log(error, result, "sghfsdfsdffsdfh")
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                 else if (!result) {
@@ -215,7 +225,27 @@ const staffApis = {
                 }
 
             })
-            //}
+        } else {
+            Customers.find({ status: "ACTIVE" }).lean().exec((error, result) => {
+                // console.log(error, result, "sghfsdfsdffsdfh")
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result) {
+                    Response.sendResponseWithoutData(res, 401, 'No User Found.');
+                } else {
+                    Customers.find({ status: "ACTIVE" }).lean().exec((error1, result1) => {
+                        console.log(error1, result1)
+                        if (error1)
+                            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                        else
+                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', [...result, ...result1])
+                    })
+                }
+
+            })
+        }
+
+        //}
     },
 
 
@@ -239,7 +269,7 @@ const staffApis = {
                     }
                 })
             } else {
-                Staffs.updateOne({ _id: req.body._id }, { $set: { jwtToken: '' } }, (error_, result_) => {
+                Staff.updateOne({ _id: req.body._id }, { $set: { jwtToken: '' } }, (error_, result_) => {
                     if (error_) {
                         console.log("error of logout " + JSON.stringify(error_))
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
@@ -257,34 +287,37 @@ const staffApis = {
 
     //================ OTP ===========================
     'otp': (req, res) => {
-        console.log("req for logout is " + JSON.stringify(req.body))
+        // console.log("req for otp Verify is " + JSON.stringify(req.body))
         if (!req.body)
             Response.sendResponseWithoutData(res, resCode.BAD_REQUEST, "Please provide the email.")
         else {
             //   User.update({_id:req.body.userId},{$set:{jwtToken:''}},(error_,result_)=>{ 
             if (req.body.type != "CUSTOMER") {
-                Staffs.findOne({ email: req.body.email, status: "ACTIVE", type: req.body.type, otp: req.body.otp }, (error, result) => {
-                    console.log("STafffs======", error, result, req.body)
+                Staff.findOne({ email: req.body.email, status: "ACTIVE", type: req.body.type, otp: req.body.otp }, (error, result1) => {
+                    console.log("STafffs======", error, result1, req.body)
                     if (error) {
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
-                    } else if (!result) {
-                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, resMessage.NOT_FOUND)
+                    } else if (!result1) {
+                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, "Invalid Otp")
                     } else {
 
-                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result)
+                        // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result1)
+                        console.log('OTP RESPONSE', result1.jwtToken);
+                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result1, result1.jwtToken)
                             // Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Signed up successfully.", result.id)
                             // }                    
 
                     }
                 })
             } else {
-                Customers.findOne({ email: req.body.email, status: "ACTIVE", type: req.body.type, otp: req.body.otp }, (error, result) => {
+                Customers.findOne({ email: req.body.email, status: "ACTIVE", type: req.body.type, otp: req.body.otp }, (error, result1) => {
                     if (error) {
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
-                    } else if (!result) {
-                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, resMessage.NOT_FOUND)
+                    } else if (!result1 || result1.length === 0) {
+                        Response.sendResponseWithoutData(res, resCode.NOT_FOUND, "Invalid Otp")
                     } else {
-                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result)
+                        // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result1)
+                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "OTP verified successfully.", result1, )
                             // Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Signed up successfully.", result.id)
                             // }                    
                             //});
@@ -315,6 +348,26 @@ const staffApis = {
             }
             if (req.body.type == "CUSTOMER") {
                 Customers.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
+                    console.log('add customer---', error, result)
+                    if (error)
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                    else if (result) {
+                        Response.sendResponseWithoutData(res, 401, 'Customer already exists.');
+                    } else {
+                        let customer = new Customers(req.body);
+                        customer.save((error1, result1) => {
+                            if (error1) {
+                                console.log('my_errors', error1)
+                                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
+                            } else {
+                                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Customer added successfully.", result1)
+                            }
+                        })
+                    }
+
+                })
+            } else {
+                Staff.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
                     console.log('add user---', error, result)
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -322,26 +375,6 @@ const staffApis = {
                         Response.sendResponseWithoutData(res, 401, 'Staff already exists.');
                     } else {
                         let staff = new Staff(req.body);
-                        staff.save((error1, result1) => {
-                            if (error1) {
-                                console.log(error)
-                                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
-                            } else {
-                                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, "Staff added successfully.", result1)
-                            }
-                        })
-                    }
-
-                })
-            } else {
-                Staffs.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
-                    console.log('add user---', error, result)
-                    if (error)
-                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                    else if (result) {
-                        Response.sendResponseWithoutData(res, 401, 'Staff already exists.');
-                    } else {
-                        let staff = new Staffs(req.body);
                         staff.save((error1, result1) => {
                             if (error1) {
                                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
@@ -410,7 +443,7 @@ const staffApis = {
 
                 })
             } else {
-                Staffs.findOne({ _id: req.body._id }).lean().exec((error, result) => {
+                Staff.findOne({ _id: req.body._id }).lean().exec((error, result) => {
                     // console.log('Edit Staff---', error, result)
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -418,7 +451,7 @@ const staffApis = {
                         Response.sendResponseWithoutData(res, 401, 'Staff  not exists.');
                     } else {
                         console.log(req.body);
-                        Staffs.findOneAndUpdate({ _id: req.body._id }, {
+                        Staff.findOneAndUpdate({ _id: req.body._id }, {
                             $set: {
                                 "firstName": req.body.firstName,
                                 "lastName": req.body.lastName,
@@ -468,7 +501,7 @@ const staffApis = {
 
                 })
             } else {
-                Staffs.findOne({ _id: req.body._id, status: "ACTIVE" }).lean().exec((error, result) => {
+                Staff.findOne({ _id: req.body._id, status: "ACTIVE" }).lean().exec((error, result) => {
                     console.log('add user---', error, result)
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -501,7 +534,7 @@ const staffApis = {
 
                 })
             } else {
-                Staffs.findOne({ _id: req.body._id }).lean().exec((error, result) => {
+                Staff.findOne({ _id: req.body._id }).lean().exec((error, result) => {
                     console.log('add user---', error, result)
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -549,7 +582,7 @@ const staffApis = {
 
                 })
             } else {
-                Staffs.findOneAndUpdate({ _id: req.body._id, status: "ACTIVE" }, {
+                Staff.findOneAndUpdate({ _id: req.body._id, status: "ACTIVE" }, {
                     $set: {
                         "firstName": req.body.firstName,
                         "lastName": req.body.lastName,
@@ -568,6 +601,112 @@ const staffApis = {
             }
 
         }
+    },
+    'changeStatus': (req, res, next) => {
+        var STATUS = ["ACTIVE", "INACTIVE", "BLOCK"];
+        if (!req.body._id) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Staff Id');
+        } else if (!req.body.status) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Staff Status');
+        } else if (!STATUS.includes(req.body.status)) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Invalid  Status Type');
+        } else {
+            if (req.body.type == "CUSTOMER") {
+                Customers.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status }, { new: true }).lean().exec((err, result) => {
+                    if (!err) {
+                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Staff Status Changed Successfully.', result);
+                    } else
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+
+                });
+            } else {
+                Staff.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
+                    if (!err) {
+                        Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Staff Status Changed Successfully.', result);
+                    } else
+                        Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+
+                });
+            }
+        }
+
+    },
+
+    // =========================================================== Files Upload
+    'fileUpload': (req, res, next) => {
+
+
+        var storage = multer.diskStorage({
+            destination: function(req, file, cb) {
+                // console.log(file);
+                // Uploads is the Upload_folder_name
+                cb(null, "public/uploads/user");
+            },
+            filename: function(req, file, cb) {
+                // console.log(req.body, file);
+                var extname = path.extname(file.originalname).toLowerCase();
+                var imageName = file.fieldname + "-" + Date.now() + extname
+                    // console.log(imageName);
+                req.body[file.fieldname] = imageName;
+                cb(null, imageName)
+            }
+        })
+
+
+        var upload = multer({
+            storage: storage,
+            limits: { fileSize: maxSize },
+            fileFilter: (req, file, cb) => {
+                // console.log(req.body, file);
+                if (
+                    file.mimetype == "image/png" ||
+                    file.mimetype == "image/jpg" ||
+                    file.mimetype == "image/jpeg"
+                ) {
+                    cb(null, true);
+                } else {
+                    cb(null, false);
+                    // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+                    req.file = {
+                        error: true,
+                        title: file.fieldname,
+                        msg: "Only .png, .jpg and .jpeg format allowed!",
+                        status: -6
+                    }
+
+
+                }
+
+            },
+            onFileSizeLimit: function(file) {
+                req.file = {
+                    error: true,
+                    title: file.fieldname,
+                    msg: "Image file is to large",
+                    status: -6
+                }
+            }
+        }).fields([{
+            name: 'profilePic',
+            maxCount: 1
+        }, {
+            name: 'signature',
+            maxCount: 1
+        }]);
+
+
+        upload(req, res, function(err) {
+            if (err instanceof multer.MulterError) {
+                console.log('uploading_err', err);
+                // A Multer error occurred when uploading.
+            } else if (err) {
+                // An unknown error occurred when uploading.
+                console.log('uploading_err', err);
+            }
+            // Everything went fine. 
+
+            next()
+        })
     }
 
     //============================================================Module Exports==========================================================

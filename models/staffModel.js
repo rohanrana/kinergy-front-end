@@ -5,13 +5,16 @@ const Schema = mongoose.Schema;
 
 const staffSchema = new Schema({
     firstName: {
-        type: String
+        type: String,
+        default: null
     },
     lastName: {
-        type: String
+        type: String,
+        default: null
     },
     contact: {
-        type: String
+        type: String,
+        default: null
     },
     gender: {
         enum: ["MALE", "FEMALE", ""],
@@ -20,19 +23,29 @@ const staffSchema = new Schema({
     email: {
         type: String,
         trim: true,
-        lowercase: true,
-        required: 'Email can\'t be empty',
+        lowercase: true
     },
     profilePic: {
-        type: String
+        type: String,
+        default: null
+    },
+    signature: {
+        type: String,
+        default: null
     },
     password: {
-        type: String
+        type: String,
+        default: null
     },
     type: {
         type: String,
         //  enum: ["SUPERADMIN","DOCTOR"],
         default: "DOCTOR"
+    },
+    roleId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Roles',
+        default: null
     },
     status: {
         type: String,
@@ -40,40 +53,62 @@ const staffSchema = new Schema({
         default: "ACTIVE"
     },
     jwtToken: {
-        type: String
+        type: String,
+        default: null
     },
-    roleId: {
+    appointments: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Roles'
+        ref: 'Appointment',
+        default: null
     },
     lastLoginIp: {
-        type: String
+        type: String,
+        default: null
     },
     otp: {
-        type: String
+        type: String,
+        default: null
     },
     address: {
-        type: String
+        type: String,
+        default: null
     },
     city: {
-        type: String
+        type: Number,
+        default: null
     },
     state: {
-        type: String
+        type: Number,
+        default: null
     },
     country: {
-        type: Number
+        type: Number,
+        default: null
     },
     pin: {
-        type: String
+        type: String,
+        default: null
     },
     gender: {
         type: String,
         enum: ['MALE', 'FEMALE', 'OTHERS']
     },
     dob: {
-        type: String
+        type: String,
+        default: null
     },
+    jobTitle: {
+        type: String,
+        default: null
+    },
+    department: {
+        type: String,
+        default: null
+    },
+    notes: {
+        type: String,
+        default: null
+    }
     // deviceToken:{
     //     type:String
     // },
@@ -87,7 +122,7 @@ const staffSchema = new Schema({
 staffSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('Staffs', staffSchema);
 
-mongoose.model('Staffs', staffSchema).findOne({ type: "SUPERADMIN" }, (err, res) => {
+mongoose.model('Staff', staffSchema).findOne({ type: "SUPERADMIN" }, (err, res) => {
     if (!res) {
         let obj = {
             firstName: "Test",
@@ -99,8 +134,8 @@ mongoose.model('Staffs', staffSchema).findOne({ type: "SUPERADMIN" }, (err, res)
             contact: "+911234567897",
             otp: "",
             address: "Tower Uniside",
-            city: "Noida",
-            state: "U.P",
+            city: 5022,
+            state: 38,
             pin: "201301",
             dob: "1/11/1999",
             gender: "MALE"

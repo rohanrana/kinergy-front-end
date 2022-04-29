@@ -2,6 +2,7 @@ const { check, validationResult } = require('express-validator');
 
 const resCode = require('../helper/httpResponseCode.js');
 const resMessage = require('../helper/httpResponseMessage.js');
+const Response = require('../common_functions/response_handler');
 const Service = require('../models/serviceModel');
 const slugify = require('slugify')
 var fs = require('fs');
@@ -38,7 +39,7 @@ const reporter = (req, res, next) => {
 
     // __if file has any error
     if (req.file) {
-        if (req.file.error !== 'undefined' && req.file.error == true) {
+        if (req.file.error != 'undefined' && req.file.error == true) {
 
             for (let i = 0; i < Object.keys(req.files).length; i++) {
                 console.log('error', i, req.files);
@@ -51,9 +52,10 @@ const reporter = (req, res, next) => {
                     }
                 });
             }
-            return res.status(resCode.UNPROCESSABLE_ENTITY).json({
-                errors: req.file
-            });
+            // return res.status(resCode.UNPROCESSABLE_ENTITY).json({
+            //     errors: req.file
+            // });
+            Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', req.file);
         }
     }
 
@@ -62,7 +64,7 @@ const reporter = (req, res, next) => {
     // Check validation other fields
     var errors = validationResult(req);
     if (!errors.isEmpty()) {
-        if (req.files !== 'undefined') {
+        if (req.files != 'undefined' && req.files != null) {
             for (let i = 0; i < Object.keys(req.files).length; i++) {
 
                 let fieldname = Object.keys(req.files)[i];
@@ -82,9 +84,10 @@ const reporter = (req, res, next) => {
             msg: error.msg
         }));
         const dedupThings = Array.from(errorMessages.reduce((m, t) => m.set(t.title, t), new Map()).values());
-        return res.status(resCode.UNPROCESSABLE_ENTITY).json({
-            errors: dedupThings
-        });
+        // return res.status(resCode.UNPROCESSABLE_ENTITY).json({
+        //     errors: dedupThings
+        // });
+        Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', dedupThings);
     }
     next();
 }

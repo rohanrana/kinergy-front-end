@@ -6,18 +6,21 @@ const countrySchema = new Schema({
         type: Number
     },
     sortname: {
-        type: String
+        type: String,
+        default: null
     },
     name: {
-        type: String
+        type: String,
+        default: null
     },
     phoneCode: {
-        type: Number
+        type: Number,
+        default: null
     },
-    employee: {
+    employee: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-    }
+        ref: 'Employees'
+    }]
 });
 
 

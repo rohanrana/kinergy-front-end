@@ -17,7 +17,9 @@ const roleRoutes = require('./routes/roleRoute');
 const serviceRoutes = require('./routes/serviceRoute');
 const staffRoutes = require('./routes/staffRoute');
 const employeeRoutes = require('./routes/employeeRoutes');
-
+const facilityRoutes = require('./routes/facilityRoute');
+const taxRoutes = require('./routes/taxRoute');
+const appointmentRoutes = require('./routes/appointmentRoute');
 
 
 app.set("views", path.join(__dirname, ""))
@@ -49,6 +51,11 @@ app.use('/api/v1/role', roleRoutes);
 app.use('/api/v1/service', serviceRoutes);
 app.use('/api/v1/staff', staffRoutes);
 app.use('/api/v1/employee', employeeRoutes);
+app.use('/api/v1/facility', facilityRoutes);
+app.use('/api/v1/tax', taxRoutes);
+
+app.use('/api/v1/appointments', appointmentRoutes);
+
 
 
 

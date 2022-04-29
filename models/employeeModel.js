@@ -6,16 +6,20 @@ const Schema = mongoose.Schema;
 
 const employeeSchema = new Schema({
     firstName: {
-        type: String
+        type: String,
+        default: null
     },
     lastName: {
-        type: String
+        type: String,
+        default: null
     },
     nickName: {
-        type: String
+        type: String,
+        default: null
     },
     dob: {
-        type: String
+        type: String,
+        default: null
     },
     gender: {
         type: String,
@@ -23,19 +27,26 @@ const employeeSchema = new Schema({
         default: ""
     },
     ssn: {
-        type: String
+        type: String,
+        default: null
     },
     phone1: {
-        type: String
+        type: String,
+        default: null
     },
     phone2: {
-        type: String
+        type: String,
+        default: null
     },
     email: {
-        type: String
+        type: String,
+        trim: true,
+        lowercase: true,
+        default: null
     },
     addressLine: {
-        type: String
+        type: String,
+        default: null
     },
     city: {
         type: Number,
@@ -46,27 +57,44 @@ const employeeSchema = new Schema({
         ref: 'State'
     },
     pincode: {
-        type: String
+        type: String,
+        default: null
     },
     autoReminder: {
-        type: String
+        type: String,
+        default: null
     },
     appointConfirm: {
-        type: String
+        type: String,
+        default: null
     },
     role: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role'
+        ref: 'Roles'
     },
     ssnDocument: {
-        type: String
+        type: String,
+        default: null
     },
     driverLicense: {
-        type: String
+        type: String,
+        default: null
     },
     workPermit: {
-        type: String
+        type: String,
+        default: null
+    },
+    lastLoginIp: {
+        type: String,
+        default: null
+    },
+    status: {
+        type: String,
+        enum: ["ACTIVE", "INACTIVE", "BLOCK"],
+        default: "ACTIVE"
     }
+}, {
+    timestamps: true
 })
 
 employeeSchema.plugin(mongoosePaginate);

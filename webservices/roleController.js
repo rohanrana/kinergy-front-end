@@ -73,7 +73,7 @@ const roleApis = {
                 } else if (!result)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Role Not Found');
                 else {
-                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Role List', [result])
+                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Role List', result)
                 }
 
             })
@@ -98,6 +98,26 @@ const roleApis = {
             })
         }
     },
+    'changeStatus': (req, res, next) => {
+        var STATUS = ["ACTIVE", "INACTIVE", "BLOCK"];
+        if (!req.body._id) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Role Id');
+        } else if (!req.body.status) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Role Status');
+        } else if (!STATUS.includes(req.body.status)) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Invalid  Role Type');
+        } else {
+            Roles.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
+                if (!err) {
+                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Role Status Changed Successfully.', result);
+                } else
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+
+            });
+
+        }
+
+    }
 
     //============================================================Module Exports==========================================================
 };

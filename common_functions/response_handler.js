@@ -1,12 +1,15 @@
-module.exports =  {
-    sendResponseWithPagination : (responseObj, responseCode, responseMessage, data, paginationData) =>{
-        return responseObj.send({'response_code':responseCode,'response_message':responseMessage,result:data,paginationData:paginationData})
+module.exports = {
+    sendResponseWithPagination: (responseObj, responseCode, responseMessage, data, paginationData) => {
+        return responseObj.send({ 'response_code': responseCode, 'response_message': responseMessage, result: data, paginationData: paginationData })
     },
     sendResponseWithData: (responseObj, responseCode, responseMessage, data, tokn) => {
-        return responseObj.send({'response_code':responseCode,'response_message':responseMessage,result:data, token:tokn});
+        return responseObj.send({ 'response_code': responseCode, 'response_message': responseMessage, result: data, token: tokn });
+    },
+    sendResponseWithError: (responseObj, responseCode, responseMessage, error, tokn) => {
+        return responseObj.send({ 'response_code': responseCode, 'response_message': responseMessage, errors: error, token: tokn });
     },
     sendResponseWithoutData: (responseObj, responseCode, responseMessage) => {
-        return responseObj.send({'response_code':responseCode,'response_message':responseMessage});
+        return responseObj.send({ 'response_code': responseCode, 'response_message': responseMessage });
     },
     send: (responseObj) => {
         return responseObj.send('success');

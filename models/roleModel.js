@@ -1,15 +1,22 @@
 const mongoose = require('mongoose')
 const mongoosePaginate = require('mongoose-paginate')
 const Schema = mongoose.Schema;
-const Employee = require('../models/employeeModel');
+
 const rolesSchema = new Schema({
         roleName: {
-            type: String
+            type: String,
+            default: null
         },
-        employee: {
+        status: {
+            type: String,
+            enum: ["ACTIVE", "INACTIVE", "BLOCK"],
+            default: "ACTIVE"
+        },
+        employee: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: Employee
-        },
+            ref: 'Employee',
+            default: null
+        }],
         // premission: [
         //   String
         // ]

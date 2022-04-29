@@ -1,17 +1,20 @@
-const mongoose = require( 'mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs')
 const mongoosePaginate = require('mongoose-paginate')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    firstName:{
-        type: String
+    firstName: {
+        type: String,
+        default: null
     },
     lastName: {
-        type: String
+        type: String,
+        default: null
     },
     contact: {
-        type: String
+        type: String,
+        default: null
     },
     email: {
         type: String,
@@ -19,30 +22,39 @@ const userSchema = new Schema({
         lowercase: true
     },
     userId: {
-        type: Number
+        type: Number,
+        default: null
     },
     profilePic: {
-        type: String
+        type: String,
+        default: null
     },
     password: {
-        type: String
+        type: String,
+        default: null
     },
     address: {
-        country:{type:String},state:{type:String},address:{type:String},zipcode:{type:Number},city:{type:String},landmark:{type:String}
+        country: { type: Number },
+        state: { type: Number },
+        address: { type: String },
+        zipcode: { type: Number },
+        city: { type: Number },
+        landmark: { type: String }
     },
 
     type: {
         type: String,
-        enum: ["SUPERADMIN","DOCTOR","STAFF","FACILITY"],
+        enum: ["SUPERADMIN", "DOCTOR", "STAFF", "FACILITY"],
         default: "STAFF"
     },
     status: {
         type: String,
-        enum: ["ACTIVE","INACTIVE","BLOCK"],
+        enum: ["ACTIVE", "INACTIVE", "BLOCK"],
         default: "ACTIVE"
     },
-    jwtToken:{
-        type:String
+    jwtToken: {
+        type: String,
+        default: null
     },
     // deviceToken:{
     //     type:String
@@ -50,12 +62,12 @@ const userSchema = new Schema({
     // deviceType:{
     //     type:String
     // }
-},{
+}, {
     timestamps: true
 });
 
 userSchema.plugin(mongoosePaginate);
-module.exports = mongoose.model('Users',userSchema);
+module.exports = mongoose.model('Users', userSchema);
 
 // mongoose.model('Users',userSchema).findOne({type:"SUPERADMIN"}, (err,res)=>{
 //     if(!res){

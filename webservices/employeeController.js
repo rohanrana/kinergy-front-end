@@ -38,7 +38,7 @@ const employeeApis = {
             if (!err)
                 Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee Add Successfully.', result);
             else {
-                console.log(err);
+                // console.log(err);
                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
             }
         });
@@ -72,27 +72,69 @@ const employeeApis = {
             }
             Employee.findOneAndUpdate({ _id: req.body._id }, editData, { new: true }).lean().exec((err, result) => {
                 if (!err) {
-                    if (req.body.oldSsnDocument !== 'undefined' && req.body.oldSsnDocument !== null) {
+                    if ((req.body.oldSsnDocument !== 'undefined' || req.body.oldSsnDocument !== null) && (req.body.ssnDocument !== 'undefined' || req.body.sSsnDocument !== null)) {
                         let filePath = 'public/uploads/employee/' + '/' + req.body.oldSsnDocument;
                         fs.unlink(filePath, function(err) {
                             if (!err) console.log('removed');
                         });
                     }
-                    if (req.body.oldDriverLicense !== 'undefined' && req.body.oldDriverLicense !== null) {
+                    if ((req.body.oldDriverLicense !== 'undefined' && req.body.oldDriverLicense !== null) && (req.body.driverLicense !== 'undefined' && req.body.driverLicense !== null)) {
                         let filePath = 'public/uploads/employee/' + '/' + req.body.oldDriverLicense;
                         fs.unlink(filePath, function(err) {
                             if (!err) console.log('removed');
                         });
                     }
-                    if (req.body.oldWorkPermit !== 'undefined' && req.body.oldWorkPermit !== null) {
+                    if ((req.body.oldWorkPermit !== 'undefined' && req.body.oldWorkPermit !== null) && (req.body.workPermit !== 'undefined' && req.body.workPermit !== null)) {
                         let filePath = 'public/uploads/employee/' + '/' + req.body.oldWorkPermit;
                         fs.unlink(filePath, function(err) {
                             if (!err) console.log('removed');
                         });
                     }
                     Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee Update Successfully.', result);
-                } else
+                } else {
+                    // console.log(err);
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                }
+
+            });
+        }
+    },
+    'editDocument': (req, res, next) => {
+
+        if (!req.body._id) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Employee Id.');
+        } else {
+            let { ssnDocument, driverLicense, workPermit } = req.body;
+            var editData = {
+                ssnDocument: ssnDocument,
+                driverLicense: driverLicense,
+                workPermit: workPermit
+            }
+            Employee.findOneAndUpdate({ _id: req.body._id }, editData, { new: true }).lean().exec((err, result) => {
+                if (!err) {
+                    if ((req.body.oldSsnDocument !== 'undefined' || req.body.oldSsnDocument !== null) && (req.body.ssnDocument !== 'undefined' || req.body.sSsnDocument !== null)) {
+                        let filePath = 'public/uploads/employee/' + '/' + req.body.oldSsnDocument;
+                        fs.unlink(filePath, function(err) {
+                            if (!err) console.log('removed');
+                        });
+                    }
+                    if ((req.body.oldDriverLicense !== 'undefined' && req.body.oldDriverLicense !== null) && (req.body.driverLicense !== 'undefined' && req.body.driverLicense !== null)) {
+                        let filePath = 'public/uploads/employee/' + '/' + req.body.oldDriverLicense;
+                        fs.unlink(filePath, function(err) {
+                            if (!err) console.log('removed');
+                        });
+                    }
+                    if ((req.body.oldWorkPermit !== 'undefined' && req.body.oldWorkPermit !== null) && (req.body.workPermit !== 'undefined' && req.body.workPermit !== null)) {
+                        let filePath = 'public/uploads/employee/' + '/' + req.body.oldWorkPermit;
+                        fs.unlink(filePath, function(err) {
+                            if (!err) console.log('removed');
+                        });
+                    }
+                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee Update Successfully.', result);
+                } else {
+                    // console.log(err);
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                }
 
             });
         }
@@ -105,19 +147,19 @@ const employeeApis = {
             Employee.findOneAndDelete({ _id: req.body._id }).lean().exec((err, result) => {
                 if (!err) {
                     if (req.body.oldSsnDocument !== 'undefined' && req.body.oldSsnDocument !== null) {
-                        let filePath = 'public/uploads/employee/' + '/' + req.body.oldSsnDocument;
+                        var filePath = 'public/uploads/employee/' + '/' + req.body.oldSsnDocument;
                         fs.unlink(filePath, function(err) {
                             if (!err) console.log('removed');
                         });
                     }
                     if (req.body.oldDriverLicense !== 'undefined' && req.body.oldDriverLicense !== null) {
-                        let filePath = 'public/uploads/employee/' + '/' + req.body.oldDriverLicense;
+                        var filePath = 'public/uploads/employee/' + '/' + req.body.oldDriverLicense;
                         fs.unlink(filePath, function(err) {
                             if (!err) console.log('removed');
                         });
                     }
                     if (req.body.oldWorkPermit !== 'undefined' && req.body.oldWorkPermit !== null) {
-                        let filePath = 'public/uploads/employee/' + '/' + req.body.oldWorkPermit;
+                        var filePath = 'public/uploads/employee/' + '/' + req.body.oldWorkPermit;
                         fs.unlink(filePath, function(err) {
                             if (!err) console.log('removed');
                         });
@@ -130,16 +172,17 @@ const employeeApis = {
         }
     },
     'employeeById': (req, res, next) => {
-        if (!req.body._id) {
+        if (!req.params.employeeId) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Employee Id.');
         } else {
-            Employee.find().populate('role').lean().exec((err, result) => {
+            Employee.find({ _id: req.params.employeeId }).populate('role').lean().exec((err, result) => {
+
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                 else if (!result || result.length == 0)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Employee Not Found.');
                 else
-                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee List.', result);
+                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee Found Successfully.', result);
             });
         }
     },
@@ -153,6 +196,26 @@ const employeeApis = {
             else
                 Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee List.', result);
         });
+    },
+    'changeStatus': (req, res, next) => {
+        var STATUS = ["ACTIVE", "INACTIVE", "BLOCK"];
+        if (!req.body._id) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Employee Id');
+        } else if (!req.body.status) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Employee Status');
+        } else if (!STATUS.includes(req.body.status)) {
+            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Invalid  Employee Type');
+        } else {
+            Employee.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
+                if (!err) {
+                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee Status Changed Successfully.', result);
+                } else
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+
+            });
+
+        }
+
     },
     'fileUpload': (req, res, next) => {
 
@@ -180,32 +243,52 @@ const employeeApis = {
             limits: { fileSize: maxSize },
             fileFilter: (req, file, cb) => {
                 // console.log(req.body, file);
-                if (
-                    file.mimetype == "image/png" ||
-                    file.mimetype == "image/jpg" ||
-                    file.mimetype == "image/jpeg"
-                ) {
-                    cb(null, true);
-                } else {
-                    cb(null, false);
-                    // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
-                    req.file = {
-                        error: true,
-                        title: file.fieldname,
-                        msg: "Only .png, .jpg and .jpeg format allowed!",
-                        status: -6
+                if (file.fieldname == 'ssnDocument') {
+                    if (file.mimetype == "application/pdf") {
+                        cb(null, true);
+                    } else {
+                        cb(null, false);
+                        // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+                        req.file = {
+                            error: true,
+                            title: file.fieldname,
+                            msg: "Only .pdf format allowed!",
+                            status: -6
+                        }
                     }
-
+                } else {
+                    if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+                        cb(null, true);
+                    } else {
+                        cb(null, false);
+                        // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+                        req.file = {
+                            error: true,
+                            title: file.fieldname,
+                            msg: "Only .png, .jpg and .jpeg format allowed!",
+                            status: -6
+                        }
+                    }
 
                 }
 
+
             },
             onFileSizeLimit: function(file) {
-                req.file = {
-                    error: true,
-                    title: file.fieldname,
-                    msg: "Image file is to large",
-                    status: -6
+                if (file.fieldname == 'ssnDocument') {
+                    req.file = {
+                        error: true,
+                        title: file.fieldname,
+                        msg: "Document file is to large",
+                        status: -6
+                    }
+                } else {
+                    req.file = {
+                        error: true,
+                        title: file.fieldname,
+                        msg: "Image file is to large",
+                        status: -6
+                    }
                 }
             }
         }).fields([{

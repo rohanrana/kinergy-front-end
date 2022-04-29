@@ -22,6 +22,8 @@ module.exports = {
 
     // Name 
     FIRST_NAME_REQUIRED: "Please enter first name",
+    // Facility Name
+    FACILITY_NAME_REQUIRED: "Please enter facility name",
     // Contact
     CONTACT_REQUIRED: "Please enter contact number",
     // type

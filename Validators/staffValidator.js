@@ -4,7 +4,7 @@ const Staffs = require('../models/staffModel.js');
 const Customers = require('../models/customersModel.js');
 const resCode = require('../helper/httpResponseCode.js');
 const resMessage = require('../helper/httpResponseMessage.js');
-
+const Response = require('../common_functions/response_handler');
 
 const generateValidators = (req, res, next) => [
     check('email')
@@ -18,8 +18,8 @@ const generateValidators = (req, res, next) => [
     .isEmail()
     .withMessage(resMessage.EMAIL_VALID),
     check("password")
-    .matches(/^(?=.*[A-Za-z])(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/)
-    .withMessage(resMessage.PASSWORD_STRONG)
+    // .matches(/^(?=.*[A-Za-z])(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/)
+    // .withMessage(resMessage.PASSWORD_STRONG)
     .notEmpty()
     .withMessage(resMessage.PASSWORD_REQUIRED)
 ];
@@ -188,20 +188,100 @@ const StaffEditValidation = (req, res, next) => [
 ];
 
 
+const StaffSignUpValidation = (req, res, next) => [
+    check('firstName')
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.FIRST_NAME_REQUIRED),
+    check('email')
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.EMAIL_REQUIRED)
+    .bail()
+    .normalizeEmail()
+    .isEmail()
+    .withMessage(resMessage.EMAIL_VALID),
+    check('contact')
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.CONTACT_REQUIRED),
+    check("password")
+    .matches(/^(?=.*[A-Za-z])(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/)
+    .withMessage(resMessage.PASSWORD_STRONG)
+    .notEmpty()
+    .withMessage(resMessage.PASSWORD_REQUIRED)
+];
+
+
 const reporter = (req, res, next) => {
+
+    // ================== IF FILE ERROR =============
+    console.log(req.file);
+    if (req.file) {
+
+        if (req.file.error != 'undefined' && req.file.error == true) {
+
+            for (let i = 0; i < Object.keys(req.files).length; i++) {
+                // console.log('files', i, req.files);
+                let fieldname = Object.keys(req.files)[i];
+                let filePath = 'public/uploads/user' + '/' + req.body[fieldname];
+                // console.log('path', filePath)
+                fs.unlink(filePath, function(err) {
+                    if (!err) {
+                        console.log('removed');
+                    } else {
+                        console.log('removing_file_error', err);
+                    }
+                });
+            }
+            // return res.status(resCode.UNPROCESSABLE_ENTITY).json({
+            //     errors: req.file
+            // });
+            Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', req.file);
+        }
+    }
+    // ==================
+
+
     var errors = validationResult(req);
     if (!errors.isEmpty()) {
+        console.log(req.files);
+        if (req.files != 'undefined' && req.files != null) {
+            for (let i = 0; i < Object.keys(req.files).length; i++) {
+
+                let fieldname = Object.keys(req.files)[i];
+                let filePath = 'public/uploads/user/' + '/' + req.body[fieldname];
+                fs.unlink(filePath,
+                    function(err) {
+                        if (!err) {
+                            console.info(`removed`);
+                        }
+                    });
+
+            }
+        }
+
         const errorMessages = errors.array().map(error => ({
             title: error.param,
             msg: error.msg
         }));
         const dedupThings = Array.from(errorMessages.reduce((m, t) => m.set(t.title, t), new Map()).values());
-        return res.status(resCode.UNPROCESSABLE_ENTITY).json({
-            errors: dedupThings
-        });
+        // return res.status(resCode.UNPROCESSABLE_ENTITY).json({
+        //     errors: dedupThings
+        // });
+        Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', dedupThings);
+    } else {
+        next();
     }
-    next();
+
 }
+
 
 
 module.exports = {
@@ -215,6 +295,10 @@ module.exports = {
     ],
     edit: [
         StaffEditValidation(),
+        reporter
+    ],
+    signup: [
+        StaffSignUpValidation(),
         reporter
     ]
 };
