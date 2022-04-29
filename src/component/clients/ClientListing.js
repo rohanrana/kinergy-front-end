@@ -16,7 +16,21 @@ import {
   Form,
 } from "react-bootstrap";
 import Sidebar from "../sidenav/Sidebar";
+
+import StaffLogin from "../logins/StaffLogin";
+import useToken from "../useToken"; 
+
+
 const ClientListing = () => {
+
+  const { token, setToken } = useToken();
+  console.log('token',token);
+
+  if (!token) {
+    return <StaffLogin />;
+  }
+
+  
   return (
     <div className="clients">
       <Sidebar />

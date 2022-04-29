@@ -3,8 +3,16 @@ import { Container, Row, Col } from "react-bootstrap";
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 
+import StaffLogin from "../../logins/StaffLogin";
+import useToken from "../../useToken";
 
 const DepartmentPerformanceServices = () => {
+  //============ Check AUTH-TOKEN===================
+  const { token, setToken } = useToken();
+  if (!token) {
+    return <StaffLogin />;
+  }
+
   return (
     <div className="clients">
       <Sidebar />
@@ -17,21 +25,20 @@ const DepartmentPerformanceServices = () => {
             <div className="appointment-card">
               <h5>Performance Services</h5>
               <Row>
-                  <Col lg={4} sm={4} xs={12}>
-                      <a href="#/">
-                      <div className="department-general">
-                          <p className="m-0">Performance Note Template</p>
-                      </div>
-                      </a>
-                  </Col>
-                  <Col lg={4} sm={4} xs={12}>
-                      <a href="#/">
-                      <div className="department-general">
-                          <p className="m-0">Workout Goals</p>
-                      </div>
-                      </a>
-                  </Col>
-
+                <Col lg={4} sm={4} xs={12}>
+                  <a href="#/">
+                    <div className="department-general">
+                      <p className="m-0">Performance Note Template</p>
+                    </div>
+                  </a>
+                </Col>
+                <Col lg={4} sm={4} xs={12}>
+                  <a href="#/">
+                    <div className="department-general">
+                      <p className="m-0">Workout Goals</p>
+                    </div>
+                  </a>
+                </Col>
               </Row>
             </div>
           </Col>

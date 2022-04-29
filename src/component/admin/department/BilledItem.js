@@ -20,6 +20,10 @@ import {
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 
+
+import StaffLogin from "../../logins/StaffLogin";
+import useToken from "../../useToken";
+
 function MyVerticallyCenteredModal(props) {
   return (
     <Modal
@@ -108,6 +112,12 @@ function MyVerticallyCenteredModal(props) {
 
 const BilledItem = () => {
   const [modalShow, setModalShow] = React.useState(false);
+    //============ Check AUTH-TOKEN===================
+    const { token, setToken } = useToken();
+    if (!token) {
+      return <StaffLogin />;
+    }
+  
   return (
     <div className="clients">
       <Sidebar />

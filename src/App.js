@@ -7,6 +7,7 @@ import {
    Route, HashRouter as Router
    } from "react-router-dom";
 import StaffLogin from "./component/logins/StaffLogin";
+import AdminLogin from "./component/logins/AdminLogin";
 import StaffLogin2 from "./component/logins/StaffLogin2";
 import CreateLogin from "./component/logins/CreateLogin";
 import Home from "./component/dashboard/Home";
@@ -28,6 +29,7 @@ import CptCodelist from "./component/admin/department/CptCodeList";
 import BilledItem from "./component/admin/department/BilledItem";
 import Otp from "./component/logins/Otp";
 import Logout from "./component/Loout/logout";
+import adminLogout from "./component/Loout/adminLogout";
 import Inventory from "./component/admin/department/Inventory";
 import AddInventory from "./component/admin/department/AddInventory";
 import Communications from "./component/admin/Communication";
@@ -62,6 +64,14 @@ import Facility from "./component/admin/facility/Facility";
 import AddingFacility from "./component/admin/facility/AddingFacility";
 import EditFacility from "./component/admin/facility/EditFacility";
 
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('auth-token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token
+}
+
+
 function App() {
   return (
     <Router>
@@ -70,7 +80,7 @@ function App() {
         <Route exact path="/staff-login2" component={StaffLogin2} />
         <Route exact path="/otp" component={Otp} />
         <Route exact path="/create-login" component={CreateLogin} />
-        <Route exact path="/" component={StaffLogin} />
+        <Route exact path="/" component={Home} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/client-listing" component={ClientListing} />
         <Route exact path="/activity-log" component={ActivityLog} />
@@ -78,8 +88,13 @@ function App() {
         <Route exact path="/edit-details" component={EditDetails} />
         <Route exact path="/edit-emergency-contact" component={EditEmergencyContact} />
         <Route exact path="/edit-client-medical" component={EditClientMedical} />
-        <Route exact path="/admin" component={General} />
+        
+        <Route exact path="/admin" component={AdminLogin} />
+        {/* <Route exact path="/admin" component={General} /> */}
+        
         <Route exact path="/logout" component={Logout} />
+        <Route exact path="/adminLogout" component={adminLogout} />
+        
         
         <Route exact path="/staff-listing" component={StaffListing} />
         <Route exact path="/add-staff" component={AddStaff} />
@@ -113,7 +128,7 @@ function App() {
         <Route exact path="/document-detail" component={DocumentDetails} />
         <Route exact path="/staff-onboarding" component={StaffOnboarding} />
         <Route exact path="/add-staff-onboarding" component={AddStaffOnboarding} />
-        <Route exact path="/edit-StaffOnoarding" component={AddStaffOnboarding} />
+        <Route exact path="/edit-StaffOnboarding" component={AddStaffOnboarding} />
         <Route exact path="/staff-upload-document" component={StaffUploadDocument} />
 
         <Route exact path="/services" component={Service} />
@@ -127,6 +142,7 @@ function App() {
 
       </Switch>
     </Router>
+    
   );
 }
 

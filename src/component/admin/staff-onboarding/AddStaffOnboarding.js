@@ -7,11 +7,17 @@ import { api } from "../../../utils/api";
 
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
-import { staffAddOnboarding,clearStaffOnboarding } from "../../../store/staffOnboarding/actions";
+import {
+  staffAddOnboarding,
+  clearStaffOnboarding,
+} from "../../../store/staffOnboarding/actions";
 import Loader from "../../../cmmon_module/Loader";
-
+import StaffLogin from "../../logins/StaffLogin";
+import useToken from "../../useToken";
 
 const AddStaffOnboarding = (props) => {
+ 
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -37,6 +43,7 @@ const AddStaffOnboarding = (props) => {
   const [cityList, setCityList] = useState(null);
   const [RoleList, setRoleList] = useState([]);
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log("name", [name], "value", value);
@@ -48,17 +55,26 @@ const AddStaffOnboarding = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormErrors(validate(formValues));
-    setIsSubmit(true)
+    setIsSubmit(true);
   };
 
   useEffect(() => {
     // console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       // console.log(formValues);
-      localStorage.setItem("staffOnBoardingData", JSON.stringify(formValues));
-      props.history.push("/staff-upload-document")
-      // props.staffAddOnboarding(formValues);
-      
+
+      // {props.staffOnboardingData?props.staffOnboardingData.response_message?<p className="success">{props.staffOnboardingData.response_message}</p>:null:null}
+      props.staffAddOnboarding(formValues);
+      if (
+        props.staffOnboardingData &&
+        props.staffOnboardingData.response_code === 200
+      ) {
+        localStorage.setItem(
+          "staffOnBoardingDataId",
+          JSON.stringify(props.staffOnboardingData.result._id)
+        );
+        props.history.push("/staff-upload-document");
+      }
     }
   }, [formErrors]);
   const validate = (values) => {
@@ -96,7 +112,7 @@ const AddStaffOnboarding = (props) => {
       errors.city = "City  is required";
     }
     if (!values.pinCode) {
-      errors.pinCode = "pinCode  is required";
+      errors.pinCode = "PinCode  is required";
     }
     if (!values.autoReminder) {
       errors.autoReminder = "Automated Reminder  is required";
@@ -120,24 +136,24 @@ const AddStaffOnboarding = (props) => {
                 response.data.result ? (
                   response.data.result.length > 0 ? (
                     response.data.result.map((x, index) => {
-                      return <option value={x._id}>{x.name}</option>;
+                      return <option value={x._id}> {x.name} </option>;
                     })
                   ) : (
-                    <option>No State Found</option>
+                    <option> No State Found </option>
                   )
                 ) : (
-                  <option>No State Found</option>
+                  <option> No State Found </option>
                 )
               ) : (
-                <option>No State Found</option>
+                <option> No State Found </option>
               );
               setStateList(data);
             } else {
-              setStateList(<option>No State Found</option>);
+              setStateList(<option> No State Found </option>);
             }
           });
       } catch (err) {
-        setStateList(<option>Select State</option>);
+        setStateList(<option> Select State </option>);
       }
     }
   }, [stateList]);
@@ -151,24 +167,24 @@ const AddStaffOnboarding = (props) => {
               response.data.result ? (
                 response.data.result.length > 0 ? (
                   response.data.result.map((x, index) => {
-                    return <option value={x._id}>{x.roleName}</option>;
+                    return <option value={x._id}> {x.roleName} </option>;
                   })
                 ) : (
-                  <option>No Role Found</option>
+                  <option> No Role Found </option>
                 )
               ) : (
-                <option>No Role Found</option>
+                <option> No Role Found </option>
               )
             ) : (
-              <option>No Role Found</option>
+              <option> No Role Found </option>
             );
             setRoleList(data);
           } else {
-            setRoleList(<option>No Role Found</option>);
+            setRoleList(<option> No Role Found </option>);
           }
         });
       } catch (err) {
-        setRoleList(<option>No Role Found</option>);
+        setRoleList(<option> No Role Found </option>);
       }
     }
   }, [RoleList]);
@@ -180,24 +196,29 @@ const AddStaffOnboarding = (props) => {
           response.data.result ? (
             response.data.result.length > 0 ? (
               response.data.result.map((x, index) => {
-                return <option value={x._id}>{x.name}</option>;
+                return <option value={x._id}> {x.name} </option>;
               })
             ) : (
-              <option>No City Found</option>
+              <option> No City Found </option>
             )
           ) : (
-            <option>No City Found</option>
+            <option> No City Found </option>
           )
         ) : (
-          <option>No City Found</option>
+          <option> No City Found </option>
         );
         setCityList(data);
       } else {
-        setCityList(<option>No City Found</option>);
+        setCityList(<option> No City Found </option>);
       }
     });
   };
 
+  const { token, setToken } = useToken();
+  if (!token) {
+    return <StaffLogin />;
+  }
+  
   return (
     <div className="clients">
       <Sidebar />
@@ -205,289 +226,283 @@ const AddStaffOnboarding = (props) => {
         <Row>
           <Col lg={2} sm={4} xs={12}>
             <AdminLeftMenu />
-          </Col>
+          </Col>{" "}
           <Col lg={10} sm={8} xs={12}>
             <div className="appointment-card form-type">
               <h5 className="mb-3">
                 <a href="#/staff-onboarding" className="theme-color mr-2">
-                  <i className="fas fa-chevron-left"></i>
-                </a>                
-                Employee Onboarding
-              </h5>
-              {console.log(props.staffOnboardingErr)}
-              {props.staffOnboardingErr?props.staffOnboardingErr.response_message?<p className="error">{props.staffOnboardingErr.response_message}</p>:null:null}
-              {props.staffOnboardingData?props.staffOnboardingData.response_message?<p className="success">{props.staffOnboardingData.response_message}</p>:null:null}
+                  <i className="fas fa-chevron-left"> </i>{" "}
+                </a>
+                Employee Onboarding{" "}
+              </h5>{" "}
+              {console.log(props.staffOnboardingErr)}{" "}
+              {props.staffOnboardingErr ? (
+                props.staffOnboardingErr.response_message ? (
+                  <p className="error">
+                    {" "}
+                    {props.staffOnboardingErr.response_message}{" "}
+                  </p>
+                ) : null
+              ) : null}{" "}
+              {props.staffOnboardingData ? (
+                props.staffOnboardingData.response_message ? (
+                  <p className="success">
+                    {" "}
+                    {props.staffOnboardingData.response_message}{" "}
+                  </p>
+                ) : null
+              ) : null}{" "}
               <hr />
               <Form>
-                <h6>Personal Details</h6>
+                <h6> Personal Details </h6>{" "}
                 <Row>
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>First Name</Form.Label>
+                      <Form.Label> First Name </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="firstName"
                         value={formValues.firstName}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.firstName !== "" ? (
-                        <p className="error">{formErrors.firstName}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.firstName} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Last Name</Form.Label>
+                      <Form.Label> Last Name </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="lastName"
                         value={formValues.lastName}
                         onChange={handleChange}
-                      />
-                    </Form.Group>
+                      />{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Nick name / Preferred name</Form.Label>
+                      <Form.Label> Nick name / Preferred name </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="nickName"
                         value={formValues.nickName}
                         onChange={handleChange}
-                      />
-                    </Form.Group>
+                      />{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>D.O.B</Form.Label>
+                      <Form.Label> D.O.B </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="dob"
                         placeholder="dd/mm/yyyy"
                         value={formValues.dob}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.dob !== "" ? (
-                        <p className="error">{formErrors.dob}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.dob} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
-                  
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>State</Form.Label>
+                      <Form.Label> State </Form.Label>{" "}
                       <Form.Select
                         type="text"
                         name="gender"
                         onChange={(e) => {
-                          handleChange(e)
-                        }}                        
+                          handleChange(e);
+                        }}
                       >
-                        <option value="">Select Gender</option>
-                        <option value="MALE">Male</option>
-                        <option value="FEMALE">Female</option>
-                      </Form.Select>
+                        <option value=""> Select Gender </option>{" "}
+                        <option value="MALE"> Male </option>{" "}
+                        <option value="FEMALE"> Female </option>{" "}
+                      </Form.Select>{" "}
                       {formErrors.gender !== "" ? (
-                        <p className="error">{formErrors.gender}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.gender} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>SSN</Form.Label>
+                      <Form.Label> SSN </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="ssn"
                         value={formValues.ssn}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.ssn !== "" ? (
-                        <p className="error">{formErrors.ssn}</p>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
-                </Row>
+                        <p className="error"> {formErrors.ssn} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
+                  </Col>{" "}
+                </Row>{" "}
                 <hr />
-
-                <h6>Contact Information</h6>
-
+                <h6> Contact Information </h6>
                 <Row>
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Phone 1</Form.Label>
+                      <Form.Label> Phone 1 </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="phone1"
                         value={formValues.phone1}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.phone1 !== "" ? (
-                        <p className="error">{formErrors.phone1}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.phone1} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Phone 2</Form.Label>
+                      <Form.Label> Phone 2 </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="phone2"
                         value={formValues.phone2}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.phone2 !== "" ? (
-                        <p className="error">{formErrors.phone2}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.phone2} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Email</Form.Label>
+                      <Form.Label> Email </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="email"
                         value={formValues.email}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.email !== "" ? (
-                        <p className="error">{formErrors.email}</p>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
+                        <p className="error"> {formErrors.email} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
+                  </Col>{" "}
                 </Row>
-
                 <hr />
-
-                <h6>Address</h6>
+                <h6> Address </h6>{" "}
                 <Row>
                   <Col lg={12} sm={12} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Address Line </Form.Label>
+                      <Form.Label> Address Line </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="addressLine"
                         value={formValues.addressLine}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.addressLine !== "" ? (
-                        <p className="error">{formErrors.addressLine}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.addressLine} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>State</Form.Label>
+                      <Form.Label> State </Form.Label>{" "}
                       <Form.Select
                         type="text"
                         name="state"
                         onChange={(e) => {
                           getCityByStateId(e.target.value);
-                          handleChange(e)
-                        }}                        
+                          handleChange(e);
+                        }}
                       >
-                        <option value="">Select State</option>
-                        {stateList}
-                      </Form.Select>
+                        <option value=""> Select State </option> {stateList}{" "}
+                      </Form.Select>{" "}
                       {formErrors.state !== "" ? (
-                        <p className="error">{formErrors.state}</p>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
+                        <p className="error"> {formErrors.state} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
+                  </Col>{" "}
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>City</Form.Label>
+                      <Form.Label> City </Form.Label>{" "}
                       <Form.Select name="city" onChange={handleChange}>
-                        <option value="">Select City</option>
-                        {cityList}
-                      </Form.Select>
+                        <option value=""> Select City </option> {cityList}{" "}
+                      </Form.Select>{" "}
                       {formErrors.city !== "" ? (
-                        <p className="error">{formErrors.city}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.city} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={12} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>PinCode</Form.Label>
+                      <Form.Label> PinCode </Form.Label>{" "}
                       <Form.Control
                         type="text"
                         name="pinCode"
                         value={formValues.pinCode}
                         onChange={handleChange}
-                      />
+                      />{" "}
                       {formErrors.pinCode !== "" ? (
-                        <p className="error">{formErrors.pinCode}</p>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
+                        <p className="error"> {formErrors.pinCode} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
+                  </Col>{" "}
                 </Row>
-
                 <hr />
-                <h6>Communication Preferences</h6>
+                <h6> Communication Preferences </h6>{" "}
                 <Row>
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Automated Reminder</Form.Label>
+                      <Form.Label> Automated Reminder </Form.Label>{" "}
                       <Form.Select
                         type="text"
                         name="autoReminder"
                         onChange={handleChange}
                       >
-                        <option value="">Select Reminder</option>
-                        <option>SMS / Email</option>
-                      </Form.Select>
+                        <option value=""> Select Reminder </option>{" "}
+                        <option> SMS / Email </option>{" "}
+                      </Form.Select>{" "}
                       {formErrors.autoReminder !== "" ? (
-                        <p className="error">{formErrors.autoReminder}</p>
-                      ) : null}
-                    </Form.Group>
+                        <p className="error"> {formErrors.autoReminder} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
                   </Col>
-
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Appointment Confirmation</Form.Label>
+                      <Form.Label> Appointment Confirmation </Form.Label>{" "}
                       <Form.Select
                         type="text"
                         name="appointConfirm"
                         onChange={handleChange}
                       >
-                        <option value="">Select Appointment Confirmation</option>
-                        <option>Email</option>
-                      </Form.Select>
+                        <option value="">
+                          Select Appointment Confirmation{" "}
+                        </option>{" "}
+                        <option> Email </option>{" "}
+                      </Form.Select>{" "}
                       {formErrors.email !== "" ? (
-                        <p className="error">{formErrors.appointConfirm}</p>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
+                        <p className="error"> {formErrors.appointConfirm} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
+                  </Col>{" "}
                 </Row>
-
                 <hr />
-
-                <h6>Work Information</h6>
-
+                <h6> Work Information </h6>
                 <Row>
                   <Col lg={4} sm={6} xs={12}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Role</Form.Label>
+                      <Form.Label> Role </Form.Label>{" "}
                       <Form.Select name="role" onChange={handleChange}>
-                        {/* <option>Massage Therapist</option> */}
-                        <option>Select Role</option>
-                        {RoleList}
-                      </Form.Select>
+                        {" "}
+                        {/* <option>Massage Therapist</option> */}{" "}
+                        <option> Select Role </option> {RoleList}{" "}
+                      </Form.Select>{" "}
                       {formErrors.role !== "" ? (
-                        <p className="error">{formErrors.role}</p>
-                      ) : null}
-                    </Form.Group>
-                  </Col>
+                        <p className="error"> {formErrors.role} </p>
+                      ) : null}{" "}
+                    </Form.Group>{" "}
+                  </Col>{" "}
                 </Row>
-
                 <Row>
                   <Col Col lg={12} sm={12} xs={12}>
                     <div className="text-center form-action-btn mt-3">
@@ -495,29 +510,29 @@ const AddStaffOnboarding = (props) => {
                         className="btn btn-theme pl-2 pr-2 ml-0"
                         onClick={handleSubmit}
                       >
-                        Next
-                      </Button>
-                    </div>
-                  </Col>
-                </Row>
-              </Form>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+                        Next{" "}
+                      </Button>{" "}
+                    </div>{" "}
+                  </Col>{" "}
+                </Row>{" "}
+              </Form>{" "}
+            </div>{" "}
+          </Col>{" "}
+        </Row>{" "}
+      </Container>{" "}
     </div>
   );
 };
 
 // export default AddStaffOnboarding;
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.loading.isLoading,
   staffOnboardingData: state.staffOnboarding.staffOnboardingData,
   staffOnboardingErr: state.staffOnboarding.staffOnboardingErr,
-  status: state.staffOnboarding.status
+  status: state.staffOnboarding.status,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   staffAddOnboarding: (formValues) => dispatch(staffAddOnboarding(formValues)),
   // clearStaffLogin : ()=>dispatch(clearStaffLogin())
 });

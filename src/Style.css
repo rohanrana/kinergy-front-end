@@ -628,3 +628,12 @@ h6 {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.dzu-dropzone {
+    border: none!important;
+    border-radius: 20px!important;
+}
+
+.dzu-previewContainer {
+    padding: 0px!important;
+}

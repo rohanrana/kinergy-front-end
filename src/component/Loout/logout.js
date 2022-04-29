@@ -8,36 +8,31 @@ import { staffLogout } from "../../store/staffAuth/actions";
 import Loader from "../../cmmon_module/Loader";
 
 const Logout = (props) => {
+  useEffect(() => {
+    if (!props.staffLogoutData)
+      props.staffLogout(JSON.parse(localStorage.getItem("_id")));
+  }, [props.staffLogoutData]);
 
-    useEffect(() => {
-        if (!props.staffLogoutData)
-            props.staffLogout(JSON.parse(localStorage.getItem("_id")))
-    }, [props.staffLogoutData])
+  useEffect(() => {
+    if (props.staffLogoutData || props.staffLogoutErr) {
+        localStorage.removeItem("type")
+      props.history.push("/staff-login");
+    }
+  }, [props.staffLogoutData, props.staffLogoutErr]);
 
-    useEffect(() => {
-        if (props.staffLogoutData || props.staffLogoutErr) {
-            props.history.push('/staff-login')
-        }
-    }, [props.staffLogoutData, props.staffLogoutErr])
-
-    return ( <
-        div / >
-    );
+  return <div />;
 };
 
-const mapStateToProps = state => ({
-    isLoading: state.loading.isLoading,
-    staffLogoutData: state.staffAuth.staffLogoutData,
-    staffLogoutErr: state.staffAuth.staffLogoutErr,
+const mapStateToProps = (state) => ({
+  isLoading: state.loading.isLoading,
+  staffLogoutData: state.staffAuth.staffLogoutData,
+  staffLogoutErr: state.staffAuth.staffLogoutErr,
 });
 
-const mapDispatchToProps = dispatch => ({
-    staffLogout: (_id) => dispatch(staffLogout(_id))
+const mapDispatchToProps = (dispatch) => ({
+  staffLogout: (_id) => dispatch(staffLogout(_id)),
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withRouter(Logout));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Logout));
 
 //export default StaffLogin;

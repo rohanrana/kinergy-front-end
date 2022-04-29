@@ -42,7 +42,7 @@ const StaffLogin = (props) => {
   }
 
   const loginHandler=()=>{
-    props.staffLogin(email, password,"SUPERADMIN")
+    props.staffLogin(email, password,"STAFF")
   }
   
   useEffect(()=>{

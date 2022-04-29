@@ -14,7 +14,7 @@ import {
   FormControl,
   InputGroup,
   Form,
-  Spinner
+  Spinner,
 } from "react-bootstrap";
 import Sidebar from "../sidenav/Sidebar";
 import AdminLeftMenu from "./AdminLeftMenu";
@@ -22,11 +22,12 @@ import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import { userListing } from "../../store/staffAuth/actions";
 import Loader from "../../cmmon_module/Loader";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
+import StaffLogin from "../logins/StaffLogin";
+import useToken from "../useToken";
 
 function MyVerticallyCenteredModal(props) {
-
-
   return (
     <Modal
       {...props}
@@ -92,96 +93,123 @@ function MyVerticallyCenteredModal(props) {
 }
 
 const StaffListing = (props) => {
+  
   const [modalShow, setModalShow] = React.useState(false);
   const [list, setList] = useState(null);
-  const [item, setItem] = useState([])
+  const [item, setItem] = useState([]);
 
   useEffect(() => {
-    console.log(' list', list)
+    console.log(" list", list);
     if (!list) {
-      console.log('No list')
-      props.userListing("STAFF")
+      console.log("No list");
+      props.userListing("STAFF");
     }
-
-  }, [list])
+  }, [list]);
 
   useEffect(() => {
     if (props.userListingData) {
-      console.log(props.userListingData)
+      console.log(props.userListingData);
       let active = 1;
       let arr = [];
-      for (let number = 1; number <= props.userListingData.result.length; number++) {
+      for (
+        let number = 1;
+        number <= props.userListingData.result.length;
+        number++
+      ) {
         arr.push(
           <Pagination.Item key={number} active={number === active}>
             {number}
-          </Pagination.Item>,
+          </Pagination.Item>
         );
       }
-      setItem(arr)
-      setList(props.userListingData.result)
+      setItem(arr);
+      setList(props.userListingData.result);
     }
+  }, [props.userListingData]);
 
-  }, [props.userListingData])
-
-  const data = props.userListingData ? props.userListingData.result ? props.userListingData.result.length > 0 ? props.userListingData.result.map((x, index) => {
-    return <tr key={index}>
-      <td>{x._id}</td>
-      <td>{`${x.firstName}  ${x.lastName}`}</td>
-      <td>{x.type}</td>
-      <td>Level 3</td>
-      <td>
-      <Link
-                        to="/edit-details"
-                        className="btn btn-theme m-0 btn-sm pl-2 pr-2"
-                      >
-                        Edit
-                      </Link>
-        {/* <a href="#/" onClick={() => setModalShow(true)}>
+  const data = props.userListingData ? (
+    props.userListingData.result ? (
+      props.userListingData.result.length > 0 ? (
+        props.userListingData.result.map((x, index) => {
+          return (
+            <tr key={index}>
+              <td>{x._id}</td>
+              <td>{`${x.firstName}  ${x.lastName}`}</td>
+              <td>{x.type}</td>
+              <td>Level 3</td>
+              <td>
+                <Link
+                  to="/edit-details"
+                  className="btn btn-theme m-0 btn-sm pl-2 pr-2"
+                >
+                  Edit
+                </Link>
+                {/* <a href="#/" onClick={() => setModalShow(true)}>
           Edit
         </a> */}
-      </td>
+              </td>
+            </tr>
+          );
+        })
+      ) : (
+        <tr>
+          <td>1</td>
+        </tr>
+      )
+    ) : (
+      <tr>
+        <td>12</td>
+      </tr>
+    )
+  ) : (
+    <tr>
+      <td>13</td>
     </tr>
-  }) : <tr>
-    <td>1</td></tr> : <tr>
-    <td>12</td></tr> : <tr>
-    <td>13</td></tr>
-
+  );
+//============ Check AUTH-TOKEN===================
+  const { token, setToken } = useToken();
+  if (!token) {
+    return <StaffLogin />;
+  }
   return (
     <div className="clients">
       <Sidebar />
-       <Container fluid className="mt-5">
-          <Row>
-            <Col lg={2} sm={4} xs={12}>
-              <AdminLeftMenu />
-            </Col>
-            <Col lg={10} sm={8} xs={12}>
-              <div className="appointment-card mt-3">
-                <ButtonToolbar
-                  className="justify-content-between mb-3"
-                  aria-label="Toolbar with Button groups"
-                >
-                  <InputGroup>
-                    <FormControl
-                      className="rounded"
-                      type="text"
-                      placeholder="Search Staffs..."
-                    />
-                  </InputGroup>
+      <Container fluid className="mt-5">
+        <Row>
+          <Col lg={2} sm={4} xs={12}>
+            <AdminLeftMenu />
+          </Col>
+          <Col lg={10} sm={8} xs={12}>
+            <div className="appointment-card mt-3">
+              <ButtonToolbar
+                className="justify-content-between mb-3"
+                aria-label="Toolbar with Button groups"
+              >
+                <InputGroup>
+                  <FormControl
+                    className="rounded"
+                    type="text"
+                    placeholder="Search Staffs..."
+                  />
+                </InputGroup>
 
-                  <ButtonGroup className="rounded">
-                    <Button className="btn btn-theme-white">All Levels</Button>
-                    <DropdownButton className=" p-0 rounded-0" title="">
-                      <Dropdown.Item eventKey="1">Level 1</Dropdown.Item>
-                      <Dropdown.Item eventKey="2">Level 2</Dropdown.Item>
-                      <Dropdown.Item eventKey="2">Level 3</Dropdown.Item>
-                      <Dropdown.Item eventKey="2">Level 4</Dropdown.Item>
-                    </DropdownButton>
-                    <a href="#/add-staff" className="btn btn-theme rounded ml-2">
-                      + Add Staff
-                    </a>
-                  </ButtonGroup>
-                </ButtonToolbar>
-                {props.isLoading ?<Loader/>:<Table responsive>
+                <ButtonGroup className="rounded">
+                  <Button className="btn btn-theme-white">All Levels</Button>
+                  <DropdownButton className=" p-0 rounded-0" title="">
+                    <Dropdown.Item eventKey="1">Level 1</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Level 2</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Level 3</Dropdown.Item>
+                    <Dropdown.Item eventKey="2">Level 4</Dropdown.Item>
+                  </DropdownButton>
+                  <a href="#/add-staff" className="btn btn-theme rounded ml-2">
+                    + Add Staff
+                  </a>
+                </ButtonGroup>
+              </ButtonToolbar>
+              {props.isLoading ? (
+                <Loader />
+              ) : (
+                <Table responsive>
                   <thead>
                     <tr>
                       <th>Staff ID</th>
@@ -191,13 +219,11 @@ const StaffListing = (props) => {
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {data}
-
-                  </tbody>
-                </Table>}
-                <Pagination>{item}</Pagination>
-                {/* <Pagination size="sm">
+                  <tbody>{data}</tbody>
+                </Table>
+              )}
+              <Pagination>{item}</Pagination>
+              {/* <Pagination size="sm">
                 <Pagination.First />
                 <Pagination.Prev />
                 <Pagination.Item>{1}</Pagination.Item>
@@ -212,11 +238,17 @@ const StaffListing = (props) => {
                 <Pagination.Next />
                 <Pagination.Last />
               </Pagination> */}
-                {props.userListingErr ? props.userListingErr.response_message ? <p className="error">{props.userListingErr.response_message}</p> : null : null}
-              </div>
-            </Col>
-          </Row>
-        </Container>
+              {props.userListingErr ? (
+                props.userListingErr.response_message ? (
+                  <p className="error">
+                    {props.userListingErr.response_message}
+                  </p>
+                ) : null
+              ) : null}
+            </div>
+          </Col>
+        </Row>
+      </Container>
 
       <MyVerticallyCenteredModal
         show={modalShow}
@@ -226,18 +258,17 @@ const StaffListing = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.loading.isLoading,
   userListingData: state.staffAuth.userListingData,
   userListingErr: state.staffAuth.userListingErr,
 });
 
-const mapDispatchToProps = dispatch => ({
-  userListing: (val) => dispatch(userListing(val))
+const mapDispatchToProps = (dispatch) => ({
+  userListing: (val) => dispatch(userListing(val)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(withRouter(StaffListing));
-

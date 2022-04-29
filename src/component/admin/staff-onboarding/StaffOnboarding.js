@@ -17,8 +17,16 @@ import {
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 
+import StaffLogin from "../../logins/StaffLogin";
+import useToken from "../../useToken";
+
+
 const StaffOnboarding = () => {
-  
+  const { token, setToken } = useToken();
+  if (!token) {
+    return <StaffLogin />;
+  }
+
   return (
     <div className="clients">
       <Sidebar />
@@ -74,7 +82,7 @@ const StaffOnboarding = () => {
                         className="p-0 rounded-0"
                         title="Select Action"
                       >
-                        <Dropdown.Item href="#/edit-StaffOnoarding">Edit</Dropdown.Item>
+                        <Dropdown.Item href="#/edit-StaffOnboarding">Edit</Dropdown.Item>
                         <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
@@ -90,7 +98,7 @@ const StaffOnboarding = () => {
                         className="p-0 rounded-0"
                         title="Select Action"
                       >
-                        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+                        <Dropdown.Item href="#/edit-StaffOnboarding">Edit</Dropdown.Item>
                         <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
@@ -106,7 +114,7 @@ const StaffOnboarding = () => {
                         className="p-0 rounded-0"
                         title="Select Action"
                       >
-                        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+                        <Dropdown.Item href="#/edit-StaffOnboarding">Edit</Dropdown.Item>
                         <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
@@ -122,7 +130,7 @@ const StaffOnboarding = () => {
                         className="p-0 rounded-0"
                         title="Select Action"
                       >
-                        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+                        <Dropdown.Item href="#/edit-StaffOnboarding">Edit</Dropdown.Item>
                         <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>
@@ -138,7 +146,7 @@ const StaffOnboarding = () => {
                         className="p-0 rounded-0"
                         title="Select Action"
                       >
-                        <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+                        <Dropdown.Item href="#/edit-StaffOnboarding">Edit</Dropdown.Item>
                         <Dropdown.Item eventKey="2">Inactive</Dropdown.Item>
                       </DropdownButton>
                     </td>

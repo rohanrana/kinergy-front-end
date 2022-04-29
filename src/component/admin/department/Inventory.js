@@ -18,8 +18,17 @@ import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 
 
+import StaffLogin from "../../logins/StaffLogin";
+import useToken from "../../useToken";
 
 const Inventory = () => {
+
+    //============ Check AUTH-TOKEN===================
+    const { token, setToken } = useToken();
+    if (!token) {
+      return <StaffLogin />;
+    }
+  
   return (
     <div className="clients">
       <Sidebar />

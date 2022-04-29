@@ -75,9 +75,9 @@ export const staffLogin = (email, password, type) => async dispatch => {
             dispatch(staffLoginFailure(data));
             dispatch(uiStopLoading());
         } else {
-            localStorage.setItem("auth-token", JSON.stringify(data.token));
+            // localStorage.setItem("auth-token", JSON.stringify(data.token));
             localStorage.setItem("email", JSON.stringify(data.result.email));
-            localStorage.setItem("_id", JSON.stringify(data.result._id));
+            // localStorage.setItem("_id", JSON.stringify(data.result._id));
             localStorage.setItem("type", JSON.stringify(data.result.type));
             localStorage.setItem("otp", JSON.stringify(data.result.otp));
             dispatch(staffLoginSuccess(data));
@@ -152,6 +152,14 @@ export const otpVerify = (otp) => async dispatch => {
             dispatch(otpFailure(data));
             dispatch(uiStopLoading());
         } else {
+            localStorage.removeItem("auth-token");
+            localStorage.removeItem("email");
+            localStorage.removeItem("type");
+            localStorage.removeItem("_id");
+            localStorage.setItem("auth-token", JSON.stringify(data.token));
+            localStorage.setItem("email", JSON.stringify(data.result.email));
+            localStorage.setItem("_id", JSON.stringify(data.result._id));
+            localStorage.setItem("type", JSON.stringify(data.result.type));
             localStorage.removeItem("otp");
             dispatch(otpSuccess(data));
             dispatch(uiStopLoading());

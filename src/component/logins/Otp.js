@@ -1,47 +1,55 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import Logo from "../../image/logo.png";
-import { otpVerify,clearOtp } from "../../store/staffAuth/actions";
+import { otpVerify, clearOtp } from "../../store/staffAuth/actions";
 import Loader from "../../cmmon_module/Loader";
 
 const Otp = (props) => {
-  const [otp,setOtp]=useState('');
-  const [error,setError]=useState('');
-  const [showOtp,setShowOtp]=useState(null)
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+  const [showOtp, setShowOtp] = useState(null);
 
-  const otpHandler=(text)=>{
-   setOtp(text)
-  }
+  const otpHandler = (text) => {
+    setOtp(text);
+  };
 
-  useEffect(()=>{
-      if(!showOtp){
-          const text=localStorage.getItem('otp')
-          console.log(text)
-          setShowOtp(text)
-      }
-
-  },[showOtp])
-
-  const verifyHandler=()=>{
-    props.otpVerify(otp)
-  }
-  
-  useEffect(()=>{
-    if(props.otpData){
-        console.log("otp------",props.otpData)
-      if(props.otpData.response_code==200)
-     props.history.push("/home")
+  useEffect(() => {
+    if (!showOtp) {
+      const text = localStorage.getItem("otp");
+      console.log(text);
+      setShowOtp(text);
     }
-  },[props.otpData])
+  }, [showOtp]);
 
-  useEffect(()=>{
-    return()=>{
-      props.clearOtp()
+  const verifyHandler = () => {
+    props.otpVerify(otp);
+  };
+
+  useEffect(() => {
+    if (props.otpData) {
+      console.log("otp------", props.otpData);
+      if (props.otpData.response_code === 200)
+        if (
+          props.otpData.result.type == "SUPERADMIN" ||
+          props.otpData.result.type == "ADMIN"
+        ) {
+          props.history.push("/home");
+        } else {
+          props.history.push("/home");
+        }
+
+      // console.log('redirect to home');
     }
-  },[])
+  }, [props.otpData]);
+
+  useEffect(() => {
+    return () => {
+      props.clearOtp();
+    };
+  }, []);
 
   return (
     <div className="staff-login">
@@ -49,47 +57,58 @@ const Otp = (props) => {
         <Row>
           <Col lg={12}>
             <div className="login-logo pt-2">
-              <img src={Logo} alt={Logo} />
-            </div>
-          </Col>
-        </Row>
-      </Container>
-      {props.isLoading?
-          <Loader/>:<div className="login-form">
-        <h4>OTP Verification</h4>
-        <p className="mb-5">Please Enter the OTP:{showOtp}</p>
-        <Form>
-          <Form.Group className="mb-3">
-            <Form.Control placeholder="Enter OTP" value={otp} onChange={(e)=>otpHandler(e.target.value)}/>
-          </Form.Group>
-          {error!=''?<p className="error">{error}</p>:null}
-          {props.otpErr?props.otpErr.response_message?<p className="error">{props.otpErr.response_message}</p>:null:null}
-          <Button className="btn btn-theme btn-block w-100 ml-0 mt-5" onClick={()=>verifyHandler()}>
-            Verify
-          </Button>
-          {/* <a href="/dashboard" className="btn btn-theme btn-block w-100 ml-0 mt-5">
-            LOGIN
-          </a> */}
-        </Form>
-      </div>}
+              <img src={Logo} alt={Logo} />{" "}
+            </div>{" "}
+          </Col>{" "}
+        </Row>{" "}
+      </Container>{" "}
+      {props.isLoading ? (
+        <Loader />
+      ) : (
+        <div className="login-form">
+          <h4> OTP Verification </h4>{" "}
+          <p className="mb-5"> Please Enter the OTP: {showOtp} </p>{" "}
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Control
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => otpHandler(e.target.value)}
+              />{" "}
+            </Form.Group>{" "}
+            {error != "" ? <p className="error"> {error} </p> : null}{" "}
+            {props.otpErr ? (
+              props.otpErr.response_message ? (
+                <p className="error"> {props.otpErr.response_message} </p>
+              ) : null
+            ) : null}{" "}
+            <Button
+              className="btn btn-theme btn-block w-100 ml-0 mt-5"
+              onClick={() => verifyHandler()}
+            >
+              Verify{" "}
+            </Button>{" "}
+            {/* <a href="/dashboard" className="btn btn-theme btn-block w-100 ml-0 mt-5">
+                                                LOGIN
+                                              </a> */}{" "}
+          </Form>{" "}
+        </div>
+      )}{" "}
     </div>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.loading.isLoading,
   otpData: state.staffAuth.otpData,
   otpErr: state.staffAuth.otpErr,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   otpVerify: (otp) => dispatch(otpVerify(otp)),
-  clearOtp :() =>dispatch(clearOtp())
+  clearOtp: () => dispatch(clearOtp()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Otp));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Otp));
 
 //export default StaffLogin;
