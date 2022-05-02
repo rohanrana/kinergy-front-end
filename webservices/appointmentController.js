@@ -71,10 +71,10 @@ const appointmentApis = {
         });
     },
     'appointmentById': (req, res, next) => {
-        if (!req.params.appointmentId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Appointment Id.');
         } else {
-            Appointment.find({ _id: req.params.appointmentId }).populate('customer').populate("staff").lean().exec((err, result) => {
+            Appointment.find({ _id: req.body._id }).populate('customer').populate("staff").lean().exec((err, result) => {
                 // console.log(result.length);
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -86,10 +86,10 @@ const appointmentApis = {
         }
     },
     'appointmentByCustomerId': (req, res, next) => {
-        if (!req.params.customerId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Customer Id.');
         } else {
-            Appointment.find({ customer: req.params.customerId }).populate('customer').populate("staff").lean().exec((err, result) => {
+            Appointment.find({ customer: req.body._id }).populate('customer').populate("staff").lean().exec((err, result) => {
                 // console.log(result.length);
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -101,10 +101,10 @@ const appointmentApis = {
         }
     },
     'appointmentByStaffId': (req, res, next) => {
-        if (!req.params.staffId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Staff Id.');
         } else {
-            Appointment.find({ staff: req.params.staffId }).populate('customer').populate("staff").lean().exec((err, result) => {
+            Appointment.find({ staff: req.body._id }).populate('customer').populate("staff").lean().exec((err, result) => {
                 // console.log(result.length);
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -116,10 +116,10 @@ const appointmentApis = {
         }
     },
     'delete': (req, res) => {
-        if (!req.params.appointmentId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Appointment Id');
         } else {
-            Appointment.findOneAndDelete({ _id: req.params.appointmentId }).lean().exec((err, result) => {
+            Appointment.findOneAndDelete({ _id: req.body._id }).lean().exec((err, result) => {
                 if (!err) {
                     Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Appointment Deleted Successfully', result);
                 } else {
@@ -132,12 +132,12 @@ const appointmentApis = {
     },
     'changeStatus': (req, res, next) => {
 
-        if (!req.params.appointmentId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Appointment Id');
         } else if (!req.body.status) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Appointment Status');
         } else {
-            Appointment.findOneAndUpdate({ _id: req.params.appointmentId }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
+            Appointment.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
                 if (!err) {
                     Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Appointment Status Changed Successfully.', result);
                 } else
