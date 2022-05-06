@@ -27,6 +27,14 @@ const appointmentSchema = new Schema({
         ref: 'Staffs',
         default: null
     },
+    department:{
+        type:String,
+        default:null
+    },
+    location:{
+        type:String,
+        default:null
+    },
     spentTime: {
         type: String,
         default: null

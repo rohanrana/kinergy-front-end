@@ -16,7 +16,10 @@ const fs = require('fs');
 const multer = require('multer');
 const maxSize = 1 * 1024 * 1024;
 
-
+const returnPagination = (result) => {
+    delete result.docs;
+    return result;
+  };
 
 const staffApis = {
     //=====signup==========
@@ -206,40 +209,107 @@ const staffApis = {
 
     //=================user listing api =====
     'userListing': (req, res) => {
-        console.log("userlist")
+        console.log("req",req.body);
+        const perPage = 10,
+       page = req.body.page != "undefined" && req.body.page ? Math.max(0, req.body.page) : 1;
+       var options  ={ page: page, limit: perPage ,lean:true};
         if (req.body.type != 'CUSTOMER') {
-            Staff.find().lean().exec((error, result) => {
+            Staff.paginate({},options,function (error, result) {
+            // Staff.find().lean().exec((error, result) => {
                 // console.log(error, result, "sghfsdfsdffsdfh")
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                 else if (!result) {
                     Response.sendResponseWithoutData(res, 401, 'No User Found.');
                 } else {
-                    Customers.find({ status: "ACTIVE" }).lean().exec((error1, result1) => {
-                        console.log(error1, result1)
-                        if (error1)
-                            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                        else
-                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', [...result, ...result1])
-                    })
+                    // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', [result])
+                    Response.sendResponseWithPagination(
+                        res,
+                        resCode.EVERYTHING_IS_OK,
+                        "User Found.",
+                        result.docs,
+                        returnPagination(result)
+                      );
                 }
 
             })
         } else {
-            Customers.find({ status: "ACTIVE" }).lean().exec((error, result) => {
+            // Customers.find({ status: "ACTIVE" }).lean().exec((error, result) => {
+                Customers.paginate({},options,function (error, result) {
                 // console.log(error, result, "sghfsdfsdffsdfh")
                 if (error)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                else if (!result) {
+                else if (!result || result.docs.length == 0) {
                     Response.sendResponseWithoutData(res, 401, 'No User Found.');
                 } else {
-                    Customers.find({ status: "ACTIVE" }).lean().exec((error1, result1) => {
-                        console.log(error1, result1)
-                        if (error1)
-                            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                        else
-                            Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', [...result, ...result1])
-                    })
+                    Response.sendResponseWithPagination(
+                        res,
+                        resCode.EVERYTHING_IS_OK,
+                        "User Found.",
+                        result.docs,
+                        returnPagination(result)
+                      );
+                }
+
+            })
+        }
+
+        //}
+    },
+     //=================user Seraching and FIlter listing api =====
+     'userSearchListing': (req, res) => {
+        
+        const perPage = 10,
+       page = req.body.page != "undefined" && req.body.page ? Math.max(0, req.body.page) : 1;
+       var options  ={ page: page, limit: perPage ,lean:true};
+
+       let SearchOption ={};
+    if(req.body.search !== undefined && req.body.search){
+    SearchOption = {...SearchOption, firstName: { $regex: `${req.body.search}`, $options: "i" } }
+    }
+    if(req.body.role !== undefined && req.body.role){
+      SearchOption = {...SearchOption, roleId: req.body.role }
+    }
+    if(req.body.status !== undefined && req.body.status){
+        SearchOption = {...SearchOption, status: req.body.status.toUpperCase() }
+    }
+    console.log("SearchData",SearchOption);
+        if (req.body.type != 'CUSTOMER') {
+            Staff.paginate(SearchOption,options,function (error, result) {
+            // Staff.find().lean().exec((error, result) => {
+                // console.log(error, result, "sghfsdfsdffsdfh")
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result || result.docs.length == 0) {
+                    Response.sendResponseWithoutData(res, 401, 'No User Found.');
+                } else {
+                    // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'User Found.', [result])
+                    Response.sendResponseWithPagination(
+                        res,
+                        resCode.EVERYTHING_IS_OK,
+                        "User Found.",
+                        result.docs,
+                        returnPagination(result)
+                      );
+                }
+
+            })
+        } else {
+            // Customers.find({ status: "ACTIVE" }).lean().exec((error, result) => {
+                Customers.paginate(SearchOption,options,function (error, result) {
+                // console.log(error, result, "sghfsdfsdffsdfh")
+                if (error)
+                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+                else if (!result || result.docs.length == 0) {
+                    Response.sendResponseWithoutData(res, 401, 'No User Found.');
+                } else {
+                    Response.sendResponseWithPagination(
+                        res,
+                        resCode.EVERYTHING_IS_OK,
+                        "User Found.",
+                        result.docs,
+                        returnPagination(result)
+                      );
                 }
 
             })

@@ -20,15 +20,11 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const facilityRoutes = require('./routes/facilityRoute');
 const taxRoutes = require('./routes/taxRoute');
 const appointmentRoutes = require('./routes/appointmentRoute');
-
-
-app.set("views", path.join(__dirname, ""))
-app.set("view engine", "ejs")
-
-app.get("/", function(req, res) {
-    res.render("signup");
-})
-
+const billableItemRoutes = require('./routes/billableItemsRoute');
+const inventoryRoutes = require('./routes/inventoryRoute');
+const departmentRoutes = require('./routes/departmentRoute');
+const serviceCategoryRoutes = require('./routes/serviceCategoryRoute');
+const subServiceRoutes = require('./routes/subServiceRoute');
 
 const environment = config();
 
@@ -48,13 +44,20 @@ app.use(bodyParser.json({
 app.use(cors());
 app.use('/api/v1/Country', countryStateCityRoutes);
 app.use('/api/v1/role', roleRoutes);
-app.use('/api/v1/service', serviceRoutes);
+
 app.use('/api/v1/staff', staffRoutes);
 app.use('/api/v1/employee', employeeRoutes);
 app.use('/api/v1/facility', facilityRoutes);
 app.use('/api/v1/tax', taxRoutes);
 
+app.use('/api/v1/billableItems', billableItemRoutes);
 app.use('/api/v1/appointments', appointmentRoutes);
+app.use('/api/v1/inventory', inventoryRoutes);
+app.use('/api/v1/department', departmentRoutes);
+
+app.use('/api/v1/service', serviceRoutes);
+app.use('/api/v1/service/category', serviceCategoryRoutes);
+app.use('/api/v1/service/subService', subServiceRoutes);
 
 
 

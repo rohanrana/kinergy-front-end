@@ -50,10 +50,10 @@ const taxApis = {
         }
     },
     'delete': (req, res) => {
-        if (!req.params.taxId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Tax Id');
         } else {
-            Tax.findOneAndDelete({ _id: req.params.taxId }).lean().exec((err, result) => {
+            Tax.findOneAndDelete({ _id: req.body._id }).lean().exec((err, result) => {
                 if (!err) {
                     Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Tax Deleted Successfully', result);
                 } else {
@@ -66,10 +66,10 @@ const taxApis = {
     },
 
     'taxById': (req, res, next) => {
-        if (!req.params.taxId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Tax Id.');
         } else {
-            Tax.find({ _id: req.params.taxId }).lean().exec((err, result) => {
+            Tax.find({ _id: req.body._id }).lean().exec((err, result) => {
                 // console.log(result.length);
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -94,14 +94,14 @@ const taxApis = {
     },
     'changeStatus': (req, res, next) => {
 
-        if (!req.params.taxId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Tax Id');
         } else if (!req.body.status) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Tax Status');
         } else if (!STATUS.includes(req.body.status)) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Invalid  Tax Type');
         } else {
-            Tax.findOneAndUpdate({ _id: req.params.taxId }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
+            Tax.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
                 if (!err) {
                     Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Tax Status Changed Successfully.', result);
                 } else

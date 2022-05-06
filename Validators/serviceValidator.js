@@ -21,8 +21,13 @@ const generateAddValidation = (req, res, next) => [
                 return Promise.reject(resMessage.TITLE_ALREADY_EXIST);
             }
         });
-    })
-    // .withMessage('Only .png, .jpg and .jpeg format allowed!'), // custom error message that will be send back if the file in not a pdf. 
+    }),
+    check('category')
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.CATEGORY_REQUIRED),
 
 
 ];
@@ -64,7 +69,8 @@ const reporter = (req, res, next) => {
     // Check validation other fields
     var errors = validationResult(req);
     if (!errors.isEmpty()) {
-        if (req.files != 'undefined' && req.files != null) {
+        if(req.files.length > 0){
+        if (req.files != 'undefined' && req.files  && req.files.length != 0) {
             for (let i = 0; i < Object.keys(req.files).length; i++) {
 
                 let fieldname = Object.keys(req.files)[i];
@@ -78,6 +84,7 @@ const reporter = (req, res, next) => {
 
             }
         }
+    }
 
         const errorMessages = errors.array().map(error => ({
             title: error.param,
@@ -88,8 +95,10 @@ const reporter = (req, res, next) => {
         //     errors: dedupThings
         // });
         Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', dedupThings);
+    }else{
+        next();
     }
-    next();
+    
 }
 
 module.exports = {

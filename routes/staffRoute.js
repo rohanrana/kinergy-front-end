@@ -8,6 +8,7 @@ router.post('/signup', staffApis.fileUpload, staffValidator.signup, staffApis.si
 router.post('/login', staffApis.login);
 router.post('/logOut', staffApis.logOut);
 router.post('/userList', staffApis.userListing);
+router.post('/userSearchList', staffApis.userSearchListing);
 router.post('/addStaff', authHandler.auth_func, staffValidator.add, staffApis.addStaff);
 router.post('/getStaffById', authHandler.auth_func, staffApis.getStaffById);
 

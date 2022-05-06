@@ -3,13 +3,26 @@ const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
 
 const departmentsSchema = new Schema({
-    deptName: {
+    name: {
         type: String,
         default: null
     },
+    description: {
+        type: String,
+        default: null
+    },
+    image:{
+        type:String,
+        default:null
+    },
+    type:{
+        type:String,
+        enum: ["GENERAL", "MEDICAL", "PERFORMANSE"],
+        default: "GENERAL"
+    },
     status: {
         type: String,
-        enum: ["ACTIVE", "INACTIVE", "BLOCK"],
+        // enum: ["ACTIVE", "INACTIVE", "BLOCK"],
         default: "ACTIVE"
     },
 
@@ -19,4 +32,4 @@ const departmentsSchema = new Schema({
 });
 
 departmentsSchema.plugin(mongoosePaginate);
-module.exports = mongoose.model("Departments", departmentsSchema);
+module.exports = mongoose.model("Department", departmentsSchema);

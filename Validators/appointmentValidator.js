@@ -26,24 +26,23 @@ const generateAddValidation = (req, res, next) => [
     .isEmpty()
     .withMessage('Appointment Date is required'),
     check('customer')
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage('Customer is required')
     .custom(value => {
+        if(value)
+        {
         return Customer.findOne({ _id: value }).then(customer => {
             if (!customer) {
                 return Promise.reject('Customer not exist');
             }
         });
-    }),
-    check('staff')
+    }
+    })
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage('Staff is required')
+    .withMessage('Customer is required')
+    ,
+    check('staff')
     .custom(value => {
         return Staff.findOne({ _id: value }).then(staff => {
             if (!staff) {
@@ -51,6 +50,11 @@ const generateAddValidation = (req, res, next) => [
             }
         });
     })
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage('Staff is required')
 
 ]
 const generateEditValidation = (req, res, next) => [
@@ -84,9 +88,6 @@ const reporter = (req, res, next) => {
             msg: error.msg
         }));
         const dedupThings = Array.from(errorMessages.reduce((m, t) => m.set(t.title, t), new Map()).values());
-        // return res.status(resCode.UNPROCESSABLE_ENTITY).json({
-        //     errors: dedupThings
-        // });
         Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', dedupThings);
     } else {
         next();

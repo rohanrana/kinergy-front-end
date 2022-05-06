@@ -17,27 +17,32 @@ const billableItemSchema = new Schema({
         default: null
     },
     rate: {
-        type: String,
-        default: null
+        type: mongoose.Schema.Types.Decimal128,
+        default: 0,
     },
     tax: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tax'
+        type: mongoose.Schema.Types.Decimal128,
+        default: 0,
     },
-    amount: {
-        type: String,
-        default: null
+    taxAmount: {
+        type: mongoose.Schema.Types.Decimal128,
+        default: 0,
+        
+    },
+    totalAmount: {
+        type: mongoose.Schema.Types.Decimal128,
+        default: 0,
     },
     status: {
         type: String,
-        enum: ["ACTIVE", "INACTIVE", "BLOCK", "ARCHIVED"],
+        // enum: ["ACTIVE", "INACTIVE", "BLOCK", "ARCHIVED"],
         default: "ACTIVE"
     }
 
 
 }, {
     timestamps: true
-});
+},{toJSON: {getters: true}});
 
 billableItemSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model("BillableItem", billableItemSchema);

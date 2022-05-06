@@ -4,6 +4,7 @@ const resMessage = require('../helper/httpResponseMessage.js');
 const Response = require('../common_functions/response_handler');
 const path = require('path');
 const fs = require('fs');
+const Employee = require('../models/employeeModel');
 const generateAddValidation = (req, res, next) => [
     check('firstName')
     .trim()
@@ -12,6 +13,18 @@ const generateAddValidation = (req, res, next) => [
     .isEmpty()
     .withMessage(resMessage.FIRST_NAME_REQUIRED),
     check('email')
+    .custom((value, {req, loc, path}) => {
+        let userOptions = {};
+        userOptions = {...userOptions,email:value};
+
+        console.log('userOptions',userOptions);
+        return Employee.findOne(userOptions).then(employee => {
+            
+            if (employee) {
+                return Promise.reject(resMessage.EMAIL_ALREADY_EXISTS);
+            }
+        });
+    })
     .isEmail()
     .withMessage(resMessage.EMAIL_VALID)
     .trim()
@@ -72,7 +85,7 @@ const reporter = (req, res, next) => {
     var errors = validationResult(req);
     // console.log(errors);
     if (!errors.isEmpty()) {
-        if (req.files !== 'undefined') {
+        if (req.files !== 'undefined' && req.files) {
             for (let i = 0; i < Object.keys(req.files).length; i++) {
 
                 let fieldname = Object.keys(req.files)[i];
@@ -96,8 +109,9 @@ const reporter = (req, res, next) => {
         // });
         Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', dedupThings);
 
+    }else{
+        next();
     }
-    next();
 }
 
 module.exports = {

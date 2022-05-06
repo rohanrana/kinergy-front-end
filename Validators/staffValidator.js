@@ -92,6 +92,21 @@ const StaffAddValidation = (req, res, next) => [
     .isEmpty()
     .withMessage(resMessage.GENDER_REQUIRED),
     check('email')
+    .custom((value, {req, loc, path}) => {
+        let userOptions = {};
+        userOptions = {...userOptions,email:value};
+
+        if(req.body.type){
+            userOptions = {...userOptions,type:req.body.type};
+        }
+        console.log('userOptions',userOptions);
+        return Staffs.findOne(userOptions).then(staff => {
+            
+            if (staff) {
+                return Promise.reject(resMessage.EMAIL_ALREADY_EXISTS);
+            }
+        });
+    })
     .trim()
     .escape()
     .not()
@@ -196,15 +211,30 @@ const StaffSignUpValidation = (req, res, next) => [
     .isEmpty()
     .withMessage(resMessage.FIRST_NAME_REQUIRED),
     check('email')
+    .custom((value, {req, loc, path}) => {
+        let userOptions = {};
+        userOptions = {...userOptions,email:value};
+
+        if(req.body.type){
+            userOptions = {...userOptions,type:req.body.type};
+        }
+        console.log('userOptions',userOptions);
+        return Staffs.findOne(userOptions).then(staff => {
+            
+            if (staff) {
+                return Promise.reject(resMessage.EMAIL_ALREADY_EXISTS);
+            }
+        });
+    })
+    .bail()
+    .normalizeEmail()
+    .isEmail()
+    .withMessage(resMessage.EMAIL_VALID)
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.EMAIL_REQUIRED)
-    .bail()
-    .normalizeEmail()
-    .isEmail()
-    .withMessage(resMessage.EMAIL_VALID),
+    .withMessage(resMessage.EMAIL_REQUIRED),
     check('contact')
     .trim()
     .escape()
@@ -252,20 +282,23 @@ const reporter = (req, res, next) => {
     var errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(req.files);
-        if (req.files != 'undefined' && req.files != null) {
-            for (let i = 0; i < Object.keys(req.files).length; i++) {
-
-                let fieldname = Object.keys(req.files)[i];
-                let filePath = 'public/uploads/user/' + '/' + req.body[fieldname];
-                fs.unlink(filePath,
-                    function(err) {
-                        if (!err) {
-                            console.info(`removed`);
-                        }
-                    });
-
+        if(req.files.length > 0){
+            if (req.files != 'undefined' && req.files != null) {
+                for (let i = 0; i < Object.keys(req.files).length; i++) {
+    
+                    let fieldname = Object.keys(req.files)[i];
+                    let filePath = 'public/uploads/user/' + '/' + req.body[fieldname];
+                    fs.unlink(filePath,
+                        function(err) {
+                            if (!err) {
+                                console.info(`removed`);
+                            }
+                        });
+    
+                }
             }
         }
+       
 
         const errorMessages = errors.array().map(error => ({
             title: error.param,

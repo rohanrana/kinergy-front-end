@@ -8,6 +8,11 @@ const fs = require('fs');
 const multer = require('multer');
 const maxSize = 1 * 1024 * 1024;
 
+const returnPagination = (result) => {
+    delete result.docs;
+    return result;
+    };
+
 const employeeApis = {
     'add': (req, res, next) => {
         const { firstName, lastName, nickName, dob, gender, ssn, phone1, phone2, email, addressLine, city, state, pincode, autoReminder, appointConfirm, role, ssnDocument, driverLicense, workPermit } = req.body;
@@ -187,14 +192,17 @@ const employeeApis = {
         }
     },
     'employeeList': (req, res, next) => {
-        Employee.find().lean().exec((err, result) => {
+        const perPage = 10;
+        page =  req.params.page != "undefined" && req.params.page ? Math.max(0, req.params.page) : 1;
+        // Employee.find().lean().exec((err, result) => {
+            Employee.paginate({},{page: page, limit: perPage },function (err, result) {
             if (err) {
                 console.log(err);
                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
             } else if (!result || result.length == 0)
                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Employee Not Found.');
             else
-                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee List.', result);
+            Response.sendResponseWithPagination(res, resCode.EVERYTHING_IS_OK, 'Employee List.', result.docs,returnPagination(result));
         });
     },
     'changeStatus': (req, res, next) => {
