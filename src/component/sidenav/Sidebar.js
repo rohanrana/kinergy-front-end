@@ -93,12 +93,12 @@ const Sidebar = () => {
       <IconContext.Provider value={{ color: "#ffffff" }}>
         <SidebarNav sidebar={sidebar}>
           <SidebarWrap>
-            <span className="close-icon-navbar">
+            {/* <span className="close-icon-navbar">
               <AiIcons.AiOutlineClose onClick={showSidebar} />
             </span>
             <Navbar.Brand href="/" className="text-center d-block mb-5 mt-3">
               <img src={Logo} alt={Logo} height="60" />
-            </Navbar.Brand>
+            </Navbar.Brand> */}
             {SidebarData.map((item, index) => {
               return <SubMenu item={item} key={index} />;
             })}

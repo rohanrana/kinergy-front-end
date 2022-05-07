@@ -73,6 +73,15 @@ import UploadDocument from "./component/clients/chart-notes/UploadDocument";
 import CptCodes from "./component/clients/chart-notes/CptCodes";
 import BookAppointment from "./component/clients/chart-notes/BookAppointment";
 import AppointmentSummary from "./component/clients/chart-notes/AppointmentSummary";
+import TreatmentGoal from "./component/admin/department/TreatmentGoal";
+import TreatmentNote from "./component/admin/department/TreatmentNote";
+import ManageBody from "./component/admin/department/ManageBody";
+import IcdCodeList from "./component/admin/department/IcdCodeList";
+import WorkoutGoals from "./component/admin/department/WorkoutGoals";
+import PerformanceNote from "./component/admin/department/PerformanceNote";
+import FacilityManagement from "./component/admin/FacilityManagement";
+import FacilityDetail from "./component/admin/FacilityDetail";
+import EditFacility from "./component/admin/EditFacility";
 
 function App() {
   return (
@@ -145,6 +154,15 @@ function App() {
         <Route exact path="/cpt-codes" component={CptCodes} />
         <Route exact path="/book-appointment" component={BookAppointment} />
         <Route exact path="/appointment-summary" component={AppointmentSummary} />
+        <Route exact path="/treatment-goal" component={TreatmentGoal} />
+        <Route exact path="/treatment-note" component={TreatmentNote} />
+        <Route exact path="/manage-body" component={ManageBody} />
+        <Route exact path="/icd-code-list" component={IcdCodeList} />
+        <Route exact path="/workout-goals" component={WorkoutGoals} />
+        <Route exact path="/performance-note" component={PerformanceNote} />
+        <Route exact path="/facility-management" component={FacilityManagement} />
+        <Route exact path="/facility-detail" component={FacilityDetail} />
+        <Route exact path="/edit-facility" component={EditFacility} />
       </Switch>
     </Router>
   );

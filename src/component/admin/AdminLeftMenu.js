@@ -7,31 +7,27 @@ const AdminLeftMenu = () => {
       <h3>Admin</h3>
       
       <ul className="p-0">
-      <li>
-          <a href="#/staff-onboarding">
-            <i class="far fa-circle mr-2"></i>Staff Onboarding
+      
+
+        <li>
+          <a href="#/facility-management">
+            <i class="far fa-circle mr-2"></i>Facility Management
           </a>
         </li>
 
         <li>
-          <a href="#/admin">
-            <i class="far fa-circle mr-2"></i>General
-          </a>
-        </li>
-
-        <li>
-          <a href="#/staff-listing">
-            <i class="far fa-circle mr-2"></i>Staff
+          <a href="#/">
+            <i class="far fa-circle mr-2"></i>System Settings
           </a>
         </li>
 
         <li>
           <a href="#/client-authorization">
-            <i class="far fa-circle mr-2"></i>Client Authorization
+            <i class="far fa-circle mr-2"></i>Services
           </a>
         </li>
 
-        <NavDropdown
+        {/* <NavDropdown
           title={
             <span>
               <i className="far fa-circle mr-2"></i>Departments
@@ -42,15 +38,15 @@ const AdminLeftMenu = () => {
           <NavDropdown.Item href="#/department-general">General</NavDropdown.Item>
           <NavDropdown.Item href="#/department-medical">Medical</NavDropdown.Item>
           <NavDropdown.Item href="#/department-performance-services">Performance Services</NavDropdown.Item>
-        </NavDropdown>
+        </NavDropdown> */}
 
         <li>
-          <a href="#/communications">
-            <i class="far fa-circle mr-2"></i>Communication
+          <a href="#/">
+            <i class="far fa-circle mr-2"></i>Forms
           </a>
         </li>
 
-        <NavDropdown
+        {/* <NavDropdown
           title={
             <span>
               <i className="far fa-circle mr-2"></i>Finances
@@ -71,11 +67,24 @@ const AdminLeftMenu = () => {
         </NavDropdown>
           <NavDropdown.Item href="#/inventory">Inventory</NavDropdown.Item>
           
-        </NavDropdown>
+        </NavDropdown> */}
 
         <li>
           <a href="#/">
-            <i class="far fa-circle mr-2"></i>Security
+            <i class="far fa-circle mr-2"></i>Appointments
+          </a>
+        </li>
+
+      
+        <li>
+          <a href="#/staff-onboarding">
+            <i class="far fa-circle mr-2"></i>User Management
+          </a>
+        </li>
+
+        <li>
+          <a href="#/">
+            <i class="far fa-circle mr-2"></i>Access Management
           </a>
         </li>
 

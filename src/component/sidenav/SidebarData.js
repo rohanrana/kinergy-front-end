@@ -48,7 +48,7 @@ export const SidebarData = [
 
   {
     title: "Admin",
-    path: "/admin",
+    path: "/facility-management",
     icon: <i className="fas fa-user"></i>,
   },
 

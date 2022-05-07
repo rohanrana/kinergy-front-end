@@ -109,6 +109,23 @@ h6 {
   color: #ffffff !important;
 }
 
+.kfAUAw{
+  position: relative !important;
+  float: left;
+  box-shadow: unset !important;
+  top: unset;
+  left: unset;
+}
+
+.bTeNPZ{
+  position: relative !important;
+  float: left;
+  box-shadow: unset !important;
+  top: unset;
+  left: unset;
+  margin-left: -100% !important;
+}
+
 .btn-theme-white {
   border: 1px solid #b4b4b4 !important;
   box-sizing: border-box;
@@ -209,7 +226,7 @@ h6 {
 }
 
 .appointment-card {
-  padding: 2rem;
+  padding: 1rem;
   background: #ffffff;
   box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.1);
   border-radius: 11px;
@@ -330,7 +347,7 @@ h6 {
 
 .page-left-sub-nav {
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding: .5rem;
     background: #ffffff;
     box-shadow: 0px 4px 20px 2px rgb(0 0 0 / 10%);
     border-radius: 11px;
@@ -361,6 +378,11 @@ h6 {
 
 .page-left-sub-nav ul .dropdown .dropdown-menu {
   padding: 0;
+  position: unset !important;
+  transform: unset !important;
+  inset: unset;
+  z-index: unset;
+  border: unset;
 }
 
 .page-left-sub-nav ul .dropdown .dropdown-menu a {
@@ -378,23 +400,23 @@ h6 {
 
 .form-type .form-control {
   margin-top: -10px;
-  min-height: 45px;
+  min-height: 35px;
   font-size: 14px !important;
 }
 
 .form-control {
-  min-height: 45px;
+  min-height: 35px;
   font-size: 14px !important;
 }
 
 .form-type .form-select {
   margin-top: -10px;
-  min-height: 45px;
+  min-height: 35px;
   font-size: 14px;
 }
 
 .form-select {
-  min-height: 45px !important;
+  min-height: 35px !important;
   font-size: 14px !important;
 }
 
@@ -455,6 +477,31 @@ h6 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.facility-detail-top{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.facility-detail-top .staff-img-detail {
+  background: #c4c4c4;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  position: relative;
+  margin-right: 20px;
+}
+
+.facility-detail-top .staff-img-detail img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 30px;
 }
 
 .ml-auto {
