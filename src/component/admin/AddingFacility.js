@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Sidebar from "../sidenav/Sidebar";
-import StaffMember from "../../image/staff.png"
+import StaffMember from "../../image/staff.png";
 
 const AddingFacility = () => {
   return (
@@ -9,11 +9,10 @@ const AddingFacility = () => {
       <Sidebar />
       <Container fluid>
         <Row>
-         
           <Col lg={12} sm={12} xs={12}>
-          <h5 className="pb-1 mt-3">Add New Facility</h5>
+            <h5 className="pb-1 mt-3">Add New Facility</h5>
             <div className="appointment-card mt-0">
-                <h6 className="mb-3">Facility Detail</h6>
+              <h6 className="mb-3">Facility Detail</h6>
               <Form>
                 <Row>
                   <Col lg={12} sm={12} xs={12}>
@@ -37,11 +36,10 @@ const AddingFacility = () => {
                   <hr />
 
                   <h6 className="mb-3">Contact Information</h6>
-
                 </Row>
 
                 <Row>
-                <Col lg={4} sm={4} xs={12}>
+                  <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
                       <Form.Select>
                         <option>Phone Type</option>
@@ -55,54 +53,55 @@ const AddingFacility = () => {
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
-                  <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                       <Form.Control placeholder="Phone Number" />
                     </Form.Group>
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
-                    <h5 className="mb-0 mt-2"><a href="#/" className="text-dark"><i class="fas fa-plus-circle"></i></a></h5>
+                    <h5 className="mb-0 mt-2">
+                      <a href="#/" className="text-dark">
+                        <i class="fas fa-plus-circle"></i>
+                      </a>
+                    </h5>
                   </Col>
-
                 </Row>
                 <Row>
-                <Col lg={4} sm={4} xs={12}>
-                  <Form.Group className="mb-3">
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
                       <Form.Control placeholder="Email" />
                     </Form.Group>
                   </Col>
                 </Row>
 
-
                 <Row>
-                <hr />
+                  <hr />
 
-                <h6 className="mb-3">Address</h6>
-                <Col lg={4} sm={4} xs={12}>
-                  <Form.Group className="mb-3">
+                  <h6 className="mb-3">Address</h6>
+                  <Col lg={4} sm={4} xs={12}>
+                    <Form.Group className="mb-3">
                       <Form.Control placeholder="Address" />
                     </Form.Group>
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
-                  <Form.Group className="mb-3">
-                  <Form.Select>
+                    <Form.Group className="mb-3">
+                      <Form.Select>
                         <option>City</option>
-                      
                       </Form.Select>
                     </Form.Group>
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
-                  <Form.Group className="mb-3">
-                  <Form.Select>
+                    <Form.Group className="mb-3">
+                      <Form.Select>
                         <option>State</option>
                       </Form.Select>
                     </Form.Group>
                   </Col>
 
                   <Col lg={4} sm={4} xs={12}>
-                  <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                       <Form.Control placeholder="Zip Code" />
                     </Form.Group>
                   </Col>
@@ -111,18 +110,19 @@ const AddingFacility = () => {
                 <Row>
                   <hr />
                   <h6 className="mb-3">Upload Profile Image</h6>
- 
+
                   <Col lg={2} sm={3} xs={12}>
                     <div className="staff-img">
-                        <img src={StaffMember} alt={StaffMember} />
+                      <img src={StaffMember} alt={StaffMember} />
                     </div>
-                    
-                </Col>
-                <Col lg={10} sm={9} xs={12}>
-                <div className="mt-5">
-                    <Button className="btn btn-theme btn-sm">Browse for file</Button>
+                  </Col>
+                  <Col lg={10} sm={9} xs={12}>
+                    <div className="mt-5">
+                      <Button className="btn btn-theme btn-sm">
+                        Browse for file
+                      </Button>
                     </div>
-                </Col>
+                  </Col>
                 </Row>
 
                 <Row>

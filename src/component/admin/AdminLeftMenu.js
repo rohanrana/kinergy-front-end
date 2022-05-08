@@ -1,5 +1,4 @@
 import React from "react";
-import { NavDropdown } from "react-bootstrap";
 
 const AdminLeftMenu = () => {
   return (
@@ -16,7 +15,7 @@ const AdminLeftMenu = () => {
         </li>
 
         <li>
-          <a href="#/">
+          <a href="#/system-settings">
             <i class="far fa-circle mr-2"></i>System Settings
           </a>
         </li>

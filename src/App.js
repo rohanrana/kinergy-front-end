@@ -82,6 +82,7 @@ import PerformanceNote from "./component/admin/department/PerformanceNote";
 import FacilityManagement from "./component/admin/FacilityManagement";
 import FacilityDetail from "./component/admin/FacilityDetail";
 import EditFacility from "./component/admin/EditFacility";
+import SystemSettings from "./component/admin/SystemSettings";
 
 function App() {
   return (
@@ -163,6 +164,7 @@ function App() {
         <Route exact path="/facility-management" component={FacilityManagement} />
         <Route exact path="/facility-detail" component={FacilityDetail} />
         <Route exact path="/edit-facility" component={EditFacility} />
+        <Route exact path="/system-settings" component={SystemSettings} />
       </Switch>
     </Router>
   );

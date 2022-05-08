@@ -1,5 +1,18 @@
 import React from "react";
-import { Container, Row, Col, Form, Button, ButtonGroup, ButtonToolbar, DropdownButton, Table, Dropdown, InputGroup, FormControl, Pagination } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  DropdownButton,
+  Table,
+  Dropdown,
+  InputGroup,
+  FormControl,
+  Pagination,
+} from "react-bootstrap";
 import Sidebar from "../sidenav/Sidebar";
 import AdminLeftMenu from "./AdminLeftMenu";
 
@@ -13,7 +26,7 @@ const FacilityManagement = () => {
             <AdminLeftMenu />
           </Col>
           <Col lg={9} sm={8} xs={12}>
-          <div className="appointment-card">
+            <div className="appointment-card">
               <ButtonToolbar
                 className="justify-content-between mb-3"
                 aria-label="Toolbar with Button groups"
@@ -21,8 +34,6 @@ const FacilityManagement = () => {
                 <h5>Facility Management</h5>
 
                 <ButtonGroup className="rounded">
-                  
-                  
                   <InputGroup>
                     <FormControl
                       className="rounded mr-2"
@@ -37,7 +48,9 @@ const FacilityManagement = () => {
                     <Dropdown.Item eventKey="2">Level 3</Dropdown.Item>
                     <Dropdown.Item eventKey="2">Level 4</Dropdown.Item>
                   </DropdownButton>
-                  <a href="#/adding-facility" className="btn btn-theme ml-2">+ Add Facility</a>
+                  <a href="#/adding-facility" className="btn btn-theme ml-2">
+                    + Add Facility
+                  </a>
                 </ButtonGroup>
               </ButtonToolbar>
               <Table responsive>
@@ -45,24 +58,26 @@ const FacilityManagement = () => {
                   <tr>
                     <th className="text-left">Facility</th>
                     <th>Facility Location</th>
-                    <th>
-                    Phone Number
+                    <th>Phone Number</th>
+                    <th colSpan="2" className="text-left">
+                      Status
                     </th>
-                    <th colSpan="2" className="text-left">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="text-left">Kinergy Sports Medicine and Performance</td>
+                    <td className="text-left">
+                      Kinergy Sports Medicine and Performance
+                    </td>
                     <td>Amsterdam</td>
                     <td>000-000-0000</td>
                     <td className="text-left">Active</td>
                     <td className="text-left">
-                      <a href="#/facility-detail" className="text-dark"><u>View Details</u></a>
+                      <a href="#/facility-detail" className="text-dark">
+                        <u>View Details</u>
+                      </a>
                     </td>
-                    
                   </tr>
-
                 </tbody>
               </Table>
               <Pagination size="sm">
