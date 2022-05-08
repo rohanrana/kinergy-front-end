@@ -506,6 +506,9 @@ h6 {
 .ml-auto {
   margin-left: auto !important;
 }
+.hkugCt{
+  margin-left: 0 !important;
+}
 .btn-group {
   align-items: center;
 }

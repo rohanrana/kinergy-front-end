@@ -25,16 +25,17 @@ import { IconContext } from "react-icons/lib";
 
 const SidebarNav = styled.nav`
   background: #ffffff;
-  box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.1);
   width: 200px;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: ${({ sidebar }) => (sidebar ? "0" : "-100%")};
+  // display: flex;
+  // justify-content: center;
+  // position: relative;
+  float:left;
+
+  margin-left: ${({ sidebar }) => (sidebar ? "0" : "-100%!important")};
   transition: 350ms;
-  z-index: 10;
+  // z-index: 10;
 `;
 
 const SidebarWrap = styled.div`
@@ -89,7 +90,7 @@ const Sidebar = () => {
         </Container>
       </Navbar>
       <IconContext.Provider value={{ color: "#ffffff" }}>
-        <SidebarNav sidebar={sidebar}>
+        <SidebarNav className="hkugCt" sidebar={sidebar}>
           <SidebarWrap>
             {/* <span className="close-icon-navbar">
               <AiIcons.AiOutlineClose onClick={showSidebar} />
