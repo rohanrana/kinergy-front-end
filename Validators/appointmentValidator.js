@@ -36,6 +36,7 @@ const generateAddValidation = (req, res, next) => [
         });
     }
     })
+    .withMessage('Customer not exist')
     .trim()
     .escape()
     .not()
@@ -50,11 +51,13 @@ const generateAddValidation = (req, res, next) => [
             }
         });
     })
+    .withMessage('Staff not exist')
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage('Staff is required')
+    
 
 ]
 const generateEditValidation = (req, res, next) => [

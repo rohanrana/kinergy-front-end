@@ -3,8 +3,8 @@ const resCode = require('../helper/httpResponseCode');
 const resMessage = require('../helper/httpResponseMessage');
 const Appointment = require('../models/appointmentModel');
 
+const generalHelper = require('../helper/general')
 
-const STATUS = ["UPCOMING", "COMPLETE", "CANCEL", "PENDING"];
 const moment = require('moment');
 const returnPagination = (result) => {
     delete result.docs;
@@ -13,15 +13,16 @@ const returnPagination = (result) => {
 const appointmentApis = {
     'book': (req, res, next) => {
         console.log(req.body);
-        const { appointmentDate, appointmentTime, spentTime, serviceType, staff, customer, status ,location,department} = req.body;
+        const { appointmentDate, appointmentTime, spentTime, serviceType,service, staff, customer, status ,location,department} = req.body;
         const appointment = new Appointment({
-            appointmentDate: moment(appointmentDate).format("YYYY-MM-DD"),
+            appointmentDate: generalHelper.dateFormat(appointmentDate),
             appointmentTime,
             spentTime,
             serviceType,
+            service,
             staff,
             customer,
-            status,
+            status:generalHelper.stringToUpperCase(status),
             location,
             department
         });
@@ -30,7 +31,7 @@ const appointmentApis = {
         appointment.save((err, result) => {
             console.log(err, result);
             if (!err)
-                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Appointment Add Successfully.', result);
+                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, resMessage.APPOINTMENT+resMessage.SAVED_SUCCESSFULLY, result);
             else {
                 console.log(err);
                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -42,12 +43,13 @@ const appointmentApis = {
         if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Appointment Id.');
         } else {
-            const { appointmentDate, appointmentTime, spentTime, serviceType, staff, customer, status,location,department } = req.body;
+            const { appointmentDate, appointmentTime, spentTime, serviceType,service, staff, customer, status,location,department } = req.body;
             const editData = {
                 appointmentDate: moment(appointmentDate).format("YYYY-MM-DD"),
                 appointmentTime,
                 spentTime,
                 serviceType,
+                service,
                 staff,
                 customer,
                 status,
@@ -133,7 +135,7 @@ const appointmentApis = {
                 Appointment.paginate({ customer: req.body._id },options,function (err, result) {
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                else if (!result || result.length == 0)
+                else if (!result || result.docs.length == 0)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Customer Appointment Not Found.');
                 else
                     // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Customer Appointment Found Successfully.', result);
@@ -167,10 +169,10 @@ const appointmentApis = {
       
                 Appointment.paginate({ staff: req.body._id },options,function (err, result) {
             // Appointment.find({ staff: req.body._id }).populate('customer').populate("staff").lean().exec((err, result) => {
-                // console.log(result.length);
+                console.log(result,err);
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                else if (!result || result.length == 0)
+                else if (!result.docs || result.docs.length == 0)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Staff Appointment Not Found.');
                 else
                     // Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Staff Appointment Found Successfully.', result);

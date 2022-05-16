@@ -13,5 +13,7 @@ module.exports = {
  	FALSE:false,
  	GUEST:"guest",
  	USER: "user",
-    ACTIVE: "active",
+   ACTIVE: "active",
+
+   
  };

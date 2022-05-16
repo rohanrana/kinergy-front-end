@@ -17,7 +17,7 @@ const getFloatData = (result) => {
       itemName: item.itemName,
       rate: Number(parseFloat(item.rate)).toFixed(2),
       tax: Number(parseFloat(item.tax)).toFixed(2),
-      taxAmount: Number(parseFloat(item.taxAmount)).toFixed(2),
+      // taxAmount: Number(parseFloat(item.taxAmount)).toFixed(2),
       totalAmount: Number(parseFloat(item.totalAmount)).toFixed(2),
       status: item.status,
       createdAt: item.createdAt,
@@ -195,7 +195,7 @@ const billableItemApis = {
             resCode.WENT_WRONG,
             resMessage.WENT_WRONG
           );
-        else if (!result || result.length == 0)
+        else if (!result || result.docs.length == 0)
           Response.sendResponseWithoutData(
             res,
             resCode.WENT_WRONG,

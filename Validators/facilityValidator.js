@@ -11,7 +11,7 @@ const generateAddValidation = (req, res, next) => [
         let userOptions = {};
         userOptions = {...userOptions,facilityName:value};
 
-        console.log('userOptions',userOptions);
+        // console.log('userOptions',userOptions);
         return Facility.findOne(userOptions).then(facility => {
             
             if (facility) {
@@ -56,9 +56,6 @@ const reporter = (req, res, next) => {
             msg: error.msg
         }));
         const dedupThings = Array.from(errorMessages.reduce((m, t) => m.set(t.title, t), new Map()).values());
-        // return res.status(resCode.UNPROCESSABLE_ENTITY).json({
-        //     errors: dedupThings
-        // });
         Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', dedupThings);
     } else {
         next();

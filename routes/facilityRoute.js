@@ -9,6 +9,8 @@ router.post('/add',facilityApis.fileUpload, facilityValidator.add, authHandler.a
 router.post('/edit',facilityApis.fileUpload, facilityValidator.edit, authHandler.auth_func, facilityApis.edit);
 router.post('/delete', authHandler.auth_func, facilityApis.delete);
 router.post('/facilityList', authHandler.auth_func, facilityApis.facilityList);
-router.post('/facilityById/:facilityId', authHandler.auth_func, facilityApis.facilityById);
+
+
+router.post('/facilityById', authHandler.auth_func, facilityApis.facilityById);
 router.post('/changeStatus', authHandler.auth_func, facilityApis.changeStatus);
 module.exports = router;

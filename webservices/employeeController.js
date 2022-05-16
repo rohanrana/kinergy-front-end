@@ -177,10 +177,10 @@ const employeeApis = {
         }
     },
     'employeeById': (req, res, next) => {
-        if (!req.params.employeeId) {
+        if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Employee Id.');
         } else {
-            Employee.find({ _id: req.params.employeeId }).populate('role').lean().exec((err, result) => {
+            Employee.find({ _id: req.body._id }).populate('role').lean().exec((err, result) => {
 
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
@@ -193,7 +193,7 @@ const employeeApis = {
     },
     'employeeList': (req, res, next) => {
         const perPage = 10;
-        page =  req.params.page != "undefined" && req.params.page ? Math.max(0, req.params.page) : 1;
+        page =  req.body.page != "undefined" && req.body.page ? Math.max(0, req.body.page) : 1;
         // Employee.find().lean().exec((err, result) => {
             Employee.paginate({},{page: page, limit: perPage },function (err, result) {
             if (err) {

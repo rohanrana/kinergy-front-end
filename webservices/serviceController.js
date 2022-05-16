@@ -1,257 +1,506 @@
-const Service = require('../models/serviceModel');
-const Response = require('../common_functions/response_handler');
-const resCode = require('../helper/httpResponseCode');
-const resMessage = require('../helper/httpResponseMessage');
-const {SERVICE_STATUS} = require('../helper/statusLists');
-var slugify = require('slugify');
-const { edit } = require('../Validators/staffValidator');
-const path = require('path');
+const Service = require("../models/serviceModel");
+const Category = require("../models/serviceCategoryModel");
+const Response = require("../common_functions/response_handler");
+const resCode = require("../helper/httpResponseCode");
+const resMessage = require("../helper/httpResponseMessage");
+const generalHelper = require("../helper/general");
+var slugify = require("slugify");
+const path = require("path");
 
-const multer = require('multer')
-const serviceValidator = require('../Validators/serviceValidator');
-const fs = require('fs');
+const multer = require("multer");
+
+const fs = require("fs");
 const maxSize = 1 * 1024 * 1024;
 
 const returnPagination = (result) => {
-delete result.docs;
-return result;
+  delete result.docs;
+  return result;
 };
 
 const serviceApis = {
+  // ===============Add Service List ==========================
 
-    // ===============Add Service List ==========================
+  add: (req, res) => {
+    const {
+      title,
+      description,
+      image,
+      status,
+      addBy,
+      category,
+      parentService,
+      haveSubService,
+      price,
+      duration,
+      insuranceApplicable,
+      serviceType,
+    } = req.body;
+    var priceArr = [];
 
-    'add': (req, res) => {
-        const {title,description,image,status,addBy,category,haveSubService,price,duration} = req.body;
-        let priceArr = [];
-        if (price) {
-          price.map((value, index) => {
-            priceObj = {};
-            if (duration[index]) {
-              priceObj.duration = duration[index];
-            } else {
-              priceObj.duration = null;
-            }
-            priceObj = { ...priceObj, price: value };
-            priceArr.push(priceObj);
-          });
-        }
-        const slug = slugify(title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true });
-        let service = new Service({
-            category:category,
-            haveSubService:haveSubService,
-            title:title,
-            description: description,
-            image:image,
-            slug: slug,
-            addBy:addBy,
-            status:status,
-            priceDetail:priceArr
+    if (haveSubService ||  generalHelper.stringToUpperCase(serviceType) == 'SUBSERVICE')
+      priceArr = generalHelper.managePriceDuration(price, duration);
+
+    const slug = slugify(title, {
+      replacement: "-",
+      remove: undefined,
+      lower: true,
+      strict: true,
+      trim: true,
+    });
+
+    let service = new Service({
+      category: category,
+      parentService:parentService,
+      haveSubService: haveSubService,
+      title: title,
+      description: description,
+      image: image,
+      slug: slug,
+      addBy: addBy,
+      status: generalHelper.stringToUpperCase(status),
+      priceDetail: priceArr,
+      serviceType: generalHelper.stringToUpperCase(serviceType),
+      insuranceApplicable: insuranceApplicable,
+    });
+    service.save((err, result) => {
+      // console.log(err, result);
+      if (!err)
+        Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Service Save Successfully.",
+          result
+        );
+      else
+        Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+    });
+  },
+  //============= edit Service By Id =========================
+
+  edit: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Service Id."
+      );
+    } else {
+      const {
+        title,
+        description,
+        image,
+        status,
+        addBy,
+        category,
+        parentService,
+        haveSubService,
+        price,
+        duration,
+        insuranceApplicable,
+        serviceType,
+      } = req.body;
+      var priceArr = [];
+    
+      if (haveSubService ||  generalHelper.stringToUpperCase(serviceType) == 'SUBCATEGORY')
+      priceArr = generalHelper.managePriceDuration(price, duration);
+
+      const slug = slugify(title, {
+        replacement: "-",
+        remove: undefined,
+        lower: true,
+        strict: true,
+        trim: true,
+      });
+      let editData = {
+        category: category,
+        parentService:parentService,
+        haveSubService: haveSubService,        
+        title: title,
+        description: description,
+        image: image,
+        slug: slug,
+        addBy: addBy,
+        status: generalHelper.stringToUpperCase(status),
+        priceDetail: priceArr,
+        serviceType: generalHelper.stringToUpperCase(serviceType),
+        insuranceApplicable: insuranceApplicable
+      };
+
+      Service.findOneAndUpdate({ _id: req.body._id }, editData, { new: true })
+        .lean()
+        .exec((err, result) => {
+          console.log(err);
+          if (!err) {
+            generalHelper.removeFile(req.body.oldImage,"public/uploads/service/");          
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              resMessage.SERVICE+resMessage.UPDATE,
+              result
+            );
+          } else
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
         });
-        service.save((err, result) => {
-            // console.log(err, result);
-            if (!err)   
-                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Save Successfully.', result);
-            else
-                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-        });
-    },
-
-    // =============get Service List=============================
-
-    'getList': (req, res) => {
-        const perPage = 10,
-        page =  req.params.page != "undefined" && req.params.page ? Math.max(0, req.params.page) : 1;
-        
-            Service.paginate({},{page: page, limit: perPage },function (err, result) {
-                console.log(err);
-            if (err)
-                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-            else if (!result || result.docs.length == 0)
-                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Services Not Found.');
-            else
-                Response.sendResponseWithPagination(res, resCode.EVERYTHING_IS_OK, 'Service List.', result.docs,returnPagination(result));
-        });
-    },
-
-    //============= get Service By Id =========================
-
-    'getListById': (req, res) => {
-        if (!req.body._id) {
-            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Service Id.');
-        } else {
-            Service.find({ _id: req.body._id}).lean().exec((err, result) => {
-                // console.log(result.length);
-                if (err)
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-                else if (!result || result.length == 0)
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Service Not Found.');
-                else
-                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Found Successfully.', result);
-            });
-        }
-
-    },
-
-    //============= edit Service By Id =========================
-
-    'edit': (req, res) => {
-        if (!req.body._id) {
-            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Service Id.');
-        } else {
-            const {title,description,image,status,addBy,category,haveSubService,price,duration} = req.body;
-        let priceArr = [];
-        if (price) {
-          price.map((value, index) => {
-            priceObj = {};
-            if (duration[index]) {
-              priceObj.duration = duration[index];
-            } else {
-              priceObj.duration = null;
-            }
-            priceObj = { ...priceObj, price: value };
-            priceArr.push(priceObj);
-          });
-        }
-        const slug = slugify(title, { replacement: '-', remove: undefined, lower: true, strict: true, trim: true });
-        let editData ={
-            category:category,
-            haveSubService:haveSubService,
-            title:title,
-            description: description,
-            image:image,
-            slug: slug,
-            addBy:addBy,
-            status:status,
-            priceDetail:priceArr
-        };
-
-            Service.findOneAndUpdate({ _id: req.body._id }, editData, { new: true }).lean().exec((err, result) => {
-                if (!err) {
-                    if (req.body.oldImage != 'undefined' && req.body.oldImage != null && req.body.image != 'undefined' && req.body.image != null) {
-                        let filePath = 'public/uploads/service/' + '/' + req.body.oldImage;
-                        fs.unlink(filePath, function(err) {
-                            if (!err) console.log('removed');
-                        });
-                    }
-                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Update Successfully.', result);
-                } else
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-
-            });
-        }
-    },
-
-    //============= edit Service By Id =========================
-
-    'delete': (req, res) => {
-        if (!req.body._id) {
-            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Service Id');
-        } else {
-            Service.findOneAndDelete({ _id: req.body._id }).lean().exec((err, result) => {
-                if (!err) {
-                    if (req.body.oldImage != 'undefined' && req.body.oldImage != null) {
-                        let filePath = 'public/uploads/service/' + '/' + req.body.oldImage;
-                        fs.unlink(filePath, function(err) {
-                            if (!err) console.log('removed');
-                        });
-                    }
-                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Deleted Successfully', result);
-                } else
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-
-            });
-        }
-    },
-    'changeStatus': (req, res, next) => {
-        
-        if (!req.body._id) {
-            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Service Id');
-        } else if (!req.body.status) {
-            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Service Status');
-        } else {
-            Service.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
-                if (!err) {
-                    Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Status Changed Successfully.', result);
-                } else
-                    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-
-            });
-        }
-
-    },
-    'fileUpload': (req, res, next) => {
-
-
-        var storage = multer.diskStorage({
-            destination: function(req, file, cb) {
-                // console.log(file);
-                // Uploads is the Upload_folder_name
-                    cb(null, "public/uploads/service")
-            },
-            filename: function(req, file, cb) {
-                // console.log(req.body, file);
-                var extname = path.extname(file.originalname).toLowerCase();
-                var imageName = file.fieldname + "-" + Date.now() + extname
-                    // console.log(imageName);
-                req.body[file.fieldname] = imageName;
-                cb(null, imageName)
-            }
-        })
-
-
-        var upload = multer({
-            storage: storage,
-            limits: { fileSize: maxSize },
-            fileFilter: (req, file, cb) => {
-                // console.log(req.body, file);
-                if (
-                    file.mimetype == "image/png" ||
-                    file.mimetype == "image/jpg" ||
-                    file.mimetype == "image/jpeg"
-                ) {
-                    cb(null, true);
-                } else {
-                    cb(null, false);
-                    // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
-                    req.file = {
-                        error: true,
-                        title: file.fieldname,
-                        msg: "Only .png, .jpg and .jpeg format allowed!",
-                        status: -6
-                    }
-
-
-                }
-
-            },
-            onFileSizeLimit: function(file) {
-                req.file = {
-                    error: true,
-                    title: file.fieldname,
-                    msg: "Image file is to large",
-                    status: -6
-                }
-            }
-        }).fields([{
-            name: 'image',
-            maxCount: 1
-        }]);
-
-
-        upload(req, res, function(err) {
-            if (err instanceof multer.MulterError) {
-                console.log('uploading_err', err);
-                // A Multer error occurred when uploading.
-            } else if (err) {
-                // An unknown error occurred when uploading.
-                console.log('uploading_err', err);
-            }
-            // Everything went fine. 
-
-            next()
-        })
     }
-}
+  },
+
+  //============= edit Service By Id =========================
+  // =============get Service List=============================
+
+  getList: (req, res) => { 
+    const perPage = 10,
+      page = req.body.page != "undefined" && req.body.page
+          ? Math.max(0, req.body.page)
+          : 1;
+    var category = { path: "category", select: { _id: 1, title: 1, slug: 1 } };
+    let options = {
+      populate: [category],
+      page: page,
+      limit: perPage,
+      select:
+        "_id title  serviceType parentService slug description category image priceDetail insuranceApplicable addBy status createdAt updatedAt",
+    };
+    let query = {};
+     query = {...query,serviceType:req.body.serviceType?req.body.serviceType:"SERVICE"};
+    Service.paginate(query, options, function (err, result) {
+      console.log(err);
+      if (err)
+        Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      else if (!result || result.docs.length == 0)
+        Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          "Services Not Found."
+        );
+      else
+        Response.sendResponseWithPagination(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Service List.",
+          result.docs,
+          returnPagination(result)
+        );
+    });
+  },
+
+  //============= get Service By Id =========================
+
+  getListById: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Service Id."
+      );
+    } else {
+      Service.find({ _id: req.body._id })
+        .lean()
+        .exec((err, result) => {
+          // console.log(result.length);
+          if (err)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+          else if (!result || result.length == 0)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              "Service Not Found."
+            );
+          else
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              "Service Found Successfully.",
+              result
+            );
+        });
+    }
+  },
+
+  delete: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Service Id"
+      );
+    } else {
+      Service.findOneAndDelete({ _id: req.body._id })
+        .lean()
+        .exec((err, result) => {
+          if (!err) {
+            generalHelper.removeFile(req.body.oldImage,"public/uploads/service/");       
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              resMessage.SERVICE+resMessage.DELETE,
+              result
+            );
+          } else
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+        });
+    }
+  },
+  changeStatus: (req, res, next) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Service Id"
+      );
+    } else if (!req.body.status) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Service Status"
+      );
+    } else {
+      Service.findOneAndUpdate(
+        { _id: req.body._id },
+        { status: req.body.status.toUpperCase() },
+        { new: true }
+      )
+        .lean()
+        .exec((err, result) => {
+          if (!err) {
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              resMessage.SERVICE+resMessage.DELETE,
+              result
+            );
+          } else
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+        });
+    }
+  },
+  fileUpload: (req, res, next) => {
+    var storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        // console.log(file);
+        // Uploads is the Upload_folder_name
+        cb(null, "public/uploads/service");
+      },
+      filename: function (req, file, cb) {
+        // console.log(req.body, file);
+        var extname = path.extname(file.originalname).toLowerCase();
+        var imageName = file.fieldname + "-" + Date.now() + extname;
+        // console.log(imageName);
+        req.body[file.fieldname] = imageName;
+        cb(null, imageName);
+      },
+    });
+
+    var upload = multer({
+      storage: storage,
+      limits: { fileSize: maxSize },
+      fileFilter: (req, file, cb) => {
+        // console.log(req.body, file);
+        if (
+          file.mimetype == "image/png" ||
+          file.mimetype == "image/jpg" ||
+          file.mimetype == "image/jpeg"
+        ) {
+          cb(null, true);
+        } else {
+          cb(null, false);
+          // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+          req.file = {
+            error: true,
+            title: file.fieldname,
+            msg: "Only .png, .jpg and .jpeg format allowed!",
+            status: -6,
+          };
+        }
+      },
+      onFileSizeLimit: function (file) {
+        req.file = {
+          error: true,
+          title: file.fieldname,
+          msg: "Image file is to large",
+          status: -6,
+        };
+      },
+    }).fields([
+      {
+        name: "image",
+        maxCount: 1,
+      },
+    ]);
+
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        console.log("uploading_err", err);
+        // A Multer error occurred when uploading.
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        console.log("uploading_err", err);
+      }
+      // Everything went fine.
+
+      next();
+    });
+  },
+  //============= get  Service By Category Id =========================
+
+  getListByCategoryId: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter  Category Id."
+      );
+    } else {
+      Category.find({ _id: req.body._id })
+        .lean()
+        .exec((err, category) => {
+          if (err)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+          else if (!category || category.length == 0)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              "Category Not Found."
+            );
+          else {
+            const perPage = 10,
+              page =
+                req.body.page != "undefined" && req.body.page
+                  ? Math.max(0, req.body.page)
+                  : 1;
+                  let query = {};
+                  query = {...query,serviceType:req.body.serviceType?req.body.serviceType:"SERVICE"};
+                  query = {...query,category: req.body._id };
+            Service.paginate(
+              query,
+
+              { page: page, limit: perPage },
+              function (err, result) {
+                console.log(err);
+                if (err)
+                  Response.sendResponseWithoutData(
+                    res,
+                    resCode.WENT_WRONG,
+                    resMessage.WENT_WRONG
+                  );
+                else if (!result || result.docs.length == 0) {
+                  Response.sendResponseWithData(
+                    res,
+                    resCode.EVERYTHING_IS_OK,
+                    "Services Not Found.",
+                    { category: category, ServiceResult: [] }
+                  );
+                } else
+                  Response.sendResponseWithPagination(
+                    res,
+                    resCode.EVERYTHING_IS_OK,
+                    "Service List.",
+                    { category: category, ServiceResult: result.docs },
+                    returnPagination(result)
+                  );
+              }
+            );
+          }
+        });
+    }
+  },
+
+   //============= get Sub Service By Service Id =========================
+
+  getListByServiceId: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter  Service Id."
+      );
+    } else {
+      var query = {};
+      query = {...query,serviceType:"SERVICE"};
+      query = {...query,_id: req.body._id};
+      
+      Service.find(query)
+        .lean()
+        .exec((err, service) => {
+          if (err)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+          else if (!service || service.length == 0)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              "Service Not Found."
+            );
+          else {
+            const perPage = 10,
+              page =
+                req.body.page != "undefined" && req.body.page
+                  ? Math.max(0, req.body.page)
+                  : 1;
+
+            Service.paginate(
+              { parentService: req.body._id },
+
+              { page: page, limit: perPage },
+              function (err, result) {
+                console.log(err);
+                if (err)
+                  Response.sendResponseWithoutData(
+                    res,
+                    resCode.WENT_WRONG,
+                    resMessage.WENT_WRONG
+                  );
+                else if (!result || result.docs.length == 0) {
+                  Response.sendResponseWithData(
+                    res,
+                    resCode.EVERYTHING_IS_OK,
+                    "Services Not Found.",
+                    { service: service, ServiceResult: [] }
+                  );
+                } else
+                  Response.sendResponseWithPagination(
+                    res,
+                    resCode.EVERYTHING_IS_OK,
+                    resMessage.SERVICE+resMessage.LIST,
+                    { service: service, ServiceResult: result.docs },
+                    returnPagination(result)
+                  );
+              }
+            );
+          }
+        });
+    }
+  },
+};
 
 module.exports = serviceApis;

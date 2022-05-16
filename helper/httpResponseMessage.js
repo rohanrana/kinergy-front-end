@@ -1,9 +1,10 @@
 module.exports = {
-  INTERNAL_SERVER_ERROR:"Internal server error.",
+  INTERNAL_SERVER_ERROR: "Internal server error.",
   REQUIRED_DATA: "Please fill all required data.",
   SUCCESSFULLY_DONE: "Data found successfully.",
   WENT_WRONG: "Something went wrong",
   SAVED_SUCCESSFULLY: " is saved successfully.",
+
   ALL_READY_EXIST_EMAIL: "This email is Already exist.",
   ALL_READY_EXIST_NAME: "This name is Already exist.",
   EMAIL_IS_REQUIRED: "Please enter email",
@@ -12,9 +13,22 @@ module.exports = {
   NOT_FOUND: "No data found.",
   UPDATE: " is updated successfully.",
   DELETE: " deleted successfully.",
+  STATUS:"  Status Changed Successfully.",
+  LIST:"  List Found Successfully.",
   ALL_READY_EXIST_REGISTRATION_NO:
     "This registration number is already exists.",
-  FIELD_REQUIRED:"This field is required.",
+  FIELD_REQUIRED: "This field is required.",
+  ALL_READY_EXIST :" all ready exist.",
+
+
+  // Appointments
+  APPOINTMENT :"Appointment",
+  // 
+  TITLE_REQUIRED: "Please enter title.",
+  TITLE_ALREADY_EXIST: "Title already exist",
+  IMAGE_REQUIRED: "Please upload an image.",
+  CATEGORY_REQUIRED: "Please Select Category.",
+
 
   // Validation_errors
   EMAIL_REQUIRED: "Please enter email address.",
@@ -25,10 +39,13 @@ module.exports = {
   PASSWORD_STRONG:
     "Please enter  password at least 8 character and  contain At least one uppercase.At least one lower case.At least one special character. ",
 
-
   // USER**
-  ADD_BY_USER_ID_REQUIRED :"User id is required.",
-  SERVICE_ID_REQUIRED:"Service Id is required",
+  ADD_BY_USER_ID_REQUIRED: "User id is required.",
+  SERVICE_ID_REQUIRED: "Service Id is required.",
+  ENTER_USER_ID : "Please Enter User Id.",
+  ENTER_VALID_USER_ID:"Please Enter Valid User Id.",
+
+
 
   // ITEM
   ITEM: "Item",
@@ -61,35 +78,66 @@ module.exports = {
   // State
   STATE_NOT_FOUND: "State not found.",
 
-  // Service
-  TITLE_REQUIRED: "Please enter title.",
-  TITLE_ALREADY_EXIST: "Title already exist",
-  IMAGE_REQUIRED: "Please upload an image.",
-  CATEGORY_REQUIRED : "Please Select Category.",
+  
   
 
   // Tax
 
   // Billable Items
   ITEM_TYPE_REQUIRED: "Please enter item type",
-  ITEM_CODE_REQUIRED:"Please enter Item Code",
-  ITEM_NAME_REQUIRED:"Please enter Item name",
-  ITEM_TAX_REQUIRED:"Please enter Item Tax",
-  ITEM_AMOUNT_REQUIRED:"Please enter Item Amount",
-  ITEM_RATE_REQUIRED:"Please enter Item Rate",
-  ITEM_TOTAL_REQUIRED:"Please enter Item Total",
+  ITEM_CODE_REQUIRED: "Please enter Item Code",
+  ITEM_NAME_REQUIRED: "Please enter Item name",
+  ITEM_TAX_REQUIRED: "Please enter Item Tax",
+  ITEM_AMOUNT_REQUIRED: "Please enter Item Amount",
+  ITEM_RATE_REQUIRED: "Please enter Item Rate",
+  ITEM_TOTAL_REQUIRED: "Please enter Item Total",
 
   // Inventory
 
-  INVENTORY_NAME_REQUIRED:" Please enter name",
-  INVENTORY_CODE_DESCRIPTION:"Please enter description",
-  INVENTORY_CODE_REQUIRED:"Please enter Code",
-  INVENTORY_QUANTITY_REQUIRED:"Please enter quantity",
-  INVENTORY_TAX_REQUIRED:"Please enter Tax",
-  INVENTORY_PRICE_REQUIRED:"Please enter price",
-  INVENTORY_TOTAL_REQUIRED:"Please enter Total Amount",
+  INVENTORY_NAME_REQUIRED: " Please enter name",
+  INVENTORY_CODE_DESCRIPTION: "Please enter description",
+  INVENTORY_CODE_REQUIRED: "Please enter Code",
+  INVENTORY_QUANTITY_REQUIRED: "Please enter quantity",
+  INVENTORY_TAX_REQUIRED: "Please enter Tax",
+  INVENTORY_PRICE_REQUIRED: "Please enter price",
+  INVENTORY_TOTAL_REQUIRED: "Please enter Total Amount",
 
   // Department
-  DEPARTMENT_NAME_REQUIRED : "Please enter name",
-  DEPARTMENT_TYPE_REQUIRED : "Please enter department type",
+  DEPARTMENT_NAME_REQUIRED: "Please enter name",
+  DEPARTMENT_TYPE_REQUIRED: "Please enter department type",
+
+  // Settings
+  SETTING: "Setting",
+  SETTING_NOT_FOUND: "Setting Not Found.",
+  SETTING_FOUND: "Setting Found Successfully.",
+  SETTING_LIST: "Setting List.",
+  ENTER_NAME_OR_ID: "Please Enter Setting Name Or Id.",
+  SETTING_UPDATE: "Setting Update Successfully.",
+  SETTING_SAVED_SUCCESSFULLY:"Setting Save Successfully.",
+  ENTER_SETTING_ID:"Please Enter Setting Id.",
+
+  // Message 
+  MESSAGE_SAVED_SUCCESSFULLY :"Message Save Successfully.",
+  ENTER_SENDER_ID :"Please Enter Sender Id.",
+  
+
+  // Forms 
+  FORM:"Form",
+  ALLOW_FILE_TYPE_LABEL:" File Type Allowed.",
+  FORM_SAVED:"Form Save Successfully.",
+  FORM_UPDATE:"Form Updated Successfully.",
+  ENTER_FORM_ID:"Please Enter Form Id",
+
+  ID_NOT_EXIST:"Id does not exist.",
+
+  // Service 
+  SERVICE:"Service",
+
+  SERVICE_TYPE_REQUIRED :"Service type is required.",
+
+  // Coupon 
+  COUPON :"Coupon",
+  COUPONCODE:"couponCode",
+  COUPON_REQUIRED:"Enter Coupon Code.",
+  ENTER_COUPON_ID :"Enter Coupon Id.",
 };

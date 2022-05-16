@@ -26,6 +26,12 @@ const departmentRoutes = require('./routes/departmentRoute');
 const serviceCategoryRoutes = require('./routes/serviceCategoryRoute');
 const subServiceRoutes = require('./routes/subServiceRoute');
 
+const settingRoutes = require('./routes/settingRoute');
+
+const messageRoutes = require('./routes/messageRoute');
+const formRoutes = require('./routes/formRoute');
+const couponRoutes = require('./routes/couponRoute');
+
 const environment = config();
 
 app.listen(environment.port, () => {
@@ -58,6 +64,13 @@ app.use('/api/v1/department', departmentRoutes);
 app.use('/api/v1/service', serviceRoutes);
 app.use('/api/v1/service/category', serviceCategoryRoutes);
 app.use('/api/v1/service/subService', subServiceRoutes);
+
+app.use('/api/v1/setting', settingRoutes);
+
+app.use('/api/v1/message', messageRoutes);
+
+app.use('/api/v1/form/',formRoutes);
+app.use('/api/v1/coupon/',couponRoutes);
 
 
 

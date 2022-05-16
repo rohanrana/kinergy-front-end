@@ -11,7 +11,8 @@ router.post('/getList', authHandler.auth_func, serviceApis.getList);
 router.post('/getListById', authHandler.auth_func, serviceApis.getListById);
 router.post('/delete', authHandler.auth_func, serviceApis.delete);
 router.post('/changeStatus', authHandler.auth_func, serviceApis.changeStatus);
-
+router.post('/getListByCategoryId', authHandler.auth_func, serviceApis.getListByCategoryId);
+router.post('/getListByServiceId', authHandler.auth_func, serviceApis.getListByServiceId);
 
 
 

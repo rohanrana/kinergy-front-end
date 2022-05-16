@@ -40,7 +40,11 @@ const subServiceSchema = new Schema({
     insuranceApplicable:{
         type: String,
         enum: ["YES", "NO"],
-        default: "NO"
+        default: "NO"  
+    },
+    image:{
+        type: String,
+        default: null
     },
     status: {
         type: String,
@@ -54,4 +58,4 @@ const subServiceSchema = new Schema({
 });
 
 subServiceSchema.plugin(mongoosePaginate);
-module.exports = mongoose.model("SubService", subServiceSchema);
+module.exports = mongoose.model('SubService', subServiceSchema);

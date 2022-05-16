@@ -29,7 +29,7 @@ const stateSchema = new Schema({
     }],
     status: {
         type: String,
-        enum: ["ACTIVE", "INACTIVE", "BLOCK"],
+        // enum: ["ACTIVE", "INACTIVE", "BLOCK"],
         default: "ACTIVE"
     }
 });

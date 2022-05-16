@@ -2,17 +2,13 @@ const Response = require("../common_functions/response_handler");
 const resCode = require("../helper/httpResponseCode");
 const resMessage = require("../helper/httpResponseMessage");
 const Facility = require("../models/facilityModel");
-const City = require("../models/cityModel");
-
-const async = require("async");
-
+const generalHelper = require("../helper/general");
 const path = require("path");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
 
 const returnPagination = (result) => {
-  delete result.docs;
-  return result;
+  delete result.docs; return result;
 };
 
 const facilityApis = {
@@ -44,8 +40,7 @@ const facilityApis = {
         phoneArr.push(phoneObj);
       });
     }
-    // // console.log('phoneArr',phoneArr);
-    // res.send('in');
+    
     const facility = new Facility({
       facilityName: facilityName,
       location: location,
@@ -120,7 +115,7 @@ const facilityApis = {
 
         contact: [
           {
-             phone:phoneArr,
+            phone: phoneArr,
             email: email,
           },
         ],
@@ -129,7 +124,7 @@ const facilityApis = {
         ],
         status: status,
       };
-    //   console.log("editData", {$set: editData});
+      //   console.log("editData", {$set: editData});
       Facility.findOneAndUpdate({ _id: req.body._id }, editData, { new: true })
         .lean()
         .exec((err, result) => {
@@ -181,19 +176,19 @@ const facilityApis = {
   },
 
   facilityById: (req, res, next) => {
-    if (!req.params.facilityId) {
+    if (!req.body._id) {
       Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         "Please Enter Facility Id."
       );
     } else {
-      Facility.find({ _id: req.params.facilityId })
-        .populate("city")
-        .populate("state")
+      Facility.find({ _id: req.body._id })
+        .populate("address.city", "_id name")
+        .populate("address.state", "_id name")
         .lean()
         .exec((err, result) => {
-          // console.log(result.length);
+          console.log(err);
           if (err)
             Response.sendResponseWithoutData(
               res,
@@ -220,8 +215,8 @@ const facilityApis = {
   facilityList: (req, res, next) => {
     const perPage = 10;
     page =
-      req.params.page != "undefined" && req.params.page
-        ? Math.max(0, req.params.page)
+      req.body.page != "undefined" && req.body.page
+        ? Math.max(0, req.body.page)
         : 1;
     var state = {
       path: "address.state",
@@ -233,9 +228,16 @@ const facilityApis = {
       limit: perPage,
       lean: true,
       populate: [state, city],
+      sort: { createdAt: -1 },
     };
-    // Facility.find().populate('city').populate('state').lean().exec((err, result) => {
-    Facility.paginate({}, options, function (err, result) {
+    let query = {};
+    if (req.body.search && req.body.search != "")
+      query = { ...query, facilityName:  { $regex: `${req.body.search}`, $options: "i" } };
+
+    if (req.body.status && req.body.status != "" && req.body.status != "all")
+      query = { ...query, status: generalHelper.stringToUpperCase(req.body.status) };
+
+    Facility.paginate(query, options, function (err, result) {
       console.log(err);
       if (err)
         Response.sendResponseWithoutData(

@@ -91,7 +91,8 @@ const staffSchema = new Schema({
     },
     gender: {
         type: String,
-        enum: ['MALE', 'FEMALE', 'OTHERS']
+        // enum: ['MALE', 'FEMALE', 'OTHERS'],
+        default:null
     },
     dob: {
         type: String,

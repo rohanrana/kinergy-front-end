@@ -426,6 +426,7 @@ const staffApis = {
                     } else {
                         let customer = new Customers(req.body);
                         customer.save((error1, result1) => {
+                            console.log('error1',error1);
                             if (error1) {
                                 console.log('my_errors', error1)
                                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
@@ -438,7 +439,7 @@ const staffApis = {
                 })
             } else {
                 Staff.findOne({ email: req.body.email, status: "ACTIVE" }).lean().exec((error, result) => {
-                    console.log('add user---', error, result)
+                    console.log('add user1---', error, result)
                     if (error)
                         Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
                     else if (result) {
@@ -446,6 +447,7 @@ const staffApis = {
                     } else {
                         let staff = new Staff(req.body);
                         staff.save((error1, result1) => {
+                            console.log('result1',error1);
                             if (error1) {
                                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR)
                             } else {

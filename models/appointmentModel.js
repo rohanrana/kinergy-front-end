@@ -1,17 +1,22 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
+const STATUS =require('../helper/status');
 
-const STATUS = ["UPCOMING", "COMPLETE", "CANCELLED", "PENDING"];
 const appointmentSchema = new Schema({
-    serviceType: {
+    service: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service',
         default: null
     },
+    serviceType:{
+        type:String,
+        enum:['SERVICE','SUBSERVICE'],
+        default:null
+    },
     appointmentDate: {
         type: Date,
-        default: null
+        default: null 
     },
     appointmentTime: {
         type: String,
@@ -24,8 +29,13 @@ const appointmentSchema = new Schema({
     },
     staff: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Staffs',
+        ref: 'Staff',
         default: null
+    },
+    facility:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Facility',
+        default: null 
     },
     department:{
         type:String,
@@ -42,8 +52,7 @@ const appointmentSchema = new Schema({
     status: {
         type: String,
         // enum: ["UPCOMING", "COMPLETE", "CANCEL"],
-
-        default: "PENDING"
+        default: STATUS.PENDING
     }
 
 

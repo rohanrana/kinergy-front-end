@@ -16,15 +16,25 @@ const serviceSchema = new Schema(
       type: String,
       default: null,
     },
+     
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ServiceCategory",
       default: null,
+    },  
+    parentService: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      default: null,
+    },
+    serviceType:{
+      type:String,
+      enum:["SERVICE","SUBSERVICE"],
+      default:null
     },
     haveSubService: {
-      type: String,
-      enum: ["YES", "NO"],
-      default: "NO",
+      type: mongoose.Schema.Types.Boolean,
+      default: false,
     },
     image: {
       type: String,
@@ -36,10 +46,10 @@ const serviceSchema = new Schema(
         duration: { type: Number, default: null },
       },
     ],
-    insuranceApplicable:{
-        type: String,
-        enum: ["YES", "NO"],
-        default: "NO"
+    insuranceApplicable: {
+      type: String,
+      type: mongoose.Schema.Types.Boolean,
+      default: false,
     },
     addBy: {
       type: mongoose.Schema.Types.ObjectId,

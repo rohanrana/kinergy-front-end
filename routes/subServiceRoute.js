@@ -7,10 +7,12 @@ const authHandler = require('../middleware/authHandler');
 
 router.post('/add', subServiceApis.fileUpload, subServiceValidator.add, authHandler.auth_func, subServiceApis.add);
 router.post('/edit', subServiceApis.fileUpload, subServiceValidator.edit, authHandler.auth_func, subServiceApis.edit);
-// router.post('/getList', authHandler.auth_func, subServiceApis.getList);
-// router.post('/getListById', authHandler.auth_func, subServiceApis.getListById);
-// router.post('/delete', authHandler.auth_func, subServiceApis.delete);
-// router.post('/changeStatus', authHandler.auth_func, subServiceApis.changeStatus);
+router.post('/getList', authHandler.auth_func, subServiceApis.getList);
+router.post('/getListByServiceId', authHandler.auth_func, subServiceApis.getListByServiceId);
+router.post('/getById', authHandler.auth_func, subServiceApis.getById);
+router.post('/changeStatus', authHandler.auth_func, subServiceApis.changeStatus);
+router.post('/delete', authHandler.auth_func, subServiceApis.delete);
+
 
 
 
