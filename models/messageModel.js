@@ -6,21 +6,17 @@ const messageModel = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       default: null,
     },
-    receiver: {
-      type: mongoose.Schema.Types.ObjectId,
-      default: null,
-    },
     message: {
       type: String,
       default: null,  
     },
     displayDays: {
       type: Number,
-      default: 7,
+      default: 0,
     },
     endDate: {
       type: Date,
-      default: () => new Date(+new Date() + 7 * 24 * 60 * 60 * 1000),
+      default: () => new Date(+new Date() + 1 * 24 * 60 * 60 * 1000),
     },
     type:{
         type:String,

@@ -31,6 +31,7 @@ const settingRoutes = require('./routes/settingRoute');
 const messageRoutes = require('./routes/messageRoute');
 const formRoutes = require('./routes/formRoute');
 const couponRoutes = require('./routes/couponRoute');
+const profileRoutes = require('./routes/profileRoute');
 
 const environment = config();
 
@@ -71,6 +72,7 @@ app.use('/api/v1/message', messageRoutes);
 
 app.use('/api/v1/form/',formRoutes);
 app.use('/api/v1/coupon/',couponRoutes);
+app.use('/api/v1/profile/',profileRoutes);
 
 
 

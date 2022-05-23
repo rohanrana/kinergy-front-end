@@ -19,8 +19,10 @@ module.exports = {
     "This registration number is already exists.",
   FIELD_REQUIRED: "This field is required.",
   ALL_READY_EXIST :" all ready exist.",
-
-
+  ENTER_EMAIL_ID:"Please enter email id.",
+  INVALID_EMAIL_ID:"Email id is invalid",
+  OLD_PASSWORD_NOT_MATCH:"Current Password Not Match.",
+  ENTER_MESSAGE_TYPE:"Please enter message type.",
   // Appointments
   APPOINTMENT :"Appointment",
   // 
@@ -29,6 +31,8 @@ module.exports = {
   IMAGE_REQUIRED: "Please upload an image.",
   CATEGORY_REQUIRED: "Please Select Category.",
 
+
+  ID_REQUIRED:"Please Enter Id.",
 
   // Validation_errors
   EMAIL_REQUIRED: "Please enter email address.",
@@ -44,7 +48,15 @@ module.exports = {
   SERVICE_ID_REQUIRED: "Service Id is required.",
   ENTER_USER_ID : "Please Enter User Id.",
   ENTER_VALID_USER_ID:"Please Enter Valid User Id.",
+  USER:"User",
+  USER_FOUND_SUCCESS:"User found successfully.",
 
+  // Password
+  ENTER_CURRENT_PASSWORD:"Please enter current password.",
+  ENTER_NEW_PASSWORD:"Please enter new password.",
+  ENTER_CONFIRM_PASSWORD:"Please enter confirm password.",
+  MATCH_CONFIRM_PASSWORD:"Confirm password not match.",
+  PASSWORD_UPDATED:"User Password Updated Successfully",
 
 
   // ITEM
@@ -54,6 +66,8 @@ module.exports = {
   NAME_REQUIRED: "Please enter first name.",
   // Facility Name
   FACILITY_NAME_REQUIRED: "Please enter facility name.",
+  PROVIDERS_REQUIRED :"Please enter provider",
+  PROVIDERS_ARRAY :"Provider must be an array.",
   // Contact
   CONTACT_REQUIRED: "Please enter contact number.",
   // type
@@ -112,13 +126,18 @@ module.exports = {
   SETTING_FOUND: "Setting Found Successfully.",
   SETTING_LIST: "Setting List.",
   ENTER_NAME_OR_ID: "Please Enter Setting Name Or Id.",
+  ENTER_SETTING_NAME:"Enter name",
   SETTING_UPDATE: "Setting Update Successfully.",
   SETTING_SAVED_SUCCESSFULLY:"Setting Save Successfully.",
   ENTER_SETTING_ID:"Please Enter Setting Id.",
 
   // Message 
+  MESSAGE :"Message",
   MESSAGE_SAVED_SUCCESSFULLY :"Message Save Successfully.",
   ENTER_SENDER_ID :"Please Enter Sender Id.",
+  MESSAGE_LIST: "Message List.",
+  ENTER_MESSAGE_ID :"Enter Message Id.",
+  ENTER_MESSAGE:"Please enter message.",
   
 
   // Forms 
@@ -132,12 +151,20 @@ module.exports = {
 
   // Service 
   SERVICE:"Service",
-
+  PROVIDER:"Provider",
+  SERVICE_ID_REQUIRED:"Service id is required",
   SERVICE_TYPE_REQUIRED :"Service type is required.",
+
 
   // Coupon 
   COUPON :"Coupon",
+  COUPON_ID:"Coupon id ",
   COUPONCODE:"couponCode",
   COUPON_REQUIRED:"Enter Coupon Code.",
   ENTER_COUPON_ID :"Enter Coupon Id.",
+  ENTER_VALID_COUPON_ID:"Enter valid coupon id.",
+  START_DATE_REQUIRED:"Please Enter Start Date.",
+  END_DATE_REQUIRED:"Please Enter End Date.",
+  COUPON_TYPE_REQUIRED:"Please Enter Coupon Type.",
+  COUPON_VALUE_REQUIRED:"Please Enter Coupon Value.",
 };

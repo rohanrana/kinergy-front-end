@@ -2,11 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 const authHandler = require('../middleware/authHandler');
-
+const settingValidator = require("../Validators/settingValidator");
 const settingApis = require('../webservices/settingController');
 
-router.post('/addOrUpdate',authHandler.auth_func,settingApis.addOrUpdate);
-router.post('/editById',authHandler.auth_func,settingApis.editById);
+router.post('/addOrUpdate',authHandler.auth_func,settingValidator.add,settingApis.addOrUpdate);
+router.post('/editById',authHandler.auth_func,settingValidator.edit,settingApis.editById);
 
 router.post('/getSetting',authHandler.auth_func,settingApis.getList);
 

@@ -78,7 +78,7 @@ const serviceCategoryApis = {
                 console.log(err);
             if (err)
                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
-            else if (!result || result.length == 0)
+            else if (!result || result.docs.length == 0)
                 Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Service Categorys Not Found.');
             else
                 Response.sendResponseWithPagination(res, resCode.EVERYTHING_IS_OK, 'Service Category List.', result.docs,returnPagination(result));

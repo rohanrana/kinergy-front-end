@@ -86,6 +86,7 @@ const removeSection = (_id) => {
  */
 
 const managePhoneAndType = (phone, phoneType) => {
+  let phoneArr = [];
   if (phone) {
     phone.map((value, index) => {
       phoneObj = {};
@@ -98,6 +99,7 @@ const managePhoneAndType = (phone, phoneType) => {
       phoneArr.push(phoneObj);
     });
   }
+  return phoneArr;
 };
 
 const getDateFormat = () => {
@@ -124,4 +126,5 @@ module.exports = {
   removeSection,
   getDateFormat,
   dateFormat,
+  managePhoneAndType
 };

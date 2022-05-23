@@ -17,6 +17,24 @@ const returnPagination = (result) => {
   return result;
 };
 
+const addToCategory = (catId, serviceId) => {
+  Category.findByIdAndUpdate(
+    { _id: catId },
+    { $push: { service: serviceId } },
+    { new: true, useFindAndModify: false }
+  )
+    .lean()
+    .exec((err, QinForm) => {});
+};
+const addToService = (serviceId, subServiceId) => {
+  Service.findByIdAndUpdate(
+    { _id: serviceId },
+    { $push: { subService: subServiceId } },
+    { new: true, useFindAndModify: false }
+  )
+    .lean()
+    .exec((err, QinForm) => {});
+};
 const serviceApis = {
   // ===============Add Service List ==========================
 
@@ -30,16 +48,38 @@ const serviceApis = {
       category,
       parentService,
       haveSubService,
-      price,
-      duration,
       insuranceApplicable,
       serviceType,
+      initialConsultationTitle,
+      initialConsultationPrice,
+      initialConsultationDuration,
+      followUpAppointmentTitle,
+      followUpAppointmentPrice,
+      followUpAppointmentDuration,
     } = req.body;
-    var priceArr = [];
+    var initialConsultationPriceArr = [];
+    var followUpAppointmentPriceArr = [];
 
-    if (haveSubService ||  generalHelper.stringToUpperCase(serviceType) == 'SUBSERVICE')
-      priceArr = generalHelper.managePriceDuration(price, duration);
-
+    if (
+      haveSubService == false ||
+      !haveSubService ||
+      generalHelper.stringToUpperCase(serviceType) == "SUBSERVICE"
+    ) {
+      initialConsultationPriceArr = generalHelper.managePriceDuration(
+        initialConsultationPrice,
+        initialConsultationDuration
+      );
+    }
+    if (
+      haveSubService == false ||
+      !haveSubService ||
+      generalHelper.stringToUpperCase(serviceType) == "SUBSERVICE"
+    ) {
+      followUpAppointmentPriceArr = generalHelper.managePriceDuration(
+        followUpAppointmentPrice,
+        followUpAppointmentDuration
+      );
+    }
     const slug = slugify(title, {
       replacement: "-",
       remove: undefined,
@@ -50,7 +90,7 @@ const serviceApis = {
 
     let service = new Service({
       category: category,
-      parentService:parentService,
+      parentService: parentService,
       haveSubService: haveSubService,
       title: title,
       description: description,
@@ -58,20 +98,33 @@ const serviceApis = {
       slug: slug,
       addBy: addBy,
       status: generalHelper.stringToUpperCase(status),
-      priceDetail: priceArr,
+      initialConsultation: {
+        title: initialConsultationTitle,
+        priceDetails: initialConsultationPriceArr,
+      },
+      followUpAppointment: {
+        title: followUpAppointmentTitle,
+        priceDetails: followUpAppointmentPriceArr,
+      },
       serviceType: generalHelper.stringToUpperCase(serviceType),
       insuranceApplicable: insuranceApplicable,
     });
     service.save((err, result) => {
       // console.log(err, result);
-      if (!err)
+      if (!err) {
+        if (serviceType == "service" || serviceType == "SERVICE") {
+          addToCategory(result.category, result._id);
+        } else {
+          addToService(result.parentService, result._id);
+        }
+
         Response.sendResponseWithData(
           res,
           resCode.EVERYTHING_IS_OK,
           "Service Save Successfully.",
           result
         );
-      else
+      } else
         Response.sendResponseWithoutData(
           res,
           resCode.WENT_WRONG,
@@ -98,16 +151,38 @@ const serviceApis = {
         category,
         parentService,
         haveSubService,
-        price,
-        duration,
         insuranceApplicable,
         serviceType,
+        initialConsultationTitle,
+        initialConsultationPrice,
+        initialConsultationDuration,
+        followUpAppointmentTitle,
+        followUpAppointmentPrice,
+        followUpAppointmentDuration,
       } = req.body;
-      var priceArr = [];
-    
-      if (haveSubService ||  generalHelper.stringToUpperCase(serviceType) == 'SUBCATEGORY')
-      priceArr = generalHelper.managePriceDuration(price, duration);
+      var initialConsultationPriceArr = [];
+      var followUpAppointmentPriceArr = [];
 
+      if (
+        haveSubService == false ||
+        !haveSubService ||
+        generalHelper.stringToUpperCase(serviceType) == "SUBSERVICE"
+      ) {
+        initialConsultationPriceArr = generalHelper.managePriceDuration(
+          initialConsultationPrice,
+          initialConsultationDuration
+        );
+      }
+      if (
+        haveSubService == false ||
+        !haveSubService ||
+        generalHelper.stringToUpperCase(serviceType) == "SUBSERVICE"
+      ) {
+        followUpAppointmentPriceArr = generalHelper.managePriceDuration(
+          followUpAppointmentPrice,
+          followUpAppointmentDuration
+        );
+      }
       const slug = slugify(title, {
         replacement: "-",
         remove: undefined,
@@ -117,17 +192,24 @@ const serviceApis = {
       });
       let editData = {
         category: category,
-        parentService:parentService,
-        haveSubService: haveSubService,        
+        parentService: parentService,
+        haveSubService: haveSubService,
         title: title,
         description: description,
         image: image,
         slug: slug,
         addBy: addBy,
         status: generalHelper.stringToUpperCase(status),
-        priceDetail: priceArr,
         serviceType: generalHelper.stringToUpperCase(serviceType),
-        insuranceApplicable: insuranceApplicable
+        insuranceApplicable: insuranceApplicable,
+        initialConsultation: {
+          title: initialConsultationTitle,
+          priceDetails: initialConsultationPriceArr,
+        },
+        followUpAppointment: {
+          title: followUpAppointmentTitle,
+          priceDetails: followUpAppointmentPriceArr,
+        },
       };
 
       Service.findOneAndUpdate({ _id: req.body._id }, editData, { new: true })
@@ -135,11 +217,14 @@ const serviceApis = {
         .exec((err, result) => {
           console.log(err);
           if (!err) {
-            generalHelper.removeFile(req.body.oldImage,"public/uploads/service/");          
+            generalHelper.removeFile(
+              req.body.oldImage,
+              "public/uploads/service/"
+            );
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
-              resMessage.SERVICE+resMessage.UPDATE,
+              resMessage.SERVICE + resMessage.UPDATE,
               result
             );
           } else
@@ -155,9 +240,10 @@ const serviceApis = {
   //============= edit Service By Id =========================
   // =============get Service List=============================
 
-  getList: (req, res) => { 
+  getList: (req, res) => {
     const perPage = 10,
-      page = req.body.page != "undefined" && req.body.page
+      page =
+        req.body.page != "undefined" && req.body.page
           ? Math.max(0, req.body.page)
           : 1;
     var category = { path: "category", select: { _id: 1, title: 1, slug: 1 } };
@@ -169,7 +255,10 @@ const serviceApis = {
         "_id title  serviceType parentService slug description category image priceDetail insuranceApplicable addBy status createdAt updatedAt",
     };
     let query = {};
-     query = {...query,serviceType:req.body.serviceType?req.body.serviceType:"SERVICE"};
+    query = {
+      ...query,
+      serviceType: req.body.serviceType ? req.body.serviceType : "SERVICE",
+    };
     Service.paginate(query, options, function (err, result) {
       console.log(err);
       if (err)
@@ -206,6 +295,7 @@ const serviceApis = {
       );
     } else {
       Service.find({ _id: req.body._id })
+        .populate("providers", "facilityName")
         .lean()
         .exec((err, result) => {
           // console.log(result.length);
@@ -244,11 +334,14 @@ const serviceApis = {
         .lean()
         .exec((err, result) => {
           if (!err) {
-            generalHelper.removeFile(req.body.oldImage,"public/uploads/service/");       
+            generalHelper.removeFile(
+              req.body.oldImage,
+              "public/uploads/service/"
+            );
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
-              resMessage.SERVICE+resMessage.DELETE,
+              resMessage.SERVICE + resMessage.DELETE,
               result
             );
           } else
@@ -285,7 +378,7 @@ const serviceApis = {
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
-              resMessage.SERVICE+resMessage.DELETE,
+              resMessage.SERVICE + resMessage.DELETE,
               result
             );
           } else
@@ -395,9 +488,14 @@ const serviceApis = {
                 req.body.page != "undefined" && req.body.page
                   ? Math.max(0, req.body.page)
                   : 1;
-                  let query = {};
-                  query = {...query,serviceType:req.body.serviceType?req.body.serviceType:"SERVICE"};
-                  query = {...query,category: req.body._id };
+            let query = {};
+            query = {
+              ...query,
+              serviceType: req.body.serviceType
+                ? req.body.serviceType
+                : "SERVICE",
+            };
+            query = { ...query, category: req.body._id };
             Service.paginate(
               query,
 
@@ -432,7 +530,7 @@ const serviceApis = {
     }
   },
 
-   //============= get Sub Service By Service Id =========================
+  //============= get Sub Service By Service Id =========================
 
   getListByServiceId: (req, res) => {
     if (!req.body._id) {
@@ -443,9 +541,9 @@ const serviceApis = {
       );
     } else {
       var query = {};
-      query = {...query,serviceType:"SERVICE"};
-      query = {...query,_id: req.body._id};
-      
+      query = { ...query, serviceType: "SERVICE" };
+      query = { ...query, _id: req.body._id };
+
       Service.find(query)
         .lean()
         .exec((err, service) => {
@@ -491,13 +589,51 @@ const serviceApis = {
                   Response.sendResponseWithPagination(
                     res,
                     resCode.EVERYTHING_IS_OK,
-                    resMessage.SERVICE+resMessage.LIST,
+                    resMessage.SERVICE + resMessage.LIST,
                     { service: service, ServiceResult: result.docs },
                     returnPagination(result)
                   );
               }
             );
           }
+        });
+    }
+  },
+  addProvider: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.SERVICE_ID_REQUIRED
+      );
+    } else {
+      const { _id, providers } = req.body;
+
+      // providers.map((v,x)=>{
+      //   console.log('v',v);
+      // })
+      console.log(providers);
+      let editData = {
+        providers,
+      };
+
+      Service.findByIdAndUpdate({ _id: _id }, editData, { new: true })
+        .lean()
+        .exec((err, result) => {
+          console.log(err);
+          if (!err) {
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              resMessage.PROVIDER + resMessage.UPDATE,
+              result
+            );
+          } else
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
         });
     }
   },

@@ -2,54 +2,46 @@ const { check, validationResult } = require("express-validator");
 const resCode = require("../helper/httpResponseCode.js");
 const resMessage = require("../helper/httpResponseMessage.js");
 const Response = require("../common_functions/response_handler");
-const Form = require("../models/formBuilderModel");
-const Staff = require("../models/staffModel");
+
+const Setting = require("../models/settingModel");
 // const path = require('path');
 // const fs = require('fs');
 const generateAddValidation = (req, res, next) => [
-  check("title")
-     .custom(value => {
-        if(value)
-        {
-        return Form.findOne({ title: value }).then(formTitle => {
-            if (formTitle) {
-                return Promise.reject(resMessage.TITLE_ALREADY_EXIST);
-            }
-        });
-    }
-    })
+ 
+  check("name")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED),
+    .withMessage(resMessage.ENTER_SETTING_NAME),
 ];
 const generateEditValidation = (req, res, next) => [
-  check("title")
+    check("name")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED),
+    .withMessage(resMessage.ENTER_SETTING_NAME),
+];
+
+const generateIdValidation = (req, res, next) => [
   check("_id")
     .custom((value) => {
       if (value) {
-        return Form.findOne({ _id: value }).then((formTitle) => {
-          if (!formTitle) {
+        return Coupon.findOne({ _id: value }).then((coupon) => {
+          if (!coupon) {
             return Promise.reject(resMessage.ID_NOT_EXIST);
           }
         });
       }
     })
+    .withMessage(resMessage.ID_NOT_EXIST)
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.ENTER_FORM_ID),
+    .withMessage(resMessage.ID_REQUIRED),
 ];
-
-
-
 
 const reporter = (req, res, next) => {
   var errors = validationResult(req);
@@ -75,5 +67,5 @@ const reporter = (req, res, next) => {
 
 module.exports = {
   add: [generateAddValidation(), reporter],
-  edit: [generateEditValidation(), reporter],
+  edit: [generateEditValidation(), reporter]
 };

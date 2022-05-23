@@ -18,7 +18,7 @@ const settingSchema = new Schema({
         default:null
     },
     default:{
-        type:mongoose.Schema.Types.Boolean,
+        type:   String,
         default:false,
     }
 });

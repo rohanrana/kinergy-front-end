@@ -313,7 +313,6 @@ const formApis = {
                             // console.log(questionObj);
                             questionDoc = new Question(questionObj);
                             questionDoc.save((err, questionResult) => {
-                              
                               addQuestionInSection(
                                 sectionResult._id,
                                 questionResult
@@ -397,12 +396,12 @@ const formApis = {
 
   list: (req, res) => {
     Form.find({})
-      .populate({
-        path: "section",
-        populate: {
-          path: "question",
-        },
-      })
+      // .populate({
+      //   path: "section",
+      //   populate: {
+      //     path: "question",
+      //   },
+      // })
 
       .lean()
       .exec((err, result) => {
@@ -428,6 +427,48 @@ const formApis = {
           );
       });
   },
+
+  formById: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.ENTER_FORM_ID
+      );
+    } else {
+      Form.find({ _id: req.body._id })
+        .populate({
+          path: "section",
+          populate: {
+            path: "question",
+          },
+        })
+
+        .lean()
+        .exec((err, result) => {
+          // console.log(result.length);
+          if (err)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+          else if (!result || result.length == 0)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              "Form Not Found."
+            );
+          else
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              "Form Found Successfully.",
+              result
+            );
+        });
+    }
+  },
   delete: (req, res) => {
     if (!req.body._id) {
       Response.sendResponseWithoutData(
@@ -440,6 +481,8 @@ const formApis = {
         .lean()
         .exec((err, result) => {
           if (!err) {
+            Section.deleteMany({form:req.body._id}).lean().exec()
+            Question.deleteMany({form:req.body._id}).lean().exec()
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,

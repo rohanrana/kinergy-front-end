@@ -13,17 +13,41 @@ const generateAddValidation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage(resMessage.TITLE_REQUIRED),
+  check("startDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.START_DATE_REQUIRED),
+  check("endDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.END_DATE_REQUIRED),
+  check("couponType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.COUPON_TYPE_REQUIRED),
+  check("couponValue")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.COUPON_VALUE_REQUIRED),
   check("couponCode")
-    // .custom((value) => {
-    //   if (value) {
-    //     return Coupon.findOne({ couponCode: value }).then((coupon) => {
-    //       if (coupon) {
-    //         return Promise.reject(resMessage.ALL_READY_EXIST);
-    //       }
-    //     });
-    //   }
-    // })
-    // .withMessage(resMessage.COUPONCODE + resMessage.ALL_READY_EXIST)
+    .custom((value) => {
+      if (value) {
+        return Coupon.findOne({ couponCode: value }).then((coupon) => {
+          if (coupon) {
+            return Promise.reject(resMessage.ALL_READY_EXIST);
+          }
+        });
+      }
+    })
+    .withMessage(resMessage.COUPONCODE + resMessage.ALL_READY_EXIST)
     .trim()
     .escape()
     .not()
@@ -31,24 +55,61 @@ const generateAddValidation = (req, res, next) => [
     .withMessage(resMessage.COUPON_REQUIRED),
 ];
 const generateEditValidation = (req, res, next) => [
-  check("staff")
+  check("title")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Please Select Staff"),
-  check("appointmentTime")
+    .withMessage(resMessage.TITLE_REQUIRED),
+  check("startDate")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Appointment Time is required"),
-  check("appointmentDate")
+    .withMessage(resMessage.START_DATE_REQUIRED),
+  check("endDate")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Appointment Date is required"),
+    .withMessage(resMessage.END_DATE_REQUIRED),
+  check("couponType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.COUPON_TYPE_REQUIRED),
+  check("couponValue")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.COUPON_VALUE_REQUIRED),
+  check("couponCode")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.COUPON_REQUIRED),
+];
+
+const generateIdValidation = (req, res, next) => [
+  check("_id")
+    .custom((value) => {
+      if (value) {
+        return Coupon.findOne({ _id: value }).then((coupon) => {
+          if (!coupon) {
+            return Promise.reject(resMessage.ID_NOT_EXIST);
+          }
+        });
+      }
+    })
+    .withMessage(resMessage.ID_NOT_EXIST)
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.ID_REQUIRED),
 ];
 
 const reporter = (req, res, next) => {
@@ -76,4 +137,5 @@ const reporter = (req, res, next) => {
 module.exports = {
   add: [generateAddValidation(), reporter],
   edit: [generateEditValidation(), reporter],
+  idRequired: [generateIdValidation(), reporter],
 };

@@ -16,21 +16,21 @@ const serviceSchema = new Schema(
       type: String,
       default: null,
     },
-     
+
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ServiceCategory",
       default: null,
-    },  
+    },
     parentService: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
       default: null,
     },
-    serviceType:{
-      type:String,
-      enum:["SERVICE","SUBSERVICE"],
-      default:null
+    serviceType: {
+      type: String,
+      enum: ["SERVICE", "SUBSERVICE"],
+      default: null,
     },
     haveSubService: {
       type: mongoose.Schema.Types.Boolean,
@@ -40,14 +40,38 @@ const serviceSchema = new Schema(
       type: String,
       default: null,
     },
-    priceDetail: [
+    initialConsultation: {
+      title: {
+        type: String,
+        default: null,
+      },
+      priceDetails: [
+        {
+          price: { type: Number, default: 0 },
+          duration: { type: Number, default: null },
+        },
+      ],
+    },
+    followUpAppointment: {
+      title: {
+        type: String,
+        default: null,
+      },
+      priceDetails: [
+        {
+          price: { type: Number, default: 0 },
+          duration: { type: Number, default: null },
+        },
+      ],
+    },
+    providers: [
       {
-        price: { type: Number, default: null },
-        duration: { type: Number, default: null },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Facility",
+        default: null,
       },
     ],
     insuranceApplicable: {
-      type: String,
       type: mongoose.Schema.Types.Boolean,
       default: false,
     },
@@ -56,6 +80,13 @@ const serviceSchema = new Schema(
       ref: "Staff",
       default: null,
     },
+    subService: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Service",
+        default: null,
+      },
+    ],
     status: {
       type: String,
       enum: ["ACTIVE", "INACTIVE", "BLOCK"],

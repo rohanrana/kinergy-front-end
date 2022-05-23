@@ -7,69 +7,60 @@ const Service = require("../models/serviceModel");
 const slugify = require("slugify");
 var fs = require("fs");
 
-const generateAddValidation = (req, res, next) => [
-  check("title")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED)
-    .custom((value, { req, loc, path }) => {
-      return Service.findOne({
-        slug: slugify(value, {
-          replacement: "-",
-          remove: undefined,
-          lower: true,
-          strict: true,
-          trim: true,
-        }),
-      }).then((service) => {
-        if (service) {
-          return Promise.reject(resMessage.TITLE_ALREADY_EXIST);
-        }
-      });
-    }),
-  check("category")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.CATEGORY_REQUIRED),
-  check("addBy")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.ADD_BY_USER_ID_REQUIRED),
-  check("serviceType")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.SERVICE_TYPE_REQUIRED),
-];
-const generateEditValidation = (req, res, next) => [
-  check("title")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED),
+const otherPreferences = (req, res, next) => [
+  check("_id")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage(resMessage.ENTER_USER_ID),
 ];
 
-const generateProviderValidation = (req, res, next) => [
-  check("providers")
+const getUserDetails = (req, res, next) => [
+  check("_id")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage(resMessage.ENTER_USER_ID),
+];
+const generateUpdatePasswordValidatrion = (req, res, next) => [
+  check("_id")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.PROVIDERS_REQUIRED),
-    check("_id")
+    .withMessage(resMessage.ENTER_USER_ID),
+  check("currentPassword")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.SERVICE_ID_REQUIRED)
+    .withMessage(resMessage.ENTER_CURRENT_PASSWORD),
+  check("newPassword")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
+    )
+    .withMessage(resMessage.PASSWORD_STRONG)
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.ENTER_NEW_PASSWORD),
+  check("confirmPassword")
+    .custom((value, { req, loc, path }) => {
+        if(req.body.newPassword === req.body.confirmPassword){
+            return true;
+        }else{
+            return false;
+        }
+    })
+    .withMessage(resMessage.MATCH_CONFIRM_PASSWORD)
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.ENTER_CONFIRM_PASSWORD),
 ];
 
 const reporter = (req, res, next) => {
@@ -144,7 +135,8 @@ const reporter = (req, res, next) => {
 // checkProvider
 
 module.exports = {
-  add: [generateAddValidation(), reporter],
-  edit: [generateEditValidation(), reporter],
-  checkProvider: [generateProviderValidation(), reporter],
+  updatePassword: [generateUpdatePasswordValidatrion(), reporter],
+  otherPreferences:[otherPreferences(),reporter],
+  getUserDetails:[getUserDetails(),reporter]
+  
 };

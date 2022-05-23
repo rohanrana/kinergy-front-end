@@ -2,28 +2,22 @@ const { check, validationResult } = require("express-validator");
 const resCode = require("../helper/httpResponseCode.js");
 const resMessage = require("../helper/httpResponseMessage.js");
 const Response = require("../common_functions/response_handler");
-const Form = require("../models/formBuilderModel");
-const Staff = require("../models/staffModel");
-// const path = require('path');
-// const fs = require('fs');
+
 const generateAddValidation = (req, res, next) => [
-  check("title")
-     .custom(value => {
-        if(value)
-        {
-        return Form.findOne({ title: value }).then(formTitle => {
-            if (formTitle) {
-                return Promise.reject(resMessage.TITLE_ALREADY_EXIST);
-            }
-        });
-    }
-    })
+  check("message")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED),
+    .withMessage(resMessage.ENTER_MESSAGE),
+    check("type")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.ENTER_MESSAGE_TYPE),
 ];
+
 const generateEditValidation = (req, res, next) => [
   check("title")
     .trim()
@@ -48,9 +42,6 @@ const generateEditValidation = (req, res, next) => [
     .withMessage(resMessage.ENTER_FORM_ID),
 ];
 
-
-
-
 const reporter = (req, res, next) => {
   var errors = validationResult(req);
   // console.log(errors);
@@ -74,6 +65,5 @@ const reporter = (req, res, next) => {
 };
 
 module.exports = {
-  add: [generateAddValidation(), reporter],
-  edit: [generateEditValidation(), reporter],
+    addMessage: [generateAddValidation(), reporter],
 };

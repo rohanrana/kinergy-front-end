@@ -18,6 +18,7 @@ router.post('/getProfile', authHandler.auth_func, staffApis.getProfile);
 router.post('/editProfile', authHandler.auth_func, staffApis.editProfile);
 
 router.post('/changeStatus', authHandler.auth_func, staffApis.changeStatus);
+// router.post('/delete', authHandler.auth_func, staffApis.delete);
 
 
 

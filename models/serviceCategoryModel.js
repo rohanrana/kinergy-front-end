@@ -25,16 +25,16 @@ const serviceCategorySchema = new Schema({
         ref:"Staff",
         default:null
     },
-    service:{
+    service:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Service",
         default:null
-    },
-    sub:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"SubService",
-        default:null
-    },
+    }],
+    // subService:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     ref:"SubService",
+    //     default:null
+    // },
     status: {
         type: String,
         enum: ["ACTIVE", "INACTIVE", "BLOCK"],

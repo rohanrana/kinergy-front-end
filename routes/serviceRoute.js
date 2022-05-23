@@ -15,5 +15,7 @@ router.post('/getListByCategoryId', authHandler.auth_func, serviceApis.getListBy
 router.post('/getListByServiceId', authHandler.auth_func, serviceApis.getListByServiceId);
 
 
+router.post('/addProvider', authHandler.auth_func,serviceApis.addProvider);
+
 
 module.exports = router;
