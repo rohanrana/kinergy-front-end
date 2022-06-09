@@ -37,7 +37,7 @@ const countryCityStateApis = {
     // =========================getCityByStateID=====================
     'getCityByState': (req, res) => {
         if (!req.body._id) {
-            Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, resMessage.Country_ID_NOT_FOUND);
+            Response.sendResponseWithoutData(res, resCode.INTERNAL_SERVER_ERROR, resMessage.STATE_ID_NOT_FOUND);
         } else {
             City.find({ state: req.body._id }, { state: 0 }).sort({ name: 1 }).lean().exec((error, result) => {
                 if (error) {

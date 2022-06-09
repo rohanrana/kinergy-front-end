@@ -9,7 +9,9 @@ const profileValidator = require("../Validators/profileValidator");
 router.post(
   "/updatePersonalDetail",
   authHandler.auth_func,
+  profileValidator.updatePersonalDetail,
   profileApis.updatePersonalDetail
+  
 );
 router.post(
   "/updateContactDetail",

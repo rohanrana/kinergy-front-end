@@ -6,7 +6,7 @@ const couponValidator = require('../Validators/couponValidator');
 
 
 router.post('/create', authHandler.auth_func,couponValidator.add, couponApis.add); 
-router.post('/edit', authHandler.auth_func,couponValidator.add, couponApis.edit); 
+router.post('/edit', authHandler.auth_func,couponValidator.edit, couponApis.edit); 
 
 
 router.post('/couponList', authHandler.auth_func, couponApis.couponList); 

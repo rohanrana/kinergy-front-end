@@ -93,7 +93,7 @@ const settingApis = {
         userId: userId,
       };
 
-      Setting.findOne({ userId: userId, name: name })
+      Setting.findOne({name: name })
         .lean()
         .exec((err, result) => {
           if (err)

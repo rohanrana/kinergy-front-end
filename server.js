@@ -33,6 +33,11 @@ const formRoutes = require('./routes/formRoute');
 const couponRoutes = require('./routes/couponRoute');
 const profileRoutes = require('./routes/profileRoute');
 
+const accessLevelRoutes = require('./routes/accessLevelRoute');
+const accessLevelGroupsRoutes = require("./routes/accessLevelGroupRoute");
+const accessLevelFeatureRoutes = require("./routes/accessLevelFeatureRoute");
+const accessLevelPermissionRoutes = require("./routes/accessLevelPermissionRoute");
+
 const environment = config();
 
 app.listen(environment.port, () => {
@@ -73,6 +78,11 @@ app.use('/api/v1/message', messageRoutes);
 app.use('/api/v1/form/',formRoutes);
 app.use('/api/v1/coupon/',couponRoutes);
 app.use('/api/v1/profile/',profileRoutes);
+
+app.use('/api/v1/accessLevel/',accessLevelRoutes);
+app.use('/api/v1/accessLevel/group',accessLevelGroupsRoutes);
+app.use('/api/v1/accessLevel/feature',accessLevelFeatureRoutes);
+app.use('/api/v1/accessLevel/permission',accessLevelPermissionRoutes);
 
 
 

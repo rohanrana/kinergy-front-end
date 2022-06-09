@@ -9,20 +9,45 @@ var fs = require("fs");
 
 const otherPreferences = (req, res, next) => [
   check("_id")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage(resMessage.ENTER_USER_ID),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.ENTER_USER_ID),
 ];
-
+const updatePersonalDetail = (req, res, next) => [
+  check("_id")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.ENTER_USER_ID),
+  check("firstName")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.FIRST_NAME_REQUIRED),
+  check("gender")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.GENDER_REQUIRED),
+  check("dob")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.DOB_REQUIRED),
+];
 const getUserDetails = (req, res, next) => [
   check("_id")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage(resMessage.ENTER_USER_ID),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.ENTER_USER_ID),
 ];
 const generateUpdatePasswordValidatrion = (req, res, next) => [
   check("_id")
@@ -49,11 +74,11 @@ const generateUpdatePasswordValidatrion = (req, res, next) => [
     .withMessage(resMessage.ENTER_NEW_PASSWORD),
   check("confirmPassword")
     .custom((value, { req, loc, path }) => {
-        if(req.body.newPassword === req.body.confirmPassword){
-            return true;
-        }else{
-            return false;
-        }
+      if (req.body.newPassword === req.body.confirmPassword) {
+        return true;
+      } else {
+        return false;
+      }
     })
     .withMessage(resMessage.MATCH_CONFIRM_PASSWORD)
     .trim()
@@ -136,7 +161,7 @@ const reporter = (req, res, next) => {
 
 module.exports = {
   updatePassword: [generateUpdatePasswordValidatrion(), reporter],
-  otherPreferences:[otherPreferences(),reporter],
-  getUserDetails:[getUserDetails(),reporter]
-  
+  otherPreferences: [otherPreferences(), reporter],
+  getUserDetails: [getUserDetails(), reporter],
+  updatePersonalDetail: [updatePersonalDetail(), reporter],
 };

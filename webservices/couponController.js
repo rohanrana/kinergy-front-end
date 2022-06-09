@@ -207,103 +207,129 @@ const edit = (req, res) => {
       resMessage.ENTER_VALID_COUPON_ID
     );
   } else {
-    const {
-      title,
-      couponCode,
-      description,
-      startDate,
-      endDate,
-      perUserLimit,
-      couponType,
-      couponValue,
-      category,
-    } = req.body;
-    let couponData = {
-      title: title,
-      couponCode: couponCode,
-      description: description,
-      startDate: generalHelper.dateFormat(startDate),
-      endDate: generalHelper.dateFormat(endDate),
-      perUserLimit: perUserLimit,
-      couponType: couponType,
-      couponValue: couponValue,
-      couponService: [],
-    };
-    console.log({ _id: req.body._id });
-
-    Coupon.findByIdAndUpdate({ _id: req.body._id }, couponData, { new: true })
+    Coupon.findById({ _id: req.body._id })
       .lean()
-      .exec((err, result) => {
-        console.log("err", err, "result", result);
-        if (!err && result) {
-          if (result._id) {
-            CouonService.deleteMany({ coupon: req.body._id })
-              .lean()
-              .exec((errD, resultD) => {});
-            category.map((cat, catX) => {
-              console.log("cat", cat);
-              let = couponServiceObj = {};
-              couponServiceObj = { ...couponServiceObj, coupon: result._id };
-              couponServiceObj = { ...couponServiceObj, category: cat._id };
-              if (cat.service) {
-                if (cat.service.length > 0) {
-                  cat.service.map((ser, serX) => {
-                    couponServiceObj = { ...couponServiceObj, service: null };
+      .exec((findIdErr, findIdResult) => {
+        if (findIdResult) {
+          const {
+            title,
+            couponCode,
+            description,
+            startDate,
+            endDate,
+            perUserLimit,
+            couponType,
+            couponValue,
+            category,
+          } = req.body;
+          let couponData = {
+            title: title,
+            couponCode: couponCode,
+            description: description,
+            startDate: generalHelper.dateFormat(startDate),
+            endDate: generalHelper.dateFormat(endDate),
+            perUserLimit: perUserLimit,
+            couponType: couponType,
+            couponValue: couponValue,
+            couponService: [],
+          };
+          console.log({ _id: req.body._id });
+
+          Coupon.findByIdAndUpdate({ _id: req.body._id }, couponData, {
+            new: true,
+          })
+            .lean()
+            .exec((err, result) => {
+              console.log("err", err, "result", result);
+              if (!err && result) {
+                if (result._id) {
+                  CouonService.deleteMany({ coupon: req.body._id })
+                    .lean()
+                    .exec((errD, resultD) => {});
+                  category.map((cat, catX) => {
+                    console.log("cat", cat);
+                    let = couponServiceObj = {};
                     couponServiceObj = {
                       ...couponServiceObj,
-                      service: ser._id,
+                      coupon: result._id,
                     };
-                    if (ser.haveSubService) {
-                      couponServiceObj = {
-                        ...couponServiceObj,
-                        subService: null,
-                      };
-                      if (ser.subService) {
-                        if (ser.subService.length > 0) {
-                          ser.subService.map((subSer, subSerX) => {
-                            // console.log("subSer", subSer);
+                    couponServiceObj = {
+                      ...couponServiceObj,
+                      category: cat._id,
+                    };
+                    if (cat.service) {
+                      if (cat.service.length > 0) {
+                        cat.service.map((ser, serX) => {
+                          couponServiceObj = {
+                            ...couponServiceObj,
+                            service: null,
+                          };
+                          couponServiceObj = {
+                            ...couponServiceObj,
+                            service: ser._id,
+                          };
+                          if (ser.haveSubService) {
                             couponServiceObj = {
                               ...couponServiceObj,
                               subService: null,
                             };
+                            if (ser.subService) {
+                              if (ser.subService.length > 0) {
+                                ser.subService.map((subSer, subSerX) => {
+                                  // console.log("subSer", subSer);
+                                  couponServiceObj = {
+                                    ...couponServiceObj,
+                                    subService: null,
+                                  };
+                                  couponServiceObj = {
+                                    ...couponServiceObj,
+                                    subService: subSer._id,
+                                  };
+                                  saveCouponService(couponServiceObj);
+                                });
+                              }
+                            }
+                          } else
                             couponServiceObj = {
                               ...couponServiceObj,
-                              subService: subSer._id,
+                              subService: null,
                             };
-                            saveCouponService(couponServiceObj);
-                          });
-                        }
+
+                          saveCouponService(couponServiceObj);
+                        });
                       }
-                    } else
+                      saveCouponService(couponServiceObj);
+                    } else {
+                      couponServiceObj = { ...couponServiceObj, service: null };
                       couponServiceObj = {
                         ...couponServiceObj,
                         subService: null,
                       };
-
+                    }
                     saveCouponService(couponServiceObj);
                   });
                 }
-                saveCouponService(couponServiceObj);
-              } else {
-                couponServiceObj = { ...couponServiceObj, service: null };
-                couponServiceObj = { ...couponServiceObj, subService: null };
-              }
-              saveCouponService(couponServiceObj);
-            });
-          }
 
-          Response.sendResponseWithData(
-            res,
-            resCode.EVERYTHING_IS_OK,
-            resMessage.COUPON + resMessage.UPDATE,
-            result
-          );
+                Response.sendResponseWithData(
+                  res,
+                  resCode.EVERYTHING_IS_OK,
+                  resMessage.COUPON + resMessage.UPDATE,
+                  result
+                );
+              } else {
+                // console.log(err);
+                Response.sendResponseWithoutData(
+                  res,
+                  resCode.WENT_WRONG,
+                  resMessage.WENT_WRONG
+                );
+              }
+            });
         } else {
-          // console.log(err);
           Response.sendResponseWithoutData(
             res,
             resCode.WENT_WRONG,
-            resMessage.WENT_WRONG
+            resMessage.ENTER_VALID_COUPON_ID
           );
         }
       });

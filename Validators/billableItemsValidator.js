@@ -98,8 +98,10 @@ const reporter = (req, res, next) => {
         //     errors: dedupThings
         // });
         Response.sendResponseWithError(res, resCode.UNPROCESSABLE_ENTITY, 'Validation Errors', dedupThings);
+    }else{
+        next();
     }
-    next();
+    
 }
 
 module.exports = {

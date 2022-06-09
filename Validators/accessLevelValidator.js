@@ -2,51 +2,38 @@ const { check, validationResult } = require("express-validator");
 const resCode = require("../helper/httpResponseCode.js");
 const resMessage = require("../helper/httpResponseMessage.js");
 const Response = require("../common_functions/response_handler");
-const Form = require("../models/formBuilderModel");
-const Staff = require("../models/staffModel");
-// const path = require('path');
+const Level = require("../models/accessLevelModel");
+const generalHelper = require("../helper/general");
 // const fs = require('fs');
 const generateAddValidation = (req, res, next) => [
-  check("title")
-    .custom((value) => {
-      return Form.findOne({ title: value }).then((formTitle) => {
-        console.log("formTitle", formTitle);
-        if (formTitle) {
-          // return false;
-          return Promise.reject(resMessage.TITLE_ALREADY_EXIST);
-        }
-      });
-    })
-    .withMessage(resMessage.TITLE_ALREADY_EXIST)
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED),
-];
-const generateEditValidation = (req, res, next) => [
-  check("title")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.TITLE_REQUIRED),
-  check("_id")
+  check("level")
     .custom((value) => {
       if (value) {
-        return Form.findOne({ _id: value }).then((formTitle) => {
-          if (!formTitle) {
-            return Promise.reject(resMessage.ID_NOT_EXIST);
+        return Level.findOne({ slug: generalHelper.slugify(value) }).then((level) => {
+          if (level) {
+            return Promise.reject("Level already exist");
           }
         });
       }
     })
+    .withMessage("Level already exist")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage(resMessage.ENTER_FORM_ID),
+    .withMessage("Please enter access level."),
 ];
+
+
+const generateEditValidation = (req, res, next) => [
+  check("level")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter access level."),
+];
+
 
 const reporter = (req, res, next) => {
   var errors = validationResult(req);

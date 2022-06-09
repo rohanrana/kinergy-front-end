@@ -28,12 +28,12 @@ const generateAddValidation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage(resMessage.INVENTORY_NAME_REQUIRED),
-    check('description')
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.INVENTORY_CODE_DESCRIPTION),
+    // check('description')
+    // .trim()
+    // .escape()
+    // .not()
+    // .isEmpty()
+    // .withMessage(resMessage.INVENTORY_CODE_DESCRIPTION),
     check('code')
     .trim()
     .escape()
@@ -73,12 +73,12 @@ const generateEditValidation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage(resMessage.INVENTORY_NAME_REQUIRED),
-    check('description')
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage(resMessage.INVENTORY_CODE_DESCRIPTION),
+    // check('description')
+    // .trim()
+    // .escape()
+    // .not()
+    // .isEmpty()
+    // .withMessage(resMessage.INVENTORY_CODE_DESCRIPTION),
     check('code')
     .trim()
     .escape()

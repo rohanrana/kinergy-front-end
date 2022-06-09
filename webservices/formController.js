@@ -494,7 +494,7 @@ const formApis = {
               res,
               resCode.WENT_WRONG,
               resMessage.WENT_WRONG
-            );
+            ); 
         });
     }
   },

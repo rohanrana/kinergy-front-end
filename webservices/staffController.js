@@ -476,7 +476,7 @@ const staffApis = {
   //================ LOGOUT ===========================
   logOut: (req, res) => {
     console.log("req for logout is " + JSON.stringify(req.body));
-    if (!req.body)
+    if (!req.body._id)
       Response.sendResponseWithoutData(
         res,
         resCode.BAD_REQUEST,
@@ -763,7 +763,7 @@ const staffApis = {
                 resMessage.WENT_WRONG
               );
             else if (!result) {
-              Response.sendResponseWithoutData(res, 401, "Staff not exists.");
+              Response.sendResponseWithoutData(res, 401, "Customer not exists.");
             } else {
               Customers.findOneAndUpdate(
                 { _id: req.body._id },

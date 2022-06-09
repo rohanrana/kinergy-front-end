@@ -211,9 +211,7 @@ const employeeApis = {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Employee Id');
         } else if (!req.body.status) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Employee Status');
-        } else if (!STATUS.includes(req.body.status)) {
-            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Invalid  Employee Type');
-        } else {
+        }else {
             Employee.findOneAndUpdate({ _id: req.body._id }, { status: req.body.status.toUpperCase() }, { new: true }).lean().exec((err, result) => {
                 if (!err) {
                     Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Employee Status Changed Successfully.', result);
