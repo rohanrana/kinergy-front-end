@@ -83,6 +83,8 @@ import FacilityManagement from "./component/admin/FacilityManagement";
 import FacilityDetail from "./component/admin/FacilityDetail";
 import EditFacility from "./component/admin/EditFacility";
 import SystemSettings from "./component/admin/SystemSettings";
+import AdminAppoitment from "./component/admin/AdminAppointment";
+import settings from "./component/settings/Settings";
 
 function App() {
   return (
@@ -165,6 +167,8 @@ function App() {
         <Route exact path="/facility-detail" component={FacilityDetail} />
         <Route exact path="/edit-facility" component={EditFacility} />
         <Route exact path="/system-settings" component={SystemSettings} />
+        <Route exact path="/admin-appointment" component={AdminAppoitment} />
+        <Route exact path="/settings" component={settings} />
       </Switch>
     </Router>
   );

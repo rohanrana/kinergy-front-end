@@ -21,7 +21,7 @@ const AdminLeftMenu = () => {
         </li>
 
         <li>
-          <a href="#/client-authorization">
+          <a href="#/">
             <i class="far fa-circle mr-2"></i>Services
           </a>
         </li>
@@ -69,7 +69,7 @@ const AdminLeftMenu = () => {
         </NavDropdown> */}
 
         <li>
-          <a href="#/">
+          <a href="#/admin-appointment">
             <i class="far fa-circle mr-2"></i>Appointments
           </a>
         </li>

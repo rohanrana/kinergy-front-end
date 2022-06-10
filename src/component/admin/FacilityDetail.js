@@ -18,18 +18,17 @@ const FacilityDetail = () => {
                 <i className="fas fa-pencil mr-2"></i>Edit Details
               </a>
             </p>
-            <div className="appointment-card mt-0">
-              <p className="text-right">
+
+            <div className="facility-detail-top">
+              <p className="text-right absolute">
                 <i class="fas fa-circle"></i> Active
               </p>
-
-              <div className="facility-detail-top">
                 <div className="staff-img-detail">
                   <img src={StaffMember} alt={StaffMember} />
                 </div>
                 <h5 className="m-0">Kinergy Sports Medicine And Performance</h5>
               </div>
-
+            <div className="appointment-card mt-0">
               <h6 className="mb-3">Facility Information</h6>
 
               <Row>
