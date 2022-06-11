@@ -85,6 +85,9 @@ import EditFacility from "./component/admin/EditFacility";
 import SystemSettings from "./component/admin/SystemSettings";
 import AdminAppoitment from "./component/admin/AdminAppointment";
 import settings from "./component/settings/Settings";
+import EditPersonalDetail from "./component/settings/EditPersonalDetail";
+import UpdatePassword from "./component/settings/UpdatePassword";
+import EditContactInformation from "./component/settings/EditContactInformation";
 
 function App() {
   return (
@@ -169,6 +172,9 @@ function App() {
         <Route exact path="/system-settings" component={SystemSettings} />
         <Route exact path="/admin-appointment" component={AdminAppoitment} />
         <Route exact path="/settings" component={settings} />
+        <Route exact path="/edit-personal-detail" component={EditPersonalDetail} />
+        <Route exact path="/update-password" component={UpdatePassword} />
+        <Route exact path="/edit-contact-information" component={EditContactInformation} />
       </Switch>
     </Router>
   );
