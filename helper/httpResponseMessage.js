@@ -142,7 +142,7 @@ module.exports = {
   FORM_SAVED: "Form Save Successfully.",
   FORM_UPDATE: "Form Updated Successfully.",
   ENTER_FORM_ID: "Please Enter Form Id",
-
+  Form_SERVICE_ADD_SUCCESSFULLY:"Form  Service Link Successfully",
   ID_NOT_EXIST: "Id does not exist.",
 
   // Service

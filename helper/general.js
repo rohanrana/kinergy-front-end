@@ -116,6 +116,16 @@ const dateFormat = (date) => {
     .add(30, "minutes");
     
 };
+// Data, Key,  and Value
+function checkValueExist(data,key,value){
+  // log('data',data);
+  return  isFound = data.some(element => {
+    if (element[key] == value) {
+      return true;
+    }      
+    return false;
+  });
+}
 
 module.exports = {
   managePriceDuration,
@@ -126,5 +136,6 @@ module.exports = {
   removeSection,
   getDateFormat,
   dateFormat,
-  managePhoneAndType
+  managePhoneAndType,
+  checkValueExist
 };
