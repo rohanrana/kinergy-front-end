@@ -13,11 +13,11 @@ const generateAddValidation = (req, res, next) => [
         console.log("formTitle", formTitle);
         if (formTitle) {
           // return false;
-          return Promise.reject(resMessage.TITLE_ALREADY_EXIST);
+          return Promise.reject(resMessage.FORM_TITLE_ALREADY_EXIST);
         }
       });
     })
-    .withMessage(resMessage.TITLE_ALREADY_EXIST)
+    .withMessage(resMessage.FORM_TITLE_ALREADY_EXIST)
     .trim()
     .escape()
     .not()

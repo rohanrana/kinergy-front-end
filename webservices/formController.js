@@ -272,6 +272,7 @@ const formApis = {
             // console.log(sectionData);
             sectionData = {
               title: section.title,
+              sort: section.sort,
               description: section.description,
               form: formResult._id,
             };
@@ -291,30 +292,14 @@ const formApis = {
                   var questionObj = {};
 
                   section.question.map((question, questionKey) => {
-                    questionObj =
-                      question.title &&
-                      question.title != null &&
-                      question.title != "undefined"
-                        ? { ...questionObj, title: question.title }
-                        : { ...questionObj };
-                    questionObj =
-                      question.optionType &&
-                      question.optionType != null &&
-                      question.optionType != "undefined"
-                        ? { ...questionObj, optionType: question.optionType }
-                        : { ...questionObj };
-                    questionObj =
-                      question.comment &&
-                      question.comment != null &&
-                      question.comment != "undefined"
-                        ? { ...questionObj, comment: question.comment }
-                        : { ...questionObj };
-                    questionObj =
-                      question.required &&
-                      question.required != null &&
-                      question.required != "undefined"
-                        ? { ...questionObj, required: question.required }
-                        : { ...questionObj };
+                    questionObj =  question.title && question.title != null && question.title != "undefined"? { ...questionObj, title: question.title }: { ...questionObj };
+                    questionObj =  question.sort && question.sort != null && question.sort != "undefined"? { ...questionObj, sort: question.sort }: { ...questionObj };
+                    questionObj =  question.optionType && question.optionType != null &&
+                    question.optionType != "undefined" ? { ...questionObj, optionType: question.optionType }: { ...questionObj };
+                    questionObj = question.comment && question.comment != null && question.comment != "undefined"
+                        ? { ...questionObj, comment: question.comment }: { ...questionObj };
+                    questionObj = question.required && question.required != null && question.required != "undefined"
+                        ? { ...questionObj, required: question.required } : { ...questionObj };
 
                     if (
                       question.optionType == "file" ||
@@ -445,6 +430,7 @@ const formApis = {
                   // console.log(sectionData);
                   sectionData = {
                     title: section.title,
+                    sort:section.sort,
                     description: section.description,
                     form: formResult._id,
                   };
@@ -471,6 +457,7 @@ const formApis = {
                             question.title != "undefined"
                               ? { ...questionObj, title: question.title }
                               : { ...questionObj };
+                          questionObj =  question.sort && question.sort != null && question.sort != "undefined"? { ...questionObj, sort: question.sort }: { ...questionObj };
                           questionObj =
                             question.optionType &&
                             question.optionType != null &&
@@ -632,13 +619,13 @@ const formApis = {
           Response.sendResponseWithoutData(
             res,
             resCode.WENT_WRONG,
-            "Form Not Found."
+            "Form Data  Not Found."
           );
         else
           Response.sendResponseWithData(
             res,
             resCode.EVERYTHING_IS_OK,
-            "Form Found Successfully.",
+            "Form Data Found Successfully.",
             result
           );
       });
@@ -655,8 +642,10 @@ const formApis = {
       Form.find({ _id: req.body._id })
         .populate({
           path: "section",
+          options: { sort: { sort: 1 }},
           populate: {
             path: "question",
+            options: { sort: { sort: 1 }},
           },
         })
 

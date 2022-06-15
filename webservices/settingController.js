@@ -85,12 +85,13 @@ const settingApis = {
         resMessage.ENTER_VALID_USER_ID
       );
     } else {
-      const { name, value, type, userId } = req.body;
+      const { name, value, type, userId,} = req.body;
       var settingData = {
         name: name,
         value: value,
         type: type,
         userId: userId,
+        
       };
 
       Setting.findOne({name: name })

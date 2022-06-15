@@ -58,7 +58,11 @@ const questionSchema = new Schema(
     form: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Form",
-    },   
+    },  
+    sort:{
+      type:Number,
+      default:0
+    } 
   }
 );
 

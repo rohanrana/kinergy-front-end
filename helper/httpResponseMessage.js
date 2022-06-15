@@ -135,6 +135,7 @@ module.exports = {
   MESSAGE_LIST: "Message List.",
   ENTER_MESSAGE_ID: "Enter Message Id.",
   ENTER_MESSAGE: "Please enter message.",
+  MESSAGE_NOT_FOUND:"Message not found.",
 
   // Forms
   FORM: "Form",
@@ -143,6 +144,7 @@ module.exports = {
   FORM_UPDATE: "Form Updated Successfully.",
   ENTER_FORM_ID: "Please Enter Form Id",
   Form_SERVICE_ADD_SUCCESSFULLY:"Form  Service Link Successfully",
+  FORM_TITLE_ALREADY_EXIST: "Form title already exist",
   ID_NOT_EXIST: "Id does not exist.",
 
   // Service

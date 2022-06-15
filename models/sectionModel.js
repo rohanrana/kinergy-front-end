@@ -21,6 +21,10 @@ const sectionSchema = new Schema(
         ref: "Question",
       },
     ],
+    sort:{
+      type:Number,
+      default:0
+    }
   }
 );
 

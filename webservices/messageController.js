@@ -52,11 +52,7 @@ const messageApis = {
                 result
               );
             else
-              Response.sendResponseWithoutData(
-                res,
-                resCode.WENT_WRONG,
-                resMessage.WENT_WRONG
-              );
+              Response.sendResponseWithoutData(res, resCode.WENT_WRONG,resMessage.WENT_WRONG);
           });
       } else {
         var messages = new Message(messageData);
@@ -90,6 +86,7 @@ const messageApis = {
       .limit(limit)
       .lean()
       .exec((err, result) => {
+        console.log('err',err,'result',result);
         if (err)
           Response.sendResponseWithoutData(
             res,
@@ -100,7 +97,7 @@ const messageApis = {
           Response.sendResponseWithoutData(
             res,
             resCode.WENT_WRONG,
-            resMessage.SETTING_NOT_FOUND
+            resMessage.MESSAGE_NOT_FOUND
           );
         else
           Response.sendResponseWithData(
