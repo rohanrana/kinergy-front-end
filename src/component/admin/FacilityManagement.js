@@ -78,6 +78,76 @@ const FacilityManagement = () => {
                       </a>
                     </td>
                   </tr>
+
+                  <tr>
+                    <td className="text-left">
+                      Kinergy Sports Medicine and Performance
+                    </td>
+                    <td>Amsterdam</td>
+                    <td>000-000-0000</td>
+                    <td className="text-left">Active</td>
+                    <td className="text-left">
+                      <a href="#/facility-detail" className="text-dark">
+                        <u>View Details</u>
+                      </a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="text-left">
+                      Kinergy Sports Medicine and Performance
+                    </td>
+                    <td>Amsterdam</td>
+                    <td>000-000-0000</td>
+                    <td className="text-left">Active</td>
+                    <td className="text-left">
+                      <a href="#/facility-detail" className="text-dark">
+                        <u>View Details</u>
+                      </a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="text-left">
+                      Kinergy Sports Medicine and Performance
+                    </td>
+                    <td>Amsterdam</td>
+                    <td>000-000-0000</td>
+                    <td className="text-left">Active</td>
+                    <td className="text-left">
+                      <a href="#/facility-detail" className="text-dark">
+                        <u>View Details</u>
+                      </a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="text-left">
+                      Kinergy Sports Medicine and Performance
+                    </td>
+                    <td>Amsterdam</td>
+                    <td>000-000-0000</td>
+                    <td className="text-left">Active</td>
+                    <td className="text-left">
+                      <a href="#/facility-detail" className="text-dark">
+                        <u>View Details</u>
+                      </a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td className="text-left">
+                      Kinergy Sports Medicine and Performance
+                    </td>
+                    <td>Amsterdam</td>
+                    <td>000-000-0000</td>
+                    <td className="text-left">Active</td>
+                    <td className="text-left">
+                      <a href="#/facility-detail" className="text-dark">
+                        <u>View Details</u>
+                      </a>
+                    </td>
+                  </tr>
                 </tbody>
               </Table>
               <Pagination size="sm">

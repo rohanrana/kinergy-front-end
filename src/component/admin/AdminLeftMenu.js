@@ -4,10 +4,8 @@ const AdminLeftMenu = () => {
   return (
     <div className="page-left-sub-nav">
       <h3>Admin</h3>
-      
-      <ul className="p-0">
-      
 
+      <ul className="p-0">
         <li>
           <a href="#/facility-management">
             <i class="far fa-circle mr-2"></i>Facility Management
@@ -74,19 +72,23 @@ const AdminLeftMenu = () => {
           </a>
         </li>
 
-      
         <li>
-          <a href="#/staff-onboarding">
+          <a href="#/discount">
+            <i class="far fa-circle mr-2"></i>Discount
+          </a>
+        </li>
+
+        <li>
+          <a href="#/user-management">
             <i class="far fa-circle mr-2"></i>User Management
           </a>
         </li>
 
         <li>
-          <a href="#/">
+          <a href="#/access-management">
             <i class="far fa-circle mr-2"></i>Access Management
           </a>
         </li>
-
       </ul>
     </div>
   );

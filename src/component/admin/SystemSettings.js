@@ -22,7 +22,7 @@ const SystemSettings = () => {
                 Message Board{" "}
                 <span className="float-right">
                   <Button
-                    className="btn btn-theme-white btn-sm"
+                    className="btn btn-theme-white btn-sm white-3"
                     onClick={handleShow}
                   >
                     History

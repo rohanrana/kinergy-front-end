@@ -88,6 +88,12 @@ import settings from "./component/settings/Settings";
 import EditPersonalDetail from "./component/settings/EditPersonalDetail";
 import UpdatePassword from "./component/settings/UpdatePassword";
 import EditContactInformation from "./component/settings/EditContactInformation";
+import UserManagement from "./component/admin/UserManagement";
+import UserDetails from "./component/admin/UserDetails";
+import EditUsers from "./component/admin/EditUsers";
+import EditPreferences from "./component/admin/EditPreferences";
+import AccessManagement from "./component/admin/AccessManagement";
+import Discount from "./component/admin/Discount";
 
 function App() {
   return (
@@ -175,6 +181,12 @@ function App() {
         <Route exact path="/edit-personal-detail" component={EditPersonalDetail} />
         <Route exact path="/update-password" component={UpdatePassword} />
         <Route exact path="/edit-contact-information" component={EditContactInformation} />
+        <Route exact path="/user-management" component={UserManagement} />
+        <Route exact path="/user-detail" component={UserDetails} />
+        <Route exact path="/edit-users" component={EditUsers} />
+        <Route exact path="/edit-preferences" component={EditPreferences} />
+        <Route exact path="/access-management" component={AccessManagement} />
+        <Route exact path="/discount" component={Discount} />
       </Switch>
     </Router>
   );
