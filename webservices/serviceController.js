@@ -378,7 +378,7 @@ const serviceApis = {
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
-              resMessage.SERVICE + resMessage.DELETE,
+              'Service status changed successfully.',
               result
             );
           } else

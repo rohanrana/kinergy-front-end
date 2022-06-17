@@ -103,7 +103,7 @@ const appointmentApis = {
         if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Appointment Id.');
         } else {
-            Appointment.find({ _id: req.body._id }).populate('customer').populate("staff").lean().exec((err, result) => {
+            Appointment.find({ _id: req.body._id }).populate({path:"customer",select:"_id firstName lastName email"}).populate({path:"staff",select:"_id firstName lastName email"}).lean().exec((err, result) => {
                 // console.log(result.length);
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);

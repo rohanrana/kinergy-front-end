@@ -8,6 +8,8 @@ const generalHelper = require("../helper/general");
 
 const formService = require("../models/formServiceModel");
 
+const formHelper = require("../helper/form.js");
+
 var oldSections = null;
 function setValue(result) {
   oldSections = result;
@@ -20,12 +22,15 @@ const getRecord = async (Model,where,select,populate = false)=>{
   }
   
 }
+
+
 const getServiceCategory = async (formId)=>{
   // console.log('serviceCategory',serviceCategory,'formId',formId);
   var serviceData = await getRecord(formService,{form:formId},{_id:1,serviceCategory:1},{path:"serviceCategory",select:"_id title slug"});
     var serviceCategoryIds = [];
+    var servicePromise = [];
     if(serviceData && serviceData.length > 0){
-      var servicePromise = serviceData.map(async (s,x)=>{
+        servicePromise = serviceData.map(async (s,x)=>{
         if(!generalHelper.checkValueExist(serviceCategoryIds,'slug',s.serviceCategory.slug)){
           serviceCategoryIds.push({slug:s.serviceCategory.slug});
             return await {_id:s.serviceCategory._id,slug:s.serviceCategory.slug,title:s.serviceCategory.title,service:await getServices(formId,s.serviceCategory._id)};
@@ -69,6 +74,8 @@ const getSubServices = async (formId,serviceCategory,service)=>{
   return await Promise.all(servicePromise);
 }
 }
+
+
 
 const  createTree = async (formId)=>{
   var returnFinalData= [];
@@ -567,10 +574,7 @@ const formApis = {
                             questionObj = { ...questionObj, options: [] };
                             questionDoc = new Question(questionObj);
                             questionDoc.save((err, questionResult) => {
-                              addQuestionInSection(
-                                sectionResult._id,
-                                questionResult
-                              );
+                              addQuestionInSection(sectionResult._id,questionResult);
                             });
                           }
                         });
@@ -795,66 +799,18 @@ const formApis = {
 
   getLinkServices:async(req,res)=>{
     var checkFormId = await req.body._id;
+    var checkFormExist = await formHelper.checkFormExist(req.body._id);
+    console.log('checkFormExist',checkFormExist);
     if(!checkFormId){
       return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.ENTER_FORM_ID);
+    }else if(checkFormExist && checkFormExist.length == 0){
+      return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Form not found.");
     }else{
       var resultNEW =  await createTree(req.body._id);
       var resDataPromise = await Promise.all(resultNEW);
       console.log('resDataPromise',resDataPromise);
        return await Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Form Services Found Successfully.",resDataPromise);
-    }
-    
-    if (!req.body._id) {
-      Response.sendResponseWithoutData(
-        res,
-        resCode.WENT_WRONG,
-        resMessage.ENTER_FORM_ID
-      );
-    } else {
-      var resultNEW =  await createTree(req.body._id);
-        var resDataPromise = await Promise.all(resultNEW);
-        console.log('resDataPromise',resDataPromise);
-         return await Response.sendResponseWithData(
-            res,
-            resCode.EVERYTHING_IS_OK,
-            "Form Services Found Successfully.",
-            resDataPromise 
-          );
-      // formService.find({form:req.body._id})
-      // // .populate({path:"form",select:"_id title slug"})
-      // // .populate({path:"serviceCategory",select:"_id title slug"})
-      // // .populate({path:"service",select:"_id title slug"})
-      // // .populate({path:"subService",select:"_id title slug"})
-      // .lean().exec((err, result) => {
-      //   // console.log(result.length);
-      //   if (err)
-      //     Response.sendResponseWithoutData(
-      //       res,
-      //       resCode.WENT_WRONG,
-      //       resMessage.WENT_WRONG
-      //     );
-      //   else if (!result || result.length == 0)
-      //     Response.sendResponseWithoutData(
-      //       res,
-      //       resCode.WENT_WRONG,
-      //       "Form Services Not Found."
-      //     );
-      //   else{
-      //     //console.log('result',result);
-      //   var resultNEW = await createTree(req.body._id);
-      //    return await Response.sendResponseWithData(
-      //       res,
-      //       resCode.EVERYTHING_IS_OK,
-      //       "Form Services Found Successfully.",
-      //       resultNEW
-      //       // groupBy3(resultNEW,'form','formSlug','serviceCategory','serviceCategorySlug','service')
-
-      //       // groupBy3(resultNEW,'form','formSlug','serviceCategory','serviceCategorySlug')
-      //       // groupBy3(result,'serviceCategory','serviceCategorySlug','permissions','permissionSlug')
-      //     );
-      // }
-      // });
-    }
+    }   
   }
 };
 

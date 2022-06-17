@@ -195,7 +195,7 @@ const settingApis = {
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
-              resMessage.ENTER_SETTING_ID,
+              "Setting Deleted Successfully.",
               result
             );
           } else
