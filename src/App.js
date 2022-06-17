@@ -94,6 +94,8 @@ import EditUsers from "./component/admin/EditUsers";
 import EditPreferences from "./component/admin/EditPreferences";
 import AccessManagement from "./component/admin/AccessManagement";
 import Discount from "./component/admin/Discount";
+import DiscountDetail from "./component/admin/DiscountDetail";
+import EditCoupon from "./component/admin/EditCoupon";
 
 function App() {
   return (
@@ -187,6 +189,8 @@ function App() {
         <Route exact path="/edit-preferences" component={EditPreferences} />
         <Route exact path="/access-management" component={AccessManagement} />
         <Route exact path="/discount" component={Discount} />
+        <Route exact path="/discount-detail" component={DiscountDetail} />
+        <Route exact path="/edit-coupon" component={EditCoupon} />
       </Switch>
     </Router>
   );
