@@ -5,8 +5,8 @@ const facilityApis = require('../webservices/facilityController');
 
 const facilityValidator = require('../Validators/facilityValidator');
 
-router.post('/add',facilityApis.fileUpload, facilityValidator.add, authHandler.auth_func, facilityApis.add);
-router.post('/edit',facilityApis.fileUpload, facilityValidator.edit, authHandler.auth_func, facilityApis.edit);
+router.post('/add',facilityApis.fileUpload, authHandler.auth_func,facilityValidator.add,  facilityApis.add);
+router.post('/edit',facilityApis.fileUpload, authHandler.auth_func,facilityValidator.edit,  facilityApis.edit);
 router.post('/delete', authHandler.auth_func, facilityApis.delete);
 router.post('/facilityList', authHandler.auth_func, facilityApis.facilityList);
 

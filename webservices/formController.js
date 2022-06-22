@@ -514,10 +514,7 @@ const formApis = {
                               var TypesArr = question.file.fileType.type;
                               console.log("TypesArr", TypesArr);
                               fileTypesExt = TypesArr;
-                              fileObj = {
-                                ...fileObj,
-                                fileType: fileTypesExt,
-                              };
+                              fileObj = {...fileObj,fileType: fileTypesExt,};
                             }
                             questionObj = { ...questionObj, file: fileObj };
                             // console.log(questionObj);
@@ -538,36 +535,18 @@ const formApis = {
                               var optionArr = [];
                               question.options.map((option, optionKey) => {
                                 var optionObj = {};
-                                optionObj = {
-                                  ...optionObj,
-                                  label: option.label,
-                                };
-                                optionObj = {
-                                  ...optionObj,
-                                  value: option.value,
-                                };
+                                optionObj = {...optionObj,label: option.label,};
+                                optionObj = {...optionObj,value: option.value,};
                                 optionArr.push(optionObj);
                               });
-                              questionObj = {
-                                ...questionObj,
-                                options: optionArr,
-                              };
+                              questionObj = {...questionObj,options: optionArr,};
                               questionObj = { ...questionObj, file: null };
-                              questionObj = {
-                                ...questionObj,
-                                section: sectionResult._id,
-                              };
-                              questionObj = {
-                                ...questionObj,
-                                form: formResult._id,
-                              };
+                              questionObj = {...questionObj,section: sectionResult._id,};
+                              questionObj = {...questionObj,form: formResult._id,};
                               questionDoc = new Question(questionObj);
                               questionDoc.save((err, questionResult) => {
                                 // console.log("quesion_Add_ERR1", err);
-                                addQuestionInSection(
-                                  sectionResult._id,
-                                  questionResult
-                                );
+                                addQuestionInSection(sectionResult._id,questionResult);
                               });
                             }
                           } else {

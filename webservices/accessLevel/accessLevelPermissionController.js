@@ -111,7 +111,7 @@ const permissionList = async(req,res)=> {
 //  Get Group Detail POST
 const getPermissionById = async(req,res)=> {
   if (!req.body._id) {
-    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Feature Id.');
+    Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Permission Id.');
 } else {
         await Permission.find({_id:req.body._id}).sort({sort:1})
         .exec((err, result) => {
@@ -119,9 +119,9 @@ const getPermissionById = async(req,res)=> {
           if (err) {
               Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.WENT_WRONG);
           } else if (!result || result.length == 0) {
-              Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Feature Not Found.");
+              Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Permission Not Found.");
           } else {
-              Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Feature Data.', result);     
+              Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Permission Data.', result);     
           }
         });
      }

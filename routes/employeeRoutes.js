@@ -5,9 +5,9 @@ const employeeApis = require('../webservices/employeeController');
 
 const employeeValidator = require('../Validators/employeeValidator');
 
-router.post('/add', employeeApis.fileUpload, employeeValidator.add, authHandler.auth_func, employeeApis.add);
-router.post('/edit', employeeApis.fileUpload, employeeValidator.edit, authHandler.auth_func, employeeApis.edit);
-router.post('/editDocument', employeeApis.fileUpload, employeeValidator.editDocument, authHandler.auth_func, employeeApis.editDocument);
+router.post('/add', employeeApis.fileUpload,authHandler.auth_func, employeeValidator.add,  employeeApis.add);
+router.post('/edit', employeeApis.fileUpload,  authHandler.auth_func,employeeValidator.edit, employeeApis.edit);
+router.post('/editDocument', employeeApis.fileUpload, authHandler.auth_func, employeeValidator.editDocument, employeeApis.editDocument);
 router.post('/delete', authHandler.auth_func, employeeApis.delete);
 router.post('/employeeList', authHandler.auth_func, employeeApis.employeeList);
 router.post('/employeeById', authHandler.auth_func, employeeApis.employeeById);
