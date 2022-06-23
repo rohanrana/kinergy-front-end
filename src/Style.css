@@ -350,7 +350,14 @@ h6 {
   /* box-shadow: 0px 4px 20px 2px rgb(0 0 0 / 10%); */
   border-radius: 11px;
 }
-
+button#formBtnCnc {
+  min-width: 110px;
+  border-radius: 10px !important;
+}
+button#formBtn {
+  min-width: 110px;
+  border-radius: 10px !important;
+}
 .page-left-sub-nav ul li a {
   text-decoration: none;
   letter-spacing: 0.5px;
@@ -839,4 +846,47 @@ h6 {
   border-radius: 10px;
   padding: 20px;
   margin-top: 30px;
+}
+.accordion-item{
+  border: none !important;;
+  border-bottom: 1px solid #000!important;
+}
+button.accordion-button{
+  color:#000000;
+  font-size:14px;
+  font-family: 'Inter', sans-serif;
+}
+.accordion-button{padding:1rem 1.25rem 1.5rem;position: relative;}
+.accordion-button:not(.collapsed){
+  font-weight: 700;
+  color:#000000!important;
+  background:#ffffff!important;
+  border-bottom:none!important;
+  box-shadow:0px 0px 0px!important;
+}
+.accordion-body {
+  padding: 1rem 16px 1rem 50px;
+}
+.form-check label{
+  color:#000!important;
+  font-family: 'Inter', sans-serif;
+  font-weight:400;
+}
+.accordion-button:not(.collapsed)::after{
+  filter: grayscale(5);
+}
+button.accordion-button.collapsed .all_select{display:none;}button.accordion-button .all_select {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: 'Roboto';
+  text-decoration: underline;
+  position: absolute;
+  right: 0;
+}
+.accordion-button::after{
+  margin-left:16px;
+}
+button.accordion-button.collapsed::after{
+  margin-left:auto;
 }
