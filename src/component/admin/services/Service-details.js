@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Modal, Form, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 import Dummyimage from "../../../image/dummy.jpg";
@@ -8,6 +8,10 @@ import Dummyimage from "../../../image/dummy.jpg";
 
 const Servicedetails = () => {
     const [checked, setChecked] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
   return (
     <div className="clients">
       <Sidebar />
@@ -18,7 +22,7 @@ const Servicedetails = () => {
             </Col>
             <Col lg={9} sm={8} xs={12}>
                 <div className="text-right">
-                    <Button className="btn btn-theme pl-2 pr-2" id="formBtn">Edit</Button>
+                    <Button className="btn btn-theme pl-2 pr-2" id="formBtn" onClick={handleShow}>Edit</Button>
                 </div>
                 <div className="appointment-card">
                     <div className="d-flex justify-content-between align-item-center">
@@ -73,7 +77,52 @@ const Servicedetails = () => {
                         </div>
             </Col>
         </Row>
-      </Container>
+          </Container>
+          <Modal
+        className="right"
+        show={show}
+        onHide={handleClose}
+        animation={false}
+        id="mm"
+      >
+        <Modal.Header className="border-0 pb-0" closeButton></Modal.Header>
+        <Modal.Body>
+          <div className="mod_sec">
+            <h3 className="md_txt">Edit Service Category</h3>
+            <Form>
+              <Form.Group className="mb-4 form-type pos-rel">
+                <Form.Label className="floatLabel">Service Category*</Form.Label>
+                <Form.Control value="Therapy Services" />
+              </Form.Group>
+              <Form.Group className="mb-4 form-type pos-rel">
+                <Form.Label className="floatLabel">Service Description*</Form.Label>
+                <Form.Control as="textarea" rows={6} value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua .Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+              </Form.Group>
+              <Form.Group className="mb-4 form-type">
+                <div className="d-flex align-items-center justify-bw">
+                  <div className="ddTxt">Upload Image for Service Category*</div>
+                  <div className="fileInput">
+                    <input  className="d-opacity form-control" type="file" />
+                    <button className="btn btn-outline-primary">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                    </button>
+                  </div>
+                </div>
+              </Form.Group>
+              <Form.Group>
+                <div className="text-center" id="fxd">
+                  <Button className="btn btn-theme-white pl-2 pr-2 mr-3" id="formBtnCnc">
+                    Back
+                  </Button>
+                  <Button className="btn btn-theme pl-2 pr-2 ml-3" id="formBtn">
+                    Save
+                    </Button>
+                  </div>
+              </Form.Group>
+            </Form>   
+          </div>  
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
