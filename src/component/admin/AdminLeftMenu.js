@@ -19,7 +19,7 @@ const AdminLeftMenu = () => {
         </li>
 
         <li>
-          <a href="#/">
+          <a href="#/services">
             <i class="far fa-circle mr-2"></i>Services
           </a>
         </li>

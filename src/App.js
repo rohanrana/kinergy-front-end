@@ -96,6 +96,9 @@ import AccessManagement from "./component/admin/AccessManagement";
 import Discount from "./component/admin/Discount";
 import DiscountDetail from "./component/admin/DiscountDetail";
 import EditCoupon from "./component/admin/EditCoupon";
+import Services from "./component/admin/services/Services";
+import Servicedetails from "./component/admin/services/Service-details";
+
 
 function App() {
   return (
@@ -191,6 +194,9 @@ function App() {
         <Route exact path="/discount" component={Discount} />
         <Route exact path="/discount-detail" component={DiscountDetail} />
         <Route exact path="/edit-coupon" component={EditCoupon} />
+        <Route exact path="/services" component={Services} />
+        <Route exact path="/service-details" component={Servicedetails} />
+       
       </Switch>
     </Router>
   );

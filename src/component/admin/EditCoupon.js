@@ -1,5 +1,5 @@
-import React from "react";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import {React, useState} from "react";
+import { Container, Row, Col, Form, Button, Modal} from "react-bootstrap";
 import Sidebar from "../sidenav/Sidebar";
 
 function MyVerticallyCenteredModal(props) {
@@ -25,22 +25,54 @@ function MyVerticallyCenteredModal(props) {
   );
 }
 
+function MyVerticallyCenteredModal1(props) {
+  return (
+    <Modal
+      {...props}
+      size="md"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Body className="p-5 text-center">
+        <Button className="close-modal-btn" onClick={props.onHide}>
+          <i className="fas fa-times"></i>
+        </Button>
+        <h5 className="mb-5">
+          Are you sure, you want to <b>Activate</b> this <b>Coupon?</b>
+        </h5>
+        <Button className="btn btn-theme-white white-3">No</Button>
+        <Button className="btn btn-theme ml-2">Yes</Button>
+      </Modal.Body>
+    </Modal>
+  );
+}
+
 const EditCoupon = () => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [modalShow1, setModalShow1] = useState(false);
+  const [checked, setChecked] = useState(false);
   return (
     <div className="clients">
       <Sidebar />
       <Container fluid>
+        <Form>
         <Row>
           <Col lg={6} sm="6" col={12}>
             <p className="d-flex m-0">
-              <b>Status : Active</b>
-              <Form.Check
+                <b>Status : {checked ? 'Active' : 'Inactive'}</b>
+                <Form.Check 
+                  type="switch"
+                  id="custom-switch"
+                  className="ml-2"
+                  onChange={() => setChecked(!checked)}
+                  onClick={() => setModalShow1(true)}
+                />
+              {/* <Form.Check
                 type="switch"
                 id="custom-switch"
                 checked
                 className="ml-2"
-              />
+              /> */}
             </p>
           </Col>
           <Col lg={6} sm="6" col={12}>
@@ -56,7 +88,6 @@ const EditCoupon = () => {
         </Row>
         <Row>
           <Col lg={12} sm={12} xs={12}>
-            <Form>
               <div className="appointment-card form-type">
                 <h6 className="mb-3">Coupon Detail</h6>
 
@@ -250,13 +281,17 @@ const EditCoupon = () => {
                   </div>
                 </Col>
               </Row>
-            </Form>
           </Col>
         </Row>
+            </Form>
       </Container>
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
+      />
+      <MyVerticallyCenteredModal1
+        show={modalShow1}
+        onHide={() => setModalShow1(false)}
       />
     </div>
   );

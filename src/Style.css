@@ -890,3 +890,116 @@ button.accordion-button.collapsed .all_select{display:none;}button.accordion-but
 button.accordion-button.collapsed::after{
   margin-left:auto;
 }
+.align-item-center{align-items: center;}
+.align-item-center h5{margin:0;}
+#service_id .serviceCard {
+  background: rgb(237 237 237 / 50%);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 24px;
+}
+#service_id h3{
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #484848;
+}
+#service_id span{
+  font-family: 'Inter', sans-serif;
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+color: #000000;
+}
+.view_d{
+  font-family: 'Inter', sans-serif;
+font-style: normal;
+font-weight: 500;
+font-size: 14px;
+color: #000000;
+}
+.sevice_c{
+  padding:60px 0px 35px 0px;
+}
+.active_span span.dot_span{
+  background: #000000;
+  width:8px;
+  height:8px;
+  margin-right:10px;
+  border-radius:100%;
+}
+.active_span{
+  display:flex;
+  align-items:center;
+  justify-content:end;
+}
+.md_txt{
+  font-family: 'Inter', sans-serif;
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+color: #000000;
+margin-bottom:30px;
+}
+.mod_sec{
+  padding:40px 0px;
+}
+input.d-opacity.form-control {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+}
+.fileInput button {
+  background: #111111;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  color: #ffffff;
+}
+.fileInput {
+  position: relative;
+}
+.justify-bw {
+  justify-content: space-between;
+}
+.ddTxt{
+  font-family: 'Inter', sans-serif;
+font-weight: 700;
+font-size: 14px;
+color: #000000
+}
+.mr-3{margin-right:1rem;}
+.ml-3{margin-left:1rem;}
+#fxd{
+  position: fixed;
+  z-index: 9;
+  right: 0;
+  bottom: 24px;
+  width: 100%;
+}
+h3.det_head {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+p.dt-dsc {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(0,0,0,0.6);
+}
+.dmImg {
+  width: 100%;
+  height: 119px;
+  object-fit: cover;
+}
+.appointment-card .table_s thead th, .appointment-card .table_s tbody td{
+  text-align:left;
+  border-radius:12px;
+}
+.appointment-card .table_s{border-radius:12px;}
