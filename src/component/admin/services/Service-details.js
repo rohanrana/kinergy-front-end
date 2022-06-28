@@ -4,6 +4,7 @@ import { Container, Row, Col, Button, Modal, Form, Table } from "react-bootstrap
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 import Dummyimage from "../../../image/dummy.jpg";
+import UploadPreview from './UploadPreview';
 
 
 const Servicedetails = () => {
@@ -99,15 +100,8 @@ const Servicedetails = () => {
                 <Form.Control as="textarea" rows={6} value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua .Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
               </Form.Group>
               <Form.Group className="mb-4 form-type">
-                <div className="d-flex align-items-center justify-bw">
-                  <div className="ddTxt">Upload Image for Service Category*</div>
-                  <div className="fileInput">
-                    <input  className="d-opacity form-control" type="file" />
-                    <button className="btn btn-outline-primary">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
-                    </button>
-                  </div>
-                </div>
+                <UploadPreview />
+                
               </Form.Group>
               <Form.Group>
                 <div className="text-center" id="fxd">
