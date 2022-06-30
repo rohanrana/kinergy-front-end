@@ -4,7 +4,7 @@ import { Container, Row, Col, Button, Modal, Form, Table } from "react-bootstrap
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 import Dummyimage from "../../../image/dummy.jpg";
-import UploadPreview from './UploadPreview';
+import UploadPreviewEdit from './UploadPreviewEdit';
 
 
 const Servicedetails = () => {
@@ -100,7 +100,7 @@ const Servicedetails = () => {
                 <Form.Control as="textarea" rows={6} value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua .Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
               </Form.Group>
               <Form.Group className="mb-4 form-type">
-                <UploadPreview />
+                <UploadPreviewEdit />
                 
               </Form.Group>
               <Form.Group>

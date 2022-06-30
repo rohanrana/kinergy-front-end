@@ -942,7 +942,7 @@ color: #000000;
 margin-bottom:30px;
 }
 .mod_sec{
-  padding:40px 0px;
+  padding:0px 0px;
 }
 input.d-opacity.form-control {
   position: absolute;
@@ -1000,7 +1000,58 @@ p.dt-dsc {
 }
 .appointment-card .table_s thead th, .appointment-card .table_s tbody td{
   text-align:left;
-  border-radius:12px;
 }
 .appointment-card .table_s{border-radius:12px;}
 .pos-rel{position: relative;}
+.file_sc {
+  position: relative;
+  width: 150px;
+  margin-left: auto;
+}
+input.file_inp {
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+button#upload_btn {
+  position: relative;
+  width: 100%;
+}
+.img_up {
+  position: relative;
+  width: 228px;
+  height: 198px;
+}
+#add_sc{background:#ffffff;border:none;}
+.img_up img{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit:contain;
+  object-position: top;
+  display:none;
+  background: #f7f7f7;
+}
+.img_up img[src]{
+  display:block;
+}
+.dlBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 9;
+}
+.dlBtn button {
+  border: none;
+  padding: 0;
+  font-size: 22px;
+  position: absolute;
+  top: -12px;
+  right: -6px;
+  background: transparent;
+}

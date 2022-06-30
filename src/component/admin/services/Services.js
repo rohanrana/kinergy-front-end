@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
+import UploadPreviewAdd from "./UploadPreviewAdd";
 
 
 const Services = () => {
@@ -162,15 +163,7 @@ const Services = () => {
                 <Form.Control as="textarea" rows={6} placeholder="Service Category Description*" />
               </Form.Group>
               <Form.Group className="mb-4 form-type">
-                <div className="d-flex align-items-center justify-bw">
-                  <div className="ddTxt">Upload Image for Service Category*</div>
-                  <div className="fileInput">
-                    <input  className="d-opacity form-control" type="file" />
-                    <button className="btn btn-outline-primary">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
-                    </button>
-                  </div>
-                </div>
+                <UploadPreviewAdd />
               </Form.Group>
               <Form.Group>
                 <div className="text-center" id="fxd">
