@@ -1,0 +1,10 @@
+.logout-btn {
+    width: 10%;
+    display: flex;
+}
+
+.logout-container {
+    display: flex;
+    justify-content: end;
+    padding: 5px;
+}
