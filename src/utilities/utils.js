@@ -1,14 +1,14 @@
-import { toast, cssTransition } from "react-toastify";
+import { toast } from "react-toastify";
 import { responseHeaderKeys } from "../Services/index";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
 import { get, isArray } from "lodash";
 
-const Zoom = cssTransition({
-  enter: "zoomIn",
-  exit: "zoomOut",
-  duration: 300,
-});
+// const Zoom = cssTransition({
+//   enter: "zoomIn",
+//   exit: "zoomOut",
+//   duration: 300,
+// });
 
 const commonDateFormats = {
   input: {

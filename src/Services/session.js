@@ -1,4 +1,4 @@
-import { post, deletee, patch } from "./index";
+import { post, patch } from "./index";
 
 
 export const loginApi = (data) => {
@@ -83,9 +83,9 @@ export const ResetPasswordWithTokenApi = (data) => {
   return post(request);
 };
 
-export const signUpDoctor = (data) => {
+export const signUp = (data) => {
   const request = {
-    subUrl: `/priory/users/sign_up.json`,
+    subUrl: `/staff/signup`,
     data,
   };
   return post(request);

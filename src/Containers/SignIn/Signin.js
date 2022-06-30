@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 
 import { login } from "../../Reducers/session"
@@ -9,6 +10,9 @@ import { bindActionCreators } from "redux"
 
 import validator from "validator"
 import Logo from "../../images/logo.png";
+import Button from 'react-bootstrap/Button';
+import { verifyObject } from "../../utilities/utils";
+import Loader from "../../Components/Loader/Loader";
 
 
 const Signin = (props) => {
@@ -104,20 +108,20 @@ const Signin = (props) => {
                 <Form>
                     <Form.Group className="mb-3">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control isInvalid={state.errors && state.errors.username !== null} onChange={handleChange} name="username" value={state.username} placeholder="Username" />
+                        <Form.Control onChange={handleChange} name="username" value={state.username} placeholder="Username" />
                         {state.errors && state.errors.username && <span className="text-danger">{state.errors.username}</span>}
                     </Form.Group>
 
                     <Form.Group className="mb-3">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" isInvalid={state.errors && state.errors.password !== null} onChange={handleChange} name="password" value={state.password} placeholder="Password" />
+                        <Form.Control type="password" onChange={handleChange} name="password" value={state.password} placeholder="Password" />
                         {state.errors && state.errors.password && <span className="text-danger">{state.errors.password}</span>}
                         <p className="mb-0 text-right mt-1"><a href="/forgot-password" className="theme-color"><small><b>Forgot Password</b></small></a></p>
                     </Form.Group>
 
-                    <button onClick={validateAndSubmit} className="btn btn-theme btn-block w-100 ml-0 mt-3 mb-3">
-                        Signin
-                    </button>
+                    <Button onClick={validateAndSubmit} className="btn btn-theme btn-block w-100 ml-0 mt-3 mb-3">
+                        {props.isLoading ? <Loader variant={"light"} /> : "Signin"}
+                    </Button>
                     <p className="text-center">
                         Don't have an Account{" "}
                         <a href="/register" className="theme-color">
@@ -134,7 +138,8 @@ const Signin = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        session: state.session,
+
+        isLoading: verifyObject(state, "session.isLoading", null)
     };
 };
 

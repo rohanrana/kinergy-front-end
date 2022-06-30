@@ -3,8 +3,8 @@ import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { verifyObject } from '../../utilities/utils';
 import { logOut } from "../../Reducers/session"
-
 import "./Header.css"
+
 export function Header(props) {
 
     const onLogout = () => {
@@ -12,7 +12,7 @@ export function Header(props) {
             let { _id, token } = props;
             console.log("_id", _id)
             console.log("token", token)
-            props.actions.logOut({ _id, token})
+            props.actions.logOut({ _id, token })
         }
     }
 
@@ -20,7 +20,7 @@ export function Header(props) {
         <div className="logout-container">
             <div className="logout-btn">
                 <button onClick={onLogout} className="btn btn-theme btn-block w-100 ml-0 mt-3 mb-3">
-                    Logout
+                    {"Logout"}
                 </button>
             </div>
 
@@ -32,6 +32,7 @@ const mapStateToProps = (state) => {
     return {
         token: verifyObject(state, "localStore.token", null),
         _id: verifyObject(state, "localStore.user._id", null),
+        isLoading: verifyObject(state, "session.isLoading", null)
     };
 };
 

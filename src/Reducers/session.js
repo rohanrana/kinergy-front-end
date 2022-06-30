@@ -6,7 +6,7 @@ import {
 
   // sendOTPApi,
 } from "../Services/session";
-import validator from "validator";
+
 
 import {
   navigateToIndex,
@@ -20,6 +20,10 @@ export const types = {
   LOGIN_REQUEST: "session/LOGIN_REQUEST",
   LOGIN_SUCCESS: "session/LOGIN_SUCCESS",
   LOGIN_FAILURE: "session/LOGIN_FAILURE",
+  LOGOUT_REQUEST: "session/LOGOUT_REQUEST",
+  LOGOUT_FAILURE: "session/LOGOUT_FAILURE",
+
+
   SEND_OTP_REQUEST: "session/SEND_OTP_REQUEST",
   SEND_OTP_SUCCESS: "session/SEND_OTP_SUCCESS",
   SEND_OTP_FAILURE: "session/SEND_OTP_FAILURE",
@@ -46,9 +50,15 @@ export const session = (state = initialState, action) => {
   switch (action.type) {
     case types.LOGIN_REQUEST:
       return { ...state, isLoading: true };
+    case types.LOGOUT_REQUEST:
+      return { ...state, isLoading: true };
     case types.LOGIN_SUCCESS:
       return { ...state, error: null, isLoading: false };
     case types.LOGIN_FAILURE: {
+      const { error } = action.payload;
+      return { ...state, error, isLoading: false };
+    }
+    case types.LOGOUT_FAILURE: {
       const { error } = action.payload;
       return { ...state, error, isLoading: false };
     }
@@ -114,6 +124,7 @@ export const login = (data, props) => {
 
 export const logOut = (data) => {
   return async (dispatch) => {
+    dispatch({ type: types.LOGOUT_REQUEST });
     try {
       let response = await logOutApi(data);
       // let logout = response.data;
@@ -128,7 +139,7 @@ export const logOut = (data) => {
     } catch (error) {
 
       const { message } = getErrorObject(error);
-      // dispatch({ type: types.LOGIN_FAILURE, payload: { error: message } });
+      dispatch({ type: types.LOGOUT_FAILURE, payload: { error: message } });
       errorToast({ content: message });
     }
 

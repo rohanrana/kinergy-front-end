@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux"
