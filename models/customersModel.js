@@ -73,12 +73,22 @@ const customersSchema = new Schema({
     },
     gender: {
         type: String,
-        enum: ['MALE', 'FEMALE', 'OTHERS']
+        enum: ['MALE', 'FEMALE', 'OTHERS'],
+        default:null
     },
     dob: {
         type: String,
         default: null
     },
+    phone:{
+        type:Number,
+        default:null
+    },
+    customerType:{
+        type:String,
+        enum:["GUEST","REGISTERED"],
+        default:"REGISTERED"
+    }
 
 }, {
     timestamps: true

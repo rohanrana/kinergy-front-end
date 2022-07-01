@@ -251,9 +251,9 @@ const serviceApis = {
       populate: [category],
       page: page,
       limit: perPage,
-      select:
-        "_id title  serviceType parentService slug description category image priceDetail insuranceApplicable addBy status createdAt updatedAt",
+      select: "_id title  serviceType parentService slug description category image priceDetail insuranceApplicable addBy status createdAt updatedAt",
     };
+    
     let query = {};
     query = {
       ...query,
@@ -296,6 +296,75 @@ const serviceApis = {
     } else {
       Service.find({ _id: req.body._id })
         .populate("providers", "facilityName")
+        .lean()
+        .exec((err, result) => {
+          // console.log(result.length);
+          if (err)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+          else if (!result || result.length == 0)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              "Service Not Found."
+            );
+          else
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              "Service Found Successfully.",
+              result
+            );
+        });
+    }
+  },
+  
+  getServiceDetailById: (req, res) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(res, resCode.WENT_WRONG, "Please Enter Service Id.");
+    } else {
+      Service.find({ _id: req.body._id })
+        // .populate({
+        //   path:"providers"
+        // })
+        .select({subService:0,providers:0})
+        .lean()
+        .exec((err, result) => {
+          // console.log(result.length);
+          if (err)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+          else if (!result || result.length == 0)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              "Service Not Found."
+            );
+          else
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              "Service Found Successfully.",
+              result
+            );
+        });
+    }
+  },
+  getServiceProvider: (req, res) => {
+    if (!req.body.service) {
+      Response.sendResponseWithoutData(res, resCode.WENT_WRONG, "Please Enter Service Id.");
+    } else {
+      Service.find({ _id: req.body.service })
+        .populate({
+          path:"providers"
+        })
+        .select({providers:1,_id:0})
         .lean()
         .exec((err, result) => {
           // console.log(result.length);
@@ -636,6 +705,41 @@ const serviceApis = {
             );
         });
     }
+  },
+  // Get Service List for Client Side
+  getServiceListClientSide: (req, res) => {
+    var query = {status:"ACTIVE",serviceType:"SERVICE",category:req.body.category};
+    Service.find(query).select('id title slug description').lean().exec((err,result)=>{
+      console.log(err);
+      if (err)
+        Response.sendResponseWithoutData(res, resCode.WENT_WRONG,resMessage.WENT_WRONG  );
+      else if (!result || result.length == 0)
+        Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Services Not Found.");
+      else
+        Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Service List.",result);
+    });
+  },
+
+   // Get Sub Service By Parent Service List for Client Side
+   getSubServiceListClientSide: (req, res) => {
+    if (!req.body.parentService) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Select Parent Service Id"
+      );
+    } else {
+    var query = {status:"ACTIVE",serviceType:"SUBSERVICE",parentService:req.body.parentService};
+    Service.find(query).select('id title slug description').lean().exec((err,result)=>{
+      console.log(err);
+      if (err)
+        Response.sendResponseWithoutData(res, resCode.WENT_WRONG,resMessage.WENT_WRONG  );
+      else if (!result || result.length == 0)
+        Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Sub Services Not Found.");
+      else
+        Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Sub Service List.",result);
+    });
+  }
   },
 };
 

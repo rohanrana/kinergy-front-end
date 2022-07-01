@@ -47,6 +47,7 @@ const serviceSchema = new Schema(
       },
       priceDetails: [
         {
+          _id:{type: mongoose.Schema.Types.ObjectId},
           price: { type: Number, default: 0 },
           duration: { type: Number, default: null },
         },
@@ -59,6 +60,7 @@ const serviceSchema = new Schema(
       },
       priceDetails: [
         {
+          _id:{type: mongoose.Schema.Types.ObjectId},
           price: { type: Number, default: 0 },
           duration: { type: Number, default: null },
         },

@@ -16,6 +16,7 @@ const countryStateCityRoutes = require('./routes/countryStateCityRoutes');
 const roleRoutes = require('./routes/roleRoute');
 const serviceRoutes = require('./routes/serviceRoute');
 const staffRoutes = require('./routes/staffRoute');
+const customerRoutes = require('./routes/customerRoute');
 const employeeRoutes = require('./routes/employeeRoutes');
 const facilityRoutes = require('./routes/facilityRoute');
 const taxRoutes = require('./routes/taxRoute');
@@ -24,7 +25,7 @@ const billableItemRoutes = require('./routes/billableItemsRoute');
 const inventoryRoutes = require('./routes/inventoryRoute');
 const departmentRoutes = require('./routes/departmentRoute');
 const serviceCategoryRoutes = require('./routes/serviceCategoryRoute');
-const subServiceRoutes = require('./routes/subServiceRoute');
+// const subServiceRoutes = require('./routes/subServiceRoute');
 
 const settingRoutes = require('./routes/settingRoute');
 
@@ -58,6 +59,7 @@ app.use('/api/v1/Country', countryStateCityRoutes);
 app.use('/api/v1/role', roleRoutes);
 
 app.use('/api/v1/staff', staffRoutes);
+app.use('/api/v1/customer', customerRoutes);
 app.use('/api/v1/employee', employeeRoutes);
 app.use('/api/v1/facility', facilityRoutes);
 app.use('/api/v1/tax', taxRoutes);
@@ -69,7 +71,7 @@ app.use('/api/v1/department', departmentRoutes);
 
 app.use('/api/v1/service', serviceRoutes);
 app.use('/api/v1/service/category', serviceCategoryRoutes);
-app.use('/api/v1/service/subService', subServiceRoutes);
+// app.use('/api/v1/service/subService', subServiceRoutes);
 
 app.use('/api/v1/setting', settingRoutes);
 

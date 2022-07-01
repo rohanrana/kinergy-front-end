@@ -17,5 +17,9 @@ router.post('/getListByServiceId', authHandler.auth_func, serviceApis.getListByS
 
 router.post('/addProvider', authHandler.auth_func,serviceApis.addProvider);
 
-
+// Client Side
+router.post('/getServiceList', authHandler.auth_func, serviceApis.getServiceListClientSide);
+router.post('/getSubServiceList', authHandler.auth_func, serviceApis.getSubServiceListClientSide);
+router.post('/getServiceDetailById', authHandler.auth_func, serviceApis.getServiceDetailById);
+router.post('/getServiceProvider', authHandler.auth_func, serviceApis.getServiceProvider);
 module.exports = router;

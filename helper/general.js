@@ -127,6 +127,15 @@ function checkValueExist(data,key,value){
   });
 }
 
+const  isObjectEmpty = (object) =>{
+  var isEmpty = true;
+  for (keys in object) {
+     isEmpty = false;
+     break; // exiting since we found that the object is not empty
+  }
+  return isEmpty;
+}
+
 module.exports = {
   managePriceDuration,
   stringToUpperCase,
@@ -137,5 +146,6 @@ module.exports = {
   getDateFormat,
   dateFormat,
   managePhoneAndType,
-  checkValueExist
+  checkValueExist,
+  isObjectEmpty
 };

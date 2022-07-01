@@ -29,6 +29,7 @@ function db_connect() {
 db_connect();
 
 mongoose.connection.on('connected', () => {
+    
     clearInterval(againConnect);
     log(`DB connected`);
 });

@@ -3,7 +3,7 @@ const { check, validationResult } = require('express-validator');
 const resCode = require('../helper/httpResponseCode.js');
 const resMessage = require('../helper/httpResponseMessage.js');
 const Response = require('../common_functions/response_handler');
-const SubService = require('../models/subServiceModel');
+const SubService = require('../models/serviceModel');
 const slugify = require('slugify')
 var fs = require('fs');
 

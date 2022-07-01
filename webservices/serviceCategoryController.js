@@ -85,6 +85,19 @@ const serviceCategoryApis = {
         });
     },
 
+    //============== get Service Category List For Client===
+    'getServiceCategoryList': (req, res) => {
+        
+            ServiceCategory.find({status: "ACTIVE"}).select("_id title slug description image status").lean().exec((err, result) =>{
+                console.log(err);
+            if (err)
+                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);
+            else if (!result || result.length == 0)
+                Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Service Categorys Not Found.');
+            else
+                Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, 'Service Category List.', result);
+        });
+    },
     //============= get Service Category By Id =========================
 
     'getListById': (req, res) => {

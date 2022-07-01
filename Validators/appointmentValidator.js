@@ -6,19 +6,13 @@ const Customer = require("../models/customersModel");
 const Staff = require("../models/staffModel");
 // const path = require('path');
 // const fs = require('fs');
-const generateAddValidation = (req, res, next) => [
+const generateAddByCustomerValidation = (req, res, next) => [
   check("service")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please select service"),
-  check("serviceType")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Please select serviceType"),
   check("appointmentDate")
     .trim()
     .escape()
@@ -31,12 +25,6 @@ const generateAddValidation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Please select appointmentTime"),
-  check("staff")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Please select staff"),
   check("appointmentTime")
     .trim()
     .escape()
@@ -65,34 +53,28 @@ const generateAddValidation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Customer is required"),
-  check("staff")
-    .custom((value) => {
-      return Staff.findOne({ _id: value }).then((staff) => {
-        if (!staff) {
-          return Promise.reject("Staff not exist");
-        }
-      });
-    })
-    .withMessage("Staff not exist")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Staff is required"),
+  // check("staff")
+  //   .custom((value) => {
+  //     return Staff.findOne({ _id: value }).then((staff) => {
+  //       if (!staff) {
+  //         return Promise.reject("Staff not exist");
+  //       }
+  //     });
+  //   })
+  //   .withMessage("Staff not exist")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Staff is required"),
 ];
-const generateEditValidation = (req, res, next) => [
+const generateAddValidation = (req, res, next) => [
   check("service")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please select service"),
-  check("serviceType")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Please select serviceType"),
   check("appointmentDate")
     .trim()
     .escape()
@@ -105,12 +87,81 @@ const generateEditValidation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Please select appointmentTime"),
-  check("staff")
+  // check("staff")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please select staff"),
+  check("appointmentTime")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Please select Staff"),
+    .withMessage("Appointment Time is required"),
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Appointment Date is required"),
+  check("customer")
+    .custom((value) => {
+      if (value) {
+        return Customer.findOne({ _id: value }).then((customer) => {
+          if (!customer) {
+            return Promise.reject("Customer not exist");
+          }
+        });
+      }
+    })
+    .withMessage("Customer not exist")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Customer is required"),
+  // check("staff")
+  //   .custom((value) => {
+  //     return Staff.findOne({ _id: value }).then((staff) => {
+  //       if (!staff) {
+  //         return Promise.reject("Staff not exist");
+  //       }
+  //     });
+  //   })
+  //   .withMessage("Staff not exist")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Staff is required"),
+];
+const generateEditValidation = (req, res, next) => [
+  check("service")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select service"),
+  
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentDate"),
+  check("appointmentTime")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentTime"),
+  // check("staff")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please select Staff"),
   check("appointmentTime")
     .trim()
     .escape()
@@ -149,5 +200,6 @@ const reporter = (req, res, next) => {
 
 module.exports = {
   add: [generateAddValidation(), reporter],
+  addByCustomer: [generateAddByCustomerValidation(), reporter],
   edit: [generateEditValidation(), reporter],
 };

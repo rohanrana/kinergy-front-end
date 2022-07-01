@@ -19,6 +19,7 @@
     "multer": "^1.4.4",
     "multiparty": "^4.2.3",
     "nodemailer": "^6.7.3",
+    "nodemailer-smtp-transport": "^2.7.4",
     "object-to-formdata": "^4.4.2",
     "path": "^0.12.7",
     "slugify": "^1.6.5"

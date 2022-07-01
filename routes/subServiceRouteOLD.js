@@ -14,7 +14,8 @@ router.post('/changeStatus', authHandler.auth_func, subServiceApis.changeStatus)
 router.post('/delete', authHandler.auth_func, subServiceApis.delete);
 
 
-
+// Client Side
+// router.post('/getSubServiceList', authHandler.auth_func, subServiceApis.getSubServiceListClientSide);
 
 
 module.exports = router;
