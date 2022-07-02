@@ -6,8 +6,7 @@ const DashboardUser = () => {
   return (
     <div className="home-page">
      
-      <Container fluid>
-       
+      <Container fluid>      
         <Row>
         <Col lg={12} sm={12} xs={12}>
         <Table responsive>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Tabs, Tab } from "react-bootstrap";
-import Sidebar from "../sidenav/Sidebar";
+import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 import ClientLeftMenu from "./ClientLeftMenu";
 
 const ClientDetails = () => {

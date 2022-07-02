@@ -13,13 +13,12 @@ import {
   FormControl,
   Pagination,
 } from "react-bootstrap";
-import Sidebar from "../sidenav/Sidebar";
 import AdminLeftMenu from "./AdminLeftMenu";
 
 const FacilityManagement = () => {
   return (
     <div className="clients">
-      <Sidebar />
+  
       <Container fluid>
         <Row>
           <Col lg={3} sm={4} xs={12}>

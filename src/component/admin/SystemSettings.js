@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
-import Sidebar from "../sidenav/Sidebar";
+import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 import AdminLeftMenu from "./AdminLeftMenu";
 
 const SystemSettings = () => {

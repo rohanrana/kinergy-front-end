@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Table, Form, Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
-import Sidebar from "../../sidenav/Sidebar";
+import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 import Logo from "../../../image/logo.png";
 
 const BillingReviewPrint = () => {

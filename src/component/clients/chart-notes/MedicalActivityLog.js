@@ -7,7 +7,7 @@ import {
   Pagination,
  
 } from "react-bootstrap";
-import Sidebar from "../../sidenav/Sidebar";
+import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 
 const MedicalActivityLog = () => {
   return (

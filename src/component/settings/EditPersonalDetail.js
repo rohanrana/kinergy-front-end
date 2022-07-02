@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import Sidebar from "../sidenav/Sidebar";
+import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 
 const EditPersonalDetail = () => {
   return (

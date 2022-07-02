@@ -14,7 +14,7 @@ import {
   InputGroup,
 
 } from "react-bootstrap";
-import Sidebar from "../../sidenav/Sidebar";
+import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 import ClientLeftMenu from "../ClientLeftMenu";
 
 

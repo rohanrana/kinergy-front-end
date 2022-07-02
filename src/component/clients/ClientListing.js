@@ -15,7 +15,7 @@ import {
   Dropdown,
   Form,
 } from "react-bootstrap";
-import Sidebar from "../sidenav/Sidebar";
+import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 const ClientListing = () => {
   return (
     <div className="clients">
