@@ -1,12 +1,12 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 import AdminLeftMenu from "./AdminLeftMenu";
 import StaffMember from "../../image/staff.png";
+import { Link } from "react-router-dom";
 const FacilityDetail = () => {
   return (
     <div className="clients">
-      <Sidebar />
+
       <Container fluid>
         <Row>
           <Col lg={3} sm={4} xs={12}>
@@ -14,9 +14,9 @@ const FacilityDetail = () => {
           </Col>
           <Col lg={9} sm={8} xs={12}>
             <p className="text-right mt-3">
-              <a href="#/edit-facility" className="btn btn-theme">
+              <Link to="/admin/edit-facility" className="btn btn-theme">
                 <i className="fas fa-pencil mr-2"></i>Edit Details
-              </a>
+              </Link>
             </p>
 
             <div className="facility-detail-top">

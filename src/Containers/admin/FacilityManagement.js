@@ -74,9 +74,9 @@ const FacilityManagement = () => {
                     <td>000-000-0000</td>
                     <td className="text-left">Active</td>
                     <td className="text-left">
-                      <a href="#/facility-detail" className="text-dark">
+                      <Link to="/admin/facility-detail" className="text-dark">
                         <u>View Details</u>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -88,9 +88,9 @@ const FacilityManagement = () => {
                     <td>000-000-0000</td>
                     <td className="text-left">Active</td>
                     <td className="text-left">
-                      <a href="#/facility-detail" className="text-dark">
+                   <Link to="/admin/facility-detail" className="text-dark">
                         <u>View Details</u>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -102,9 +102,9 @@ const FacilityManagement = () => {
                     <td>000-000-0000</td>
                     <td className="text-left">Active</td>
                     <td className="text-left">
-                      <a href="#/facility-detail" className="text-dark">
+                   <Link to="/admin/facility-detail" className="text-dark">
                         <u>View Details</u>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -116,9 +116,9 @@ const FacilityManagement = () => {
                     <td>000-000-0000</td>
                     <td className="text-left">Active</td>
                     <td className="text-left">
-                      <a href="#/facility-detail" className="text-dark">
+                   <Link to="/admin/facility-detail" className="text-dark">
                         <u>View Details</u>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -130,9 +130,9 @@ const FacilityManagement = () => {
                     <td>000-000-0000</td>
                     <td className="text-left">Active</td>
                     <td className="text-left">
-                      <a href="#/facility-detail" className="text-dark">
+                   <Link to="/admin/facility-detail" className="text-dark">
                         <u>View Details</u>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -144,9 +144,9 @@ const FacilityManagement = () => {
                     <td>000-000-0000</td>
                     <td className="text-left">Active</td>
                     <td className="text-left">
-                      <a href="#/facility-detail" className="text-dark">
+                   <Link to="/admin/facility-detail" className="text-dark">
                         <u>View Details</u>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 </tbody>

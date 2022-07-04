@@ -23,7 +23,7 @@ const Documents = () => {
           <Col lg={10} sm={8} xs={12}>
 
             <div className="text-right">
-              <Link to="/document-list/add-document" className="btn btn-theme">Add Document</Link>
+              <Link to="/client/add-document" className="btn btn-theme">Add Document</Link>
             </div>
             <div className="appointment-card mt-3">
 
@@ -52,7 +52,7 @@ const Documents = () => {
 
                     <td className="text-left">
                       <u>
-                        <Link to="/document-detail">View Details</Link>
+                        <Link to="/client/document-detail">View Details</Link>
                       </u>
                     </td>
                   </tr>
@@ -65,7 +65,7 @@ const Documents = () => {
 
                     <td className="text-left">
                       <u>
-                        <Link to="/document-detail">View Details</Link>
+                        <Link to="/client/document-detail">View Details</Link>
                       </u>
                     </td>
                   </tr>
@@ -78,7 +78,7 @@ const Documents = () => {
 
                     <td className="text-left">
                       <u>
-                        <Link to="/document-detail">View Details</Link>
+                        <Link to="/client/document-detail">View Details</Link>
                       </u>
                     </td>
                   </tr>
@@ -91,7 +91,7 @@ const Documents = () => {
 
                     <td className="text-left">
                       <u>
-                        <Link to="/document-detail">View Details</Link>
+                        <Link to="/client/document-detail">View Details</Link>
                       </u>
                     </td>
                   </tr>

@@ -116,10 +116,10 @@ export default function AppRoutes() {
           <Route exact path="/staff-login2" component={StaffLogin2} />
           <Route exact path="/create-login" component={CreateLogin} /> */}
 
-                <Route exact path="/" component={DashboardPage} />
+                <Route exact  path="/" component={DashboardPage} />
+                <Route path="/settings" component={SettingsRouter} />
                 <Route path="/admin" component={AdminPage} />
-                <Route path="/settings" component={SettingsPage} />
-                <Route path="/client-listing" component={ClientRouter} />
+                <Route path="/client" component={ClientRouter} />
                 {/* <Route exact path="/admin/system-settings" component={SystemSettings} /> */}
 
                 {/* <Route exact path="/client-listing" component={ClientListing} />

@@ -12,7 +12,7 @@ const ClientLeftMenu = () => {
       <p>45465453</p>
       <ul className="p-0">
         <li>
-          <Link to="client-details">
+          <Link to="/client/client-details">
             <i class="far fa-circle mr-2"></i>Client Profile
           </Link>
         </li>
@@ -25,29 +25,29 @@ const ClientLeftMenu = () => {
           }
           menuVariant="light"
         >
-          <Link to="/medical-record-listing">Medical Recordes</Link>
+          <Link to="/client/medical-record-listing">Medical Recordes</Link>
         </NavDropdown>
 
         <li>
-          <Link to="document-list">
+          <Link to="/client/document-list">
             <i class="far fa-circle mr-2"></i>Documents
           </Link>
         </li>
 
         <li>
-          <Link to="insurance-provider">
+          <Link to="/client/insurance-provider">
             <i class="far fa-circle mr-2"></i>Insurance
           </Link>
         </li>
 
         <li>
-          <Link to="appointment">
+          <Link to="/client/appointment">
             <i class="far fa-circle mr-2"></i>Appointment
           </Link>
         </li>
 
         <li>
-          <Link to="/billing-list">
+          <Link to="/client/billing-list">
             <i class="far fa-circle mr-2"></i>Billing
           </Link>
         </li>

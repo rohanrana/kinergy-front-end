@@ -21,7 +21,7 @@ const AddInsurance = () => {
             </h4>
             <div className="appointment-card form-type mt-1">
               <h5 className="mb-3">
-                <Link to="/insurance-provider" className="theme-color mr-2">
+                <Link to="/client/insurance-provider" className="theme-color mr-2">
                   <i className="fas fa-chevron-left"></i>
                 </Link>
                 Add Insurance

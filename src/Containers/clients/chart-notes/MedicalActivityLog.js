@@ -20,7 +20,7 @@ const MedicalActivityLog = () => {
             <h4 className="mt-4">Scott Elizabeth</h4>
 
             <div className="appointment-card">
-              <h5 className="mb-3"><Link to="/medical-record-main-page" className="theme-color"><i className="fas fa-chevron-left mr-2"></i></Link>Activity Log</h5>
+              <h5 className="mb-3"><Link to="/client/medical-record-main-page" className="theme-color"><i className="fas fa-chevron-left mr-2"></i></Link>Activity Log</h5>
               <Table responsive>
                 <thead>
                   <tr>

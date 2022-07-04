@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 import ClientLeftMenu from "../ClientLeftMenu";
 
@@ -15,12 +16,12 @@ const EditInsuranceDetail = () => {
           <Col lg={10} sm={8} xs={12}>
             <div className="appointment-card form-type">
               <h5 className="mb-3">
-                <a
-                  href="#/insurance-provider-details"
+                <Link
+                  to="/client/insurance-provider-details"
                   className="theme-color mr-2"
                 >
                   <i className="fas fa-chevron-left"></i>
-                </a>
+                </Link>
                 Add Insurance
               </h5>
               <hr />

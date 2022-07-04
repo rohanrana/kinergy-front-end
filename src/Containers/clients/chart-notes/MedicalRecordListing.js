@@ -57,7 +57,7 @@ const MedicalRecordListing = () => {
                     </InputGroup>
                   </ButtonGroup>
 
-                  <Link to="/medical-record-main-page/add-new-medical-record" className="btn btn-theme rounded ml-2">
+                  <Link to="/client/add-new-medical-record" className="btn btn-theme rounded ml-2">
                     + Add New
                   </Link>
                 </ButtonGroup>
@@ -80,7 +80,7 @@ const MedicalRecordListing = () => {
                     <td>Open</td>
                     <td>Terill Lobo</td>
                     <td>
-                      <Link to="/medical-record-main-page">
+                      <Link to="/client/medical-record-main-page">
                         View Details
                       </Link>
                     </td>
@@ -93,7 +93,7 @@ const MedicalRecordListing = () => {
                     <td>Open</td>
                     <td>Terill Lobo</td>
                     <td>
-                      <Link to="/medical-record-main-page">
+                      <Link to="/client/medical-record-main-page">
                         View Details
                       </Link>
                     </td>
@@ -106,7 +106,7 @@ const MedicalRecordListing = () => {
                     <td>Open</td>
                     <td>Terill Lobo</td>
                     <td>
-                      <Link to="/medical-record-main-page">
+                      <Link to="/client/medical-record-main-page">
                         View Details
                       </Link>
                     </td>
@@ -119,7 +119,7 @@ const MedicalRecordListing = () => {
                     <td>Open</td>
                     <td>Terill Lobo</td>
                     <td>
-                      <Link to="/medical-record-main-page">
+                      <Link to="/client/medical-record-main-page">
                         View Details
                       </Link>
                     </td>
@@ -132,7 +132,7 @@ const MedicalRecordListing = () => {
                     <td>Open</td>
                     <td>Terill Lobo</td>
                     <td>
-                      <Link to="/medical-record-main-page">
+                      <Link to="/client/medical-record-main-page">
                         View Details
                       </Link>
                     </td>
@@ -145,7 +145,7 @@ const MedicalRecordListing = () => {
                     <td>Open</td>
                     <td>Terill Lobo</td>
                     <td>
-                      <Link to="/medical-record-main-page">
+                      <Link to="/client/medical-record-main-page">
                         View Details
                       </Link>
                     </td>

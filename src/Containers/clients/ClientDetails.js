@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Tabs, Tab } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import ClientLeftMenu from "./ClientLeftMenu";
 
@@ -19,12 +20,12 @@ const ClientDetails = () => {
                   <h5 className="pb-2">
                     Personal Details{" "}
                     <span className="float-right">
-                      <a
-                        href="#/edit-details"
+                      <Link
+                        to="/client/edit-details"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </span>
                   </h5>
 

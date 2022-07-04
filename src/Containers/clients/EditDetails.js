@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 import ClientLeftMenu from "./ClientLeftMenu";
 
@@ -15,9 +16,9 @@ const EditDetails = () => {
           <Col lg={10} sm={8} xs={12}>
             <div className="appointment-card form-type">
               <h5 className="pb-2">
-                <a href="#/client-details" className="theme-color">
+                <Link to="/client/client-details" className="theme-color">
                   <i className="fas fa-chevron-left mr-2"></i>
-                </a>
+                </Link>
                 Client Details
               </h5>
               <Form>
@@ -69,7 +70,7 @@ const EditDetails = () => {
 
                 <h5>Contact Information</h5>
                 <Row>
-                <Col lg={4} sm={4} xs={12}>
+                  <Col lg={4} sm={4} xs={12}>
                     <Form.Group className="mb-3">
                       <Form.Label>Phone 1</Form.Label>
                       <Form.Control value="(123)-465-6544" />

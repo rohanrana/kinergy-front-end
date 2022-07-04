@@ -1,12 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 import AdminLeftMenu from "./AdminLeftMenu";
 
 const AdminAppoitment = () => {
   return (
     <div className="clients">
-      <Sidebar />
+   
       <Container fluid>
         <Row>
           <Col lg={3} sm={4} xs={12}>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 import ClientLeftMenu from "../ClientLeftMenu";
 
@@ -15,17 +16,17 @@ const InsuranceProviderDetails = () => {
           <Col lg={10} sm={8} xs={12}>
             <div className="appointment-card">
               <h5 className="mb-3">
-                <a href="#/insurance-provider" className="theme-color mr-2">
+                <Link to="/client/insurance-provider" className="theme-color mr-2">
                   <i className="fas fa-chevron-left"></i>
-                </a>
+                </Link>
                 Insurance Details
                 <span className="float-right">
-                  <a
-                    href="#/edit-insurance-detail"
+                  <Link
+                    to="/client/edit-insurance-detail"
                     className="btn btn-theme mt-0"
                   >
                     Edit
-                  </a>
+                  </Link>
                   <Button className="btn btn-theme-white mt-0 ml-2">
                     <i className="fas fa-trash"></i>
                   </Button>

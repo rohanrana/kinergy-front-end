@@ -6,7 +6,7 @@ import StaffMember from "../../image/staff.png";
 const EditFacility = () => {
   return (
     <div className="clients">
-      <Sidebar />
+  
       <Container fluid>
         <Row>
           <Col lg={12} sm={12} xs={12}>

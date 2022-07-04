@@ -16,7 +16,7 @@ const ExerciseLog = () => {
 
             <div className="appointment-card">
               <h5 className="mb-3">
-                <Link to="/medical-record-listing" className="theme-color mr-2">
+                <Link to="/client/medical-record-main-page" className="theme-color mr-2">
                   <i className="fas fa-chevron-left"></i>
                 </Link>
                 Exercise Log

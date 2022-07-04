@@ -24,7 +24,7 @@ export const SidebarData = [
 
   {
     title: "Client",
-    path: "/client-listing",
+    path: "/client/client-listing",
     icon: <i className="fas fa-users"></i>,
   },
 

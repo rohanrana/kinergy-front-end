@@ -32,7 +32,7 @@ const AddDocuments = () => {
 
             <div className="appointment-card form-type">
               <h5 className="mb-3">
-                <Link to="/document-list" className="theme-color mr-2">
+                <Link to="/client/document-list" className="theme-color mr-2">
                   <i className="fas fa-chevron-left"></i>
                 </Link>
                 Add Document

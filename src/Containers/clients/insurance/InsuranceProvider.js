@@ -28,7 +28,7 @@ const InsuranceProvider = () => {
               <h5 className="mb-3">
                 Insurance Provider
                 <span className="float-right">
-                  <Link to="/add-insurance" className="btn btn-theme mt-0">
+                  <Link to="/client/add-insurance" className="btn btn-theme mt-0">
                     Add Insurance
                   </Link>
                 </span>
@@ -68,7 +68,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                      <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
 
@@ -80,7 +80,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                   <tr>
@@ -91,7 +91,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                   <tr>
@@ -102,7 +102,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                   <tr>
@@ -113,7 +113,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
 
@@ -125,7 +125,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                 </tbody>

@@ -10,6 +10,7 @@ import {
   InputGroup,
   Form,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 import ClientLeftMenu from "../ClientLeftMenu";
 
@@ -27,9 +28,9 @@ const InsuranceProvider = () => {
               <h5 className="mb-3">
                 Insurance Provider
                 <span className="float-right">
-                  <a href="#/add-insurance" className="btn btn-theme mt-0">
+                  <Link to="/client/add-insurance" className="btn btn-theme mt-0">
                     Add Insurance
-                  </a>
+                  </Link>
                 </span>
               </h5>
               <hr />
@@ -67,7 +68,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                      <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
 
@@ -79,7 +80,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                   <tr>
@@ -90,7 +91,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                   <tr>
@@ -101,7 +102,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                   <tr>
@@ -112,7 +113,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
 
@@ -124,7 +125,7 @@ const InsuranceProvider = () => {
                     </td>
                     <td className="text-left">514-668-2421</td>
                     <td className="text-left">
-                      <a href="#/insurance-provider-details">View Details</a>
+                       <Link to="/client/insurance-provider-details">View Details</Link>
                     </td>
                   </tr>
                 </tbody>

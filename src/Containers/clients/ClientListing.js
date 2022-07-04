@@ -78,9 +78,9 @@ const ClientListing = () => {
                       </Badge>
                     </td>
                     <td>
-                      <a href="#/client-details" className="theme-color">
+                      <Link to="/client/client-details" className="theme-color">
                         <b>View Details</b>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -96,9 +96,9 @@ const ClientListing = () => {
                       </Badge>
                     </td>
                     <td>
-                      <a href="#/client-details" className="theme-color">
+                      <Link to="/client/client-details" className="theme-color">
                         <b>View Details</b>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -114,9 +114,9 @@ const ClientListing = () => {
                       </Badge>
                     </td>
                     <td>
-                      <a href="#/client-details" className="theme-color">
+                      <Link to="/client/client-details" className="theme-color">
                         <b>View Details</b>
-                      </a>
+                      </Link>
                     </td>
                   </tr>
 
@@ -132,7 +132,7 @@ const ClientListing = () => {
                       </Badge>
                     </td>
                     <td>
-                      <Link to="/client-details" className="theme-color">
+                      <Link to="/client/client-details" className="theme-color">
                         <b>View Details</b>
                       </Link>
                     </td>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import MedicalRecordListing from '../../Containers/clients/chart-notes/MedicalRecordListing'
 import Documents from '../../Containers/clients/document/Document'
@@ -12,7 +12,7 @@ import ClientsPage from './ClientsPage'
 //   import ClientListing from "../../Containers/clients/ClientListing";
 //   import ActivityLog from "../../Containers/clients/ActivityLog";
 //   import ClientDetails from "../../Containers/clients/ClientDetails";
-//   import EditDetails from "../../Containers/clients/EditDetails";
+import EditDetails from "../../Containers/clients/EditDetails";
 //   import EditEmergencyContact from "../../Containers/clients/EditEmergencyContact";
 //   import EditClientMedical from "../../Containers/clients/EditClientMedical";
 //   import General from "../../Containers/admin/General";
@@ -100,34 +100,38 @@ import CaseStatistics from "../../Containers/clients/chart-notes/CaseStatistics"
 export default function ClientRouter() {
     return (
 
-        <Switch>
-            <Route path="/client-listing" component={ClientsPage} />
-            <Route path="/client-details" component={ClientDetailPage} />
-            <Route path="/case-statistics" component={CaseStatistics} />
-            <Route path="/document-list" component={Documents} />
-            <Route path="/document-detail" component={DocumentDetails} />
-            <Route path="/document-list/add-document" component={AddDocuments} />
-            <Route path="/insurance-provider" component={InsuranceProvider} />
-            <Route path="/insurance-provider-details" component={InsuranceProviderDetails} />
-            <Route path="/edit-insurance-detail" component={EditInsuranceDetail} />
-            <Route path="/add-insurance" component={AddInsurance} />
-            <Route path="/appointment" component={Appointment} />
-            <Route path="/billing-list" component={BillingListing} />
-            <Route path="/billing-review" component={BillingReview} />
-            <Route path="/billing-review-print" component={BillingReviewPrint} />
-            <Route path="/medical-information" component={MedicalInformation} />
-            <Route path="/musculoskeletal-history" component={MusculoskeletalHistory} />
-            <Route path="/medical-record-listing" component={MedicalRecordListing} />
-            <Route path="/medical-record-main-page" component={MedicalRecordMainPage} />
-            <Route path="/medical-record-main-page/medical-activity-log" component={MedicalActivityLog} />
-            <Route path="/medical-record-main-page/add-surgery-record" component={AddSurgeryRecord} />
-            <Route path="/medical-record-main-page/add-surgery-document" component={AddSurgeryDocument} />
-            <Route path="/medical-record-main-page/therapy-progress-report" component={TherapyProgressReport} />
-            <Route path="/medical-record-main-page/exercise-log" component={ExerciseLog} />
-            <Route path="/medical-record-main-page/file-transfer-to" component={FileTransferTo} />
-            <Route path="/medical-record-main-page/file-transfer-to-list" component={FileTransferToList} />
-            <Route path="/medical-record-main-page/view-notes" component={ViewNotes} />
-            <Route path="/medical-record-main-page/add-new-medical-record" component={AddNewMedicalRecords} />
-        </Switch>
+        <Fragment>
+            <Route path="/client/client-listing" component={ClientsPage} />
+            <Route path="/client/client-details" component={ClientDetailPage} />
+            <Route path="/client/edit-details" component={EditDetails} />
+            <Route path="/client/case-statistics" component={CaseStatistics} />
+            <Route path="/client/document-list" component={Documents} />
+            <Route path="/client/document-detail" component={DocumentDetails} />
+            <Route path="/client/insurance-provider" component={InsuranceProvider} />
+            <Route path="/client/insurance-provider-details" component={InsuranceProviderDetails} />
+            <Route path="/client/edit-insurance-detail" component={EditInsuranceDetail} />
+            <Route path="/client/add-insurance" component={AddInsurance} />
+            <Route path="/client/appointment" component={Appointment} />
+            <Route path="/client/billing-list" component={BillingListing} />
+            <Route path="/client/billing-review" component={BillingReview} />
+            <Route path="/client/billing-review-print" component={BillingReviewPrint} />
+            <Route path="/client/medical-information" component={MedicalInformation} />
+            <Route path="/client/musculoskeletal-history" component={MusculoskeletalHistory} />
+            <Route path="/client/medical-record-listing" component={MedicalRecordListing} />
+            <Route path="/client/medical-record-main-page" component={MedicalRecordMainPage} />
+            <Route path="/client/medical-activity-log" component={MedicalActivityLog} />
+            <Route path="/client/add-surgery-record" component={AddSurgeryRecord} />
+            <Route path="/client/add-surgery-document" component={AddSurgeryDocument} />
+            <Route path="/client/therapy-progress-report" component={TherapyProgressReport} />
+            <Route path="/client/exercise-log" component={ExerciseLog} />
+            <Route path="/client/file-transfer-to" component={FileTransferTo} />
+            <Route path="/client/file-transfer-to-list" component={FileTransferToList} />
+            <Route path="/client/view-notes" component={ViewNotes} />
+            <Route path="/client/add-new-medical-record" component={AddNewMedicalRecords} />
+            <Route path="/client/add-document" component={AddDocuments} />
+
+
+
+        </Fragment>
     )
 }

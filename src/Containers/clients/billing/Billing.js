@@ -57,7 +57,7 @@ const BillingListing = () => {
                   <tr>
                     <td className="text-left">
                       <u>
-                       <Link to="/billing-review-print">View Details</Link>
+                       <Link to="/client/billing-review-print">View Details</Link>
                       </u>
                     </td>
                     <td className="text-left">10/18/2021</td>
@@ -72,7 +72,7 @@ const BillingListing = () => {
                     </td>
                     <td className="text-left">
                       <u>
-                        <Link to="/billing-review">View Details</Link>
+                        <Link to="/client/billing-review">View Details</Link>
                       </u>
                     </td>
                   </tr>
@@ -80,7 +80,7 @@ const BillingListing = () => {
                   <tr>
                     <td className="text-left">
                       <u>
-                       <Link to="/billing-review-print">View Details</Link>
+                       <Link to="/client/billing-review-print">View Details</Link>
                       </u>
                     </td>
                     <td className="text-left">10/18/2021</td>
@@ -95,7 +95,7 @@ const BillingListing = () => {
                     </td>
                     <td className="text-left">
                       <u>
-                        <Link to="/billing-review">View Details</Link>
+                        <Link to="/client/billing-review">View Details</Link>
                       </u>
                     </td>
                   </tr>
@@ -103,7 +103,7 @@ const BillingListing = () => {
                   <tr>
                     <td className="text-left">
                       <u>
-                       <Link to="/billing-review-print">View Details</Link>
+                       <Link to="/client/billing-review-print">View Details</Link>
                       </u>
                     </td>
                     <td className="text-left">10/18/2021</td>
@@ -118,7 +118,7 @@ const BillingListing = () => {
                     </td>
                     <td className="text-left">
                       <u>
-                        <Link to="/billing-review">View Details</Link>
+                        <Link to="/client/billing-review">View Details</Link>
                       </u>
                     </td>
                   </tr>
@@ -126,7 +126,7 @@ const BillingListing = () => {
                   <tr>
                     <td className="text-left">
                       <u>
-                       <Link to="/billing-review-print">View Details</Link>
+                       <Link to="/client/billing-review-print">View Details</Link>
                       </u>
                     </td>
                     <td className="text-left">10/18/2021</td>
@@ -141,7 +141,7 @@ const BillingListing = () => {
                     </td>
                     <td className="text-left">
                       <u>
-                        <Link to="/billing-review">View Details</Link>
+                        <Link to="/client/billing-review">View Details</Link>
                       </u>
                     </td>
                   </tr>

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { Switch, Route } from "react-router-dom"
 import Settings from "../../Containers/settings/Settings";
 import EditPersonalDetail from "../../Containers/settings/EditPersonalDetail";
 import UpdatePassword from "../../Containers/settings/UpdatePassword";
@@ -18,12 +18,13 @@ import Sidebar from '../../PageLayout/SidebarNav/Sidebar';
 export default function SettingsRouter() {
     return (
         <Fragment>
-                <Switch>
-                    <Route  path="/settings" component={Settings} />
-                    <Route  path="/settings/edit-personal-detail" component={EditPersonalDetail} />
-                    <Route  path="/settings/edit-contact-information" component={EditContactInformation} />
-                    <Route  path="/settings/update-password" component={UpdatePassword} />
-                </Switch>
+            <Sidebar />
+            <Switch>
+                <Route exact path="/settings" component={Settings} />
+                <Route path="/settings/edit-personal-detail" component={EditPersonalDetail} />
+                <Route path="/settings/edit-contact-information" component={EditContactInformation} />
+                <Route path="/settings/update-password" component={UpdatePassword} />
+            </Switch>
         </Fragment>
     )
 }

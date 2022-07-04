@@ -31,44 +31,44 @@ const MedicalRecordMainPage = () => {
                 className="justify-content-between mb-3"
                 aria-label="Toolbar with Button groups"
               >
-                <h5><Link to="/medical-record-listing" className="mr-2 theme-color"><i className="fas fa-chevron-left"></i></Link>Medical Record Main Page</h5>
+                <h5><Link to="/client/medical-record-listing" className="mr-2 theme-color"><i className="fas fa-chevron-left"></i></Link>Medical Record Main Page</h5>
 
                 <ButtonGroup className="rounded">
-                  <Link to="/medical-record-main-page/medical-activity-log" className="btn btn-theme rounded mr-2">
+                  <Link to="/client/medical-activity-log" className="btn btn-theme rounded mr-2">
                     View Activity Log
                   </Link>
                   <Button className="btn btn-theme-white">Select Action</Button>
                   <DropdownButton className=" p-0 rounded-0" title="">
                     <Dropdown.Item>
-                      <Link to="/medical-record-main-page/add-surgery-record" eventKey="1">Add Surgery Record</Link>
+                      <Link to="/client/add-surgery-record" eventKey="1">Add Surgery Record</Link>
                     </Dropdown.Item>
                     <Dropdown.Item eventKey="2">
                       Add Progress Report
                     </Dropdown.Item>
                     <Dropdown.Item eventKey="3">
-                      <Link to="/medical-record-main-page/exercise-log">
+                      <Link to="/client/exercise-log">
                         View Exercise Record
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item eventKey="4">
-                      <Link to="/medical-record-main-page/file-transfer-to">
+                      <Link to="/client/file-transfer-to">
                         Transfer File to
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item eventKey="5">
-                      <Link to="/billing-review-print">
+                      <Link to="/client/billing-review-print">
                         View/Print Record
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item eventKey="6">Notify Administrator</Dropdown.Item>
                     <Dropdown.Item eventKey="7">Discharge Case</Dropdown.Item>
                     <Dropdown.Item eventKey="8">
-                      <Link to="/case-statistics">
+                      <Link to="/client/case-statistics">
                         View Case Statistics
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item eventKey="9">
-                      <Link to="/document-list">
+                      <Link to="/client/document-list">
                         Add Documents
                       </Link>
                     </Dropdown.Item>

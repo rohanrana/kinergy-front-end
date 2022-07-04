@@ -18,10 +18,10 @@ const AddNewMedicalRecords = () => {
 
             <div className="appointment-card">
               <h5 className="mb-3">
-                <Link to="/medical-record-listing" className="theme-color mr-2">
+                <Link to="/client/add-surgery-record" className="theme-color mr-2">
                   <i className="fas fa-chevron-left"></i>
                 </Link>
-                Add New Medical Record
+                Add New Medical Record 
               </h5>
               <hr />
               <Form>
