@@ -8,9 +8,9 @@ import DashboardPage from '../Pages/Dashbaord/DashboardPage';
 import ClientsPage from "../Pages/Clients/ClientsPage";
 import ClientDetailPage from "../Pages/Clients/ClientDetailPage";
 import ClientRouter from "../Pages/Clients/ClientRouter";
-  import StaffLogin from "../Containers/logins/StaffLogin";
-  import StaffLogin2 from "../Containers/logins/StaffLogin2";
-  import CreateLogin from "../Containers/logins/CreateLogin";
+import StaffLogin from "../Containers/logins/StaffLogin";
+import StaffLogin2 from "../Containers/logins/StaffLogin2";
+import CreateLogin from "../Containers/logins/CreateLogin";
 //   import Home from "./component/dashboard/Home";
 //   import ClientListing from "./component/clients/ClientListing";
 //   import ActivityLog from "./component/clients/ActivityLog";
@@ -92,6 +92,8 @@ import AdminPage from "../Pages/Admin/AdminPage";
 import AdminRouter from "../Pages/Admin/AdminRouter";
 import SettingsRouter from "../Pages/Settings/SettingsRouter";
 import Sidebar from "../PageLayout/SidebarNav/Sidebar";
+import PrivateRoutes from "../Hoc/PrivateRoutes";
+import RestrictedRoutes from "../Hoc/RestrictedRoutes";
 //   import EditPersonalDetail from "./component/settings/EditPersonalDetail";
 //   import UpdatePassword from "./component/settings/UpdatePassword";
 //   import EditContactInformation from "./component/settings/EditContactInformation";
@@ -109,20 +111,21 @@ import Sidebar from "../PageLayout/SidebarNav/Sidebar";
 
 
 export default function AppRoutes() {
-    return (
-        <Router>
-            <Switch>
-                <Route exact path="/staff-login" component={StaffLogin} />
-                <Route exact path="/staff-login2" component={StaffLogin2} />
-                <Route exact path="/create-login" component={CreateLogin} />
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={DashboardPage} />
+        <RestrictedRoutes exact path="/staff-login" component={StaffLogin} />
+        <RestrictedRoutes exact path="/staff-login2" component={StaffLogin2} />
+        <RestrictedRoutes exact path="/create-login" component={CreateLogin} />
 
-                <Route exact path="/" component={DashboardPage} />
-                <Route path="/settings" component={SettingsRouter} />
-                <Route path="/admin" component={AdminPage} />
-                <Route path="/client" component={ClientRouter} />
-                {/* <Route exact path="/admin/system-settings" component={SystemSettings} /> */}
 
-                {/* <Route exact path="/client-listing" component={ClientListing} />
+        <PrivateRoutes path="/settings" component={SettingsRouter} />
+        <PrivateRoutes path="/admin" component={AdminPage} />
+        <PrivateRoutes path="/client" component={ClientRouter} />
+        {/* <Route exact path="/admin/system-settings" component={SystemSettings} /> */}
+
+        {/* <Route exact path="/client-listing" component={ClientListing} />
           <Route exact path="/activity-log" component={ActivityLog} />
           <Route exact path="/client-details" component={ClientDetails} />
           <Route exact path="/edit-details" component={EditDetails} />
@@ -208,8 +211,9 @@ export default function AppRoutes() {
           <Route exact path="/discount" component={Discount} />
           <Route exact path="/discount-detail" component={DiscountDetail} />
           <Route exact path="/edit-coupon" component={EditCoupon} /> */}
-            </Switch>
-        </Router>
-    )
+        {/* <Route exact path="*" component={DashboardPage} /> */}
+      </Switch>
+    </Router>
+  )
 }
 

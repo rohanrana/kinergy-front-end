@@ -8,7 +8,7 @@ export const appRoutesConst = {
   index: "/",
   home: "/home",
   signin: "/signin",
-  dashboard: "/dashboard"
+  dashboard: "/"
 };
 
 // const config = {

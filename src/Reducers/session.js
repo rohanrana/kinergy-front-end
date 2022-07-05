@@ -110,7 +110,7 @@ export const login = (data, props) => {
       successToast({
         content: verifyObject(response, "message", "Success")
       });
-      await props.history.push(`${appRoutesConst.home}`);
+      await props.history.push(`${appRoutesConst.dashboard}`);
       dispatch(navigateToHome());
     } catch (error) {
 

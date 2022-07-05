@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { connect, useSelector } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { verifyObject } from "../../utilities/utils";
 
 import DashboardUser from "./DashboardUser";
 
 
-const Home = () => {
+const Home = (props) => {
+  const { token } = useSelector(state => state.localStore)
+  useEffect(() => {
+    console.log("props", props)
+    if (token) {
+      props.history.push("/")
+    } else {
+      props.history.push("/staff-login")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
   return (
-    <div className="home-page">     
+    <div className="home-page">
       <Container fluid>
         <Row>
           <Col lg={3} sm={6} xs={12}>
@@ -91,7 +104,7 @@ const Home = () => {
         </Row>
 
         <Row>
-        <Col lg={12} sm={12} xs={12}>
+          <Col lg={12} sm={12} xs={12}>
             <div class="card  m-b-30">
               <div class="card-body">
                 <DashboardUser />
@@ -104,4 +117,19 @@ const Home = () => {
   );
 };
 
-export default Home;
+// const mapStateToProps = (state) => {
+//   return {
+//     token: verifyObject(state, "localStore.token", null)
+//     ,
+//   };
+// };
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+
+//   };
+// };
+// const ConnectedComponent = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Home);
+export default withRouter(Home)
