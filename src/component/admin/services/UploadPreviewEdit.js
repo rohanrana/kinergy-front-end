@@ -21,7 +21,9 @@ class UploadPreviewEdit extends React.Component {
     render() {
       return (
         <div>
-          <div className="pos-rel">
+          
+          <div className="pos-rel d-flex align-items-center justfy-bw">
+            <span>Upload Image for Service Category*</span>
             <div className="file_sc">
               <input type="file" onChange={this.onChange} className="file_inp" />
               <Button className="btn btn-theme pl-2 pr-2" id="upload_btn"><i className="fa-solid fa-cloud-arrow-up"></i> Upload</Button>

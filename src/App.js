@@ -98,6 +98,7 @@ import DiscountDetail from "./component/admin/DiscountDetail";
 import EditCoupon from "./component/admin/EditCoupon";
 import Services from "./component/admin/services/Services";
 import Servicedetails from "./component/admin/services/Service-details";
+import Subservicedetails from "./component/admin/services/Subservice-details";
 
 
 function App() {
@@ -196,6 +197,7 @@ function App() {
         <Route exact path="/edit-coupon" component={EditCoupon} />
         <Route exact path="/services" component={Services} />
         <Route exact path="/service-details" component={Servicedetails} />
+        <Route exact path="/subservice-details" component={Subservicedetails} />
        
       </Switch>
     </Router>

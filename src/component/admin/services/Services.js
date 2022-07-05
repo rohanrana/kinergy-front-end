@@ -165,7 +165,7 @@ const Services = () => {
               <Form.Group className="mb-4 form-type">
                 <UploadPreviewAdd />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="df">
                 <div className="text-center" id="fxd">
                   <Button className="btn btn-theme-white pl-2 pr-2 mr-3" id="formBtnCnc">
                     Back
