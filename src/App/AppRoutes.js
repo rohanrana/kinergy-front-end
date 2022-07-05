@@ -8,9 +8,9 @@ import DashboardPage from '../Pages/Dashbaord/DashboardPage';
 import ClientsPage from "../Pages/Clients/ClientsPage";
 import ClientDetailPage from "../Pages/Clients/ClientDetailPage";
 import ClientRouter from "../Pages/Clients/ClientRouter";
-//   import StaffLogin from "./component/logins/StaffLogin";
-//   import StaffLogin2 from "./component/logins/StaffLogin2";
-//   import CreateLogin from "./component/logins/CreateLogin";
+  import StaffLogin from "../Containers/logins/StaffLogin";
+  import StaffLogin2 from "../Containers/logins/StaffLogin2";
+  import CreateLogin from "../Containers/logins/CreateLogin";
 //   import Home from "./component/dashboard/Home";
 //   import ClientListing from "./component/clients/ClientListing";
 //   import ActivityLog from "./component/clients/ActivityLog";
@@ -112,11 +112,11 @@ export default function AppRoutes() {
     return (
         <Router>
             <Switch>
-                {/* <Route exact path="/staff-login" component={StaffLogin} />
-          <Route exact path="/staff-login2" component={StaffLogin2} />
-          <Route exact path="/create-login" component={CreateLogin} /> */}
+                <Route exact path="/staff-login" component={StaffLogin} />
+                <Route exact path="/staff-login2" component={StaffLogin2} />
+                <Route exact path="/create-login" component={CreateLogin} />
 
-                <Route exact  path="/" component={DashboardPage} />
+                <Route exact path="/" component={DashboardPage} />
                 <Route path="/settings" component={SettingsRouter} />
                 <Route path="/admin" component={AdminPage} />
                 <Route path="/client" component={ClientRouter} />

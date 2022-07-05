@@ -13,7 +13,7 @@ import ClientsPage from './ClientsPage'
 //   import ActivityLog from "../../Containers/clients/ActivityLog";
 //   import ClientDetails from "../../Containers/clients/ClientDetails";
 import EditDetails from "../../Containers/clients/EditDetails";
-//   import EditEmergencyContact from "../../Containers/clients/EditEmergencyContact";
+  import EditEmergencyContact from "../../Containers/clients/EditEmergencyContact";
 //   import EditClientMedical from "../../Containers/clients/EditClientMedical";
 //   import General from "../../Containers/admin/General";
 //   import AddingFacility from "../../Containers/admin/AddingFacility";
@@ -29,8 +29,8 @@ import EditDetails from "../../Containers/clients/EditDetails";
 //   import AddInventory from "../../Containers/admin/department/AddInventory";
 //   import Communications from "../../Containers/admin/Communication";
 //   import SocialHabits from "../../Containers/clients/medical-history/SocialHabits";
-//   import FemalesOnly from "../../Containers/clients/medical-history/FemalesOnly";
-//   import SurgicalHistory from "../../Containers/clients/medical-history/SurgicalHistory";
+  import FemalesOnly from "../../Containers/clients/medical-history/FemalesOnly";
+  import SurgicalHistory from "../../Containers/clients/medical-history/SurgicalHistory";
 import MedicalInformation from "../../Containers/clients/medical-history/MedicalInformation";
 import MusculoskeletalHistory from "../../Containers/clients/medical-history/MusculoskeletalHistory";
 //   import MedicalRecordListing from "../../Containers/clients/chart-notes/MedicalRecordListing";
@@ -96,6 +96,7 @@ import CaseStatistics from "../../Containers/clients/chart-notes/CaseStatistics"
 //   import Discount from "../../Containers/admin/Discount";
 //   import DiscountDetail from "../../Containers/admin/DiscountDetail";
 //   import EditCoupon from "../../Containers/admin/EditCoupon";
+import SocialHabits from "../../Containers/clients/medical-history/SocialHabits";
 
 export default function ClientRouter() {
     return (
@@ -129,6 +130,10 @@ export default function ClientRouter() {
             <Route path="/client/view-notes" component={ViewNotes} />
             <Route path="/client/add-new-medical-record" component={AddNewMedicalRecords} />
             <Route path="/client/add-document" component={AddDocuments} />
+            <Route path="/client/social-habits" component={SocialHabits} />
+            <Route path="/client/females-only" component={FemalesOnly} />
+            <Route path="/client/surgical-history" component={SurgicalHistory} />
+            <Route path="/client/edit-emergency-contact" component={EditEmergencyContact} />
 
 
 

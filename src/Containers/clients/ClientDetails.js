@@ -122,12 +122,12 @@ const ClientDetails = () => {
                   <h5 className="pb-2">
                     Emergency Contact Information
                     <span className="float-right">
-                      <a
-                        href="#/edit-emergency-contact"
+                      <Link
+                        to="/client/edit-emergency-contact"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </span>
                   </h5>
 
@@ -207,12 +207,12 @@ const ClientDetails = () => {
                   <h5 className="pb-2">
                     Social Habits
                     <span className="float-right">
-                      <a
-                        href="#/social-habits"
+                      <Link
+                        to="/client/social-habits"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </span>
                   </h5>
 
@@ -273,12 +273,12 @@ const ClientDetails = () => {
                   <h5 className="pb-2">
                     Medical Information
                     <span className="float-right">
-                      <a
-                        href="#/medical-information"
+                      <Link
+                        to="/client/medical-information"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </span>
                   </h5>
 
@@ -352,12 +352,12 @@ const ClientDetails = () => {
                   <h5 className="pb-2">
                     Females Only
                     <span className="float-right">
-                      <a
-                        href="#/females-only"
+                      <Link
+                        to="/client/females-only"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </span>
                   </h5>
 
@@ -376,12 +376,12 @@ const ClientDetails = () => {
                   <h5 className="pb-2">
                     Surgical History
                     <span className="float-right">
-                      <a
-                        href="#/surgical-history"
+                      <Link
+                        to="/client/surgical-history"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </span>
                   </h5>
 
@@ -485,12 +485,12 @@ const ClientDetails = () => {
                   <h5 className="pb-2">
                     Musculoskeletal History
                     <span className="float-right">
-                      <a
-                        href="#/musculoskeletal-history"
+                      <Link
+                        to="/client/musculoskeletal-history"
                         className="btn btn-theme m-0 btn-sm pl-2 pr-2"
                       >
                         Edit
-                      </a>
+                      </Link>
                     </span>
                   </h5>
 

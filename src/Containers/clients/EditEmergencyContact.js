@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Sidebar from "../../PageLayout/SidebarNav/Sidebar";
 
 function MyVerticallyCenteredModal(props) {
@@ -42,9 +43,9 @@ const EditEmergencyContact = () => {
           <Col lg={12} sm={12} xs={12}>
             <div className="appointment-card form-type mt-3">
               <h5 className="pb-2">
-                <a href="#/client-details" className="theme-color">
+                <Link to="/client/client-details" className="theme-color">
                   <i className="fas fa-chevron-left mr-2"></i>
-                </a>
+                </Link>
                 Emergency Contact
               </h5>
               <Form>

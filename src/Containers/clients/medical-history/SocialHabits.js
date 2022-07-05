@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 
 const SocialHabits = () => {
@@ -11,9 +12,9 @@ const SocialHabits = () => {
           <Col lg={12} sm={12} xs={12}>
             <div className="appointment-card social-habits">
               <h5 className="pb-2">
-                <a href="#/client-details" className="theme-color">
+                <Link to="/client/client-details" className="theme-color">
                   <i className="fas fa-chevron-left mr-2"></i>
-                </a>
+                </Link>
                 Social Habits
               </h5>
               <p className="m-0">Have you ever or do it completely</p>
