@@ -47,16 +47,25 @@ export type Irequest = {
   params?: object,
   headers?: object,
 };
+const state = loadState();
+let token = null;
+if (state && state.localStore && state.localStore.token) {
+  token = state.localStore.token;
+}
 
 export const get = (request) => {
+  // let finalRequest = { ...request, data: { ...request.data, token: token } } 
+
   return commonFetch({ method: "get", ...request });
 };
 
 export const post = (request) => {
-  return commonFetch({ method: "post", ...request });
+  let finalRequest = { ...request, data: { ...request.data, token: token } }
+  return commonFetch({ method: "post", ...finalRequest });
 };
 
 export const patch = (request) => {
+  // let finalRequest = { ...request, data: { ...request.data, token: token } }  
   return commonFetch({ method: "patch", ...request });
 };
 
@@ -202,7 +211,11 @@ const commonFetch2 = (request: Irequest) => {
   // }
 
   // var arrStr = encodeURIComponent(JSON.stringify(params))
-
+  const state = loadState();
+  let token = null;
+  if (state && state.localStore && state.localStore.token) {
+    token = state.localStore.token;
+  }
   return axios({
     method,
     subUrl,
@@ -240,19 +253,17 @@ const handleResponseStatus = (response) => {
   return false;
 };
 
-const getCommonHeaders = (EMDRtoken) => {
-  console.log("EMDRtoken", EMDRtoken);
+const getCommonHeaders = () => {
+
   const state = loadState();
   let token = null;
   if (state && state.localStore && state.localStore.token) {
     token = state.localStore.token;
   }
-  if (state && state.localStore && state.localStore.reset_pass_token) {
-    token = state.localStore.reset_pass_token;
-  }
+
   return {
     "Content-Type": "application/json",
-    [authTokenKey]: EMDRtoken ? EMDRtoken : token,
+    [authTokenKey]: token,
   };
 };
 const getFullUrl = (url) => {

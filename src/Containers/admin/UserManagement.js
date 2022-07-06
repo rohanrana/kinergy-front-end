@@ -217,7 +217,7 @@ const UserManagement = () => {
               <Col lg={2} sm={3} xs={12}>
                 <h5 className="mb-0 mt-2">
                   <a href="#/" className="text-dark">
-                    <i class="fas fa-plus-circle"></i>
+                    <i className="fas fa-plus-circle"></i>
                   </a>
                 </h5>
               </Col>
@@ -233,7 +233,7 @@ const UserManagement = () => {
               <Col lg={2} sm={3} xs={4}>
                 <h5 className="mb-0 mt-3">
                   <a href="#/" className="text-dark">
-                    <i class="fas fa-plus-circle"></i>
+                    <i className="fas fa-plus-circle"></i>
                   </a>
                 </h5>
               </Col>

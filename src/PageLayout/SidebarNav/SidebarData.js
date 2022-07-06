@@ -4,7 +4,7 @@ export const SidebarData = [
   {
     title: "Dashboard",
     path: "/",
-    icon: <i class="fas fa-box"></i>,
+    icon: <i className="fas fa-box"></i>,
     // iconClosed: <RiIcons.RiArrowDownSFill />,
     // iconOpened: <RiIcons.RiArrowUpSFill />,
 
@@ -31,19 +31,19 @@ export const SidebarData = [
   {
     title: "Scheduling",
     path: "/scheduling",
-    icon: <i class="fas fa-calendar-alt"></i>,
+    icon: <i className="fas fa-calendar-alt"></i>,
   },
 
   {
     title: "Billing",
     path: "/billing",
-    icon: <i class="fas fa-file-alt"></i>,
+    icon: <i className="fas fa-file-alt"></i>,
   },
 
   {
     title: "Settings",
     path: "/settings",
-    icon: <i class="fas fa-cog"></i>,
+    icon: <i className="fas fa-cog"></i>,
   },
 
   {
@@ -55,6 +55,6 @@ export const SidebarData = [
   {
     title: "Help",
     path: "/help",
-    icon: <i class="fas fa-info-circle"></i>,
+    icon: <i className="fas fa-info-circle"></i>,
   },
 ];

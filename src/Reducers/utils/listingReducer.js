@@ -2,7 +2,7 @@ import {
   getErrorObject,
   normalizeResponseWithPagination,
   getExtraDataFromListing,
-} from "utilities/utils";
+} from "../../utilities/utils";
 import { errorToast } from "../../utilities/utils";
 // import { errorToast } from "utilities/utils";
 
@@ -181,6 +181,7 @@ export const listingReducer = (
       });
       try {
         const response = await getApi(params);
+        console.log("list Response", response)
         const extraData = getExtraDataFromListing(response);
         const { data, ids, pagination } = normalizeResponseWithPagination({
           response,
@@ -196,7 +197,7 @@ export const listingReducer = (
           type: types.ON_FAILURE,
           payload: { error: message },
         });
-        console.log("IN ERROR",error);
+        console.log("IN ERROR", error);
         errorToast({ content: message });
       }
     };

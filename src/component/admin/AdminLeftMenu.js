@@ -8,19 +8,19 @@ const AdminLeftMenu = () => {
       <ul className="p-0">
         <li>
           <a href="#/facility-management">
-            <i class="far fa-circle mr-2"></i>Facility Management
+            <i className="far fa-circle mr-2"></i>Facility Management
           </a>
         </li>
 
         <li>
           <a href="#/system-settings">
-            <i class="far fa-circle mr-2"></i>System Settings
+            <i className="far fa-circle mr-2"></i>System Settings
           </a>
         </li>
 
         <li>
           <a href="#/">
-            <i class="far fa-circle mr-2"></i>Services
+            <i className="far fa-circle mr-2"></i>Services
           </a>
         </li>
 
@@ -39,7 +39,7 @@ const AdminLeftMenu = () => {
 
         <li>
           <a href="#/">
-            <i class="far fa-circle mr-2"></i>Forms
+            <i className="far fa-circle mr-2"></i>Forms
           </a>
         </li>
 
@@ -68,25 +68,25 @@ const AdminLeftMenu = () => {
 
         <li>
           <a href="#/admin-appointment">
-            <i class="far fa-circle mr-2"></i>Appointments
+            <i className="far fa-circle mr-2"></i>Appointments
           </a>
         </li>
 
         <li>
           <a href="#/discount">
-            <i class="far fa-circle mr-2"></i>Discount
+            <i className="far fa-circle mr-2"></i>Discount
           </a>
         </li>
 
         <li>
           <a href="#/user-management">
-            <i class="far fa-circle mr-2"></i>User Management
+            <i className="far fa-circle mr-2"></i>User Management
           </a>
         </li>
 
         <li>
           <a href="#/access-management">
-            <i class="far fa-circle mr-2"></i>Access Management
+            <i className="far fa-circle mr-2"></i>Access Management
           </a>
         </li>
       </ul>

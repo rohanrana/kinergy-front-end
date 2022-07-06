@@ -1,4 +1,7 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { debounce, isArray, map } from "lodash";
+import React, { useCallback, useState } from "react";
+import { useEffect } from "react";
 import {
   Container,
   Row,
@@ -11,13 +14,56 @@ import {
   Dropdown,
   InputGroup,
   FormControl,
-  Pagination,
+
+
+
 } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import NotFoundLable from "../../component/common/NotFoundLable";
+import Pagination from "../../component/common/Pagination";
+import TableLoader from "../../component/common/TableLoader";
+import { actions as facilitiesActions } from "../../Reducers/facilities"
 
 import AdminLeftMenu from "./AdminLeftMenu";
 
 const FacilityManagement = () => {
+  const dispatch = useDispatch();
+
+  const handleSearch = (e) => {
+    // setSearch(e.target.value)
+    dispatch(facilitiesActions.onSearch({
+      search: e.target.value,
+    }))
+
+  }
+  const searchFacilitiesData = useCallback(debounce(handleSearch, 1000), []);
+
+  const { data: facilitiesData, isLoading, pagination } = useSelector((state) => state.facilities)
+
+  useEffect(() => {
+    console.log("isLoading", isLoading)
+  }, [isLoading])
+
+  useEffect(() => {
+    dispatch(facilitiesActions.onRequest({
+      search: "",
+      status: "ACTIVE",
+    }))
+  }, [])
+
+  const onPageChange = (data) => {
+    // const { customerId: patient_id } = this.props.localStore;
+    console.log("PAGE CHANGE", data)
+    const { page, } = data;
+    dispatch(facilitiesActions.onPageChange({
+      page,
+    }))
+
+  };
+
+
+
   return (
     <div className="clients">
 
@@ -40,6 +86,8 @@ const FacilityManagement = () => {
                       className="rounded mr-2"
                       type="text"
                       placeholder=""
+
+                      onChange={searchFacilitiesData}
                     />
                   </InputGroup>
                   <Button className="btn btn-theme-white">All</Button>
@@ -65,107 +113,66 @@ const FacilityManagement = () => {
                     </th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  <tr>
-                    <td className="text-left">
-                      Kinergy Sports Medicine and Performance
-                    </td>
-                    <td>Amsterdam</td>
-                    <td>000-000-0000</td>
-                    <td className="text-left">Active</td>
-                    <td className="text-left">
-                      <Link to="/admin/facility-detail" className="text-dark">
-                        <u>View Details</u>
-                      </Link>
-                    </td>
-                  </tr>
+                  {isLoading ? (
+                    <tr style={{ textAlign: "center" }}>
+                      <td colSpan="8">
+                        {isLoading && <TableLoader />}
+                      </td>
+                    </tr>
+                  ) : null}
+                  {!isLoading && facilitiesData.length === 0 && (
+                    <tr>
+                      <td colSpan="8">
+                        <NotFoundLable message="No Facilities found" />
+                      </td>
+                    </tr>
+                  )}
+                  {!isLoading && facilitiesData && isArray(facilitiesData) && facilitiesData.map((f) => {
 
-                  <tr>
-                    <td className="text-left">
-                      Kinergy Sports Medicine and Performance
-                    </td>
-                    <td>Amsterdam</td>
-                    <td>000-000-0000</td>
-                    <td className="text-left">Active</td>
-                    <td className="text-left">
-                   <Link to="/admin/facility-detail" className="text-dark">
-                        <u>View Details</u>
-                      </Link>
-                    </td>
-                  </tr>
+                    return <tr key={f._id} >
+                      <td className="text-left">
+                        {f.facilityName}
+                      </td>
+                      <td> {f.location}</td>
+                      <td>
+                        {f.contact && isArray(f.contact) && f.contact.map((c) => {
 
-                  <tr>
-                    <td className="text-left">
-                      Kinergy Sports Medicine and Performance
-                    </td>
-                    <td>Amsterdam</td>
-                    <td>000-000-0000</td>
-                    <td className="text-left">Active</td>
-                    <td className="text-left">
-                   <Link to="/admin/facility-detail" className="text-dark">
-                        <u>View Details</u>
-                      </Link>
-                    </td>
-                  </tr>
+                          if (c.phone && c.phone[0] && c.phone[0].phone) {
+                            let phones = map(c.phone, (p) => {
+                              if (p.phone !== null) {
+                                return p.phone
+                              } else {
+                                return ""
+                              }
+                            });
+                            return <span>{phones.toString()}</span>
+                          } else {
+                            return <span>-</span>
+                          }
 
-                  <tr>
-                    <td className="text-left">
-                      Kinergy Sports Medicine and Performance
-                    </td>
-                    <td>Amsterdam</td>
-                    <td>000-000-0000</td>
-                    <td className="text-left">Active</td>
-                    <td className="text-left">
-                   <Link to="/admin/facility-detail" className="text-dark">
-                        <u>View Details</u>
-                      </Link>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="text-left">
-                      Kinergy Sports Medicine and Performance
-                    </td>
-                    <td>Amsterdam</td>
-                    <td>000-000-0000</td>
-                    <td className="text-left">Active</td>
-                    <td className="text-left">
-                   <Link to="/admin/facility-detail" className="text-dark">
-                        <u>View Details</u>
-                      </Link>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="text-left">
-                      Kinergy Sports Medicine and Performance
-                    </td>
-                    <td>Amsterdam</td>
-                    <td>000-000-0000</td>
-                    <td className="text-left">Active</td>
-                    <td className="text-left">
-                   <Link to="/admin/facility-detail" className="text-dark">
-                        <u>View Details</u>
-                      </Link>
-                    </td>
-                  </tr>
+                        })}
+                      </td>
+                      <td className="text-left">
+                        {f.status}
+                      </td>
+                      <td className="text-left">
+                        <Link to="/admin/facility-detail" className="text-dark">
+                          <u>View Details</u>
+                        </Link>
+                      </td>
+                    </tr>
+                  })}
                 </tbody>
               </Table>
-              <Pagination size="sm">
-                <Pagination.First />
-                <Pagination.Prev />
-                <Pagination.Item>{1}</Pagination.Item>
-                <Pagination.Ellipsis />
 
-                <Pagination.Item>{10}</Pagination.Item>
-                <Pagination.Item active>{12}</Pagination.Item>
-                <Pagination.Item>{13}</Pagination.Item>
-
-                <Pagination.Ellipsis />
-                <Pagination.Item>{20}</Pagination.Item>
-                <Pagination.Next />
-                <Pagination.Last />
-              </Pagination>
+              {!isLoading && (
+                <Pagination
+                  data={{ pagination: pagination }}
+                  onPageChange={onPageChange}
+                />
+              )}
             </div>
           </Col>
         </Row>

@@ -207,7 +207,7 @@ const ViewNotes = () => {
                         <td>0</td>
                         <td>5/5</td>
                         <td>
-                          <i class="fas fa-comment-alt"></i>
+                          <i className="fas fa-comment-alt"></i>
                         </td>
                       </tr>
 

@@ -141,7 +141,7 @@ export const warningToast = ({ content, options = {} }) => {
   });
 };
 
-export const normalize = ({ data, key = "id" }) => {
+export const normalize = ({ data, key = "_id" }) => {
   let obj = {};
   let ids = [];
   data &&
@@ -185,40 +185,33 @@ export const currencies = {
 };
 
 export const normalizeResponseWithPagination = ({ response, key = "id" }) => {
-  const dataArr = response.data.data ? response.data.data : [];
+  const dataArr = response.data.result ? response.data.result : [];
   // console.log("dataArr", dataArr);
 
   //Current workaround
-  let resPagination = response.headers[responseHeaderKeys.pagination];
-  if (resPagination) {
-    resPagination = JSON.parse(resPagination);
+  let resPagination = null;
+  if (response.data.paginationData) {
+    resPagination = response.data.paginationData
   } else {
     resPagination = {
-      total: 0,
-      total_pages: 0,
-      previous_page: null,
-      next_page: null,
+      "total": 0,
+      "limit": 0,
+      "page": 0,
+      "pages": 0
     };
   }
 
-  const { data, ids } = normalize({ data: dataArr, key });
+  // const { data, ids } = normalize({ data: dataArr, key });
 
-  const { total, total_pages, previous_page, next_page } = resPagination;
+  const { total, limit, page, pages } = resPagination;
 
   return {
-    data,
-    ids,
-    pagination: { total, total_pages, previous_page, next_page },
+    data: dataArr,
+    pagination: { total, limit, page, pages },
   };
 };
 let pubNubCr = {};
-if (process.env.REACT_APP_ENV === "prod") {
-  pubNubCr.publishKey = "pub-c-6d2a67ad-f642-4ab1-948b-e4c4cd2b7087";
-  pubNubCr.subscribeKey = "sub-c-f6dcaefe-c0c4-11e8-91cd-c6d399a24064";
-} else {
-  pubNubCr.publishKey = "pub-c-0817e702-1f50-49bd-b0e3-3473128601f5";
-  pubNubCr.subscribeKey = "sub-c-17b49a9a-57fe-11e8-9796-063929a21258";
-}
+
 
 export const chatChannelCreator = ({ order_id, order_type, currentTab }) => {
   // const orderIdTemp = `${order_id}_`;
@@ -247,7 +240,7 @@ export const getExtraDataFromListing = (response) => {
   const responseData = response.data;
   const extraData = {};
   for (const key in responseData) {
-    if (key !== "data") {
+    if (key !== "result") {
       extraData[key] = responseData[key];
     }
   }

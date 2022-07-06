@@ -140,7 +140,7 @@ const EditCoupon = () => {
                         Athletic Therapy{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -148,7 +148,7 @@ const EditCoupon = () => {
                         Performance Training{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -168,7 +168,7 @@ const EditCoupon = () => {
                         Vestibular Rehabilitation{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -176,7 +176,7 @@ const EditCoupon = () => {
                         Video Biochemical Analysis{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -184,7 +184,7 @@ const EditCoupon = () => {
                         Orthotics and Bracing{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -192,7 +192,7 @@ const EditCoupon = () => {
                         External Therapy{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -205,7 +205,7 @@ const EditCoupon = () => {
                         Performance Theraphy{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -213,7 +213,7 @@ const EditCoupon = () => {
                         Performance Training{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -221,7 +221,7 @@ const EditCoupon = () => {
                         Personal Training{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>
@@ -229,7 +229,7 @@ const EditCoupon = () => {
                         Remote Training{" "}
                         <span>
                           <a href="#/">
-                            <i class="fas fa-times-circle"></i>
+                            <i className="fas fa-times-circle"></i>
                           </a>
                         </span>
                       </li>

@@ -22,7 +22,7 @@ const AppointmentSummary = () => {
                 <Row>
                     <Col lg={12} sm={12} xs={12}>
                     <h6>Appointment Details</h6>
-                    <p><i class="far fa-calendar mr-2"></i>08 December, 2021</p>
+                    <p><i className="far fa-calendar mr-2"></i>08 December, 2021</p>
                     <p><i className="fas fa-clock mr-2"></i>12:00 PM</p>
                     </Col>
                 </Row>

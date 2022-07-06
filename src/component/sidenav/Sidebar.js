@@ -67,11 +67,11 @@ const Sidebar = () => {
 
           <Nav className="main-navbar">
             <Nav.Link href="#/staff-login">
-              <i class="fas fa-lock icon-color-nav"></i>
+              <i className="fas fa-lock icon-color-nav"></i>
             </Nav.Link>
 
             <Nav.Link href="#/">
-              <i class="fas fa-bell icon-color-nav"></i>
+              <i className="fas fa-bell icon-color-nav"></i>
             </Nav.Link>
             <Nav.Link href="#/">
               <div className="profile-droupdown-with-icon">

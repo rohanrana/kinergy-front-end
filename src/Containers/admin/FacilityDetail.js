@@ -21,7 +21,7 @@ const FacilityDetail = () => {
 
             <div className="facility-detail-top">
               <p className="text-right absolute">
-                <i class="fas fa-circle"></i> Active
+                <i className="fas fa-circle"></i> Active
               </p>
                 <div className="staff-img-detail">
                   <img src={StaffMember} alt={StaffMember} />

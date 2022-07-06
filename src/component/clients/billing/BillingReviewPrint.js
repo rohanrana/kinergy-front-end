@@ -17,7 +17,7 @@ const BillingReviewPrint = () => {
                 <h4>Billing Review</h4>
 
                 <ButtonGroup className="rounded">
-                  <Button className="btn btn-theme-white">Print Invoice <i class="fas fa-print ml-2"></i></Button>
+                  <Button className="btn btn-theme-white">Print Invoice <i className="fas fa-print ml-2"></i></Button>
                 </ButtonGroup>
               </ButtonToolbar>
           </Col>

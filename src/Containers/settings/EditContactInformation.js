@@ -39,7 +39,7 @@ const EditContactInformation = () => {
                   <Col lg={4} sm={4} xs={12}>
                     <h5 className="mb-0 mt-3">
                       <a href="#/" className="text-dark">
-                        <i class="fas fa-plus-circle"></i>
+                        <i className="fas fa-plus-circle"></i>
                       </a>
                     </h5>
                   </Col>
@@ -70,7 +70,7 @@ const EditContactInformation = () => {
                   <Col lg={4} sm={4} xs={12}>
                     <h5 className="mb-0 mt-3">
                       <a href="#/" className="text-dark">
-                        <i class="fas fa-plus-circle"></i>
+                        <i className="fas fa-plus-circle"></i>
                       </a>
                     </h5>
                   </Col>
@@ -85,7 +85,7 @@ const EditContactInformation = () => {
                   <Col lg={4} sm={4} xs={12}>
                     <h5 className="mb-0 mt-3">
                       <a href="#/" className="text-dark">
-                        <i class="fas fa-plus-circle"></i>
+                        <i className="fas fa-plus-circle"></i>
                       </a>
                     </h5>
                   </Col>
@@ -214,7 +214,7 @@ const EditContactInformation = () => {
                   <Col lg={4} sm={4} xs={12}>
                     <h5 className="mb-0 mt-3">
                       <a href="#/" className="text-dark">
-                        <i class="fas fa-plus-circle"></i>
+                        <i className="fas fa-plus-circle"></i>
                       </a>
                     </h5>
                   </Col>
@@ -245,7 +245,7 @@ const EditContactInformation = () => {
                   <Col lg={4} sm={4} xs={12}>
                     <h5 className="mb-0 mt-3">
                       <a href="#/" className="text-dark">
-                        <i class="fas fa-plus-circle"></i>
+                        <i className="fas fa-plus-circle"></i>
                       </a>
                     </h5>
                   </Col>

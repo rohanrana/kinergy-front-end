@@ -3,7 +3,9 @@ import { types as sessionTypes } from '../Reducers/session'
 import { routerReducer } from "react-router-redux"
 import {
     session,
-    localStore
+    localStore,
+    facilities
+
 } from "../Reducers/index"
 
 
@@ -12,7 +14,8 @@ const appReducer = combineReducers({
 
     session,
     localStore,
-    routing: routerReducer
+    routing: routerReducer,
+    facilities
 
 })
 const rootReducers = (state, action) => {

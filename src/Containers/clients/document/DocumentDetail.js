@@ -16,7 +16,7 @@ const DocumentDetails = () => {
                 HIPPA Waiver and Release Form
                 <span className="float-right">
                   <span className="btn btn-theme-white mt-0">
-                    <i class="fas fa-cloud-download"></i>
+                    <i className="fas fa-cloud-download"></i>
                   </span>
 
                   <span href="#/document-list" className="btn btn-theme-white mt-0 ml-2">

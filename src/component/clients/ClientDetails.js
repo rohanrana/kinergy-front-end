@@ -132,7 +132,7 @@ const ClientDetails = () => {
 
                   <hr />
 
-                  <h6 class="main-h mb-3">Contact 1</h6>
+                  <h6 className="main-h mb-3">Contact 1</h6>
                   <Row>
                     <Col lg={2}>
                       <h6 className="mb-1">Name</h6>
@@ -167,7 +167,7 @@ const ClientDetails = () => {
 
                   <hr />
 
-                  <h6 class="main-h mb-3">Contact 2</h6>
+                  <h6 className="main-h mb-3">Contact 2</h6>
                   <Row>
                     <Col lg={2}>
                       <h6 className="mb-1">Name</h6>
