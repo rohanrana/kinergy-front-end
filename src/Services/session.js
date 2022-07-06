@@ -18,6 +18,7 @@ export const updatePlayerID = (data) => {
   return patch(request);
 };
 export const logOutApi = (data) => {
+  console.log("data logout", data)
   const request = {
     subUrl: `/staff/logout`,
     data

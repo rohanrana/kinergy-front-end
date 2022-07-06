@@ -66,6 +66,7 @@ const Sidebar = () => {
           </Nav>
 
           <Nav className="main-navbar">
+     
             <Nav.Link href="#/staff-login">
               <i className="fas fa-lock icon-color-nav"></i>
             </Nav.Link>

@@ -3,7 +3,7 @@ import React from "react";
 import 'react-dropzone-uploader/dist/styles.css'
 import { 
   // BrowserRouter as Router, 
-   Switch, 
+   Routes, 
    Route, HashRouter as Router
    } from "react-router-dom";
 import StaffLogin from "./component/logins/StaffLogin";
@@ -100,7 +100,7 @@ import EditCoupon from "./component/admin/EditCoupon";
 function App() {
   return (
     <Router>
-      <Switch>
+      <Routes>
         <Route exact path="/staff-login" component={StaffLogin} />
         <Route exact path="/staff-login2" component={StaffLogin2} />
         <Route exact path="/create-login" component={CreateLogin} />
@@ -191,7 +191,7 @@ function App() {
         <Route exact path="/discount" component={Discount} />
         <Route exact path="/discount-detail" component={DiscountDetail} />
         <Route exact path="/edit-coupon" component={EditCoupon} />
-      </Switch>
+      </Routes>
     </Router>
   );
 }

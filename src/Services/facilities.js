@@ -10,4 +10,11 @@ export const getFacilities = (data) => {
     return post(request);
 };
 
-
+export const getFacilitiesByID = (data) => {
+    
+    const request = {
+        subUrl: `/facility/facilityById`,
+        data
+    };
+    return post(request);
+};

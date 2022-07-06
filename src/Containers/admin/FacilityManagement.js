@@ -52,6 +52,8 @@ const FacilityManagement = () => {
     }))
   }, [])
 
+
+
   const onPageChange = (data) => {
     // const { customerId: patient_id } = this.props.localStore;
     console.log("PAGE CHANGE", data)
@@ -59,7 +61,6 @@ const FacilityManagement = () => {
     dispatch(facilitiesActions.onPageChange({
       page,
     }))
-
   };
 
 
@@ -122,7 +123,7 @@ const FacilityManagement = () => {
                       </td>
                     </tr>
                   ) : null}
-                  {!isLoading && facilitiesData.length === 0 && (
+                  {!isLoading && facilitiesData && facilitiesData.length === 0 && (
                     <tr>
                       <td colSpan="8">
                         <NotFoundLable message="No Facilities found" />
@@ -158,7 +159,7 @@ const FacilityManagement = () => {
                         {f.status}
                       </td>
                       <td className="text-left">
-                        <Link to="/admin/facility-detail" className="text-dark">
+                        <Link to={`/admin/facility-detail/${f._id}`} className="text-dark">
                           <u>View Details</u>
                         </Link>
                       </td>

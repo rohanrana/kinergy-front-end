@@ -102,38 +102,38 @@ export default function ClientRouter() {
     return (
 
         <Fragment>
-            <Route path="/client/client-listing" component={ClientsPage} />
-            <Route path="/client/client-details" component={ClientDetailPage} />
-            <Route path="/client/edit-details" component={EditDetails} />
-            <Route path="/client/case-statistics" component={CaseStatistics} />
-            <Route path="/client/document-list" component={Documents} />
-            <Route path="/client/document-detail" component={DocumentDetails} />
-            <Route path="/client/insurance-provider" component={InsuranceProvider} />
-            <Route path="/client/insurance-provider-details" component={InsuranceProviderDetails} />
-            <Route path="/client/edit-insurance-detail" component={EditInsuranceDetail} />
-            <Route path="/client/add-insurance" component={AddInsurance} />
-            <Route path="/client/appointment" component={Appointment} />
-            <Route path="/client/billing-list" component={BillingListing} />
-            <Route path="/client/billing-review" component={BillingReview} />
-            <Route path="/client/billing-review-print" component={BillingReviewPrint} />
-            <Route path="/client/medical-information" component={MedicalInformation} />
-            <Route path="/client/musculoskeletal-history" component={MusculoskeletalHistory} />
-            <Route path="/client/medical-record-listing" component={MedicalRecordListing} />
-            <Route path="/client/medical-record-main-page" component={MedicalRecordMainPage} />
-            <Route path="/client/medical-activity-log" component={MedicalActivityLog} />
-            <Route path="/client/add-surgery-record" component={AddSurgeryRecord} />
-            <Route path="/client/add-surgery-document" component={AddSurgeryDocument} />
-            <Route path="/client/therapy-progress-report" component={TherapyProgressReport} />
-            <Route path="/client/exercise-log" component={ExerciseLog} />
-            <Route path="/client/file-transfer-to" component={FileTransferTo} />
-            <Route path="/client/file-transfer-to-list" component={FileTransferToList} />
-            <Route path="/client/view-notes" component={ViewNotes} />
-            <Route path="/client/add-new-medical-record" component={AddNewMedicalRecords} />
-            <Route path="/client/add-document" component={AddDocuments} />
-            <Route path="/client/social-habits" component={SocialHabits} />
-            <Route path="/client/females-only" component={FemalesOnly} />
-            <Route path="/client/surgical-history" component={SurgicalHistory} />
-            <Route path="/client/edit-emergency-contact" component={EditEmergencyContact} />
+            <Route path="/client/client-listing" element={<ClientsPage/>} />
+            <Route path="/client/client-details" element={<ClientDetailPage/>} />
+            <Route path="/client/edit-details" element={<EditDetails/>} />
+            <Route path="/client/case-statistics" element={<CaseStatistics/>} />
+            <Route path="/client/document-list" element={<Documents/>} />
+            <Route path="/client/document-detail" element={<DocumentDetails/>} />
+            <Route path="/client/insurance-provider" element={<InsuranceProvider/>} />
+            <Route path="/client/insurance-provider-details" element={<InsuranceProviderDetails/>} />
+            <Route path="/client/edit-insurance-detail" element={<EditInsuranceDetail/>} />
+            <Route path="/client/add-insurance" element={<AddInsurance/>} />
+            <Route path="/client/appointment" element={<Appointment/>} />
+            <Route path="/client/billing-list" element={<BillingListing/>} />
+            <Route path="/client/billing-review" element={<BillingReview/>} />
+            <Route path="/client/billing-review-print" element={<BillingReviewPrint/>} />
+            <Route path="/client/medical-information" element={<MedicalInformation/>} />
+            <Route path="/client/musculoskeletal-history" element={<MusculoskeletalHistory/>} />
+            <Route path="/client/medical-record-listing" element={<MedicalRecordListing/>} />
+            <Route path="/client/medical-record-main-page" element={<MedicalRecordMainPage/>} />
+            <Route path="/client/medical-activity-log" element={<MedicalActivityLog/>} />
+            <Route path="/client/add-surgery-record" element={<AddSurgeryRecord/>} />
+            <Route path="/client/add-surgery-document" element={<AddSurgeryDocument/>} />
+            <Route path="/client/therapy-progress-report" element={<TherapyProgressReport/>} />
+            <Route path="/client/exercise-log" element={<ExerciseLog/>} />
+            <Route path="/client/file-transfer-to" element={<FileTransferTo/>} />
+            <Route path="/client/file-transfer-to-list" element={<FileTransferToList/>} />
+            <Route path="/client/view-notes" element={<ViewNotes/>} />
+            <Route path="/client/add-new-medical-record" element={<AddNewMedicalRecords/>} />
+            <Route path="/client/add-document" element={<AddDocuments/>} />
+            <Route path="/client/social-habits" element={<SocialHabits/>} />
+            <Route path="/client/females-only" element={<FemalesOnly/>} />
+            <Route path="/client/surgical-history" element={<SurgicalHistory/>} />
+            <Route path="/client/edit-emergency-contact" element={<EditEmergencyContact/>} />
 
 
 

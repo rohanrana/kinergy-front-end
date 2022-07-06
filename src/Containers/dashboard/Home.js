@@ -1,23 +1,23 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { connect, useSelector } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { verifyObject } from "../../utilities/utils";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import DashboardUser from "./DashboardUser";
 
 
 const Home = (props) => {
-  const { token } = useSelector(state => state.localStore)
+  const localStore = useSelector(state => state.localStore)
+  const  navigate = useNavigate()
   useEffect(() => {
     console.log("props", props)
-    if (token) {
-      props.history.push("/")
+    if (localStore && localStore.token) {
+      navigate("/")
     } else {
-      props.history.push("/staff-login")
+      navigate("/staff-login")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token])
+  }, [localStore])
   return (
     <div className="home-page">
       <Container fluid>
@@ -132,4 +132,4 @@ const Home = (props) => {
 //   mapStateToProps,
 //   mapDispatchToProps
 // )(Home);
-export default withRouter(Home)
+export default (Home)

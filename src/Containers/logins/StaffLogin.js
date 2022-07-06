@@ -6,6 +6,7 @@ import validator from "validator";
 import { passwordRegex } from "../../Constants/common";
 import { useDispatch } from "react-redux";
 import { login } from "../../Reducers/session"
+import { useNavigate } from "react-router";
 const StaffLogin = (props) => {
   const [state, setState] = useState({
     username: "",
@@ -16,6 +17,7 @@ const StaffLogin = (props) => {
       password: null,
     },
   })
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const validateInputs = () => {
     console.log("called")
@@ -73,7 +75,7 @@ const StaffLogin = (props) => {
     let { errors, username, password, type } = state;
     console.log("errors", errors)
     if (errors.username === null && errors.password === null && username !== "" && password !== "") {
-      dispatch(login({ email: username, password: password, type: type }, props))
+      dispatch(login({ email: username, password: password, type: type }, navigate))
 
     }
   }, [state.errors])

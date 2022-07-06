@@ -6,7 +6,9 @@ import styled from "styled-components";
 import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { IconContext } from "react-icons/lib";
-
+import { logOut } from "../../Reducers/session"
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"
 // const Navbar = styled.div`
 // background: #ffffff;
 // height: 50px;
@@ -42,11 +44,22 @@ const SidebarWrap = styled.div`
   width: 100%;
 `;
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const localStore = useSelector((state) => state.localStore)
+  console.log("localStore", localStore)
 
+  const onLogout = () => {
+    let { token, user: { _id } } = localStore
+    console.log("token", token)
+    console.log("_id", _id)
+    dispatch(logOut({ _id, token }, navigate))
+
+  }
   return (
     <>
       <Navbar bg="white" expand="sm">
@@ -66,6 +79,9 @@ const Sidebar = () => {
           </Nav>
 
           <Nav className="main-navbar">
+            <Nav.Link onClick={onLogout}>
+              Logout
+            </Nav.Link>
             <Nav.Link href="#/staff-login">
               <i className="fas fa-lock icon-color-nav"></i>
             </Nav.Link>
@@ -108,4 +124,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default (Sidebar);

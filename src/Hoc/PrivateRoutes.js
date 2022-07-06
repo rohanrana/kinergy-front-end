@@ -1,33 +1,21 @@
-import React, { Component, Fragment } from "react";
-import { Route, Redirect, withRouter } from "react-router-dom";
+import React, { Component } from "react";
+import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import _ from "lodash";
+// import { appRoutesConst } from "../app/navigation";
 
 class PrivateRoute extends Component {
+  componentDidMount() { }
+
+  componentDidUpdate() { }
+
   render() {
-    const { component: Component, token, ...rest } = this.props;
-
-    return (
-      <Route
-        {...rest}
-        render={(props) => {
-          if (!_.isEmpty(token))
-            return (
-              <Fragment>
-                <Component {...props} />
-              </Fragment>
-            );
-
-          return (
-            <Redirect
-              to={{
-                pathname: "/signin",
-              }}
-            />
-          );
-        }}
-      />
-    );
+    console.log("INN ")
+    const { token } = this.props;
+    if (!token) {
+      return <Navigate to={`/staff-login`} />;
+    }
+    return this.props.children;
   }
 }
 
@@ -35,4 +23,4 @@ const mapStateToProps = (state) => ({
   token: _.get(state, "localStore.token", ""),
 });
 
-export default withRouter(connect(mapStateToProps)(PrivateRoute));
+export default (connect(mapStateToProps)(PrivateRoute));

@@ -91,7 +91,7 @@ export const session = (state = initialState, action) => {
   }
 };
 
-export const login = (data, props) => {
+export const login = (data, navigate) => {
   return async (dispatch) => {
     dispatch({ type: types.LOGIN_REQUEST });
 
@@ -110,8 +110,9 @@ export const login = (data, props) => {
       successToast({
         content: verifyObject(response, "message", "Success")
       });
-      await props.history.push(`${appRoutesConst.dashboard}`);
-      dispatch(navigateToHome());
+      // await props.history.push(`${appRoutesConst.dashboard}`);
+      await navigate(`${appRoutesConst.dashboard}`);
+
     } catch (error) {
 
       const { message } = getErrorObject(error);
@@ -122,7 +123,7 @@ export const login = (data, props) => {
 };
 
 
-export const logOut = (data) => {
+export const logOut = (data, navigate) => {
   return async (dispatch) => {
     dispatch({ type: types.LOGOUT_REQUEST });
     try {
@@ -131,11 +132,11 @@ export const logOut = (data) => {
       dispatch({
         type: types.LOG_OUT,
       });
-      dispatch(navigateToIndex());
       dispatch({ type: "CLEAR_LOCAL_STATE" });
       successToast({
         content: verifyObject(response, "message", "Success")
       });
+      await navigate(`/staff-login`);
     } catch (error) {
 
       const { message } = getErrorObject(error);

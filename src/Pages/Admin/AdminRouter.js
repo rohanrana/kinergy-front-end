@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 //   import TreatmentGoal from "../../Containers/admin/department/TreatmentGoal";
 //   import TreatmentNote from "../../Containers/admin/department/TreatmentNote";
 //   import ManageBody from "../../Containers/admin/department/ManageBody";
@@ -26,17 +26,17 @@ import Discount from "../../Containers/admin/Discount";
 export default function AdminRouter() {
     return (
         <Fragment>
-            <Switch>
-                <Route path="/admin/facility-management" component={FacilityManagement} />
-                <Route path="/admin/facility-detail" component={FacilityDetail} />
-                <Route path="/admin/edit-facility" component={EditFacility} />
-                <Route path="/admin/system-settings" component={SystemSettings} />
-                <Route path="/admin/adding-facility" component={AddingFacility} />
-                <Route path="/admin/admin-appointment" component={AdminAppoitment} />
-                <Route path="/admin/discount" component={Discount} />
-                <Route path="/admin/user-management" component={UserManagement} />
-                <Route path="/admin/access-management" component={AccessManagement} />
-            </Switch>
+
+            <Route path="/admin/facility-management" element={<FacilityManagement />} />
+            <Route path="/admin/facility-detail/:facility_id" element={<FacilityDetail />} />
+            <Route path="/admin/edit-facility" element={<EditFacility />} />
+            <Route path="/admin/system-settings" element={<SystemSettings />} />
+            <Route path="/admin/adding-facility" element={<AddingFacility />} />
+            <Route path="/admin/admin-appointment" element={<AdminAppoitment />} />
+            <Route path="/admin/discount" element={<Discount />} />
+            <Route path="/admin/user-management" element={<UserManagement />} />
+            <Route path="/admin/access-management" element={<AccessManagement />} />
+
         </Fragment>
 
     )

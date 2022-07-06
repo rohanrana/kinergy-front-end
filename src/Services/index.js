@@ -47,11 +47,6 @@ export type Irequest = {
   params?: object,
   headers?: object,
 };
-const state = loadState();
-let token = null;
-if (state && state.localStore && state.localStore.token) {
-  token = state.localStore.token;
-}
 
 export const get = (request) => {
   // let finalRequest = { ...request, data: { ...request.data, token: token } } 
@@ -60,8 +55,9 @@ export const get = (request) => {
 };
 
 export const post = (request) => {
-  let finalRequest = { ...request, data: { ...request.data, token: token } }
-  return commonFetch({ method: "post", ...finalRequest });
+
+
+  return commonFetch({ method: "post", ...request });
 };
 
 export const patch = (request) => {
@@ -76,9 +72,8 @@ export const put = (request) => {
 export const deletee = (request) => {
   return commonFetch({ method: "delete", ...request });
 };
-export const get2 = (request) => {
-  return commonFetch2({ method: "get", ...request });
-};
+
+
 
 export const abortSignal = axios.CancelToken.source();
 
@@ -145,14 +140,35 @@ const commonFetch = (request: Irequest) => {
   // }
 
   // var arrStr = encodeURIComponent(JSON.stringify(params))
+  let token = getToken()
+
+  console.log("tol", token)
+  let forTokenParams = {
+    data: data,
+    params: params
+  }
+  if (method === "post") {
+
+    forTokenParams = {
+      data: { ...data, token: token },
+      params: params
+    }
+  }
+
+  if (method === "get") {
+
+    forTokenParams = {
+      data: { params: { ...params, token: token }, data: data }
+    }
+  }
 
   return axios({
     method,
     url,
-    data,
+    // data: { ...data, token: token },
     // cancelToken: abortSignal.token,
     headers: { ...commonHeaders, ...passedHeaders },
-    params,
+    ...forTokenParams
   }).then((response) => {
     //   console.log("API CALLED")
     if (isOnlyURL) {
@@ -172,70 +188,7 @@ const commonFetch = (request: Irequest) => {
     }
   });
 };
-const commonFetch2 = (request: Irequest) => {
-  // axios.interceptors.request.use(
-  //   (config) => {
-  //     // perform a task before the request is sent
 
-  //     return config;
-  //   },
-  //   (error) => {
-  //     // handle the error
-
-  //     return Promise.reject(error);
-  //   }
-  // );
-  // axios.interceptors.response.use((response) => {
-  //   // do something with the response data
-  //   const { data } = response;
-  //   if (data.status === 950 || data.status === 419) {
-  //     localStorage.clear();
-  //     // history.push("/");
-  //     window.location.href ="/signin"
-  //     // navigateToIndex();
-  //     // store.dispatch(navigateToIndex());
-  //     // this.props.history.push("/");
-  //     // return false
-  //     // return Promise.resolve(response);
-  //   }
-  //   return response;
-  // });
-
-  const { subUrl, method, data = {} } = request;
-
-  // const url = getFullUrl(subUrl);
-  // let commonHeaders = getCommonHeaders();
-
-  // if (subUrl === "/appointments.json") {
-  //   commonHeaders = getCommonHeaders(true);
-  // }
-
-  // var arrStr = encodeURIComponent(JSON.stringify(params))
-  const state = loadState();
-  let token = null;
-  if (state && state.localStore && state.localStore.token) {
-    token = state.localStore.token;
-  }
-  return axios({
-    method,
-    subUrl,
-    data,
-    // headers: { ...commonHeaders, ...headers },
-    // params,
-  }).then((response) => {
-    // alert()
-    // store.dispatch({
-    // 	API
-    // })
-    console.log("API Called");
-    if (handleResponseStatus(response)) {
-      return Promise.resolve(response);
-    } else {
-      // handleUnauthorizedResponses(response);
-      return Promise.reject(response);
-    }
-  });
-};
 
 // const handleUnauthorizedResponses = (response) => {
 //   if (response.data.status === 950 || response.data.status === 419) {
@@ -266,6 +219,17 @@ const getCommonHeaders = () => {
     [authTokenKey]: token,
   };
 };
+
+const getToken = () => {
+  const state = loadState();
+  let token = null;
+  if (state && state.localStore && state.localStore.token) {
+    token = state.localStore.token;
+  }
+  return token
+
+
+}
 const getFullUrl = (url) => {
   return `${baseUrl}${url}`;
 };
