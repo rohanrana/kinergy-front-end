@@ -3,6 +3,9 @@ var slugifire = require("slugify");
 const Section = require("../models/sectionModel");
 const Form = require("../models/formBuilderModel");
 const Question = require("../models/questionModel");
+
+var ObjectId = require("mongoose").Types.ObjectId;
+
 const moment = require("moment");
 const managePriceDuration = (price, duration) => {
   var returnPriceArr = [];
@@ -102,6 +105,10 @@ const managePhoneAndType = (phone, phoneType) => {
   return phoneArr;
 };
 
+
+
+
+
 const getDateFormat = () => {
   return "MM-DD-YYY";
 };
@@ -136,6 +143,11 @@ const  isObjectEmpty = (object) =>{
   return isEmpty;
 }
 
+
+const checkObjectId = (id)=>{
+  return ObjectId.isValid(id);
+}
+
 module.exports = {
   managePriceDuration,
   stringToUpperCase,
@@ -147,5 +159,7 @@ module.exports = {
   dateFormat,
   managePhoneAndType,
   checkValueExist,
-  isObjectEmpty
+  isObjectEmpty,
+  checkObjectId  ,
+
 };

@@ -181,6 +181,45 @@ const StaffEditValidation = (req, res, next) => [
     .withMessage(resMessage.EMAIL_VALID),
 ];
 
+const generateMedicalRecordValidators = (req, res, next) => [
+  check("dateOnSet")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter Date Of Onset."),
+  check("treatedBy")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter tready by."),
+  check("casePhysician")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select case physician."),
+  check("injuryType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select injury type."),
+  // check("bodyParts")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please select body part."),
+  // check("bodySides")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please select body side."),
+];
+
 const StaffSignUpValidation = (req, res, next) => [
   check("firstName")
     .trim()
@@ -303,4 +342,6 @@ module.exports = {
   emailLogin: [generateEmailLoginValidators(), reporter],
   registerNewCustomer: [CustomerAddValidation(), reporter],
   verifyOtp: [verifyOtpValidation(), reporter],
+  // Admin Side
+  medicalRecordAdd: [generateMedicalRecordValidators(), reporter],
 };

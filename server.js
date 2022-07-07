@@ -25,7 +25,7 @@ const billableItemRoutes = require('./routes/billableItemsRoute');
 const inventoryRoutes = require('./routes/inventoryRoute');
 const departmentRoutes = require('./routes/departmentRoute');
 const serviceCategoryRoutes = require('./routes/serviceCategoryRoute');
-// const subServiceRoutes = require('./routes/subServiceRoute');
+
 
 const settingRoutes = require('./routes/settingRoute');
 
@@ -39,6 +39,7 @@ const accessLevelGroupsRoutes = require("./routes/accessLevelGroupRoute");
 const accessLevelFeatureRoutes = require("./routes/accessLevelFeatureRoute");
 const accessLevelPermissionRoutes = require("./routes/accessLevelPermissionRoute");
 
+const optionsRoutes = require('./routes/optionRoute');
 const environment = config();
 
 app.listen(environment.port, () => {
@@ -86,7 +87,7 @@ app.use('/api/v1/accessLevel/group',accessLevelGroupsRoutes);
 app.use('/api/v1/accessLevel/feature',accessLevelFeatureRoutes);
 app.use('/api/v1/accessLevel/permission',accessLevelPermissionRoutes);
 
-
+app.use('/api/v1/options',optionsRoutes);
 
 
 
