@@ -1115,3 +1115,12 @@ a.lnk {
 .round10{border-radius:10px!important;}
 .posAbbot{position:absolute;bottom:32px;width:100%;}
 .dpl{height:calc(100vh - 120px);position:relative;}
+.gray{position: relative;}
+span.gray::before {
+  content: 'Providers*';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0%, -50%);
+  background: #ffffff;
+}

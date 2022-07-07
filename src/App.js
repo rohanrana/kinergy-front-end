@@ -199,7 +199,7 @@ function App() {
         <Route exact path="/edit-coupon" component={EditCoupon} />
         <Route exact path="/services" component={Services} />
         <Route exact path="/service-details" component={Servicedetails} />
-        <Route exact path="/subservice-details " component={Subservicedetails} />
+        <Route exact path="/subservice-details" component={Subservicedetails} />
         <Route exact path="/forms" component={Forms} />
         <Route exact path="/create-form" component={Createform} />
        

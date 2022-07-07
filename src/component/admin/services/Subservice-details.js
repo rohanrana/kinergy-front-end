@@ -6,8 +6,14 @@ import AdminLeftMenu from "../AdminLeftMenu";
 import Dummyimage from "../../../image/dummy.jpg";
 import UploadPreviewEdit from './UploadPreviewEdit';
 import { Link } from "react-router-dom";
+import { MultiSelect } from 'react-multi-select-component';
 
-
+const options = [
+   { label: "Terill Lobo", value: "Terill Lobo" },
+   { label: "Mitchelle Jackson", value: "Mitchelle Jackson" },
+   { label: "Mikey Lawson", value: "Mikey Lawson" },
+   { label: "Jennifer Cortell", value: "Jennifer Cortell" },
+ ];
 
 function MyVerticallyCenteredModal(props) {
    return (
@@ -71,6 +77,8 @@ const handleShow2 = () => setShow2(true);
 
 const [modalShow, setModalShow] = useState(false);
 const [modalShow1, setModalShow1] = useState(false);
+
+const [selected, setSelected] = useState([]);
 
    
    
@@ -477,13 +485,12 @@ return (
             <h3 className="md_txt">Add Providers</h3>
             <Form>
                   <Form.Group className="mb-4 form-type pos-rel">
-                     <Form.Select placeholder="Providers*">
-                        <option selected disabled>Providers*</option>
-                        <option value="Terill Lobo">Terill Lobo</option>
-                        <option value="Mitchelle Jackson">Mitchelle Jackson</option>
-                        <option value="Mikey Lawson">Mikey Lawson</option>
-                        <option value="Jennifer Cortell">Jennifer Cortell</option>
-                     </Form.Select>
+                  <MultiSelect
+        options={options}
+        value={selected}
+        onChange={setSelected}
+        labelledBy="Providers*"
+      />
               </Form.Group> 
               
               <Form.Group className="df" id="fxd">
