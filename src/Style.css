@@ -1174,3 +1174,15 @@ button.pl_ng {
   border-right: 1px solid rgba(0,0,0,0.1);
   border-left: 1px solid rgba(0,0,0,0.1);
 }
+button.bold_btn {
+  background: transparent;
+  border: none;
+  color: #000000;
+  font-weight: 600;
+}
+button.bold_btn:hover, button.bold_btn:focus{
+  background:transparent;
+  color:#000000;
+  outline:none;
+}
+.undrline{text-decoration:underline!important;}

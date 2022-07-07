@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
@@ -26,9 +26,12 @@ const Createform = () => {
                                 <Form.Control type="text" placeholder="Add Form Title" />
                             </Form.Group>
                             <Form.Group className="mb-4 form-type" id="textAr">
-                                <Form.Control className="apply-font mb-3" as="textarea" rows="4" style={{fontSize: `${this.state.count}px`}} placeholder='Form Description' />
+                                <Form.Control className="apply-font mb-3" as="textarea" rows="4" placeholder='Form Description' />
                                 <hr id="myHr" />
                                 <FontsPicker /> <IncDcr />
+                                <Button className="bold_btn">B</Button>
+                                <Button className="bold_btn"><i>I</i></Button>
+                                <Button className="bold_btn undrline">U</Button>
                             </Form.Group>
                         </div>
                         <div className='text-center mt-5 posAbbot'>
