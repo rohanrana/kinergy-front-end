@@ -406,12 +406,12 @@ button#formBtn {
 .form-type .form-control {
   margin-top: -10px;
   min-height: 35px;
-  font-size: 14px !important;
+  font-size: 14px;
 }
 
 .form-control {
   min-height: 35px;
-  font-size: 14px !important;
+  font-size: 14px;
 }
 
 .form-type .form-select {
@@ -1123,4 +1123,54 @@ span.gray::before {
   left: 0;
   transform: translate(0%, -50%);
   background: #ffffff;
+}
+div[id^=font-picker]{width: 160px!important;box-shadow:0px 0px 0px!important;}
+div[id^=font-picker] .dropdown-button {
+  background: #ffffff!important;
+  border: 1px solid #B4B4B4!important;
+  border-radius: 4px!important;
+}
+div#textAr {
+  border: 1px solid #ced4da;
+  position: relative;
+  padding: 1rem 0.75rem;
+  border-radius: 0.25rem;
+  overflow:hidden;
+}
+div#textAr textarea {
+  padding: 0;
+  border: none;
+  resize:none;
+}
+hr#myHr {
+  position: relative;
+  height: 1px;
+  width: 100vw;
+  left: -12px;
+  right: -12px;
+}
+span.spnPlus {
+    display: inline-flex;
+    align-items: center;
+    height: 35px;
+    width: 140px;
+    background: #FFFFFF;
+    border: 1px solid #B4B4B4;
+    border-radius: 4px;
+}
+button.pl_ng {
+  border: none;
+  background: #ffffff;
+  height: 33px;
+  border-radius: 4px;
+  padding: 7px 15px;
+  cursor: pointer;
+}
+.spnPlus input[type="text"] {
+  height: 33px;
+  border: none;
+  width: 50px;
+  text-align: center;
+  border-right: 1px solid rgba(0,0,0,0.1);
+  border-left: 1px solid rgba(0,0,0,0.1);
 }

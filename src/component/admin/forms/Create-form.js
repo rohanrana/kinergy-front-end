@@ -3,6 +3,8 @@ import Sidebar from "../../sidenav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import FontsPicker from './Font-picker';
+import IncDcr from './Inrease-descrease';
 
 const Createform = () => {
   return (
@@ -23,8 +25,10 @@ const Createform = () => {
                             <Form.Group className="mb-4 mt-4 form-type">
                                 <Form.Control type="text" placeholder="Add Form Title" />
                             </Form.Group>
-                            <Form.Group className="mb-4 form-type">
-                                <Form.Control as="textarea" placeholder='Form Description' />
+                            <Form.Group className="mb-4 form-type" id="textAr">
+                                <Form.Control className="apply-font mb-3" as="textarea" rows="4" style={{fontSize: `${this.state.count}px`}} placeholder='Form Description' />
+                                <hr id="myHr" />
+                                <FontsPicker /> <IncDcr />
                             </Form.Group>
                         </div>
                         <div className='text-center mt-5 posAbbot'>
