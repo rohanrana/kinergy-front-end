@@ -1097,3 +1097,21 @@ a.lnk {
 }
 .pl-5{padding-left:3rem!important;}
 .pr-5{padding-right:3rem!important;}
+#myDropdown {
+  border: none!important;
+  padding: 0;
+  color: rgb(33,37,41);
+  font-size: 14px;
+  text-decoration: underline;
+}
+#myDropdown:after{
+  content: '';
+  display:none;
+}
+.black-text {
+  color: #000000;
+  cursor:pointer;
+}
+.round10{border-radius:10px!important;}
+.posAbbot{position:absolute;bottom:32px;width:100%;}
+.dpl{height:calc(100vh - 120px);position:relative;}

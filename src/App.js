@@ -99,6 +99,8 @@ import EditCoupon from "./component/admin/EditCoupon";
 import Services from "./component/admin/services/Services";
 import Servicedetails from "./component/admin/services/Service-details";
 import Subservicedetails from "./component/admin/services/Subservice-details";
+import Forms from "./component/admin/forms/Forms";
+import Createform from "./component/admin/forms/Create-form";
 
 
 function App() {
@@ -197,7 +199,9 @@ function App() {
         <Route exact path="/edit-coupon" component={EditCoupon} />
         <Route exact path="/services" component={Services} />
         <Route exact path="/service-details" component={Servicedetails} />
-        <Route exact path="/subservice-details" component={Subservicedetails} />
+        <Route exact path="/subservice-details " component={Subservicedetails} />
+        <Route exact path="/forms" component={Forms} />
+        <Route exact path="/create-form" component={Createform} />
        
       </Switch>
     </Router>
