@@ -220,6 +220,29 @@ const generateMedicalRecordValidators = (req, res, next) => [
   //   .withMessage("Please select body side."),
 ];
 
+
+
+
+const generateSurgeryRecordValidators = (req, res, next) => [
+  check("dateOfSurgery")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter Date Of Surgery."),
+ 
+];
+
+const generateProgressReportValidators = (req, res, next) => [
+  check("dateOfSurgery")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter Date Of Surgery."),
+ 
+];
+
 const StaffSignUpValidation = (req, res, next) => [
   check("firstName")
     .trim()
@@ -344,4 +367,6 @@ module.exports = {
   verifyOtp: [verifyOtpValidation(), reporter],
   // Admin Side
   medicalRecordAdd: [generateMedicalRecordValidators(), reporter],
+  surgeryRecordAdd: [generateSurgeryRecordValidators(), reporter],
+  progressReportAdd: [generateProgressReportValidators(), reporter],
 };

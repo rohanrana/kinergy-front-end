@@ -2,13 +2,17 @@ const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate");
 const Schema = mongoose.Schema;
 
-const medicalRecordSchema = new Schema(
+const surgeryRecordSchema = new Schema(
   {
+    medicalRecord:{
+      type:String,
+      default:null
+    },
     dateOfSurgery: {
       type: Date,
       default: null,
     },
-    ReportedBy: {
+    reportedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Staff",
       default: null,
@@ -27,5 +31,5 @@ const medicalRecordSchema = new Schema(
   }
 );
 
-medicalRecordSchema.plugin(mongoosePaginate);
-module.exports = mongoose.model("MedicalRecord", medicalRecordSchema);
+surgeryRecordSchema.plugin(mongoosePaginate);
+module.exports = mongoose.model("SurgeryRecord", surgeryRecordSchema);

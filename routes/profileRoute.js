@@ -11,7 +11,6 @@ router.post(
   authHandler.auth_func,
   profileValidator.updatePersonalDetail,
   profileApis.updatePersonalDetail
-  
 );
 router.post(
   "/updateContactDetail",

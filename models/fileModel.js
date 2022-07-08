@@ -20,11 +20,15 @@ const medicalRecordSchema = new Schema(
       type: String,
       default: null,
     },
+    fileLocation: {
+      type: String,
+      default: null,
+    },
     visableToCustomer: {
       type: mongoose.Schema.Types.Boolean,
       default: false,
     },
-    staff: {
+    addBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Staff",
       default: null,
