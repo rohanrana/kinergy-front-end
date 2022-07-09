@@ -39,7 +39,7 @@ const AdminLeftMenu = () => {
         </NavDropdown> */}
 
         <li>
-          <Link to="/admin/">
+          <Link to="/forms">
             <i className="far fa-circle mr-2"></i>Forms
           </Link>
         </li>
