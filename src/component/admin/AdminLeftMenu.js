@@ -19,8 +19,8 @@ const AdminLeftMenu = () => {
         </li>
 
         <li>
-          <a href="#/">
-            <i className="far fa-circle mr-2"></i>Services
+          <a href="#/services">
+            <i class="far fa-circle mr-2"></i>Services
           </a>
         </li>
 
@@ -38,8 +38,8 @@ const AdminLeftMenu = () => {
         </NavDropdown> */}
 
         <li>
-          <a href="#/">
-            <i className="far fa-circle mr-2"></i>Forms
+          <a href="#/forms">
+            <i class="far fa-circle mr-2"></i>Forms
           </a>
         </li>
 
