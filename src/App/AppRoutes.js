@@ -153,7 +153,7 @@ export default function AppRoutes() {
             <PrivateRoutes>
               <Sidebar />
               <FacilityManagement />
-            </PrivateRoutes>
+            </PrivateRoutes> 
           } />
           <Route path="/admin/facility-detail/:facility_id" element={
             <PrivateRoutes>
