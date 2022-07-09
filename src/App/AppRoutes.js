@@ -1,16 +1,21 @@
 import "../Style.css";
-import React from 'react'
-import 'react-dropzone-uploader/dist/styles.css'
+import React from "react";
+import "react-dropzone-uploader/dist/styles.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import ForgotPasswordPage from '../Pages/Authentication/ForgotPasswordPage';
 // import SignInPage from '../Pages/Authentication/SignInPage';
-import DashboardPage from '../Pages/Dashbaord/DashboardPage';
+import DashboardPage from "../Pages/Dashbaord/DashboardPage";
 import ClientsPage from "../Pages/Clients/ClientsPage";
 import ClientDetailPage from "../Pages/Clients/ClientDetailPage";
 import ClientRouter from "../Pages/Clients/ClientRouter";
 import StaffLogin from "../Containers/logins/StaffLogin";
 import StaffLogin2 from "../Containers/logins/StaffLogin2";
 import CreateLogin from "../Containers/logins/CreateLogin";
+import Services from "../component/admin/services/Services";
+import Servicedetails from "../component/admin/services/Service-details";
+import Subservicedetails from "../component/admin/services/Subservice-details";
+import Forms from "../component/admin/forms/Forms";
+import Createform from "../component/admin/forms/Create-form";
 //   import Home from "./component/dashboard/Home";
 //   import ClientListing from "./component/clients/ClientListing";
 //   import ActivityLog from "./component/clients/ActivityLog";
@@ -118,84 +123,142 @@ import AccessManagement from "../Containers/admin/AccessManagement";
 // import RegisterPage from '../Pages/Register/RegisterPage';
 // import { appRoutesConst } from './navigation';
 
-
 export default function AppRoutes() {
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<DashboardPage />} />
-        <Route exact path="/staff-login" element={
-          <RestrictedRoutes>
-            <StaffLogin />
-          </RestrictedRoutes>
-        } />
-        <Route exact path="/staff-login2" element={
-          <RestrictedRoutes>
-            <StaffLogin2 />
-          </RestrictedRoutes>
-        } />
-        <Route exact path="/create-login" element={
-          <RestrictedRoutes>
-            <CreateLogin />
-          </RestrictedRoutes>
+        <Route
+          exact
+          path="/staff-login"
+          element={
+            <RestrictedRoutes>
+              <StaffLogin />
+            </RestrictedRoutes>
+          }
+        />
+        <Route
+          exact
+          path="/staff-login2"
+          element={
+            <RestrictedRoutes>
+              <StaffLogin2 />
+            </RestrictedRoutes>
+          }
+        />
+        <Route
+          exact
+          path="/create-login"
+          element={
+            <RestrictedRoutes>
+              <CreateLogin />
+            </RestrictedRoutes>
+          }
+        />
 
-        } />
-
-
-        <Route path="/settings" element={
-          <PrivateRoutes>
-            <SettingsRouter />
-          </PrivateRoutes>
-        } />
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoutes>
+              <SettingsRouter />
+            </PrivateRoutes>
+          }
+        />
         <Route path="/admin">
           <Route element={<Sidebar />} />
-          <Route index={true} path="/admin/facility-management" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <FacilityManagement />
-            </PrivateRoutes> 
-          } />
-          <Route path="/admin/facility-detail/:facility_id" element={
-            <PrivateRoutes>
-              <Sidebar /><FacilityDetail /></PrivateRoutes>
-          } />
-          <Route path="/admin/edit-facility" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <EditFacility /></PrivateRoutes>
-          } />
-          <Route path="/admin/system-settings" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <SystemSettings /></PrivateRoutes>
-          } />
-          <Route path="/admin/adding-facility" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <AddingFacility /></PrivateRoutes>
-          } />
-          <Route path="/admin/admin-appointment" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <AdminAppoitment /></PrivateRoutes>
-          } />
-          <Route path="/admin/discount" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <Discount /></PrivateRoutes>
-          } />
-          <Route path="/admin/user-management" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <UserManagement /></PrivateRoutes>
-          } />
-          <Route path="/admin/access-management" element={
-            <PrivateRoutes>
-              <Sidebar />
-              <AccessManagement /></PrivateRoutes>
-          } />
+          <Route
+            index={true}
+            path="/admin/facility-management"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <FacilityManagement />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/facility-detail/:facility_id"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <FacilityDetail />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/edit-facility"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <EditFacility />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/system-settings"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <SystemSettings />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/adding-facility"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <AddingFacility />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/admin-appointment"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <AdminAppoitment />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/discount"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <Discount />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/user-management"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <UserManagement />
+              </PrivateRoutes>
+            }
+          />
+          <Route
+            path="/admin/access-management"
+            element={
+              <PrivateRoutes>
+                <Sidebar />
+                <AccessManagement />
+              </PrivateRoutes>
+            }
+          />
         </Route>
         <Route path="/client" element={<ClientRouter />} />
+        <Route exact path="/services" element={<Services />} />
+        <Route exact path="/service-details" element={<Servicedetails />} />
+        <Route
+          exact
+          path="/subservice-details"
+          element={<Subservicedetails />}
+        />
+        <Route exact path="/forms" element={<Forms />} />
+        <Route exact path="/create-form" element={<Createform />} />
         {/* <Route exact path="/admin/system-settings" element={SystemSettings} /> */}
 
         {/* <Route exact path="/client-listing" element={ClientListing} />
@@ -287,6 +350,5 @@ export default function AppRoutes() {
         {/* <Route exact path="*" element={DashboardPage} /> */}
       </Routes>
     </Router>
-  )
+  );
 }
-

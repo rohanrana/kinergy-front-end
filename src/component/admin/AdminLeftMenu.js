@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AdminLeftMenu = () => {
   return (
@@ -19,9 +20,9 @@ const AdminLeftMenu = () => {
         </li>
 
         <li>
-          <a href="#/services">
+          <Link to="/admin/services">
             <i class="far fa-circle mr-2"></i>Services
-          </a>
+          </Link>
         </li>
 
         {/* <NavDropdown

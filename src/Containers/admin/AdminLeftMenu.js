@@ -20,7 +20,7 @@ const AdminLeftMenu = () => {
         </li>
 
         <li>
-          <Link to="/admin/">
+          <Link to="/services">
             <i className="far fa-circle mr-2"></i>Services
           </Link>
         </li>
