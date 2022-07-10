@@ -34,7 +34,7 @@ class UploadPreviewAdd extends React.Component {
                 <button onClick={this.resetFile}><i className="fa-solid fa-circle-xmark"></i></button>
               </div>
             )}
-            <img src={this.state.file} />
+            <img alt="no" src={this.state.file} />
           </div>
         </div>
       );

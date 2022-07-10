@@ -931,7 +931,7 @@ color: #000000;
 .active_span{
   display:flex;
   align-items:center;
-  justify-content:end;
+  justify-content:flex-end;
 }
 .md_txt{
   font-family: 'Inter', sans-serif;

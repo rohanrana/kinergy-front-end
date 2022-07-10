@@ -1,8 +1,25 @@
-
 import { push } from "react-router-redux";
 // import backBlue from "assets/images/common/back-arrow.svg";
 export const appRoutesConst = {
-  dashboard: "/"
+  dashboard: "/",
+  staffLogin: "/staff-login",
+  settings: "/settings",
+  admin: "/admin",
+  facilityManagement: "/admin/facility-management",
+  facilityDetails: "/admin/facility-detail/:facility_id",
+  facilityEdit: "/admin/edit-facility",
+  systemSettings: "/admin/system-settings",
+  addingFacility: "/admin/adding-facility",
+  appointments: "/admin/admin-appointment",
+  discount: "/admin/discount",
+    userManagement: "/admin/user-management",
+    accessManagement: "/admin/access-management",
+    client: "/client",
+    services: "/services",
+    serviceDetails: "/service-details",
+    subServicesDetails: "/subservice-details",
+    forms: "/forms",
+    createForms: "/create-form",
 };
 
 // const config = {

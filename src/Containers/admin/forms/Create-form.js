@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import AdminLeftMenu from "../AdminLeftMenu";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import FontsPicker from './Font-picker';
 import IncDcr from './Inrease-descrease';
-import Sidebar from '../../../PageLayout/SidebarNav/Sidebar';
+// import Sidebar from '../../../PageLayout/SidebarNav/Sidebar';
 
 const Createform = () => {
   return (
     <div className="clients">
-     <Sidebar />
+     {/* <Sidebar /> */}
         <Container fluid>
             <Row>
                 <Col lg={3} sm={4} xs={12}>

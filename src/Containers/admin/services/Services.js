@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 import UploadPreviewAdd from "./UploadPreviewAdd";
 
@@ -13,7 +12,7 @@ const Services = () => {
   const handleShow = () => setShow(true);
   return (
     <div className="clients">
-      <Sidebar />
+
       <Container fluid>
         <Row>
             <Col lg={3} sm={4} xs={12}>

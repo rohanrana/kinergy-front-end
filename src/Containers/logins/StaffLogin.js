@@ -4,8 +4,8 @@ import { Form, Container, Row, Col } from "react-bootstrap";
 import Logo from "../../image/logo.png";
 import validator from "validator";
 import { passwordRegex } from "../../Constants/common";
-import { useDispatch } from "react-redux";
-import { login } from "../../Reducers/session"
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../Reducers/session";
 import { useNavigate } from "react-router";
 const StaffLogin = (props) => {
   const [state, setState] = useState({
@@ -16,11 +16,12 @@ const StaffLogin = (props) => {
       username: null,
       password: null,
     },
-  })
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.session);
   const validateInputs = () => {
-    console.log("called")
+    console.log("called");
     let { username, password } = state;
     let usernameError,
       passwordError = null;
@@ -66,25 +67,29 @@ const StaffLogin = (props) => {
       ...state,
       [e.target.name]: e.target.value,
       errors: {
-        [e.target.name]: null
-      }
+        [e.target.name]: null,
+      },
     });
   };
 
   useEffect(() => {
     let { errors, username, password, type } = state;
-    console.log("errors", errors)
-    if (errors.username === null && errors.password === null && username !== "" && password !== "") {
-      dispatch(login({ email: username, password: password, type: type }, navigate))
-
+    console.log("errors", errors);
+    if (
+      errors.username === null &&
+      errors.password === null &&
+      username !== "" &&
+      password !== ""
+    ) {
+      dispatch(
+        login({ email: username, password: password, type: type }, navigate)
+      );
     }
-  }, [state.errors])
-
+  }, [state.errors]);
 
   const validateAndSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     await validateInputs();
-
   };
   return (
     <div className="staff-login">
@@ -103,20 +108,47 @@ const StaffLogin = (props) => {
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>User ID</Form.Label>
-            <Form.Control isInvalid={state.errors && state.errors.username !== null} onChange={handleChange} name="username" value={state.username} placeholder="Username" />
-            {state.errors && state.errors.username && <span className="text-danger">{state.errors.username}</span>}
+            <Form.Control
+              isInvalid={state.errors && state.errors.username !== null}
+              onChange={handleChange}
+              name="username"
+              value={state.username}
+              placeholder="Username"
+            />
+            {state.errors && state.errors.username && (
+              <span className="text-danger">{state.errors.username}</span>
+            )}
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" isInvalid={state.errors && state.errors.password !== null} onChange={handleChange} name="password" value={state.password} placeholder="Password" />
-            {state.errors && state.errors.password && <span className="text-danger">{state.errors.password}</span>}
-            <p className="mb-0 text-right mt-1"><a href="/forgot-password" className="theme-color"><small><b>Forgot Password</b></small></a></p>
+            <Form.Control
+              type="password"
+              isInvalid={state.errors && state.errors.password !== null}
+              onChange={handleChange}
+              name="password"
+              value={state.password}
+              placeholder="Password"
+            />
+            {state.errors && state.errors.password && (
+              <span className="text-danger">{state.errors.password}</span>
+            )}
+            <p className="mb-0 text-right mt-1">
+              <a href="/forgot-password" className="theme-color">
+                <small>
+                  <b>Forgot Password</b>
+                </small>
+              </a>
+            </p>
           </Form.Group>
 
-          <a onClick={validateAndSubmit} href="#/" className="btn btn-theme btn-block w-100 ml-0 mt-5">
-            LOGIN
-          </a>
+          <button
+            onClick={validateAndSubmit}
+            className="btn btn-theme btn-block w-100 ml-0 mt-5"
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging In..." : "LOGIN"}
+          </button>
         </Form>
       </div>
     </div>

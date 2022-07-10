@@ -11,8 +11,8 @@ class IncDcr extends React.Component {
      }
      getCount( c ) {
     
-        const clicked = this.state.clicked
-    if(c == 1){
+        // const clicked = this.state.clicked
+    if(c === 1){
       this.setState({count: this.state.count +1, clicked: true});
     } else {
       this.setState({count: this.state.count -1})

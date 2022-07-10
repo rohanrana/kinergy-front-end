@@ -28,7 +28,7 @@ class Paginate extends Component {
                         pageRangeDisplayed={5}
                         breakClassName={"page-item"}
                         initialPage={page > 0 ? page - 1 : 0}
-                        breakLabel={<a className="page-link">...</a>}
+                        breakLabel={<span className="page-link">...</span>}
                         previousLabel={"previous"}
                         nextLabel={"next"}
                         containerClassName={"pagination"}

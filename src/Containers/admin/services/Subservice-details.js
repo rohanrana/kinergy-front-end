@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Modal, Form, Table } from "react-bootstrap";
 // import { Link } from "react-router-dom";
-import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
+// import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 import AdminLeftMenu from "../AdminLeftMenu";
 import Dummyimage from "../../../image/dummy.jpg";
 import UploadPreviewEdit from './UploadPreviewEdit';
@@ -68,7 +68,7 @@ const handleShow = () => setShow(true);
 // Modal for Add Sub Services
 const [show1, setShow1] = useState(false);
 const handleClose1 = () => setShow1(false);
-const handleShow1 = () => setShow1(true);
+// const handleShow1 = () => setShow1(true);
 
 // Add Providers
 const [show2, setShow2] = useState(false);
@@ -84,7 +84,7 @@ const [selected, setSelected] = useState([]);
    
 return (
 <div className="clients mb-5">
-   <Sidebar />
+   {/* <Sidebar /> */}
    <Container fluid>
       <Row>
          <Col lg={3} sm={4} xs={12}>

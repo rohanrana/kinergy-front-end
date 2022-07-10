@@ -1,7 +1,7 @@
 import React from "react";
 
 import AdminLeftMenu from "../AdminLeftMenu";
-import { Container, Row, Col, Button, Modal, Form, ButtonGroup,
+import { Container, Row, Col, Button, ButtonGroup,
 ButtonToolbar,
 DropdownButton,
 Table,
@@ -10,11 +10,11 @@ InputGroup,
 FormControl,
 Pagination, } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
+// import Sidebar from "../../../PageLayout/SidebarNav/Sidebar";
 const Forms = () => { 
 return (
 <div className="clients">
-   <Sidebar />
+   {/* <Sidebar /> */}
    <Container fluid>
       <Row>
          <Col lg={3} sm={4} xs={12}>

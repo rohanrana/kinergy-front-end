@@ -12,9 +12,9 @@ function MyVerticallyCenteredModal(props) {
       centered
     >
       <Modal.Body className="p-5 text-center">
-        <a className="close-modal-btn" onClick={props.onHide}>
+        <span className="close-modal-btn" onClick={props.onHide}>
           <i className="fas fa-times"></i>
-        </a>
+        </span>
         <p>
           Do you want to delete this{" "}
           <b>

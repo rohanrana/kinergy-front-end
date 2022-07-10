@@ -9,9 +9,9 @@ import {
 
 
 import {
-  navigateToIndex,
+  // navigateToIndex,
   appRoutesConst,
-  navigateToHome,
+  // navigateToHome,
 
 } from "../App/navigation";
 import { getErrorObject, errorToast, successToast, verifyObject } from "../utilities/utils";
