@@ -49,19 +49,17 @@ export type Irequest = {
 };
 
 export const get = (request) => {
-  // let finalRequest = { ...request, data: { ...request.data, token: token } } 
+  // let finalRequest = { ...request, data: { ...request.data, token: token } }
 
   return commonFetch({ method: "get", ...request });
 };
 
 export const post = (request) => {
-
-
   return commonFetch({ method: "post", ...request });
 };
 
 export const patch = (request) => {
-  // let finalRequest = { ...request, data: { ...request.data, token: token } }  
+  // let finalRequest = { ...request, data: { ...request.data, token: token } }
   return commonFetch({ method: "patch", ...request });
 };
 
@@ -73,9 +71,104 @@ export const deletee = (request) => {
   return commonFetch({ method: "delete", ...request });
 };
 
-
+export const postFormData = (request) => {
+  return commonFetchFormData({ method: "post", ...request });
+};
 
 export const abortSignal = axios.CancelToken.source();
+
+const commonFetchFormData = (request: Irequest) => {
+  // axios.interceptors.request.use(
+  //   (config) => {
+  //     // perform a task before the request is sent
+
+  //     return config;
+  //   },
+  //   (error) => {
+  //     // handle the error
+
+  //     return Promise.reject(error);
+  //   }
+  // );
+  // axios.interceptors.response.use((response) => {
+  //   // do something with the response data
+  //   const { data } = response;
+  //   if (data.status === 950 || data.status === 419) {
+  //     localStorage.clear();
+  //     // history.push("/");
+  //     window.location.href ="/signin"
+  //     // navigateToIndex();
+  //     // store.dispatch(navigateToIndex());
+  //     // this.props.history.push("/");
+  //     // return false
+  //     // return Promise.resolve(response);
+  //   }
+  //   return response;
+  // });
+
+  const {
+    subUrl,
+    method,
+    data = {},
+    params = {},
+    headers = {},
+    isFile,
+    isEMDR,
+    isOnlyURL,
+  } = request;
+  let url = getFullUrl(subUrl);
+  let passedHeaders = headers;
+  let commonHeaders = getCommonHeaders();
+
+  if (data.authToken && isEMDR) {
+    commonHeaders = getCommonHeaders(data.authToken, data);
+    delete data[`authToken`];
+  }
+
+  if (params.authToken && isEMDR) {
+    commonHeaders = getCommonHeaders(params.authToken, data);
+    delete params[`authToken`];
+  }
+
+  if (isOnlyURL) {
+    url = subUrl;
+    passedHeaders = {};
+    commonHeaders = {};
+  }
+
+  // if (subUrl === "/appointments.json") {
+  //   commonHeaders = getCommonHeaders(true);
+  // }
+
+  // var arrStr = encodeURIComponent(JSON.stringify(params))
+  let token = getToken();
+
+  return axios({
+    method,
+    url,
+    data,
+    // cancelToken: abortSignal.token,
+    headers: { ...commonHeaders, ...passedHeaders },
+    // ...forTokenParams,
+  }).then((response) => {
+    //   console.log("API CALLED")
+    if (isOnlyURL) {
+      if (response) {
+        return Promise.resolve(response);
+      } else {
+        return Promise.reject(response);
+      }
+    } else {
+      if (handleResponseStatus(response)) {
+        return Promise.resolve(response);
+      } else {
+        // handleUnauthorizedResponses(response);
+
+        return Promise.reject(response);
+      }
+    }
+  });
+};
 
 const commonFetch = (request: Irequest) => {
   // axios.interceptors.request.use(
@@ -112,8 +205,9 @@ const commonFetch = (request: Irequest) => {
     data = {},
     params = {},
     headers = {},
-    isOnlyURL,
+    isFile,
     isEMDR,
+    isOnlyURL,
   } = request;
   let url = getFullUrl(subUrl);
   let passedHeaders = headers;
@@ -140,26 +234,29 @@ const commonFetch = (request: Irequest) => {
   // }
 
   // var arrStr = encodeURIComponent(JSON.stringify(params))
-  let token = getToken()
+  let token = getToken();
 
-  console.log("tol", token)
+  console.log("token", data, token);
   let forTokenParams = {
     data: data,
-    params: params
+  };
+  if (isFile) {
+    forTokenParams = {
+      data: data,
+      params: params,
+    };
   }
   if (method === "post") {
-
     forTokenParams = {
       data: { ...data, token: token },
-      params: params
-    }
+      params: params,
+    };
   }
 
   if (method === "get") {
-
     forTokenParams = {
-      data: { params: { ...params, token: token }, data: data }
-    }
+      data: { params: { ...params, token: token }, data: data },
+    };
   }
 
   return axios({
@@ -168,7 +265,7 @@ const commonFetch = (request: Irequest) => {
     // data: { ...data, token: token },
     // cancelToken: abortSignal.token,
     headers: { ...commonHeaders, ...passedHeaders },
-    ...forTokenParams
+    ...forTokenParams,
   }).then((response) => {
     //   console.log("API CALLED")
     if (isOnlyURL) {
@@ -189,7 +286,6 @@ const commonFetch = (request: Irequest) => {
   });
 };
 
-
 // const handleUnauthorizedResponses = (response) => {
 //   if (response.data.status === 950 || response.data.status === 419) {
 //     localStorage.clear();
@@ -207,7 +303,6 @@ const handleResponseStatus = (response) => {
 };
 
 const getCommonHeaders = () => {
-
   const state = loadState();
   let token = null;
   if (state && state.localStore && state.localStore.token) {
@@ -226,10 +321,8 @@ const getToken = () => {
   if (state && state.localStore && state.localStore.token) {
     token = state.localStore.token;
   }
-  return token
-
-
-}
+  return token;
+};
 const getFullUrl = (url) => {
   return `${baseUrl}${url}`;
 };
