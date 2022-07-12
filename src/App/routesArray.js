@@ -27,6 +27,7 @@ const AccessManagement = lazy(() =>
   import("../Containers/admin/AccessManagement")
 );
 const StaffLogin = lazy(() => import("../Containers/logins/StaffLogin"));
+const Createfornext = lazy(() => import('../Containers/admin/forms/Create-form-next'));
 
 export const routesArray = [
   {
@@ -113,6 +114,11 @@ export const routesArray = [
   {
     path: appRoutesConst.createForms,
     element: Createform,
+    isPrivateRoute: true,
+  },
+  {
+    path: appRoutesConst.Createfornext,
+    element: Createfornext,
     isPrivateRoute: true,
   },
 ];

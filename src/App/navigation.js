@@ -20,6 +20,7 @@ export const appRoutesConst = {
     subServicesDetails: "/subservice-details",
     forms: "/forms",
     createForms: "/create-form",
+    Createfornext: "/create-form-next",
 };
 
 // const config = {
