@@ -309,7 +309,7 @@ const Subservicedetails = () => {
                           </tr>
                         </thead>
                         <tbody>
-                         {servicesDetails.followUpAppointment &&
+                          {servicesDetails.followUpAppointment &&
                             servicesDetails.followUpAppointment.priceDetails &&
                             isArray(
                               servicesDetails.followUpAppointment.priceDetails
