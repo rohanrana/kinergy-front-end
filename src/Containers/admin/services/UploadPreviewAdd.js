@@ -8,7 +8,7 @@ class UploadPreviewAdd extends React.Component {
     // this.onChange = this.onChange.bind(this);
     this.resetFile = this.resetFile.bind(this);
   }
-   onChange=(event)=> {
+  onChange = (event) => {
     this.setState(
       {
         file: event.target.files[0],
@@ -25,11 +25,11 @@ class UploadPreviewAdd extends React.Component {
         }
       }
     );
-  }
+  };
 
   resetFile(event) {
     event.preventDefault();
-    this.setState({ file: null });
+    this.setState({ showFile: null, file: null });
   }
   render() {
     return (

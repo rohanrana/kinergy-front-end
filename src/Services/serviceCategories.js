@@ -42,3 +42,23 @@ export const editServiceCategory = (data) => {
   };
   return postFormData(request);
 };
+
+export const addService = (data) => {
+  console.log("formData", data);
+  const request = {
+    subUrl: `/service/add`,
+    data: data,
+    isFile: true,
+  };
+  return postFormData(request);
+};
+
+export const editService = (data) => {
+  console.log("formData", data);
+  const request = {
+    subUrl: `/service/edit`,
+    data: data,
+    isFile: true,
+  };
+  return postFormData(request);
+};

@@ -28,6 +28,7 @@ import {
 } from "../../../Services/serviceCategories";
 import { isArray } from "lodash";
 import AddServieCategory from "./AddServieCategory";
+import AddSubServices from "./AddSubServices";
 
 const Servicedetails = () => {
   const [checked, setChecked] = useState(false);
@@ -59,8 +60,12 @@ const Servicedetails = () => {
 
   useEffect(() => {
     getServiceCategoryDetail();
-    dispatch(servicesByCateIDActions.onRequest({ _id: service_cat_id }));
+    getServicesByCategoryID();
   }, []);
+
+  const getServicesByCategoryID = () => {
+    dispatch(servicesByCateIDActions.onRequest({ _id: service_cat_id }));
+  };
 
   const getServiceCategoryDetail = async () => {
     try {
@@ -111,7 +116,7 @@ const Servicedetails = () => {
     }
   };
 
-  console.log("servicesDetails", servicesDetails);
+  console.log("servicesDetails", serviecesData.ServiceResult);
   return (
     <div className="clients">
       <Container fluid>
@@ -176,79 +181,93 @@ const Servicedetails = () => {
             )}
             {servicesDetails && (
               <Fragment>
-                <div className="appointment-card">
-                  <h3 className="det_head">Services</h3>
-                  <Table responsive="lg" className="table_s mt-5 mb-5">
-                    <thead>
-                      <tr>
-                        <th>Service Name</th>
-                        <th>Status</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                  </Table>
-                  <div className="text-center">
-                    <Button
-                      className="btn btn-theme pl-2 pr-2 ml-3 mb-5"
-                      id="formBtn"
-                      onClick={handleShow1}
-                    >
-                      + Add Service
-                    </Button>
-                  </div>
-                </div>
+                {serviecesData &&
+                  serviecesData.ServiceResult &&
+                  isArray(serviecesData.ServiceResult) &&
+                  serviecesData.ServiceResult.length === 0 && (
+                    <div className="appointment-card">
+                      <h3 className="det_head">Services</h3>
+                      <Table responsive="lg" className="table_s mt-5 mb-5">
+                        <thead>
+                          <tr>
+                            <th>Service Name</th>
+                            <th>Status</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                      </Table>
+                      <div className="text-center">
+                        <Button
+                          className="btn btn-theme pl-2 pr-2 ml-3 mb-5"
+                          id="formBtn"
+                          onClick={handleShow1}
+                        >
+                          + Add Service
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 {/* When Services already have listed */}
-                <div className="appointment-card">
-                  <div className="d-flex align-items-center justify-content-bewtween">
-                    <h3 className="det_head">Services</h3>
-                    {/*  onClick={handleShowedit} */}
-                    <Button
-                      className="btn btn-theme pl-2 pr-2"
-                      id="formBtn"
-                      onClick={handleShow1}
-                    >
-                      + Add Service
-                    </Button>
-                  </div>
-                  <Table responsive="lg" className="table_s mt-5 mb-5">
-                    <thead>
-                      <tr>
-                        <th>Service Name</th>
-                        <th>Status</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {serviecesData &&
-                        serviecesData.ServiceResult &&
-                        isArray(serviecesData.ServiceResult) &&
-                        serviecesData.ServiceResult.map((s) => {
-                          return (
+                {serviecesData &&
+                  serviecesData.ServiceResult &&
+                  isArray(serviecesData.ServiceResult) &&
+                  serviecesData.ServiceResult.length > 0 && (
+                    <div className="appointment-card">
+                      {
+                        <div className="d-flex align-items-center justify-content-bewtween">
+                          <h3 className="det_head">Services</h3>
+                          <Button
+                            className="btn btn-theme pl-2 pr-2"
+                            id="formBtn"
+                            onClick={handleShow1}
+                          >
+                            + Add Service
+                          </Button>
+                        </div>
+                      }
+
+                      {
+                        <Table responsive="lg" className="table_s mt-5 mb-5">
+                          <thead>
                             <tr>
-                              <td>
-                                <img
-                                  src={Dummyimage}
-                                  alt={Dummyimage}
-                                  className="table_img"
-                                />
-                                {s.title}
-                              </td>
-                              <td>{s.status}</td>
-                              <td>
-                                <Link
-                                  to={`/subservice-details/${s._id}`}
-                                  className="lnk"
-                                >
-                                  View Details
-                                </Link>
-                              </td>
+                              <th>Service Name</th>
+                              <th>Status</th>
+                              <th></th>
                             </tr>
-                          );
-                        })}
-                    </tbody>
-                  </Table>
-                  <div className="text-center"></div>
-                </div>
+                          </thead>
+                          <tbody>
+                            {serviecesData &&
+                              serviecesData.ServiceResult &&
+                              isArray(serviecesData.ServiceResult) &&
+                              serviecesData.ServiceResult.map((s) => {
+                                return (
+                                  <tr key={s._id}>
+                                    <td>
+                                      <img
+                                        src={Dummyimage}
+                                        alt={Dummyimage}
+                                        className="table_img"
+                                      />
+                                      {s.title}
+                                    </td>
+                                    <td>{s.status}</td>
+                                    <td>
+                                      <Link
+                                        to={`/subservice-details/${s._id}`}
+                                        className="lnk"
+                                      >
+                                        View Details
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </Table>
+                      }
+                      <div className="text-center"></div>
+                    </div>
+                  )}
               </Fragment>
             )}
           </Col>
@@ -264,108 +283,14 @@ const Servicedetails = () => {
       }
 
       {/* Add SubServices Modal */}
-      <Modal
-        className="right"
+
+      <AddSubServices
+        categoryTitle={verifyObject(servicesDetails, "title", null)}
+        categoryID={verifyObject(servicesDetails, "_id", null)}
         show={show1}
-        onHide={handleClose1}
-        animation={false}
-        id="mm"
-      >
-        <Modal.Header className="border-0 pb-0" closeButton></Modal.Header>
-        <Modal.Body>
-          <div className="mod_sec">
-            <h3 className="md_txt">Add Service Category</h3>
-            <Form>
-              <Form.Group className="mb-4 form-type pos-rel">
-                <Form.Label className="floatLabel">
-                  Service Category*
-                </Form.Label>
-                <Form.Control value="Therapy Services" />
-              </Form.Group>
-              <Form.Group className="mb-4 form-type pos-rel">
-                {/* <Form.Label className="floatLabel"></Form.Label> */}
-                <Form.Control value="" placeholder="Service Name*" />
-              </Form.Group>
-              <Form.Group className="mb-4 form-type pos-rel">
-                {/* <Form.Label className="floatLabel">Service Description*</Form.Label> */}
-                <Form.Control
-                  as="textarea"
-                  rows={6}
-                  value=""
-                  placeholder="Service Description*"
-                />
-              </Form.Group>
-              <h3 className="md_txt">Initial Consultation Details</h3>
-              <Form.Group className="mb-4 form-type pos-rel">
-                <Form.Control placeholder="Title" />
-              </Form.Group>
-              <div className="d-flex align-itmes-center justify-content-between">
-                <Form.Group className="mb-4 form-type pos-rel">
-                  <Form.Select>
-                    <option disabled selected>
-                      Select Duration*
-                    </option>
-                    <option>15mins</option>
-                    <option>30mins</option>
-                    <option>45mins</option>
-                    <option>60mins</option>
-                    <option>120mins</option>
-                    <option>Other</option>
-                  </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-4 form-type pos-rel">
-                  <Form.Control placeholder="Price*" />
-                </Form.Group>
-                <Form.Group className="mb-4 form-type pos-rel">
-                  <Link to="#/" className="addm">
-                    <i className="fa fa-plus"></i>
-                  </Link>
-                </Form.Group>
-              </div>
-              <h3 className="md_txt">Follow-up Appointment Details</h3>
-              <div className="d-flex align-itmes-center justify-content-between">
-                <Form.Group className="mb-4 form-type pos-rel">
-                  <Form.Select>
-                    <option disabled selected>
-                      Select Duration*
-                    </option>
-                    <option>15mins</option>
-                    <option>30mins</option>
-                    <option>45mins</option>
-                    <option>60mins</option>
-                    <option>120mins</option>
-                    <option>Other</option>
-                  </Form.Select>
-                </Form.Group>
-                <Form.Group className="mb-4 form-type pos-rel">
-                  <Form.Control placeholder="Price*" />
-                </Form.Group>
-                <Form.Group className="mb-4 form-type pos-rel">
-                  <Link to="#/" className="addmr">
-                    <i className="fa fa-plus"></i>
-                  </Link>
-                </Form.Group>
-              </div>
-              <Form.Group className="mb-4 form-type">
-                <UploadPreviewEdit />
-              </Form.Group>
-              <Form.Group className="df">
-                <div className="text-center" id="fxd">
-                  <Button
-                    className="btn btn-theme-white pl-2 pr-2 mr-3"
-                    id="formBtnCnc"
-                  >
-                    Back
-                  </Button>
-                  <Button className="btn btn-theme pl-2 pr-2 ml-3" id="formBtn">
-                    Save
-                  </Button>
-                </div>
-              </Form.Group>
-            </Form>
-          </div>
-        </Modal.Body>
-      </Modal>
+        handleClose={handleClose1}
+        getServicesByCategoryID={getServicesByCategoryID}
+      />
     </div>
   );
 };
