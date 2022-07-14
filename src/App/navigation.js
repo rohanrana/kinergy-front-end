@@ -17,7 +17,7 @@ export const appRoutesConst = {
   client: "/client",
   services: "/services",
   serviceDetails: "/service-details/:service_cat_id",
-  subServicesDetails: "/subservice-details/:service_id",
+  subServicesDetails: "/subservice-details/:service_id/:service_category",
   forms: "/forms",
   createForms: "/create-form",
 };

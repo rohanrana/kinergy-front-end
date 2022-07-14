@@ -27,9 +27,10 @@ import {
   getSubServiceByCategoryID,
 } from "../../../Services/subServices";
 import TableLoader from "../../../component/common/TableLoader";
-import AddSubServices from "./AddSubServices";
+import AddSubServices  from "./AddSubServices";
 import { floor, isArray } from "lodash";
 import AddProviders from "./AddProviders";
+import BackButton from "../../../component/BackButton";
 
 const options = [
   { label: "Terill Lobo", value: "Terill Lobo" },
@@ -129,6 +130,7 @@ const Subservicedetails = () => {
   const routeParams = useParams();
 
   console.log("routeParams", routeParams);
+  const serviceCategory = verifyObject(routeParams, "service_category", null);
 
   useEffect(() => {
     let { service_cat_id } = routeParams;
@@ -215,8 +217,8 @@ const Subservicedetails = () => {
               {servicesDetails && (
                 <div className="d-flex justify-content-between align-item-center">
                   <h5>
-                    <i class="fa-solid fa-chevron-left mr-3"></i>Sub Service
-                    Detail
+                    <BackButton />
+                    Sub Service Detail
                   </h5>
                   <p className="d-flex m-0">
                     <b>
@@ -509,7 +511,7 @@ const Subservicedetails = () => {
       {show && (
         <AddSubServices
           servicesDetails={servicesDetails}
-          categoryTitle={verifyObject(servicesDetails, "title", null)}
+          categoryTitle={serviceCategory}
           categoryID={verifyObject(servicesDetails, "_id", null)}
           show={show}
           handleClose={handleClose}

@@ -29,6 +29,7 @@ import {
 import { isArray } from "lodash";
 import AddServieCategory from "./AddServieCategory";
 import AddSubServices from "./AddSubServices";
+import BackButton from "../../../component/BackButton";
 
 const Servicedetails = () => {
   const [checked, setChecked] = useState(false);
@@ -141,8 +142,7 @@ const Servicedetails = () => {
               <div className="appointment-card">
                 <div className="d-flex justify-content-between align-item-center">
                   <h5>
-                    <i class="fa-solid fa-chevron-left mr-3"></i> Service
-                    Category
+                    <BackButton /> Service Category
                   </h5>
                   <p className="d-flex m-0">
                     <b>
@@ -253,7 +253,7 @@ const Servicedetails = () => {
                                     <td>{s.status}</td>
                                     <td>
                                       <Link
-                                        to={`/subservice-details/${s._id}`}
+                                        to={`/subservice-details/${s._id}/${servicesDetails.title}`}
                                         className="lnk"
                                       >
                                         View Details
