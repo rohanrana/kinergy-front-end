@@ -1,32 +1,7 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ValidateAddServiceCategory } from "./ValidateAddServicesForm";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Modal,
-  Form,
-  Table,
-} from "react-bootstrap";
-import {
-  addService,
-  addServiceCategory,
-  editService,
-  editServiceCategory,
-} from "../../../Services/serviceCategories";
-import { actions as serviceCategoryActions } from "../../../Reducers/serviceCategories";
-import {
-  errorToast,
-  getErrorObject,
-  successToast,
-  verifyObject,
-} from "../../../utilities/utils";
-import UploadPreviewAdd from "./UploadPreviewAdd";
-import { Link } from "react-router-dom";
-import UploadPreviewEdit from "./UploadPreviewEdit";
-import { isArray, uniqueId } from "lodash";
+import React, { useState } from "react";
+
+import { Button, Modal, Form, Table } from "react-bootstrap";
+
 import { MultiSelect } from "react-multi-select-component";
 
 const options = [
@@ -45,6 +20,7 @@ export default function AddProviders({ show, handleClose }) {
       onHide={handleClose}
       animation={false}
       id="mm"
+      d={modalShow}
     >
       <Modal.Header className="border-0 pb-0" closeButton></Modal.Header>
       <Modal.Body>

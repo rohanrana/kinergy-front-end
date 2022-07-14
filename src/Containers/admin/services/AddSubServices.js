@@ -1,14 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ValidateAddServiceCategory } from "./ValidateAddServicesForm";
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
-import {
-  addService,
-  addServiceCategory,
-  editService,
-  editServiceCategory,
-} from "../../../Services/serviceCategories";
-import { actions as serviceCategoryActions } from "../../../Reducers/serviceCategories";
+import { Button, Modal, Form } from "react-bootstrap";
+import { addService, editService } from "../../../Services/serviceCategories";
 import {
   errorToast,
   getErrorObject,
@@ -16,10 +10,7 @@ import {
   verifyObject,
 } from "../../../utilities/utils";
 import UploadPreviewAdd from "./UploadPreviewAdd";
-import { Link } from "react-router-dom";
-import UploadPreviewEdit from "./UploadPreviewEdit";
 import { isArray, uniqueId } from "lodash";
-
 
 export default function AddSubServices({
   show,
@@ -111,7 +102,6 @@ export default function AddSubServices({
           servicesDetails.followUpAppointment.priceDetails
         );
         servicesDetails.followUpAppointment.priceDetails.map((k) => {
-          console.log("k", k);
           setState((prevState) => {
             return {
               ...prevState,
@@ -127,6 +117,7 @@ export default function AddSubServices({
               ],
             };
           });
+          return null;
         });
       }
     }
@@ -156,6 +147,7 @@ export default function AddSubServices({
             ],
           };
         });
+        return null;
       });
     }
   }, [servicesDetails]);
