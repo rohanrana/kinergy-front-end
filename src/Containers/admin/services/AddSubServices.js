@@ -19,6 +19,8 @@ import UploadPreviewAdd from "./UploadPreviewAdd";
 import { Link } from "react-router-dom";
 import UploadPreviewEdit from "./UploadPreviewEdit";
 import { isArray, uniqueId } from "lodash";
+
+
 export default function AddSubServices({
   show,
   handleClose,
@@ -84,9 +86,6 @@ export default function AddSubServices({
   const [state, setState] = useState(intialState);
   const localStore = useSelector((state) => state.localStore);
 
-  useEffect(() => {}, [servicesDetails.initialConsultation]);
-
-  useEffect(() => {}, [servicesDetails.followUpAppointment]);
   useEffect(() => {
     // console.log("servicesDetails", servicesDetails);
     // let initialConsultation = [];
@@ -102,6 +101,7 @@ export default function AddSubServices({
       });
 
       if (
+        servicesDetails &&
         servicesDetails.followUpAppointment &&
         servicesDetails.followUpAppointment.priceDetails &&
         isArray(servicesDetails.followUpAppointment.priceDetails)
@@ -131,6 +131,7 @@ export default function AddSubServices({
       }
     }
     if (
+      servicesDetails &&
       servicesDetails.initialConsultation &&
       servicesDetails.initialConsultation.priceDetails &&
       isArray(servicesDetails.initialConsultation.priceDetails)
@@ -157,7 +158,7 @@ export default function AddSubServices({
         });
       });
     }
-  }, []);
+  }, [servicesDetails]);
 
   const handleConsultationInputChange = (e, index) => {
     let { consultationElemntArray } = state;
@@ -250,7 +251,12 @@ export default function AddSubServices({
       try {
         await setState({ ...state, loadingSubmit: true, errors: null });
         let formData = new FormData();
-        formData.append("category", categoryID);
+        if (isEdit) {
+          formData.append("category", servicesDetails.category);
+        } else {
+          formData.append("category", categoryID);
+        }
+
         formData.append("title", data.service_name);
         formData.append("addBy", data.addBy);
         formData.append("description", data.description);
@@ -323,73 +329,77 @@ export default function AddSubServices({
     followUpAppointmentTitle,
   } = state;
   return (
-    <Modal
-      className="right"
-      show={show}
-      onHide={handleClose}
-      animation={false}
-      id="mm"
-    >
-      <Modal.Header className="border-0 pb-0" closeButton></Modal.Header>
-      <Modal.Body>
-        <div className="mod_sec">
-          <h3 className="md_txt">{isEdit ? "Edit Service" : "Add Service"}</h3>
-          <Form>
-            <Form.Group className="mb-4 form-type pos-rel">
-              <Form.Label className="floatLabel">Service Category*</Form.Label>
-              <Form.Control disabled value={categoryTitle} />
-            </Form.Group>
-            <Form.Group className="mb-4 form-type pos-rel">
-              <Form.Label className="floatLabel"> Service Name</Form.Label>
-              <Form.Control
-                name="service_name"
-                value={service_name}
-                onChange={handleChange}
-                placeholder="Service Name*"
-              />
-              {state.errors && (
-                <span className="text-danger">{state.errors.service_name}</span>
-              )}
-            </Form.Group>
-            <Form.Group className="mb-4 form-type pos-rel">
-              <Form.Label className="floatLabel">
-                Service Description*
-              </Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={6}
-                name="description"
-                value={description}
-                onChange={handleChange}
-                placeholder="Service Description*"
-              />
-              {state.errors && (
-                <span className="text-danger">{state.errors.description}</span>
-              )}
-            </Form.Group>
-            <h3 className="md_txt">Initial Consultation Details</h3>
-            <Form.Group className="mb-4 form-type pos-rel">
-              <Form.Label className="floatLabel">Title</Form.Label>
-              <Form.Control
-                onChange={(e) => handleChange(e)}
-                name="initialConsultationTitle"
-                value={initialConsultationTitle}
-                placeholder="Title"
-              />
-              {state.errors && (
-                <span className="text-danger">
-                  {state.errors.initialConsultationTitle}
-                </span>
-              )}
-            </Form.Group>
-            <div
-              style={{ flexDirection: "column" }}
-              className="d-flex align-itmes-center justify-content-between"
-            >
-              {state.consultationElemntArray.map((el, i) => {
-                return (
-                  <Fragment>
-                    <div style={{ display: "flex" }}>
+    <Fragment>
+      <Modal
+        className="right"
+        show={show}
+        onHide={handleClose}
+        animation={false}
+        id="mm"
+      >
+        <Modal.Header className="border-0 pb-0" closeButton></Modal.Header>
+        <Modal.Body>
+          <div className="mod_sec">
+            <h3 className="md_txt">Edit Service</h3>
+            <Form>
+              <Form.Group className="mb-4 form-type pos-rel">
+                <Form.Label className="floatLabel">
+                  Service Category*
+                </Form.Label>
+                <Form.Control disabled value={categoryTitle} />
+              </Form.Group>
+              <Form.Group className="mb-4 form-type pos-rel">
+                <Form.Label className="floatLabel"> Service Name</Form.Label>
+                <Form.Control
+                  name="service_name"
+                  value={service_name}
+                  onChange={handleChange}
+                  placeholder="Service Name*"
+                />
+                {state.errors && (
+                  <span className="text-danger">
+                    {state.errors.service_name}
+                  </span>
+                )}
+              </Form.Group>
+              <Form.Group className="mb-4 form-type pos-rel">
+                <Form.Label className="floatLabel">
+                  Service Description*
+                </Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={6}
+                  name="description"
+                  value={description}
+                  onChange={handleChange}
+                  placeholder="Service Description*"
+                />
+                {state.errors && (
+                  <span className="text-danger">
+                    {state.errors.description}
+                  </span>
+                )}
+              </Form.Group>
+              <h3 className="md_txt">Initial Consultation Details</h3>
+              <Form.Group className="mb-4 form-type pos-rel">
+                <Form.Label className="floatLabel">Title</Form.Label>
+                <Form.Control
+                  onChange={(e) => handleChange(e)}
+                  name="initialConsultationTitle"
+                  value={initialConsultationTitle}
+                  placeholder="Title"
+                />
+                {state.errors && (
+                  <span className="text-danger">
+                    {state.errors.initialConsultationTitle}
+                  </span>
+                )}
+              </Form.Group>
+              <div className="d-flex align-itmes-center justify-content-between">
+                {state.consultationElemntArray.map((el, i) => {
+                  return (
+                    <Fragment>
+                      {/* <div style={{ display: "flex" }}> */}
                       <Form.Group className="mb-4 form-type pos-rel">
                         <Form.Label className="floatLabel">
                           Select Duration*
@@ -430,28 +440,40 @@ export default function AddSubServices({
                           </a>
                         </Form.Group>
                       )}
-                    </div>
-                    {state.errors &&
-                      state.errors[`initialConsultationPrice${el._id}`] && (
-                        <span className="text-danger">
-                          {state.errors[`initialConsultationPrice${el._id}`]}
-                        </span>
+                      {i != 0 && (
+                        <Form.Group className="mb-4 form-type pos-rel">
+                          <a
+                            onClick={addNewConsultationElement}
+                            className="addm"
+                          >
+                            <i className="fa fa-minus"></i>
+                          </a>
+                        </Form.Group>
                       )}
-                    {state.errors &&
-                      state.errors[`initialConsultationDuration${el._id}`] && (
-                        <span className="text-danger">
-                          {state.errors[`initialConsultationDuration${el._id}`]}
-                        </span>
-                      )}
-                  </Fragment>
-                );
-              })}
-            </div>
-            <h3 className="md_txt">Follow-up Appointment Details</h3>
-            <div
-              style={{ flexDirection: "column" }}
-              className="d-flex align-itmes-center justify-content-between"
-            >
+                      {/* </div> */}
+                      {state.errors &&
+                        state.errors[`initialConsultationPrice${el._id}`] && (
+                          <span className="text-danger">
+                            {state.errors[`initialConsultationPrice${el._id}`]}
+                          </span>
+                        )}
+                      {state.errors &&
+                        state.errors[
+                          `initialConsultationDuration${el._id}`
+                        ] && (
+                          <span className="text-danger">
+                            {
+                              state.errors[
+                                `initialConsultationDuration${el._id}`
+                              ]
+                            }
+                          </span>
+                        )}
+                    </Fragment>
+                  );
+                })}
+              </div>
+              <h3 className="md_txt">Follow-up Appointment Details</h3>
               <Form.Group className="mb-4 form-type pos-rel">
                 <Form.Label className="floatLabel">Title</Form.Label>
                 <Form.Control
@@ -466,10 +488,10 @@ export default function AddSubServices({
                   </span>
                 )}
               </Form.Group>
-              {state.followUpElemntArray.map((el, i) => {
-                return (
-                  <Fragment>
-                    <div style={{ display: "flex" }}>
+              <div className="d-flex align-itmes-center justify-content-between">
+                {state.followUpElemntArray.map((el, i) => {
+                  return (
+                    <Fragment>
                       <Form.Group className="mb-4 form-type pos-rel">
                         <Form.Label className="floatLabel">Duration</Form.Label>
                         <Form.Select
@@ -511,51 +533,59 @@ export default function AddSubServices({
                           </a>
                         </Form.Group>
                       )}
-                    </div>
-                    {state.errors &&
-                      state.errors[`followUpAppointmentDuration${el._id}`] && (
-                        <span className="text-danger">
-                          {state.errors[`followUpAppointmentDuration${el._id}`]}
-                        </span>
-                      )}
-                    {state.errors &&
-                      state.errors[`followUpAppointmentPrice${el._id}`] && (
-                        <span className="text-danger">
-                          {state.errors[`followUpAppointmentPrice${el._id}`]}
-                        </span>
-                      )}
-                  </Fragment>
-                );
-              })}
-            </div>
-            <Form.Group className="mb-4 form-type">
-              <UploadPreviewAdd handleFile={handleFile} />
-              {state.errors && (
-                <span className="text-danger">{state.errors.image}</span>
-              )}
-            </Form.Group>
-            <Form.Group className="df">
-              <div className="text-center" id="fxd">
-                <Button
-                  className="btn btn-theme-white pl-2 pr-2 mr-3"
-                  id="formBtnCnc"
-                >
-                  Back
-                </Button>
-                <Button
-                  onClick={validateAndSubmit}
-                  id="formBtn"
-                  disabled={state.loadingSubmit}
-                  loading={state.loadingSubmit}
-                  className="btn btn-theme pl-2 pr-2 ml-3"
-                >
-                  {state.loadingSubmit ? "Saving..." : "Save"}
-                </Button>
+
+                      {state.errors &&
+                        state.errors[
+                          `followUpAppointmentDuration${el._id}`
+                        ] && (
+                          <span className="text-danger">
+                            {
+                              state.errors[
+                                `followUpAppointmentDuration${el._id}`
+                              ]
+                            }
+                          </span>
+                        )}
+                      {state.errors &&
+                        state.errors[`followUpAppointmentPrice${el._id}`] && (
+                          <span className="text-danger">
+                            {state.errors[`followUpAppointmentPrice${el._id}`]}
+                          </span>
+                        )}
+                    </Fragment>
+                  );
+                })}
               </div>
-            </Form.Group>
-          </Form>
-        </div>
-      </Modal.Body>
-    </Modal>
+              <Form.Group className="mb-4 form-type">
+                <UploadPreviewAdd handleFile={handleFile} />
+                {state.errors && (
+                  <span className="text-danger">{state.errors.image}</span>
+                )}
+              </Form.Group>
+              <Form.Group className="df">
+                <div className="text-center" id="fxd">
+                  <Button
+                    className="btn btn-theme-white pl-2 pr-2 mr-3"
+                    id="formBtnCnc"
+                    onClick={handleClose}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    onClick={validateAndSubmit}
+                    id="formBtn"
+                    disabled={state.loadingSubmit}
+                    loading={state.loadingSubmit}
+                    className="btn btn-theme pl-2 pr-2 ml-3"
+                  >
+                    {state.loadingSubmit ? "Saving..." : "Save"}
+                  </Button>
+                </div>
+              </Form.Group>
+            </Form>
+          </div>
+        </Modal.Body>
+      </Modal>
+    </Fragment>
   );
 }

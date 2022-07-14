@@ -29,6 +29,7 @@ import {
 import TableLoader from "../../../component/common/TableLoader";
 import AddSubServices from "./AddSubServices";
 import { floor, isArray } from "lodash";
+import AddProviders from "./AddProviders";
 
 const options = [
   { label: "Terill Lobo", value: "Terill Lobo" },
@@ -516,6 +517,8 @@ const Subservicedetails = () => {
           getSubServiceCategoryDetail={getSubServiceCategoryDetail}
         />
       )}
+
+      {show2 && <AddProviders show={show2} handleClose={handleClose2} />}
     </div>
   );
 };
