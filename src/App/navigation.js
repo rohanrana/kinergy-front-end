@@ -1,13 +1,11 @@
-
-import { push } from "react-router-redux";
 // import backBlue from "assets/images/common/back-arrow.svg";
 export const appRoutesConst = {
   //doctor routes
 
   signup: "/signup",
   index: "/",
-  home: "/home",
-  signin: "/signin"
+  subServices: "/sub-services",
+  signin: "/signin",
 };
 
 // const config = {

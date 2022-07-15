@@ -49,6 +49,8 @@ export type Irequest = {
 };
 
 export const get = (request) => {
+  // let finalRequest = { ...request, data: { ...request.data, token: token } }
+
   return commonFetch({ method: "get", ...request });
 };
 
@@ -57,6 +59,7 @@ export const post = (request) => {
 };
 
 export const patch = (request) => {
+  // let finalRequest = { ...request, data: { ...request.data, token: token } }
   return commonFetch({ method: "patch", ...request });
 };
 
@@ -67,11 +70,105 @@ export const put = (request) => {
 export const deletee = (request) => {
   return commonFetch({ method: "delete", ...request });
 };
-export const get2 = (request) => {
-  return commonFetch2({ method: "get", ...request });
+
+export const postFormData = (request) => {
+  return commonFetchFormData({ method: "post", ...request });
 };
 
 export const abortSignal = axios.CancelToken.source();
+
+const commonFetchFormData = (request: Irequest) => {
+  // axios.interceptors.request.use(
+  //   (config) => {
+  //     // perform a task before the request is sent
+
+  //     return config;
+  //   },
+  //   (error) => {
+  //     // handle the error
+
+  //     return Promise.reject(error);
+  //   }
+  // );
+  // axios.interceptors.response.use((response) => {
+  //   // do something with the response data
+  //   const { data } = response;
+  //   if (data.status === 950 || data.status === 419) {
+  //     localStorage.clear();
+  //     // history.push("/");
+  //     window.location.href ="/signin"
+  //     // navigateToIndex();
+  //     // store.dispatch(navigateToIndex());
+  //     // this.props.history.push("/");
+  //     // return false
+  //     // return Promise.resolve(response);
+  //   }
+  //   return response;
+  // });
+
+  const {
+    subUrl,
+    method,
+    data = {},
+    params = {},
+    headers = {},
+    isFile,
+    isEMDR,
+    isOnlyURL,
+  } = request;
+  let url = getFullUrl(subUrl);
+  let passedHeaders = headers;
+  let commonHeaders = getCommonHeaders();
+
+  if (data.authToken && isEMDR) {
+    commonHeaders = getCommonHeaders(data.authToken, data);
+    delete data[`authToken`];
+  }
+
+  if (params.authToken && isEMDR) {
+    commonHeaders = getCommonHeaders(params.authToken, data);
+    delete params[`authToken`];
+  }
+
+  if (isOnlyURL) {
+    url = subUrl;
+    passedHeaders = {};
+    commonHeaders = {};
+  }
+
+  // if (subUrl === "/appointments.json") {
+  //   commonHeaders = getCommonHeaders(true);
+  // }
+
+  // var arrStr = encodeURIComponent(JSON.stringify(params))
+  let token = getToken();
+
+  return axios({
+    method,
+    url,
+    data,
+    // cancelToken: abortSignal.token,
+    headers: { ...commonHeaders, ...passedHeaders },
+    // ...forTokenParams,
+  }).then((response) => {
+    //   console.log("API CALLED")
+    if (isOnlyURL) {
+      if (response) {
+        return Promise.resolve(response);
+      } else {
+        return Promise.reject(response);
+      }
+    } else {
+      if (handleResponseStatus(response)) {
+        return Promise.resolve(response);
+      } else {
+        // handleUnauthorizedResponses(response);
+
+        return Promise.reject(response);
+      }
+    }
+  });
+};
 
 const commonFetch = (request: Irequest) => {
   // axios.interceptors.request.use(
@@ -108,8 +205,9 @@ const commonFetch = (request: Irequest) => {
     data = {},
     params = {},
     headers = {},
-    isOnlyURL,
+    isFile,
     isEMDR,
+    isOnlyURL,
   } = request;
   let url = getFullUrl(subUrl);
   let passedHeaders = headers;
@@ -136,14 +234,38 @@ const commonFetch = (request: Irequest) => {
   // }
 
   // var arrStr = encodeURIComponent(JSON.stringify(params))
+  let token = getToken();
+
+  console.log("token", data, token);
+  let forTokenParams = {
+    data: data,
+  };
+  if (isFile) {
+    forTokenParams = {
+      data: data,
+      params: params,
+    };
+  }
+  if (method === "post") {
+    forTokenParams = {
+      data: { ...data, token: token },
+      params: params,
+    };
+  }
+
+  if (method === "get") {
+    forTokenParams = {
+      data: { params: { ...params, token: token }, data: data },
+    };
+  }
 
   return axios({
     method,
     url,
-    data,
+    // data: { ...data, token: token },
     // cancelToken: abortSignal.token,
     headers: { ...commonHeaders, ...passedHeaders },
-    params,
+    ...forTokenParams,
   }).then((response) => {
     //   console.log("API CALLED")
     if (isOnlyURL) {
@@ -160,66 +282,6 @@ const commonFetch = (request: Irequest) => {
 
         return Promise.reject(response);
       }
-    }
-  });
-};
-const commonFetch2 = (request: Irequest) => {
-  // axios.interceptors.request.use(
-  //   (config) => {
-  //     // perform a task before the request is sent
-
-  //     return config;
-  //   },
-  //   (error) => {
-  //     // handle the error
-
-  //     return Promise.reject(error);
-  //   }
-  // );
-  // axios.interceptors.response.use((response) => {
-  //   // do something with the response data
-  //   const { data } = response;
-  //   if (data.status === 950 || data.status === 419) {
-  //     localStorage.clear();
-  //     // history.push("/");
-  //     window.location.href ="/signin"
-  //     // navigateToIndex();
-  //     // store.dispatch(navigateToIndex());
-  //     // this.props.history.push("/");
-  //     // return false
-  //     // return Promise.resolve(response);
-  //   }
-  //   return response;
-  // });
-
-  const { subUrl, method, data = {} } = request;
-
-  // const url = getFullUrl(subUrl);
-  // let commonHeaders = getCommonHeaders();
-
-  // if (subUrl === "/appointments.json") {
-  //   commonHeaders = getCommonHeaders(true);
-  // }
-
-  // var arrStr = encodeURIComponent(JSON.stringify(params))
-
-  return axios({
-    method,
-    subUrl,
-    data,
-    // headers: { ...commonHeaders, ...headers },
-    // params,
-  }).then((response) => {
-    // alert()
-    // store.dispatch({
-    // 	API
-    // })
-    console.log("API Called");
-    if (handleResponseStatus(response)) {
-      return Promise.resolve(response);
-    } else {
-      // handleUnauthorizedResponses(response);
-      return Promise.reject(response);
     }
   });
 };
@@ -240,20 +302,26 @@ const handleResponseStatus = (response) => {
   return false;
 };
 
-const getCommonHeaders = (EMDRtoken) => {
-  console.log("EMDRtoken", EMDRtoken);
+const getCommonHeaders = () => {
   const state = loadState();
   let token = null;
   if (state && state.localStore && state.localStore.token) {
     token = state.localStore.token;
   }
-  if (state && state.localStore && state.localStore.reset_pass_token) {
-    token = state.localStore.reset_pass_token;
-  }
+
   return {
     "Content-Type": "application/json",
-    [authTokenKey]: EMDRtoken ? EMDRtoken : token,
+    [authTokenKey]: token,
   };
+};
+
+const getToken = () => {
+  const state = loadState();
+  let token = null;
+  if (state && state.localStore && state.localStore.token) {
+    token = state.localStore.token;
+  }
+  return token;
 };
 const getFullUrl = (url) => {
   return `${baseUrl}${url}`;

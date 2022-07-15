@@ -2,7 +2,7 @@ import {
   getErrorObject,
   normalizeResponseWithPagination,
   getExtraDataFromListing,
-} from "utilities/utils";
+} from "../../utilities/utils";
 import { errorToast } from "../../utilities/utils";
 // import { errorToast } from "utilities/utils";
 
@@ -196,7 +196,7 @@ export const listingReducer = (
           type: types.ON_FAILURE,
           payload: { error: message },
         });
-        console.log("IN ERROR",error);
+        console.log("IN ERROR", error);
         errorToast({ content: message });
       }
     };

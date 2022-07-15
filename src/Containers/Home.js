@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { connect } from "react-redux"
+import { connect, useDispatch, useSelector } from "react-redux";
+import { actions as serviceCategoryActions } from "../Reducers/serviceCategories";
 import Department1 from "../images/department1.png";
 import Department2 from "../images/department2.png";
 import Department3 from "../images/department3.png";
@@ -10,24 +11,37 @@ import Department5 from "../images/department5.png";
 import Department6 from "../images/department6.png";
 import Department7 from "../images/department7.png";
 import { verifyObject } from "../utilities/utils";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 const Home = (props) => {
+  // useEffect(() => {
+  //   console.log("props", props);
+  //   if (props.token) {
+  //     props.history.push("/home");
+  //   } else {
+  //     props.history.push("/signin");
+  //   }
+  // }, [props.token]);
+  const dispatch = useDispatch();
+  const {
+    data: serviceCategoriesData,
+    isLoading,
+    pagination,
+  } = useSelector((state) => state.serviceCategories);
+
+  // useEffect(() => {
+  //   console.log("isLoading", isLoading);
+  // }, [isLoading]);
+
   useEffect(() => {
-    console.log("props", props)
-    if (props.token) {
-      props.history.push("/home")
-    } else {
-      props.history.push("/signin")
-    }
-  }, [props.token])
+    dispatch(serviceCategoryActions.onRequest({}));
+  }, []);
 
   return (
     <div className="Home">
       <Container>
         <Row>
           <Col lg={12}>
-
             <div className="home-content-row">
               <div className="home-content-col-1">
                 <h3>
@@ -42,7 +56,7 @@ const Home = (props) => {
                 <Row>
                   <Col lg={4} sm={4} xs={12}>
                     <a href="/therapy-services">
-                      <div className="department-col">
+                      <div className="department-col mt-0">
                         <img src={Department1} alt={Department1} />
                         <div className="department-col-content">
                           <p>
@@ -57,7 +71,7 @@ const Home = (props) => {
 
                   <Col lg={4} sm={4} xs={12}>
                     <a href="#/">
-                      <div className="department-col">
+                      <div className="department-col mt-0">
                         <img src={Department2} alt={Department2} />
                         <div className="department-col-content">
                           <p>
@@ -72,7 +86,7 @@ const Home = (props) => {
 
                   <Col lg={4} sm={4} xs={12}>
                     <a href="#/">
-                      <div className="department-col">
+                      <div className="department-col mt-0">
                         <img src={Department3} alt={Department3} />
                         <div className="department-col-content">
                           <p>
@@ -155,17 +169,11 @@ const Home = (props) => {
 };
 const mapStateToProps = (state) => {
   return {
-    token: verifyObject(state, "localStore.token", null)
-    ,
+    token: verifyObject(state, "localStore.token", null),
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return {
-
-  };
+  return {};
 };
-const ConnectedComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
-export default withRouter(ConnectedComponent)
+const ConnectedComponent = connect(mapStateToProps, mapDispatchToProps)(Home);
+export default ConnectedComponent;

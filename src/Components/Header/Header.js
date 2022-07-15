@@ -19,9 +19,9 @@ export function Header(props) {
     return (
         <div className="logout-container">
             <div className="logout-btn">
-                <button onClick={onLogout} className="btn btn-theme btn-block w-100 ml-0 mt-3 mb-3">
+                {/* <button onClick={onLogout} className="btn btn-theme btn-block w-100 ml-0 mt-3 mb-3">
                     {"Logout"}
-                </button>
+                </button> */}
             </div>
 
         </div>
