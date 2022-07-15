@@ -7,7 +7,59 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 const settingApis = {
   getList: (req, res, next) => {
-    Setting.find()
+    Setting.find({ type: { $ne: "communication_setting" } })
+      .lean()
+      .exec((err, result) => {
+        if (err)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.SETTING_NOT_FOUND
+          );
+        else
+          Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            resMessage.SETTING_LIST,
+            result
+          );
+      });
+  },
+  getCommunicationSettingList: (req, res, next) => {
+    Setting.find({ type: "communication_setting" })
+      .select("_id name value type")
+      .lean()
+      .exec((err, result) => {
+        if (err)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.SETTING_NOT_FOUND
+          );
+        else
+          Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            resMessage.SETTING_LIST,
+            result
+          );
+      });
+  },
+  getAppointmentSettingList: (req, res, next) => {
+    Setting.find({ type: "appointment_setting" })
+      .select("_id name value type")
       .lean()
       .exec((err, result) => {
         if (err)
@@ -85,16 +137,15 @@ const settingApis = {
         resMessage.ENTER_VALID_USER_ID
       );
     } else {
-      const { name, value, type, userId,} = req.body;
+      const { name, value, type, userId } = req.body;
       var settingData = {
         name: name,
         value: value,
         type: type,
         userId: userId,
-        
       };
 
-      Setting.findOne({name: name })
+      Setting.findOne({ name: name, type: type })
         .lean()
         .exec((err, result) => {
           if (err)
@@ -115,7 +166,7 @@ const settingApis = {
                   Response.sendResponseWithData(
                     res,
                     resCode.EVERYTHING_IS_OK,
-                   resMessage.SETTING_UPDATE,
+                    resMessage.SETTING_UPDATE,
                     result
                   );
                 } else
@@ -185,7 +236,7 @@ const settingApis = {
       Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
-       resMessage.ENTER_SETTING_ID
+        resMessage.ENTER_SETTING_ID
       );
     } else {
       Setting.findOneAndDelete({ _id: req.body._id })
@@ -206,6 +257,117 @@ const settingApis = {
             );
         });
     }
+  },
+
+  addOrUpdateCommunication: (req, res, next) => {
+    const { name, value, type } = req.body;
+    var settingData = {
+      name: name,
+      value: value,
+      type: "communication_setting",
+    };
+
+    Setting.findOne({ name: name, type: "communication_setting" })
+      .lean()
+      .exec((err, result) => {
+        if (err)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (result) {
+          Setting.findOneAndUpdate({ name: name }, settingData, { new: true })
+            .lean()
+            .exec((err, result) => {
+              if (!err) {
+                Response.sendResponseWithData(
+                  res,
+                  resCode.EVERYTHING_IS_OK,
+                  resMessage.SETTING_UPDATE,
+                  result
+                );
+              } else
+                Response.sendResponseWithoutData(
+                  res,
+                  resCode.WENT_WRONG,
+                  resMessage.WENT_WRONG
+                );
+            });
+        } else {
+          var setting = new Setting(settingData);
+          setting.save((err, result) => {
+            if (!err) {
+              Response.sendResponseWithData(
+                res,
+                resCode.EVERYTHING_IS_OK,
+                resMessage.SETTING_SAVED_SUCCESSFULLY,
+                result
+              );
+            } else
+              Response.sendResponseWithoutData(
+                res,
+                resCode.WENT_WRONG,
+                resMessage.WENT_WRONG
+              );
+          });
+        }
+      });
+  },
+  addOrUpdateAppointment: (req, res, next) => {
+    const { name, value, type } = req.body;
+    var settingData = {
+      name: name,
+      value: value,
+      type: "appointment_setting",
+    };
+
+    Setting.findOne({ name: name, type: "appointment_setting" })
+      .lean()
+      .exec((err, result) => {
+        if (err)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (result) {
+          Setting.findOneAndUpdate({ name: name }, settingData, { new: true })
+            .lean()
+            .exec((err, result) => {
+              if (!err) {
+                Response.sendResponseWithData(
+                  res,
+                  resCode.EVERYTHING_IS_OK,
+                  resMessage.SETTING_UPDATE,
+                  result
+                );
+              } else
+                Response.sendResponseWithoutData(
+                  res,
+                  resCode.WENT_WRONG,
+                  resMessage.WENT_WRONG
+                );
+            });
+        } else {
+          var setting = new Setting(settingData);
+          setting.save((err, result) => {
+            if (!err) {
+              Response.sendResponseWithData(
+                res,
+                resCode.EVERYTHING_IS_OK,
+                resMessage.SETTING_SAVED_SUCCESSFULLY,
+                result
+              );
+            } else
+              Response.sendResponseWithoutData(
+                res,
+                resCode.WENT_WRONG,
+                resMessage.WENT_WRONG
+              );
+          });
+        }
+      });
   },
 };
 

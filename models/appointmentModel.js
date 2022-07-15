@@ -5,15 +5,6 @@ const STATUS = require("../helper/status");
 
 const appointmentSchema = new Schema(
   {
-    service: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Service",
-      default: null,
-    },
-    servicePrice:{
-      type: mongoose.Schema.Types.ObjectId,
-      default:null
-    },
     appointmentType: {
       type: String,
       enum: ["INITIAL", "FOLLOWUP"],
@@ -23,6 +14,28 @@ const appointmentSchema = new Schema(
       type: String,
       enum: ["SERVICE", "SUBSERVICE"],
       default: "SERVICE",
+    },
+    appointmentFor: {
+      type: String,
+      enum: ["MYSELF", "ELSE"],
+      default: "MYSELF",
+    },
+    service: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      default: null,
+    },
+    servicePrice: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+    serviceDuration: {
+      type: String,
+      default: null, // IN MINUTES
+    },
+    serviceAmount: {
+      type: String,
+      default: null,
     },
     appointmentDate: {
       type: Date,
@@ -68,6 +81,45 @@ const appointmentSchema = new Schema(
       type: String,
       // enum: ["UPCOMING", "COMPLETE", "CANCEL"],
       default: STATUS.PENDING,
+    },
+    couponApplied: {
+      type: mongoose.Schema.Types.Boolean,
+      default: false,
+    },
+    coupon: {
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Coupon",
+      },
+      title: {
+        type: String,
+      },
+      couponCode: {
+        type: String,
+      },
+      couponType: {
+        type: String,
+      },
+      value: {
+        type: String,
+      },
+    },
+
+    amount: {
+      type: String,
+      default: "0.00",
+    },
+    taxAmount: {
+      type: String,
+      default: "0.00",
+    },
+    discountAmount: {
+      type: String,
+      default: "0.00",
+    },
+    totalAmount: {
+      type: String,
+      default: "0.00",
     },
   },
   {

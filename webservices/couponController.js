@@ -394,11 +394,13 @@ const couponList = (req, res, next) => {
       ? Math.max(0, req.body.page)
       : 1;
 
-  var category = { path: "category", select: { _id: 1 } };
+  var category = { path: "category", select: "_id  title" };
+  var service = { path: "service", select: "_id  title" };
   let options = {
     page: page,
     limit: perPage,
     lean: true,
+    populate: [{ path: "couponService", populate: [category, service] }],
     sort: { createdAt: -1 },
     // select:
     //   "_id  title couponCode description startDate endDate perUserLimit couponType status",
@@ -660,7 +662,79 @@ const status = (req, res, next) => {
       });
   }
 };
+const apply = async (req, res, next) => {
+  if (!(await req.body.couponCode)) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Please enter coupon code."
+    );
+  }
+  if (!(await req.body.serviceId)) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Please enter service id."
+    );
+  }
+  // ////////////////////////////
+  // CouonService
+  await Coupon.findOne({
+    couponCode: req.body.couponCode,
+    status: "ACTIVE",
+  })
+    .select(
+      "_id couponCode  title startDate endDate perUserLimit hits value couponType"
+    )
+    .lean()
+    .exec(async (err, CouponData) => {
 
+      if (await CouponData) {
+        console.log("Coupon Code Match");
+        console.log('_id',CouponData._id);
+        if (await CouponData._id) {
+          await CouonService
+            .findOne({
+              coupon: CouponData._id,
+              service: req.body.serviceId,
+            })
+            .lean()
+            .exec(async (CouponServiceErr, CouponServiceData) => {
+              console.log('CouponServiceData',CouponServiceData);
+              if(await CouponData.perUserLimit <= CouponData.hits){
+                return await Response.sendResponseWithoutData(
+                  res,
+                  resCode.EVERYTHING_IS_OK,
+                  "Coupon limit reached."
+                );
+              }
+              if (await CouponServiceData) {
+                console.log("Coupon Code Match");
+                // return res.send(CouponData);
+                return await Response.sendResponseWithData(
+                  res,
+                  resCode.EVERYTHING_IS_OK,
+                  "Coupon applied successfully.",
+                  CouponData
+                );
+              } else {
+                return await Response.sendResponseWithoutData(
+                  res,
+                  resCode.EVERYTHING_IS_OK,
+                  "Coupon not applicable ."
+                );
+              }
+            });
+        }
+      } else {
+        return await Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          "invalid coupon."
+        );
+      }
+    });
+};
 module.exports = {
   add,
   deleteCoupon,
@@ -669,4 +743,5 @@ module.exports = {
   getCouponById,
   status,
   edit,
+  apply,
 };

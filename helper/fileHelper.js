@@ -35,7 +35,19 @@ const fileUnlink = (filePath) => {
   }
   return false;
 };
+
+const getAttachment = (relId,relType)=>{
+  return File.find({relId:relId,relType:relType})
+  .select({_id:1,relId:1,relType:1,fileName:1,fileType:1,fileLocation:1,addBy:1})
+  .lean().exec();
+};
+
+const getDeleteAttachment = (relId,relType)=>{
+  return File.deleteMany({relId:relId,relType:relType})
+  .lean().exec();
+};
+
 module.exports = {
   fileAttach,
-  fileUnlink,
+  fileUnlink,getAttachment
 };

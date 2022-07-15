@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Node.js Express Save Data from Html Form to Mongodb Database </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+ 
+ 
+          <form action="http://localhost:8080/api/v1/customer/updateEmergencyContact" method="POST">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="firstName">fullName</label>
+                <input type="hidden" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjUwODRlYTU1NGE2MzI3ZWUxNTMzNmQiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkLmhaRkxHNG5vbjRKZkJHT3VGY25CT3AxUXlTWlNlU2JmLmVWbzEwUVpOeXRDRS8vYWdPNnUiLCJpYXQiOjE2NDk2NjYzOTR9.FrYRY79Nej3HS-ae6pXkvUU3aS7RkThBHVqUbqeAa_E" name="token">
+                <input type="hidden" value="62693e648aa4a8446d0579ba" name="_id">
+                <input type="text" class="form-control " id="fullName"  placeholder="Enter fullName" name="fullName[]" value="rahul">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">relationship</label>
+                <input type="text" class="form-control " id="relationship" name="relationship[]" placeholder="Enter relationship" value="brother">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">language</label>
+                <input type="text" class="form-control " id="language" name="language[]" placeholder="Enter language" value="EN">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">phoneType</label>
+                <input type="text" class="form-control " id="phoneType" name="phoneType[]" placeholder="Enter phoneType"  value="HOME">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">Phone</label>
+                <input type="text" class="form-control " id="phone" name="phone[]" placeholder="Enter Phone" value="6789067891">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">altPhone</label>
+                <input type="text" class="form-control " id="altPhone" name="altPhone[]" placeholder="Enter altPhone" value="6789067890">
+              </div>
+            </div>
+
+            <!--  -->
+            <hr>
+
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="firstName">fullName</label>
+                <input type="text" class="form-control " id="fullName"  placeholder="Enter fullName" name="fullName[]" value="rahul2">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">relationship</label>
+                <input type="text" class="form-control " id="relationship" name="relationship[]" placeholder="Enter relationship" value="brother2">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">language</label>
+                <input type="text" class="form-control " id="language" name="language[]" placeholder="Enter language" value="EN">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">phoneType</label>
+                <input type="text" class="form-control " id="phoneType" name="phoneType[]" placeholder="Enter phoneType"  value="OFFICE">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">Phone</label>
+                <input type="text" class="form-control " id="phone" name="phone[]" placeholder="Enter Phone" value="67890678912">
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <label for="exampleInputEmail1">altPhone</label>
+                <input type="text" class="form-control " id="altPhone" name="altPhone[]" placeholder="Enter altPhone" value="6789067893">
+              </div>
+            </div>
+                    
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+  </div>
+  </body>
+</html>

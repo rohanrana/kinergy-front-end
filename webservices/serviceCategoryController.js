@@ -104,7 +104,18 @@ const serviceCategoryApis = {
         if (!req.body._id) {
             Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Service Category Id.');
         } else {
-            ServiceCategory.find({ _id: req.body._id }).lean().exec((err, result) => {
+            ServiceCategory.find({ _id: req.body._id })
+            .populate({
+                path:"service",
+                select:"_id title slug status"
+            })
+            .populate({
+                path:"addBy",
+                select:"_id firstName lastName status"
+            })
+           
+
+            .lean().exec((err, result) => {
                 // console.log(result.length);
                 if (err)
                     Response.sendResponseWithoutData(res, resCode.WENT_WRONG, resMessage.WENT_WRONG);

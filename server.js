@@ -8,12 +8,18 @@ const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
 const app = express();
+
+
 const dbconnection = require("./db_handler/mongodb");
+
+
 const staff = require("./models/staffModel");
 const config = require("./config/env/config");
-
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 const countryStateCityRoutes = require("./routes/countryStateCityRoutes");
 const roleRoutes = require("./routes/roleRoute");
+
 const serviceRoutes = require("./routes/serviceRoute");
 const staffRoutes = require("./routes/staffRoute");
 const customerRoutes = require("./routes/customerRoute");
@@ -40,6 +46,7 @@ const accessLevelPermissionRoutes = require("./routes/accessLevelPermissionRoute
 
 const optionsRoutes = require("./routes/optionRoute");
 const insuranceRoutes = require("./routes/insuranceRoute");
+const documentRoutes = require("./routes/documentRoute");
 const environment = config();
 
 app.listen(environment.port, () => {
@@ -92,6 +99,7 @@ app.use("/api/v1/accessLevel/permission", accessLevelPermissionRoutes);
 app.use("/api/v1/options", optionsRoutes);
 
 app.use("/api/v1/insurance", insuranceRoutes);
+app.use("/api/v1/document", documentRoutes);
 
 app.use(express.static(path.join(__dirname, "dist")));
 

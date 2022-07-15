@@ -13,7 +13,6 @@ const interventionSchema = new Schema({
     type: String,
     default: null,
   },
-
   casePhysician: {
     type: String,
     default: null,

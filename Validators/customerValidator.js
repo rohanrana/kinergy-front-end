@@ -96,6 +96,58 @@ const CustomerAddValidation = (req, res, next) => [
     .withMessage(resMessage.EMAIL_VALID),
 ];
 
+const CustomerAddSomeOneValidation = (req, res, next) => [
+  check("firstName")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.FIRST_NAME_REQUIRED),
+  check("phone")
+    .custom((value, { req, loc, path }) => {
+      return Customers.findOne({ phone: value }).then((customer) => {
+        if (customer) {
+          return Promise.reject("Phone number already exist.");
+        }
+      });
+    })
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.CONTACT_REQUIRED),
+
+  check("dob")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.DOB_REQUIRED),
+  check("gender")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.GENDER_REQUIRED),
+  check("email")
+    .custom((value, { req, loc, path }) => {
+      return Customers.findOne({ email: value }).then((customer) => {
+        if (customer) {
+          return Promise.reject(resMessage.EMAIL_ALREADY_EXISTS);
+        }
+      });
+    })
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.EMAIL_REQUIRED)
+    .bail()
+    .normalizeEmail()
+    .isEmail()
+    .withMessage(resMessage.EMAIL_VALID),
+];
+
 const verifyOtpValidation = (req, res, next) => [
   check("otp").trim().escape().not().isEmpty().withMessage("Please enter otp"),
 ];
@@ -220,9 +272,6 @@ const generateMedicalRecordValidators = (req, res, next) => [
   //   .withMessage("Please select body side."),
 ];
 
-
-
-
 const generateSurgeryRecordValidators = (req, res, next) => [
   check("dateOfSurgery")
     .trim()
@@ -230,7 +279,6 @@ const generateSurgeryRecordValidators = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Please enter Date Of Surgery."),
- 
 ];
 
 const generateProgressReportValidators = (req, res, next) => [
@@ -240,7 +288,56 @@ const generateProgressReportValidators = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Please enter Date Of Surgery."),
- 
+];
+
+const emergencyContact = (req, res, next) => [
+  check("emergencyContact")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter emergencyContact."),
+
+  // check("emergencyContact.0.fullName")
+  //   .custom((value, { req, loc, path }) => {
+  //     if (
+  //       req.body.emergencyContact &&
+  //       req.body.emergencyContact.length > 0 &&
+  //       req.body.emergencyContact[0].fullName &&
+  //       req.body.emergencyContact[0].fullName != ""
+  //     ) {
+
+  //       console.log("111" + req.body.emergencyContact.length);
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   })
+  //   .withMessage("Please enter fullName."),
+  // check("relationShip")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please enter relationShip."),
+  // check("language")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please enter language."),
+  // check("phoneType")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please enter phoneType."),
+  // check("phone")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please enter phone."),
 ];
 
 const StaffSignUpValidation = (req, res, next) => [
@@ -364,9 +461,12 @@ module.exports = {
   mobileLogin: [generateMobileloginValidators(), reporter],
   emailLogin: [generateEmailLoginValidators(), reporter],
   registerNewCustomer: [CustomerAddValidation(), reporter],
+  CustomerAddSomeOneValidation: [CustomerAddSomeOneValidation(), reporter],
   verifyOtp: [verifyOtpValidation(), reporter],
+
   // Admin Side
   medicalRecordAdd: [generateMedicalRecordValidators(), reporter],
   surgeryRecordAdd: [generateSurgeryRecordValidators(), reporter],
   progressReportAdd: [generateProgressReportValidators(), reporter],
+  emergencyContact: [emergencyContact(), reporter],
 };

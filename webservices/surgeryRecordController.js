@@ -50,6 +50,8 @@ const add = async (req, res, next) => {
             visableToCustomer: false,
             addBy: reportedBy,
           });
+          console.log("fileAttachData", fileAttachData);
+          var fileAttachData2 = fileAttachData;
           fileAttachData.save();
         });
       return Response.sendResponseWithData(

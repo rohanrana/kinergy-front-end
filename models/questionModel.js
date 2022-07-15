@@ -8,6 +8,11 @@ const questionSchema = new Schema(
       type: String,
       default: null,
     },
+    
+    slug:{
+      type:String,
+      default:null
+    },
     optionType: {
       type: String,
       default: null,
