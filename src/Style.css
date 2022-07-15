@@ -1135,7 +1135,7 @@ div#textAr {
   position: relative;
   padding: 1rem 0.75rem;
   border-radius: 0.25rem;
-  overflow:hidden;
+  /* overflow:hidden; */
 }
 div#textAr textarea {
   padding: 0;
@@ -1145,7 +1145,7 @@ div#textAr textarea {
 hr#myHr {
   position: relative;
   height: 1px;
-  width: 100vw;
+  width: calc(100vw - 286px);
   left: -12px;
   right: -12px;
 }
