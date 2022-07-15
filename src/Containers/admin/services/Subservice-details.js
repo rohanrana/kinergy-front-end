@@ -27,7 +27,7 @@ import {
   getSubServiceByCategoryID,
 } from "../../../Services/subServices";
 import TableLoader from "../../../component/common/TableLoader";
-import AddSubServices  from "./AddSubServices";
+import AddSubServices from "./AddSubServices";
 import { floor, isArray } from "lodash";
 import AddProviders from "./AddProviders";
 import BackButton from "../../../component/BackButton";
@@ -286,7 +286,7 @@ const Subservicedetails = () => {
                               (d) => {
                                 return (
                                   <tr key={d._id}>
-                                    <td>${d.duration} Min</td>
+                                    <td>{d.duration} Min</td>
                                     <td>${floor(d.price, 2)}</td>
                                   </tr>
                                 );
@@ -321,7 +321,7 @@ const Subservicedetails = () => {
                               (d) => {
                                 return (
                                   <tr key={d._id}>
-                                    <td>${d.duration} Min</td>
+                                    <td>{d.duration} Min</td>
                                     <td>${floor(d.price, 2)}</td>
                                   </tr>
                                 );

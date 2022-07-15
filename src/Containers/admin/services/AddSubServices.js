@@ -332,7 +332,7 @@ export default function AddSubServices({
         <Modal.Header className="border-0 pb-0" closeButton></Modal.Header>
         <Modal.Body>
           <div className="mod_sec">
-            <h3 className="md_txt">Edit Service</h3>
+            <h3 className="md_txt">{isEdit ? `Edit` : `Add`} Service</h3>
             <Form>
               <Form.Group className="mb-4 form-type pos-rel">
                 <Form.Label className="floatLabel">

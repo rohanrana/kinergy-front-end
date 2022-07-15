@@ -12,6 +12,7 @@ export const appRoutesConst = {
   addingFacility: "/admin/adding-facility",
   appointments: "/admin/admin-appointment",
   discount: "/admin/discount",
+
   userManagement: "/admin/user-management",
   accessManagement: "/admin/access-management",
   client: "/client",
@@ -20,15 +21,7 @@ export const appRoutesConst = {
   subServicesDetails: "/subservice-details/:service_id/:service_category",
   forms: "/forms",
   createForms: "/create-form",
-    userManagement: "/admin/user-management",
-    accessManagement: "/admin/access-management",
-    client: "/client",
-    services: "/services",
-    serviceDetails: "/service-details",
-    subServicesDetails: "/subservice-details",
-    forms: "/forms",
-    createForms: "/create-form",
-    Createfornext: "/create-form-next",
+  Createfornext: "/create-form-next",
 };
 
 // const config = {

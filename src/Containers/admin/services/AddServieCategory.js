@@ -18,7 +18,7 @@ export default function AddServieCategory({
   show,
   handleClose,
   servicesDetails,
-  getServiceCategoryDetail
+  getServiceCategoryDetail,
 }) {
   let intialState = {
     title: "",
@@ -46,7 +46,7 @@ export default function AddServieCategory({
     if (servicesDetails) {
       setState({
         ...state,
-          edit_id: servicesDetails._id,
+        edit_id: servicesDetails._id,
         title: servicesDetails.title,
         description: servicesDetails.description,
         image: servicesDetails.image,
@@ -110,9 +110,9 @@ export default function AddServieCategory({
           successToast({ content: response.data.response_message });
           await setState({ ...state, loadingSubmit: false });
           setState(intialState);
-          if(servicesDetails){
-            getServiceCategoryDetail()
-          }else{
+          if (servicesDetails) {
+            getServiceCategoryDetail();
+          } else {
             dispatch(serviceCategoryActions.onRequest({}));
           }
 
@@ -138,7 +138,9 @@ export default function AddServieCategory({
       <Modal.Header className="border-0 pb-0" closeButton></Modal.Header>
       <Modal.Body>
         <div className="mod_sec">
-          <h3 className="md_txt">Add New Service Category</h3>
+          <h3 className="md_txt">
+            {servicesDetails ? "Edit" : "Add New"} Service Category
+          </h3>
           <Form>
             <Form.Group className="mb-4 form-type">
               <Form.Control
