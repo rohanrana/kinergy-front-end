@@ -402,29 +402,32 @@ label {
   height: 12px;
   margin-right: 5px;
 }
-.close-modal-btn{
+.close-modal-btn {
   position: absolute;
   top: 10px;
   right: 20px;
   font-size: 22px;
   cursor: pointer;
 }
-.pl-5{
+.pl-5 {
   padding-left: 3rem !important;
 }
-.pr-5{
+.pr-5 {
   padding-right: 3rem !important;
 }
 
-.otp-timeline{
-  color: #1479FF;
+.otp-timeline {
+  color: #1479ff;
   text-align: left;
   margin-top: 10px;
 }
 
-.otp-timeline a{
-  color: #1479FF !important;
+.otp-timeline a {
+  color: #1479ff !important;
 }
-.link-color-form a{
-  color: #1479FF !important;
+.link-color-form a {
+  color: #1479ff !important;
+}
+.mt-10 {
+  margin-top: 10px !important;
 }

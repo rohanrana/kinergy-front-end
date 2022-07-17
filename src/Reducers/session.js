@@ -7,22 +7,23 @@ import {
   // sendOTPApi,
 } from "../Services/session";
 
-
 import {
   navigateToIndex,
   appRoutesConst,
   navigateToHome,
-
 } from "../App/navigation";
-import { getErrorObject, errorToast, successToast, verifyObject } from "../utilities/utils";
-;
+import {
+  getErrorObject,
+  errorToast,
+  successToast,
+  verifyObject,
+} from "../utilities/utils";
 export const types = {
   LOGIN_REQUEST: "session/LOGIN_REQUEST",
   LOGIN_SUCCESS: "session/LOGIN_SUCCESS",
   LOGIN_FAILURE: "session/LOGIN_FAILURE",
   LOGOUT_REQUEST: "session/LOGOUT_REQUEST",
   LOGOUT_FAILURE: "session/LOGOUT_FAILURE",
-
 
   SEND_OTP_REQUEST: "session/SEND_OTP_REQUEST",
   SEND_OTP_SUCCESS: "session/SEND_OTP_SUCCESS",
@@ -91,14 +92,14 @@ export const session = (state = initialState, action) => {
   }
 };
 
-export const login = (data, props) => {
+export const login = (data, navigate) => {
   return async (dispatch) => {
     dispatch({ type: types.LOGIN_REQUEST });
 
     try {
       let response = await loginApi(data);
       const auth = response.data;
-      console.log("Log in success", response)
+      console.log("Log in success", response);
       let tokenparams = {};
       if (auth.token) {
         tokenparams = { token: auth.token, user: auth.result };
@@ -108,12 +109,10 @@ export const login = (data, props) => {
         payload: { ...tokenparams },
       });
       successToast({
-        content: verifyObject(response, "message", "Success")
+        content: verifyObject(response, "message", "Success"),
       });
-      await props.history.push(`${appRoutesConst.home}`);
-      dispatch(navigateToHome());
+      await navigate(`${appRoutesConst.index}`);
     } catch (error) {
-
       const { message } = getErrorObject(error);
       dispatch({ type: types.LOGIN_FAILURE, payload: { error: message } });
       errorToast({ content: message });
@@ -121,8 +120,7 @@ export const login = (data, props) => {
   };
 };
 
-
-export const logOut = (data) => {
+export const logOut = (data, navigate) => {
   return async (dispatch) => {
     dispatch({ type: types.LOGOUT_REQUEST });
     try {
@@ -131,18 +129,16 @@ export const logOut = (data) => {
       dispatch({
         type: types.LOG_OUT,
       });
-      dispatch(navigateToIndex());
       dispatch({ type: "CLEAR_LOCAL_STATE" });
       successToast({
-        content: verifyObject(response, "message", "Success")
+        content: verifyObject(response, "message", "Success"),
       });
+      await navigate(`${appRoutesConst.index}`);
     } catch (error) {
-
       const { message } = getErrorObject(error);
       dispatch({ type: types.LOGOUT_FAILURE, payload: { error: message } });
       errorToast({ content: message });
     }
-
 
     // localStorage.clear();
   };

@@ -6,6 +6,7 @@ export const appRoutesConst = {
   index: "/",
   subServices: "/sub-services",
   signin: "/signin",
+  serviceDetails: "/service/:_id/:category_name",
 };
 
 // const config = {

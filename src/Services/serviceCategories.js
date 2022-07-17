@@ -9,6 +9,7 @@ export const getServiceCategories = (data) => {
 };
 
 export const getServiceCategoryByID = (data) => {
+  console.log('getServiceCategoryByID')
   const request = {
     subUrl: `/service/category/getListById`,
     data,

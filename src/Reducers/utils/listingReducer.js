@@ -181,6 +181,7 @@ export const listingReducer = (
       });
       try {
         const response = await getApi(params);
+        console.log("list Response", response)
         const extraData = getExtraDataFromListing(response);
         const { data, ids, pagination } = normalizeResponseWithPagination({
           response,
