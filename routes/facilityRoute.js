@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const facilityApis = require('../webservices/facilityController');
 
-const facilityValidator = require('../Validators/facilityValidator');
+const facilityValidator = require('../validators/facilityValidator');
 
 router.post('/add',facilityApis.fileUpload, authHandler.auth_func,facilityValidator.add,  facilityApis.add);
 router.post('/edit',facilityApis.fileUpload, authHandler.auth_func,facilityValidator.edit,  facilityApis.edit);

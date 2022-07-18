@@ -25,7 +25,7 @@ const caseRecordSchema = new Schema(
         default: null,
       },
     ],
-    dateOnSurgery: {
+    dateOfSurgery: {
       type: Date,
       default: null,
     },

@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const inventoryApis =  require('../webservices/inventoryController');
 
-const inventoryValidator = require('../Validators/inventoryValidator');
+const inventoryValidator = require('../validators/inventoryValidator');
 
 router.post('/add',inventoryApis.fileUpload, authHandler.auth_func, inventoryValidator.add, inventoryApis.add);
 router.post('/edit',inventoryApis.fileUpload, authHandler.auth_func, inventoryValidator.edit, inventoryApis.edit);

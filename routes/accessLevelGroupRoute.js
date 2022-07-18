@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const accessLevelApis = require('../webservices/accessLevel/accessLevelGroupController');
 
-const accessLevelGroupValidator = require('../Validators/accessLevelGroupValidator');
+const accessLevelGroupValidator = require('../validators/accessLevelGroupValidator');
 
 router.post('/addGroup', authHandler.auth_func, accessLevelGroupValidator.add, accessLevelApis.addGroup);
 router.post('/editGroup', authHandler.auth_func, accessLevelGroupValidator.edit, accessLevelApis.editGroup);

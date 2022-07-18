@@ -8,7 +8,7 @@ const generalHelper = require("../helper/general");
 const appointmentHelper = require("../helper/appointmentHelper");
 var mongodb = require("mongodb");
 var objectid = mongodb.ObjectID;
-const couponHelper =require("../helper/couponHelper");
+const couponHelper = require("../helper/couponHelper");
 const moment = require("moment");
 const returnPagination = (result) => {
   delete result.docs;
@@ -31,7 +31,13 @@ const book = (req, res, next) => {
     status,
     location,
     department,
-    coupon
+    coupon,
+    amount,
+    taxAmount,
+    discountAmount,
+    totalAmount,
+    serviceDuration,
+    serviceAmount,
   } = req.body;
   const appointment = new Appointment({
     spentTime,
@@ -48,16 +54,21 @@ const book = (req, res, next) => {
     customer: customer,
     provider: provider,
     status: generalHelper.stringToUpperCase(status),
-    couponApplied: coupon && coupon._id?1:0,
-    coupon : coupon
-
+    couponApplied: coupon && coupon._id ? 1 : 0,
+    coupon: coupon,
+    amount: amount,
+    taxAmount: taxAmount,
+    discountAmount: discountAmount,
+    totalAmount: totalAmount,
+    serviceDuration,
+    serviceAmount,
   });
   console.log("appointment", appointment);
 
   appointment.save((err, result) => {
     console.log(err, result);
     couponHelper.couponHit(coupon._id);
-    if (!err) 
+    if (!err)
       Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
@@ -90,7 +101,13 @@ const customerBooking = (req, res, next) => {
       status,
       location,
       department,
-      coupon
+      coupon,
+      amount,
+      taxAmount,
+      discountAmount,
+      totalAmount,
+      serviceDuration,
+      serviceAmount,
     } = req.body;
     const appointment = new Appointment({
       appointmentType: appointmentType,
@@ -101,15 +118,21 @@ const customerBooking = (req, res, next) => {
       customer: customer,
       provider: provider,
       status: generalHelper.stringToUpperCase(status),
-      couponApplied: coupon && coupon._id?1:0,
-      coupon : coupon
+      couponApplied: coupon && coupon._id ? 1 : 0,
+      coupon: coupon,
+      amount: amount,
+      taxAmount: taxAmount,
+      discountAmount: discountAmount,
+      totalAmount: totalAmount,
+      serviceDuration,
+      serviceAmount,
     });
 
     console.log("appointment", appointment);
 
     appointment.save((err, result) => {
       console.log(err, result);
-      if (!err){
+      if (!err) {
         couponHelper.couponHit(coupon._id);
         Response.sendResponseWithData(
           res,
@@ -117,7 +140,73 @@ const customerBooking = (req, res, next) => {
           resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
           result
         );
-      }else {
+      } else {
+        console.log(err);
+        Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      }
+    });
+  }
+  const followUpBooking = (req, res, next) => {
+    console.log(req.body);
+    const {
+      appointmentType,
+      servicePrice,
+      appointmentDate,
+      appointmentTime,
+      provider,
+      spentTime,
+      service,
+      staff,
+      customer,
+      status,
+      location,
+      department,
+      coupon,
+      amount,
+      caseId,
+      taxAmount,
+      discountAmount,
+      totalAmount,
+      serviceDuration,
+      serviceAmount,
+    } = req.body;
+    const appointment = new Appointment({
+      case:caseId,
+      appointmentType: appointmentType,
+      service: service,
+      servicePrice: servicePrice,
+      appointmentDate: generalHelper.dateFormat(appointmentDate),
+      appointmentTime: appointmentTime,
+      customer: customer,
+      provider: provider,
+      status: generalHelper.stringToUpperCase(status),
+      couponApplied: coupon && coupon._id ? 1 : 0,
+      coupon: coupon,
+      amount: amount,
+      taxAmount: taxAmount,
+      discountAmount: discountAmount,
+      totalAmount: totalAmount,
+      serviceDuration,
+      serviceAmount,
+    });
+
+    console.log("appointment", appointment);
+
+    appointment.save((err, result) => {
+      console.log(err, result);
+      if (!err) {
+        couponHelper.couponHit(coupon._id);
+        Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
+          result
+        );
+      } else {
         console.log(err);
         Response.sendResponseWithoutData(
           res,
@@ -127,6 +216,8 @@ const customerBooking = (req, res, next) => {
       }
     });
   },
+
+
   edit = (req, res, next) => {
     console.log(Appointment.STATUS);
     if (!req.body._id) {
@@ -649,4 +740,5 @@ module.exports = {
   deleteAppointment,
   changeStatus,
   getAppointmentDetail,
+  followUpBooking
 };

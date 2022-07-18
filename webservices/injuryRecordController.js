@@ -38,6 +38,7 @@ const add = async (req, res, next) => {
     appointment,
     dateOnSet,
     treatedBy,
+    dateOfSurgery,
     casePhysician,
     casePhysicianName,
     injuryType,
@@ -45,10 +46,36 @@ const add = async (req, res, next) => {
     bodySide,
     description,
     restrictions,
+    dateOfNextAppoitnment,
+    howInjuryConditionOccurred,
+    painLevel,
+    whatHasMadeConditionFeelBetter,
+    whatHasMadeConditionFeelWorse,
+    hasThisOrSimilarConditionOccuredBefore,
+    hasThisOrSimilarConditionOccuredBeforeComment,
+    haveYouSeenDoctorForchisCondition,
+    hadAnyDiagnosticsForThisCondition,
+    nameOfDoctor,
+    doctorPhone,
+    medicalDiagnosis,
   } = req.body;
   var medicalRecordData = await new InjuryRecord({
     customer,
     appointment,
+    doctorPhone:doctorPhone,
+    medicalDiagnosis:medicalDiagnosis,
+    howInjuryConditionOccurred: howInjuryConditionOccurred,
+    painLevel: painLevel,
+    whatHasMadeConditionFeelBetter: whatHasMadeConditionFeelBetter,
+    whatHasMadeConditionFeelWorse: whatHasMadeConditionFeelWorse,
+    hasThisOrSimilarConditionOccuredBefore:
+      hasThisOrSimilarConditionOccuredBefore,
+    hasThisOrSimilarConditionOccuredBeforeComment:
+      hasThisOrSimilarConditionOccuredBeforeComment,
+    haveYouSeenDoctorForchisCondition: haveYouSeenDoctorForchisCondition,
+    hadAnyDiagnosticsForThisCondition: hadAnyDiagnosticsForThisCondition,
+    nameOfDoctor: nameOfDoctor,
+    dateOfSurgery: generalHelper.dateFormat(dateOfSurgery),
     dateOnSet: generalHelper.dateFormat(dateOnSet),
     treatedBy: treatedBy,
     casePhysician: casePhysician,
@@ -56,6 +83,7 @@ const add = async (req, res, next) => {
     injuryType: injuryType,
     description: description,
     restrictions: restrictions,
+    dateOfNextAppoitnment,
     // bodyDetails: manageBodyDetails(bodySide, bodyPart)
   });
   await medicalRecordData.save(async (err, result) => {
@@ -110,22 +138,25 @@ const get = async (req, res, next) => {
   const { customer } = req.body;
   await InjuryRecord.find({ customer: customer })
     .select(
-      "_id customer appointment dateOnSet bodyParts dateOnSurgery painLev  el dateOfNextAppoitnment createdAt updatedAt"
+      "_id customer appointment bodyParts dateOfNextAppoitnment createdAt updatedAt"
     )
     .populate({
       path: "customer",
-      select:"firstName lastName _id", 
+      select: "firstName lastName _id",
     })
     .populate({
       path: "bodyParts",
-      select:"_id bodyPart bodySide", 
-      populate:[{
-        path: "bodyPart",
-        select:"name slug"
-      },{
-        path: "bodySide",
-        select:"name slug"
-      }],
+      select: "_id bodyPart bodySide",
+      populate: [
+        {
+          path: "bodyPart",
+          select: "name slug",
+        },
+        {
+          path: "bodySide",
+          select: "name slug",
+        },
+      ],
     })
     .lean()
     .exec(async (err, result) => {
@@ -145,8 +176,68 @@ const get = async (req, res, next) => {
       }
     });
 };
+const getAppointmentDetailByCaseId = async (req, res, next) => {
+  if (!(await req.body.caseId)) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Enter case id."
+    );
+  }
+  const { caseId } = req.body;
+  await InjuryRecord.find({ _id: caseId })
+    .select("_id appointment")
+    // .populate({
+    //   path: "customer",
+    //   select: "firstName lastName _id",
+    // })
+    .populate({
+      path: "appointment",
+      select:
+        "_id appointmentType appointmentFor service serviceDuration serviceAmount appointmentDate appointmentTime customer provider amount taxAmount discountAmount totalAmount createdAt updatedAt",
+      populate: [
+        {
+          path: "customer",
+          select: "firstName lastName _id",
+        },
+        {
+          path: "service",
+          select: "_id title slug description image initialConsultation ",
+          populate: [
+            {
+              path: "category",
+              select: "_id title slug description",
+            },
+            
+          ],
+        },
+        {
+          path: "provider",
+          // select: "",
+        },
+      ],
+    })
+    .lean()
+    .exec(async (err, result) => {
+      if (err) {
+        return await Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      } else {
+        return await Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Appointment found successfully.",
+          result
+        );
+      }
+    });
+};
 
 module.exports = {
   add,
   get,
+  getAppointmentDetailByCaseId,
 };

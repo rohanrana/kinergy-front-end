@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const taxApis = require('../webservices/taxController');
 
-const taxValidator = require('../Validators/taxValidator');
+const taxValidator = require('../validators/taxValidator');
 
 router.post('/add', authHandler.auth_func, taxValidator.add, taxApis.add);
 router.post('/edit', authHandler.auth_func, taxValidator.edit, taxApis.edit);

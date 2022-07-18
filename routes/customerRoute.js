@@ -37,6 +37,7 @@ router.post('/register',customerValidation.registerNewCustomer,customerApis.regi
 router.post('/registerSomeOneElse',authHandler.auth_func,customerValidation.CustomerAddSomeOneValidation,customerApis.registerSomeOneCustomer);
 router.post('/injuryRecord/add',authHandler.auth_func,injuryRecordApis.add);
 router.post('/injuryRecord/get',authHandler.auth_func,injuryRecordApis.get);
+router.post('/injuryRecord/getAppointmentDetailByCaseId',authHandler.auth_func,injuryRecordApis.getAppointmentDetailByCaseId);
 
 
 module.exports = router;

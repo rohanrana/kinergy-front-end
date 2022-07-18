@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const billableItemApis =  require('../webservices/billableItemsController');
-const billableItemValidator = require('../Validators/billableItemsValidator');
+const billableItemValidator = require('../validators/billableItemsValidator');
 
 router.post('/add', authHandler.auth_func, billableItemValidator.add, billableItemApis.add);
 router.post('/edit', authHandler.auth_func, billableItemValidator.edit, billableItemApis.edit);
