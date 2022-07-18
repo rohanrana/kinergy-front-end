@@ -1,7 +1,7 @@
 const routers = require('express')
 const documentReportApis = require("../webservices/documentController");
 const authHandler = require('../middleware/authHandler.js')
-const customerValidation = require('../validators/customerValidator.js');
+const customerValidation = require('../Validators/customerValidator.js');
 const router = routers.Router();
 
 router.post('/add',documentReportApis.fileUpload,authHandler.auth_func,documentReportApis.add);
