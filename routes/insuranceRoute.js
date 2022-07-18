@@ -1,7 +1,7 @@
 const routers = require('express')
 const insuranceApis = require("../webservices/insuranceController");
 const authHandler = require('../middleware/authHandler.js');
-const insuranceValidation = require('../Validators/insuranceValidator');
+const insuranceValidation = require('../validators/insuranceValidator');
 const router = routers.Router();
 
 // Admin Side
