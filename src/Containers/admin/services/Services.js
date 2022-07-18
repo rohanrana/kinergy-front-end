@@ -47,14 +47,14 @@ const Services = () => {
   return (
     <div className="clients">
       <Container fluid>
-        <Row>
-          <Col lg={3} sm={4} xs={12}>
+        <div className="d-flex e-wrap align-items-start justify-between">
+          <div className="w-250">
             <AdminLeftMenu />
-          </Col>
-          <Col lg={9} sm={8} xs={12}>
+          </div>
+          <div className="w-100">
             <div className="appointment-card">
               <div className="d-flex justify-content-between align-item-center">
-                <h5>Service Category</h5>
+                <h5 className="mt-mb">Service Category</h5>
                 <Button
                   className="btn btn-theme rounded"
                   varient="primary"
@@ -76,7 +76,7 @@ const Services = () => {
                   </div>
                 )}
 
-              <Row id="service_id">
+              <Row id="service_id ">
                 {serviceCategoriesData &&
                   isArray(serviceCategoriesData) &&
                   serviceCategoriesData.map((d) => {
@@ -107,8 +107,8 @@ const Services = () => {
                   })}
               </Row>
             </div>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Container>
       {<AddServieCategory show={show} handleClose={handleClose} />}
     </div>

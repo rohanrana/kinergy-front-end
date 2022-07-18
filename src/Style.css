@@ -362,8 +362,10 @@ button#formBtn {
   text-decoration: none;
   letter-spacing: 0.5px;
   color: #6d6d6d;
-  font-weight: 600;
-  font-size: 14px;
+  display: block;
+  font-weight: 400;
+  margin-top: 24px;
+  font-size: 16px;
   line-height: 35px;
 }
 
@@ -907,6 +909,7 @@ button.accordion-button.collapsed::after {
   border-radius: 10px;
   padding: 16px;
   margin-top: 24px;
+  height: 280px;
 }
 #service_id h3 {
   font-family: "Inter", sans-serif;
@@ -1296,3 +1299,9 @@ span.edit{
   background:transparent!important;
   border:none!important;
 }
+
+/* rupali css start */
+.w-250{max-width: 250px; width: 100%; padding: 0px 14px;}
+.mt-mb{margin-top: 41px!important; margin-bottom: 35px!important;}
+.space{margin-left: 41px;}
+/* rupali css end */
