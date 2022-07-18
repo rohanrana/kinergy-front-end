@@ -9,11 +9,13 @@ const bodyPartSchema = new Schema({
     default: null,
   },
   bodyPart: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Option",
     default: null,
   },
   bodySide: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Option",
     default: null,
   },
 });

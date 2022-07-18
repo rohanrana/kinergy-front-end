@@ -4,10 +4,27 @@ const Schema = mongoose.Schema;
 
 const caseRecordSchema = new Schema(
   {
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customers",
+      default: null,
+    },
+    appointment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment",
+      default: null,
+    },
     dateOnSet: {
       type: Date,
       default: null,
     },
+    bodyParts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "bodyPart",
+        default: null,
+      },
+    ],
     dateOnSurgery: {
       type: Date,
       default: null,
@@ -32,15 +49,15 @@ const caseRecordSchema = new Schema(
       type: mongoose.Schema.Types.Boolean,
       default: false,
     },
-    hasThisOrSimilarConditionOccuredBeforeComment:  {
+    hasThisOrSimilarConditionOccuredBeforeComment: {
       type: String,
       default: null,
     },
-    haveYouSeenDoctorForThisCondition : {
+    haveYouSeenDoctorForThisCondition: {
       type: mongoose.Schema.Types.Boolean,
       default: false,
     },
-    hadAnyDiagnosticsForThisCondition : {
+    hadAnyDiagnosticsForThisCondition: {
       type: mongoose.Schema.Types.Boolean,
       default: false,
     },

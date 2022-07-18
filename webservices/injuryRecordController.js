@@ -2,7 +2,7 @@ const Response = require("../common_functions/response_handler");
 const resCode = require("../helper/httpResponseCode");
 const resMessage = require("../helper/httpResponseMessage");
 const InjuryRecord = require("../models/injuryCaseModel");
-
+const bodyPartModel = require("../models/bodyPartModel");
 const generalHelper = require("../helper/general");
 
 const manageBodyDetails = (bodySide, bodyPart) => {
@@ -17,15 +17,25 @@ const manageBodyDetails = (bodySide, bodyPart) => {
         bodyObj.bodyPart = null;
       }
       bodyObj = { ...bodyObj, bodySide: value };
-      console.log('bodyObj',bodyObj);
+      console.log("bodyObj", bodyObj);
       phoneArr.push(bodyObj);
     });
   }
   return phoneArr;
 };
-
+const bodyPartPush = async (bodyPartId, InjuryRecordId) => {
+  InjuryRecord.findByIdAndUpdate(
+    { _id: InjuryRecordId },
+    { $push: { bodyParts: bodyPartId } },
+    { new: true, useFindAndModify: false }
+  )
+    .lean()
+    .exec((pushErr, pushResult) => {});
+};
 const add = async (req, res, next) => {
   const {
+    customer,
+    appointment,
     dateOnSet,
     treatedBy,
     casePhysician,
@@ -36,7 +46,9 @@ const add = async (req, res, next) => {
     description,
     restrictions,
   } = req.body;
-  var medicalRecordData = new InjuryRecord({
+  var medicalRecordData = await new InjuryRecord({
+    customer,
+    appointment,
     dateOnSet: generalHelper.dateFormat(dateOnSet),
     treatedBy: treatedBy,
     casePhysician: casePhysician,
@@ -44,17 +56,39 @@ const add = async (req, res, next) => {
     injuryType: injuryType,
     description: description,
     restrictions: restrictions,
-    bodyDetails: manageBodyDetails(bodySide, bodyPart),
+    // bodyDetails: manageBodyDetails(bodySide, bodyPart)
   });
-  medicalRecordData.save((err, result) => {
-    if (!result && err) {
+  await medicalRecordData.save(async (err, result) => {
+    var bodyData = await manageBodyDetails(bodySide, bodyPart);
+    if (!(await result) && (await err)) {
       console.log(err);
-      return Response.sendResponseWithoutData(
+      return await Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         resMessage.WENT_WRONG
       );
     } else {
+      bodyData &&
+        bodyData.length > 0 &&
+        bodyData.map(async (bd, bdx) => {
+          let bodyPartData = await bodyPartModel({
+            caseId: result._id,
+            bodyPart: bd.bodyPart,
+            bodySide: bd.bodySide,
+          });
+          await bodyPartData.save(async (bodyPartErr, bodyPartResult) => {
+            var push = await bodyPartPush(bodyPartResult._id, result._id);
+            console.log(
+              "bodyPartErr",
+              bodyPartErr,
+              "bodyPartResult",
+              bodyPartResult,
+              "push",
+              push
+            );
+          });
+        });
+
       return Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
@@ -64,6 +98,55 @@ const add = async (req, res, next) => {
     }
   });
 };
+
+const get = async (req, res, next) => {
+  if (!(await req.body.customer)) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Enter customer id."
+    );
+  }
+  const { customer } = req.body;
+  await InjuryRecord.find({ customer: customer })
+    .select(
+      "_id customer appointment dateOnSet bodyParts dateOnSurgery painLev  el dateOfNextAppoitnment createdAt updatedAt"
+    )
+    .populate({
+      path: "customer",
+      select:"firstName lastName _id", 
+    })
+    .populate({
+      path: "bodyParts",
+      select:"_id bodyPart bodySide", 
+      populate:[{
+        path: "bodyPart",
+        select:"name slug"
+      },{
+        path: "bodySide",
+        select:"name slug"
+      }],
+    })
+    .lean()
+    .exec(async (err, result) => {
+      if (err) {
+        return await Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      } else {
+        return await Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Injury case found successfully.",
+          result
+        );
+      }
+    });
+};
+
 module.exports = {
   add,
+  get,
 };

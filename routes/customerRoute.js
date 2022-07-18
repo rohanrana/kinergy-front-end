@@ -10,7 +10,7 @@ const router = routers.Router();
 
 // Admin Side
 router.post('/medicalRecord/add',authHandler.auth_func,customerValidation.medicalRecordAdd,medicalRecordApis.add);
-router.post('/injuryRecord/add',authHandler.auth_func,injuryRecordApis.add);
+
 router.post('/surgeryRecord/add',surgeryRecordApis.fileUpload,authHandler.auth_func,customerValidation.surgeryRecordAdd,surgeryRecordApis.add);
 router.post('/progressReport/add',authHandler.auth_func,customerValidation.progressReportAdd,progressReportApis.add);
 router.post('/progressReport/add',authHandler.auth_func,customerValidation.progressReportAdd,progressReportApis.add);
@@ -29,13 +29,14 @@ router.get('/', function(req, res, next) {
  router.post('/clientLock',authHandler.auth_func,customerApis.clientLock);
 
 // Client Side
-router.post('/loginWithMobile',authHandler.auth_func,customerValidation.mobileLogin,customerApis.loginWithMobile);
-router.post('/loginWithEmail',authHandler.auth_func,customerValidation.emailLogin,customerApis.loginWithEmail);
-router.post('/verifyMobileOtp',authHandler.auth_func,customerValidation.verifyOtp,customerApis.verifyMobileOtp);
-router.post('/verifyEmailOtp',authHandler.auth_func,customerValidation.verifyOtp,customerApis.verifyEmailOtp);
-router.post('/register',authHandler.auth_func,customerValidation.registerNewCustomer,customerApis.registerCustomer);
+router.post('/loginWithMobile',customerValidation.mobileLogin,customerApis.loginWithMobile);
+router.post('/loginWithEmail',customerValidation.emailLogin,customerApis.loginWithEmail);
+router.post('/verifyMobileOtp',customerValidation.verifyOtp,customerApis.verifyMobileOtp);
+router.post('/verifyEmailOtp',customerValidation.verifyOtp,customerApis.verifyEmailOtp);
+router.post('/register',customerValidation.registerNewCustomer,customerApis.registerCustomer);
 router.post('/registerSomeOneElse',authHandler.auth_func,customerValidation.CustomerAddSomeOneValidation,customerApis.registerSomeOneCustomer);
-
+router.post('/injuryRecord/add',authHandler.auth_func,injuryRecordApis.add);
+router.post('/injuryRecord/get',authHandler.auth_func,injuryRecordApis.get);
 
 
 module.exports = router;

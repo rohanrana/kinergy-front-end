@@ -66,7 +66,8 @@ const appointmentSchema = new Schema(
       default: null,
     },
     case: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CaseRecord",
       default: null,
     },
     location: {

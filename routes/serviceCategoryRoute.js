@@ -13,7 +13,7 @@ router.post('/delete', authHandler.auth_func, serviceCategoryApis.delete);
 router.post('/changeStatus', authHandler.auth_func, serviceCategoryApis.changeStatus);
 
 // Client Side
-router.post('/getServiceCategoryList', authHandler.auth_func, serviceCategoryApis.getServiceCategoryList);
+router.post('/getServiceCategoryList', serviceCategoryApis.getServiceCategoryList);
 
 
 module.exports = router;
