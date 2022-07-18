@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import FontsPicker from './Font-picker';
+import IncDcr from './Inrease-descrease';
 // import Sidebar from '../../../PageLayout/SidebarNav/Sidebar';
 
 const Createformnext = () => {
+
     const [isShown, setIsShown] = useState(false);
 
     const handleClick = event => {
@@ -56,12 +59,12 @@ const Createformnext = () => {
                         <div className="appointment-card" id="max984">
                             <Row>
                                 <Col md={8} xs={12}>
-                                    <Form.Group className="mb-4 mt-4 form-type">
+                                    <Form.Group className="mt-4 mb-4 form-type">
                                         <Form.Control type="text" placeholder="Add question*" />
                                     </Form.Group>
                                 </Col>
                                 <Col md={4} xs={12}>
-                                    <Form.Group className="mb-4 mt-4 form-type">
+                                    <Form.Group className="mt-4 mb-4 form-type">
                                         <Form.Control as="select" placeholder="Add question*">
                                             <option selected disabled>Answer Type</option>
                                             <option value="Check Boxes"><i class="fa-solid fa-check-to-slot mr-1"></i> Check Boxes</option>
@@ -77,10 +80,46 @@ const Createformnext = () => {
                                         </Form.Control>
                                     </Form.Group>
                                 </Col>
+                                <Col md={12}>
+                                <Form.Group className="form-type">
+                                    <div className='d-flex align-items-start'>
+                                        <input type="checkbox" className='me-3'/>
+                                        <div className='w-100' id="textAr">
+                                        <Form.Control className="apply-font mb-3" as="textarea" rows="4" placeholder='Add Option' />
+                                        <FontsPicker /> <IncDcr />
+                                        <Button className="bold_btn">B</Button>
+                                        <Button className="bold_btn"><i>I</i></Button>
+                                        <Button className="bold_btn undrline">U</Button>
+                                        </div>
+                                        <Button className="bold_btn"><i className="fa fa-trash"></i></Button>
+                                    </div>
+                                    <div className='text-right'>
+                                        <Button className="bold_btn me-4" id="ffAdd">+ Add option</Button>
+                                    </div>
+                                </Form.Group>
+                                </Col>
+                                <Col md={12}>
+                                    <hr/>
+                                </Col>
+                                <Col md={12}>
+                                    <div className='text-right'>
+                                        <Button className="btnForm"><i class="fa-solid fa-copy mr-1"></i> Duplicate</Button>
+                                        <Button className="btnForm"><i class="fa-solid fa-trash mr-1"></i> Delete Question</Button>
+                                        <Button className="btnForm">
+                                            <span className='d-flex'>
+                                                Required
+                                                <Form>
+                                                    <Form.Check
+                                                        type="switch"
+                                                        id="custom-switch"                                                   
+                                                        className="ml-2"
+                                                    />
+                                                </Form>
+                                            </span>
+                                        </Button>
+                                    </div>
+                                </Col>
                             </Row>
-                            <Form.Group className="mb-4 mt-4 form-type">
-                                <Form.Control as="textarea" rows="4" placeholder='Add Section Description' />
-                            </Form.Group>
                         </div>
                         )}
                         <div className="text-center" id="max984">
@@ -94,8 +133,8 @@ const Createformnext = () => {
                             </Button>
                         </div>
                         <div className='text-center mt-5'>
-                            <Button className="btn btn-theme-white btn-primary ps-5 pe-5 me-3 round10">Cancel</Button>
-                            <Link to="/#" className='btn btn-theme ps-5 pe-5 btn-primary'>Next</Link>
+                            <Button className="btn btn-theme-white btn-primary ps-5 pe-5 me-3 round10 mb-3">Cancel</Button>
+                            <Link to="/form-preview" className='btn btn-theme ps-5 pe-5 btn-primary mb-3'>Next</Link>
                         </div>
                     </Form>
                 </Col>

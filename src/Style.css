@@ -1296,3 +1296,24 @@ span.edit{
   background:transparent!important;
   border:none!important;
 }
+.btnForm {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000!important;
+  background: none!important;
+  border: none!important;
+}
+.btnForm:hover, .btnForm:focus, .btnForm:active{
+  background:#ffffff!important;
+  color: #000000!important;
+  border: none!important;
+}
+#ffAdd{
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000;
+}
