@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const authHandler = require('../middleware/authHandler');
-const settingValidator = require("../validators/settingValidator");
+const settingValidator = require("../Validators/settingValidator");
 const settingApis = require('../webservices/settingController');
 
 router.post('/addOrUpdate',authHandler.auth_func,settingValidator.add,settingApis.addOrUpdate);

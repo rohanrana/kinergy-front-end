@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const optionApis = require('../webservices/optionController');
 
-const optionValidator = require('../validators/optionValidator');
+const optionValidator = require('../Validators/optionValidator');
 
 router.post('/addOption',authHandler.auth_func,optionValidator.add,optionApis.add);
 router.post('/editOption',authHandler.auth_func,optionValidator.edit,optionApis.edit);

@@ -153,6 +153,10 @@ const customersSchema = new Schema(
       ref: "Customers",
       default: null,
     },
+    relation: {
+      type: String,
+      default: null,
+    },
   },
 
   {

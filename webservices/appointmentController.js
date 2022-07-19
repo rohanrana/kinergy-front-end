@@ -150,6 +150,72 @@ const customerBooking = (req, res, next) => {
       }
     });
   }
+const bookingAppointmentSomeOneElse = (req, res, next) => {
+    console.log(req.body);
+    const {
+      appointmentType,
+      appointmentFor,
+      servicePrice,
+      appointmentDate,
+      appointmentTime,
+      provider,
+      spentTime,
+      service,
+      staff,
+      customer,
+      status,
+      location,
+      department,
+      coupon,
+      amount,
+      taxAmount,
+      discountAmount,
+      totalAmount,
+      serviceDuration,
+      serviceAmount,
+    } = req.body;
+    const appointment = new Appointment({
+      appointmentType: appointmentType,
+      appointmentFor:appointmentFor,
+      service: service,
+      servicePrice: servicePrice,
+      appointmentDate: generalHelper.dateFormat(appointmentDate),
+      appointmentTime: appointmentTime,
+      customer: customer,
+      provider: provider,
+      status: generalHelper.stringToUpperCase(status),
+      couponApplied: coupon && coupon._id ? 1 : 0,
+      coupon: coupon,
+      amount: amount,
+      taxAmount: taxAmount,
+      discountAmount: discountAmount,
+      totalAmount: totalAmount,
+      serviceDuration,
+      serviceAmount,
+    });
+
+    console.log("appointment", appointment);
+
+    appointment.save((err, result) => {
+      console.log(err, result);
+      if (!err) {
+        couponHelper.couponHit(coupon._id);
+        Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
+          result
+        );
+      } else {
+        console.log(err);
+        Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      }
+    });
+  }
   const followUpBooking = (req, res, next) => {
     console.log(req.body);
     const {

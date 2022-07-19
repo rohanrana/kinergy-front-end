@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const serviceValidator = require("../validators/serviceValidator");
+const serviceValidator = require("../Validators/serviceValidator");
 
 const serviceApis = require("../webservices/serviceController.js");
 const authHandler = require("../middleware/authHandler");

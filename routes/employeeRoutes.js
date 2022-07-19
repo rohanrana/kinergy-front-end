@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const employeeApis = require('../webservices/employeeController');
 
-const employeeValidator = require('../validators/employeeValidator');
+const employeeValidator = require('../Validators/employeeValidator');
 
 router.post('/add', employeeApis.fileUpload,authHandler.auth_func, employeeValidator.add,  employeeApis.add);
 router.post('/edit', employeeApis.fileUpload,  authHandler.auth_func,employeeValidator.edit, employeeApis.edit);

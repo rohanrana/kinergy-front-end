@@ -3,7 +3,7 @@ const staffApis = require('../webservices/staffController.js')
 const authHandler = require('../middleware/authHandler.js')
 const router = routers.Router();
 
-const staffValidator = require('../validators/staffValidator');
+const staffValidator = require('../Validators/staffValidator');
 router.post('/signup', staffApis.fileUpload, staffValidator.signup, staffApis.signup);
 router.post('/login', staffApis.login);
 router.post('/logOut',authHandler.auth_func, staffApis.logOut);

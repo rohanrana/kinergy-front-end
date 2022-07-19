@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const formsApis = require('../webservices/appointmentController');
 
-const formsValidator = require('../validators/appointmentValidator');
+const formsValidator = require('../Validators/appointmentValidator');
 
 router.post('/create', authHandler.auth_func, formsValidator.add, formsApis.create); 
 

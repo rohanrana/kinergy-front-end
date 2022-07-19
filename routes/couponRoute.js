@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authHandler = require("../middleware/authHandler");
 const couponApis = require("../webservices/couponController");
-const couponValidator = require("../validators/couponValidator");
+const couponValidator = require("../Validators/couponValidator");
 
 router.post("/create",authHandler.auth_func,couponValidator.add,couponApis.add);
 router.post("/edit",authHandler.auth_func,couponValidator.edit,couponApis.edit);

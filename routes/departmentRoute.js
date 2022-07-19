@@ -4,7 +4,7 @@ const authHandler = require('../middleware/authHandler')
 const departmentApis = require('../webservices/departmentController');
 
 
-const departmentValidator = require('../validators/departmentValidator');       
+const departmentValidator = require('../Validators/departmentValidator');       
 
 router.post('/add',departmentApis.fileUpload, authHandler.auth_func, departmentValidator.add, departmentApis.add);
 router.post('/edit',departmentApis.fileUpload, authHandler.auth_func, departmentValidator.edit, departmentApis.edit);

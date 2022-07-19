@@ -51,6 +51,11 @@ const appointmentSchema = new Schema(
       ref: "Customers",
       default: null,
     },
+    customerReferance: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customers",
+      default: null,
+    },
     staff: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Staff",

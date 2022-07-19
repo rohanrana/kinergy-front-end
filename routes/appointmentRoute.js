@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const appointmentApis = require('../webservices/appointmentController');
 
-const appointmentValidator = require('../validators/appointmentValidator');
+const appointmentValidator = require('../Validators/appointmentValidator');
 
 router.post('/book', authHandler.auth_func, appointmentValidator.add, appointmentApis.book);
 router.post('/edit', authHandler.auth_func, appointmentValidator.edit, appointmentApis.edit);
@@ -17,6 +17,7 @@ router.post('/changeStatus', authHandler.auth_func, appointmentApis.changeStatus
 
 // Client Side
 router.post('/customerBooking', authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.customerBooking);
+router.post('/bookingAppointmentSomeOneElse', authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.bookingAppointmentSomeOneElse);
 router.post('/followUpBooking', authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.followUpBooking);
 router.post('/getAppointmentDetail', authHandler.auth_func,appointmentApis.getAppointmentDetail);
 module.exports = router;
