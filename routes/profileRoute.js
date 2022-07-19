@@ -4,7 +4,7 @@ const router = express.Router();
 const authHandler = require("../middleware/authHandler");
 
 const profileApis = require("../webservices/profileController");
-const profileValidator = require("../Validators/profileValidator");
+const profileValidator = require("../validators/profileValidator");
 
 router.post(
   "/updatePersonalDetail",

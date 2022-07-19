@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const authHandler = require('../middleware/authHandler');
-const messageValidator = require("../Validators/messageValidator");
+const messageValidator = require("../validators/messageValidator");
 const messageApis = require('../webservices/messageController');
 
 router.post('/add',authHandler.auth_func,messageValidator.addMessage,messageApis.add);

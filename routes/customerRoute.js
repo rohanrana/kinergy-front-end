@@ -5,7 +5,7 @@ const injuryRecordApis = require("../webservices/injuryRecordController.js");
 const surgeryRecordApis = require("../webservices/surgeryRecordController.js");
 const progressReportApis = require("../webservices/progressReportController.js");
 const authHandler = require('../middleware/authHandler.js')
-const customerValidation = require('../Validators/customerValidator.js');
+const customerValidation = require('../validators/customerValidator.js');
 const router = routers.Router();
 
 // Admin Side

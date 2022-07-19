@@ -3,7 +3,7 @@ const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const appointmentApis = require('../webservices/appointmentController');
 
-const appointmentValidator = require('../Validators/appointmentValidator');
+const appointmentValidator = require('../validators/appointmentValidator');
 
 router.post('/book', authHandler.auth_func, appointmentValidator.add, appointmentApis.book);
 router.post('/edit', authHandler.auth_func, appointmentValidator.edit, appointmentApis.edit);
