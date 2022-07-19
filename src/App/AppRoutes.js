@@ -49,7 +49,6 @@ export default function AppRoutes() {
                 element={
                   <React.Suspense fallback={<PageLoader />}>
                     <PrivateRoutes>
-                      <Header />
                       <ComponentName />
                       {/* </PageLayout> */}
                     </PrivateRoutes>
@@ -82,7 +81,6 @@ export default function AppRoutes() {
                 path={route.path}
                 element={
                   <React.Suspense fallback={<PageLoader />}>
-                    <Header />
                     <ComponentName />
                   </React.Suspense>
                 }

@@ -2,7 +2,7 @@ import { post, postFormData } from "./index";
 
 export const getServiceCategories = (data) => {
   const request = {
-    subUrl: `/service/category/getList`,
+    subUrl: `/service/category/getServiceCategoryList`,
     data,
   };
   return post(request);
@@ -11,7 +11,7 @@ export const getServiceCategories = (data) => {
 export const getServiceCategoryByID = (data) => {
   console.log('getServiceCategoryByID')
   const request = {
-    subUrl: `/service/category/getListById`,
+    subUrl: `/service/getServiceList`,
     data,
   };
   return post(request);

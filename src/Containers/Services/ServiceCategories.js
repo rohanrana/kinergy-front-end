@@ -21,12 +21,12 @@ import { actionTypes } from "../../Reducers/localStore";
 const ServiceCategories = (props) => {
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("props", props);
-    if (props.token) {
-      navigate("/");
-    } else {
-      navigate("/signin");
-    }
+    // console.log("props", props);
+    // if (props.token) {
+    //   navigate("/");
+    // } else {
+    //   navigate("/signin");
+    // }
     setServiceCategoryDetail(null);
   }, []);
   const dispatch = useDispatch();
