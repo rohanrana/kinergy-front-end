@@ -22,29 +22,29 @@ const ServiceDetails = lazy(() =>
 //isPrivateRoute
 
 export const routesArray = [
-  {
-    path: appRoutesConst.signin,
-    element: SignInPage,
-    isRestrictedRoute: true,
-  },
+  // {
+  //   path: appRoutesConst.signin,
+  //   element: SignInPage,
+  //   isRestrictedRoute: true,
+  // },
   {
     path: appRoutesConst.home,
     element: HomePage,
-    isPrivateRoute: true,
+    isOpenRoute: true,
   },
   {
     path: appRoutesConst.index,
     element: HomePage,
-    isPrivateRoute: true,
+    isOpenRoute: true,
   },
   {
     path: appRoutesConst.subServices,
     element: HomePage,
-    isPrivateRoute: true,
+    isOpenRoute: true,
   },
   {
     path: appRoutesConst.serviceDetails,
     element: ServiceDetails,
-    isPrivateRoute: true,
+    isOpenRoute: true,
   },
 ];

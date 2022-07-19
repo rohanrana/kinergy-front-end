@@ -240,24 +240,27 @@ const commonFetch = (request: Irequest) => {
   let forTokenParams = {
     data: data,
   };
-  if (isFile) {
-    forTokenParams = {
-      data: data,
-      params: params,
-    };
-  }
-  if (method === "post") {
-    forTokenParams = {
-      data: { ...data, token: token },
-      params: params,
-    };
+  if(token){
+    if (isFile) {
+      forTokenParams = {
+        data: data,
+        params: params,
+      };
+    }
+    if (method === "post") {
+      forTokenParams = {
+        data: { ...data, token: token },
+        params: params,
+      };
+    }
+  
+    if (method === "get") {
+      forTokenParams = {
+        data: { params: { ...params, token: token }, data: data },
+      };
+    }
   }
 
-  if (method === "get") {
-    forTokenParams = {
-      data: { params: { ...params, token: token }, data: data },
-    };
-  }
 
   return axios({
     method,

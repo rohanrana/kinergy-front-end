@@ -20,14 +20,16 @@ import NotFoundLable from "../../Components/common/NotFoundLable";
 import { verifyObject } from "../../utilities/utils";
 const ServiceDetails = () => {
   const servicesByCateID = useSelector((state) => state.servicesByCateID);
-//   const [servicesDetails, setServicesDetails] = useState(null);
+  //   const [servicesDetails, setServicesDetails] = useState(null);
   const serviecesData = verifyObject(servicesByCateID, "data", []);
   const isLoading = verifyObject(servicesByCateID, "isLoading", []);
   const pagination = verifyObject(servicesByCateID, "pagination", []);
+  const error = verifyObject(servicesByCateID, "error", []);
+
   const routeParams = useParams();
   const dispatch = useDispatch();
   const { _id, category_name } = routeParams;
-  console.log("routeParams", routeParams);
+  console.log("routeParams", servicesByCateID);
 
   useEffect(() => {
     // getServiceCategoryDetail();
@@ -35,14 +37,14 @@ const ServiceDetails = () => {
   }, []);
 
   const getServicesByCategoryID = () => {
-    dispatch(servicesByCateIDActions.onRequest({ _id: _id }));
+    dispatch(servicesByCateIDActions.onRequest({ category: _id }));
   };
 
   const getServiceCategoryDetail = async () => {
     try {
       await setLoading(true);
       let response = await getServiceCategoryByID({ _id: service_cat_id });
-      setServicesDetails(verifyObject(response, "data.result[0]", null));
+      setServicesDetails(verifyObject(response, "data.result", null));
       await setLoading(false);
       if (response.data.message) {
         successToast({ content: response.data.message });
@@ -60,10 +62,11 @@ const ServiceDetails = () => {
     dispatch(
       facilitiesActions.onPageChange({
         page: page,
-        _id: _id,
+        category: _id,
       })
     );
   };
+  console.log("service", serviecesData);
   return (
     <div className="therapy-services">
       <Container>
@@ -90,18 +93,11 @@ const ServiceDetails = () => {
                   further
                 </p>
                 {isLoading && <Loader />}
+                {error && <NotFoundLable message={error} />}
                 {serviecesData &&
-                  serviecesData.ServiceResult &&
-                  isArray(serviecesData.ServiceResult) &&
-                  serviecesData.ServiceResult.length === 0 && (
-                    <NotFoundLable
-                      message={"No services found in this category"}
-                    />
-                  )}
-                {serviecesData &&
-                  serviecesData.ServiceResult &&
-                  isArray(serviecesData.ServiceResult) &&
-                  serviecesData.ServiceResult.map((d) => {
+                  serviecesData &&
+                  isArray(serviecesData) &&
+                  serviecesData.map((d) => {
                     return (
                       <a href="/lets-started">
                         <div className="appointment-service-row">
