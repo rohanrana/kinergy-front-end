@@ -1,7 +1,7 @@
 {
     "project_name": "HEATH",
     "version": "v1",
-    "base_url": "http://34.194.219.49/",
+    "base_url": "http://34.194.219.49:3000/",
     "secret_key": "secre@tke@y",
     "token_expiry_time": "10h",
     "port": 3000,

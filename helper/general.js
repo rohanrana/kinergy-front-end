@@ -88,7 +88,7 @@ const removeSection = (_id) => {
  *
  */
 
-const managePhoneAndType = (phone, phoneType) => {
+const managePhoneAndType = (phone, phoneType, primary = null) => {
   let phoneArr = [];
   if (phone) {
     phone.map((value, index) => {
@@ -98,16 +98,15 @@ const managePhoneAndType = (phone, phoneType) => {
       } else {
         phoneObj.phoneType = null;
       }
+      if (primary && primary[index]) {
+        phoneObj.primary = primary[index];
+      }
       phoneObj = { ...phoneObj, phone: value };
       phoneArr.push(phoneObj);
     });
   }
   return phoneArr;
 };
-
-
-
-
 
 const getDateFormat = () => {
   return "MM-DD-YYY";
@@ -118,35 +117,31 @@ const dateFormat = (date) => {
   // return  new Date(+new Date(date) +  5.5 * 60 * 60 * 1000);
   // return new Date(date);
   // console.log( moment(date).add(5, 'hours').add(30, 'minutes').format(this.getDateFormat));
-  return moment(new Date(date))
-    .add(5, "hours")
-    .add(30, "minutes");
-    
+  return moment(new Date(date)).add(5, "hours").add(30, "minutes");
 };
 // Data, Key,  and Value
-function checkValueExist(data,key,value){
+function checkValueExist(data, key, value) {
   // log('data',data);
-  return  isFound = data.some(element => {
+  return (isFound = data.some((element) => {
     if (element[key] == value) {
       return true;
-    }      
+    }
     return false;
-  });
+  }));
 }
 
-const  isObjectEmpty = (object) =>{
+const isObjectEmpty = (object) => {
   var isEmpty = true;
   for (keys in object) {
-     isEmpty = false;
-     break; // exiting since we found that the object is not empty
+    isEmpty = false;
+    break; // exiting since we found that the object is not empty
   }
   return isEmpty;
-}
+};
 
-
-const checkObjectId = (id)=>{
+const checkObjectId = (id) => {
   return ObjectId.isValid(id);
-}
+};
 
 module.exports = {
   managePriceDuration,
@@ -160,6 +155,5 @@ module.exports = {
   managePhoneAndType,
   checkValueExist,
   isObjectEmpty,
-  checkObjectId  ,
-
+  checkObjectId,
 };

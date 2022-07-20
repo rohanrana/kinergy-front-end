@@ -40,6 +40,10 @@ const serviceSchema = new Schema(
       type: String,
       default: null,
     },
+    imageUrl: {
+      type: String,
+      default: null,
+    },
     initialConsultation: {
       title: {
         type: String,

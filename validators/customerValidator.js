@@ -386,6 +386,132 @@ const StaffSignUpValidation = (req, res, next) => [
     .withMessage(resMessage.PASSWORD_REQUIRED),
 ];
 
+const clientPortalClientDetail = (req, res, next) => [
+  check("customerId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter customer id."),
+  check("firstName")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.FIRST_NAME_REQUIRED),
+  check("dob")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.DOB_REQUIRED),
+  check("gender")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage(resMessage.GENDER_REQUIRED),
+  check("ssnNumber")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter ssn number."),
+  check("contactInfo")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter contact info."),
+
+  check("primaryEmail")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter primary email.")
+    .bail()
+    .normalizeEmail()
+    .isEmail()
+    .withMessage(resMessage.EMAIL_VALID),
+  check("secondaryEmail")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter  secondary email.")
+    .bail()
+    .normalizeEmail()
+    .isEmail()
+    .withMessage(resMessage.EMAIL_VALID),
+];
+const clientPortalCommunicationPreferences = (req, res, next) => [
+  check("customerId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter customer id."),
+  check("appointmentReminders")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter appointment reminders."),
+  check("appointmentConfirmation")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter appointment confirmation."),
+];
+const clientPortalEmergencyContact = (req, res, next) => [
+  check("customerId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter customer id."),
+  check("fullName")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter full name."),
+    check("relationship")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Select relationship."),
+    check("language")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Select language."),
+];
+const medicalProviderInformation = (req, res, next) => [
+  check("customerId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter customer id."),
+  check("familyDoctorName")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter family doctor name."),
+    check("familyDoctorPhone")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter family doctor phone."),
+];
+
 const reporter = (req, res, next) => {
   // ================== IF FILE ERROR =============
   console.log(req.file);
@@ -469,4 +595,9 @@ module.exports = {
   surgeryRecordAdd: [generateSurgeryRecordValidators(), reporter],
   progressReportAdd: [generateProgressReportValidators(), reporter],
   emergencyContact: [emergencyContact(), reporter],
+  clientPortalClientDetail: [clientPortalClientDetail(), reporter],
+  clientPortalCommunicationPreferences: [clientPortalCommunicationPreferences(),reporter,],
+  clientPortalEmergencyContact: [clientPortalEmergencyContact(),reporter,],
+  medicalProviderInformation: [medicalProviderInformation(),reporter,],
+
 };

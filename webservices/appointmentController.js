@@ -2,6 +2,7 @@ const Response = require("../common_functions/response_handler");
 const resCode = require("../helper/httpResponseCode");
 const resMessage = require("../helper/httpResponseMessage");
 const Appointment = require("../models/appointmentModel");
+const Waiver = require("../models/waiverModel");
 const Service = require("../models/serviceModel");
 const mongoose = require("mongoose");
 const generalHelper = require("../helper/general");
@@ -14,6 +15,10 @@ const returnPagination = (result) => {
   delete result.docs;
   return result;
 };
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+const maxSize = 1 * 1024 * 1024;
 
 const book = (req, res, next) => {
   console.log(req.body);
@@ -87,136 +92,272 @@ const book = (req, res, next) => {
 };
 
 const customerBooking = (req, res, next) => {
-    console.log(req.body);
-    const {
-      appointmentType,
-      servicePrice,
-      appointmentDate,
-      appointmentTime,
-      provider,
-      spentTime,
-      service,
-      staff,
-      customer,
-      status,
-      location,
-      department,
-      coupon,
-      amount,
-      taxAmount,
-      discountAmount,
-      totalAmount,
-      serviceDuration,
-      serviceAmount,
-    } = req.body;
-    const appointment = new Appointment({
-      appointmentType: appointmentType,
-      service: service,
-      servicePrice: servicePrice,
-      appointmentDate: generalHelper.dateFormat(appointmentDate),
-      appointmentTime: appointmentTime,
-      customer: customer,
-      provider: provider,
-      status: generalHelper.stringToUpperCase(status),
-      couponApplied: coupon && coupon._id ? 1 : 0,
-      coupon: coupon,
-      amount: amount,
-      taxAmount: taxAmount,
-      discountAmount: discountAmount,
-      totalAmount: totalAmount,
-      serviceDuration,
-      serviceAmount,
-    });
+  console.log(req.body);
+  const {
+    appointmentType,
+    appointmentFor,
+    servicePrice,
+    appointmentDate,
+    appointmentTime,
+    provider,
+    spentTime,
+    service,
+    staff,
+    customer,
+    refCustomer,
+    status,
+    location,
+    department,
+    coupon,
+    amount,
+    taxAmount,
+    discountAmount,
+    totalAmount,
+    serviceDuration,
+    serviceAmount,
 
-    console.log("appointment", appointment);
+  } = req.body;
+  const appointment = new Appointment({
+    appointmentType: appointmentType,
+    appointmentFor:appointmentFor,
+    service: service,
+    servicePrice: servicePrice,
+    appointmentDate: generalHelper.dateFormat(appointmentDate),
+    appointmentTime: appointmentTime,
+    customer: customer,
+    refCustomer:refCustomer,
+    provider: provider,
+    status: generalHelper.stringToUpperCase(status),
+    couponApplied: coupon && coupon._id ? 1 : 0,
+    coupon: coupon,
+    amount: amount,
+    taxAmount: taxAmount,
+    discountAmount: discountAmount,
+    totalAmount: totalAmount,
+    serviceDuration,
+    serviceAmount,
+  });
 
-    appointment.save((err, result) => {
-      console.log(err, result);
-      if (!err) {
-        couponHelper.couponHit(coupon._id);
-        Response.sendResponseWithData(
-          res,
-          resCode.EVERYTHING_IS_OK,
-          resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
-          result
-        );
-      } else {
-        console.log(err);
-        Response.sendResponseWithoutData(
-          res,
-          resCode.WENT_WRONG,
-          resMessage.WENT_WRONG
-        );
-      }
-    });
-  }
+  console.log("appointment", appointment);
+
+  appointment.save((err, result) => {
+    console.log(err, result);
+    if (!err) {
+      couponHelper.couponHit(coupon._id);
+      Response.sendResponseWithData(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
+        result
+      );
+    } else {
+      console.log(err);
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.WENT_WRONG
+      );
+    }
+  });
+};
+
 const bookingAppointmentSomeOneElse = (req, res, next) => {
-    console.log(req.body);
-    const {
-      appointmentType,
-      appointmentFor,
-      servicePrice,
-      appointmentDate,
-      appointmentTime,
-      provider,
-      spentTime,
-      service,
-      staff,
-      customer,
-      status,
-      location,
-      department,
-      coupon,
-      amount,
-      taxAmount,
-      discountAmount,
-      totalAmount,
-      serviceDuration,
-      serviceAmount,
-    } = req.body;
-    const appointment = new Appointment({
-      appointmentType: appointmentType,
-      appointmentFor:appointmentFor,
-      service: service,
-      servicePrice: servicePrice,
-      appointmentDate: generalHelper.dateFormat(appointmentDate),
-      appointmentTime: appointmentTime,
-      customer: customer,
-      provider: provider,
-      status: generalHelper.stringToUpperCase(status),
-      couponApplied: coupon && coupon._id ? 1 : 0,
-      coupon: coupon,
-      amount: amount,
-      taxAmount: taxAmount,
-      discountAmount: discountAmount,
-      totalAmount: totalAmount,
-      serviceDuration,
-      serviceAmount,
-    });
+  console.log(req.body);
+  const {
+    appointmentType,
+    appointmentFor,
+    refCustomer,
+    service,
+    servicePrice,
+    serviceDuration,
+    serviceAmount,
+    appointmentDate,
+    appointmentTime,
+    provider,
+    spentTime,
+    staff,
+    customer,
+    status,
+    location,
+    department,
+    amount,
+    taxAmount,
+    discountAmount,
+    totalAmount,
+    files,
+    waiverAndReleaseOfLiabilityAuthorizedDate,
+    waiverAndReleaseOfLiabilityAuthorizedRepresentative,
+    waiverAndReleaseOfLiabilityIamAuthorized,
+    waiverAndReleaseOfLiabilityNeedSign,
+    waiverAndReleaseOfLiabilityValidFor,
+    couponId,
+    couponTitle,
+    couponCode,
+    couponType,
+    couponValue,
+  } = req.body;
+  const appointment = new Appointment({
+    appointmentType: appointmentType,
+    appointmentFor: appointmentFor,
+    service: service,
+    servicePrice: servicePrice,
+    appointmentDate: generalHelper.dateFormat(appointmentDate),
+    appointmentTime: appointmentTime,
+    customer: customer,
+    refCustomer: refCustomer,
+    provider: provider,
+    status: generalHelper.stringToUpperCase(status),
+    couponApplied: couponId ? 1 : 0,
+    coupon: {
+      _id: couponId,
+      title: couponTitle,
+      couponCode: couponCode,
+      couponType: couponType,
+      value: couponValue,
+    },
+    amount: amount,
+    taxAmount: taxAmount,
+    discountAmount: discountAmount,
+    totalAmount: totalAmount,
+    serviceDuration,
+    serviceAmount,
+  });
 
-    console.log("appointment", appointment);
+  console.log("appointment", appointment);
 
-    appointment.save((err, result) => {
-      console.log(err, result);
-      if (!err) {
-        couponHelper.couponHit(coupon._id);
-        Response.sendResponseWithData(
-          res,
-          resCode.EVERYTHING_IS_OK,
-          resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
-          result
-        );
-      } else {
-        console.log(err);
-        Response.sendResponseWithoutData(
-          res,
-          resCode.WENT_WRONG,
-          resMessage.WENT_WRONG
-        );
-      }
-    });
-  }
-  const followUpBooking = (req, res, next) => {
+  appointment.save((err, result) => {
+    console.log(err, result);
+    if (!err) {
+      couponHelper.couponHit(couponId);
+      waiver = new Waiver({
+        appointment: result._id,
+        authorizedRepresentativeName:
+          waiverAndReleaseOfLiabilityAuthorizedRepresentative,
+        date: waiverAndReleaseOfLiabilityAuthorizedDate,
+        validFor: waiverAndReleaseOfLiabilityValidFor,
+        iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,
+        needSign: waiverAndReleaseOfLiabilityNeedSign,
+        signature: files && files.length > 0 ? files[0].fileName : null,
+      });
+      waiver.save((waiverErr, waiverResult) => {
+        console.log("waiverSave Err", waiverErr);
+        console.log("waiverSave Success", waiverResult);
+      });
+      Response.sendResponseWithData(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
+        result
+      );
+    } else {
+      // console.log(err);
+
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.WENT_WRONG
+      );
+    }
+  });
+};
+const bookingAppointmentMySelf = (req, res, next) => {
+  console.log(req.body);
+  const {
+    appointmentType,
+    appointmentFor,
+    service,
+    servicePrice,
+    serviceDuration,
+    serviceAmount,
+    appointmentDate,
+    appointmentTime,
+    provider,
+    spentTime,
+    staff,
+    customer,
+    status,
+    location,
+    department,
+    amount,
+    taxAmount,
+    discountAmount,
+    totalAmount,
+    files,
+    waiverAndReleaseOfLiabilityAuthorizedDate,
+    waiverAndReleaseOfLiabilityAuthorizedRepresentative,
+    waiverAndReleaseOfLiabilityIamAuthorized,
+    waiverAndReleaseOfLiabilityNeedSign,
+    waiverAndReleaseOfLiabilityValidFor,
+    couponId,
+    couponTitle,
+    couponCode,
+    couponType,
+    couponValue,
+  } = req.body;
+  const appointment = new Appointment({
+    appointmentType: appointmentType,
+    appointmentFor: appointmentFor,
+    service: service,
+    servicePrice: servicePrice,
+    appointmentDate: generalHelper.dateFormat(appointmentDate),
+    appointmentTime: appointmentTime,
+    customer: customer,
+    provider: provider,
+    status: generalHelper.stringToUpperCase(status),
+    couponApplied: couponId ? 1 : 0,
+    coupon: {
+      _id: couponId,
+      title: couponTitle,
+      couponCode: couponCode,
+      couponType: couponType,
+      value: couponValue,
+    },
+    amount: amount,
+    taxAmount: taxAmount,
+    discountAmount: discountAmount,
+    totalAmount: totalAmount,
+    serviceDuration,
+    serviceAmount,
+  });
+
+  console.log("appointment", appointment);
+
+  appointment.save((err, result) => {
+    console.log(err, result);
+    if (!err) {
+      couponHelper.couponHit(couponId);
+      waiver = new Waiver({
+        appointment: result._id,
+        authorizedRepresentativeName:
+          waiverAndReleaseOfLiabilityAuthorizedRepresentative,
+        date: waiverAndReleaseOfLiabilityAuthorizedDate,
+        validFor: waiverAndReleaseOfLiabilityValidFor,
+        iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,
+        needSign: waiverAndReleaseOfLiabilityNeedSign,
+        signature: files && files.length > 0 ? files[0].fileName : null,
+      });
+      waiver.save((waiverErr, waiverResult) => {
+        console.log("waiverSave Err", waiverErr);
+        console.log("waiverSave Success", waiverResult);
+      });
+      Response.sendResponseWithData(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
+        result
+      );
+    } else {
+      // console.log(err);
+
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.WENT_WRONG
+      );
+    }
+  });
+};
+const followUpBooking = (req, res, next) => {
     console.log(req.body);
     const {
       appointmentType,
@@ -241,7 +382,7 @@ const bookingAppointmentSomeOneElse = (req, res, next) => {
       serviceAmount,
     } = req.body;
     const appointment = new Appointment({
-      case:caseId,
+      case: caseId,
       appointmentType: appointmentType,
       service: service,
       servicePrice: servicePrice,
@@ -282,8 +423,6 @@ const bookingAppointmentSomeOneElse = (req, res, next) => {
       }
     });
   },
-
-
   edit = (req, res, next) => {
     console.log(Appointment.STATUS);
     if (!req.body._id) {
@@ -795,6 +934,91 @@ const getAppointmentDetail = async (req, res) => {
   }
 };
 
+const fileUpload = (req, res, next) => {
+  var fileLocation = "public/uploads/user/signature";
+  var fileFieldName = "waiverAndReleaseOfLiabilityAuthorizedSign";
+  var fileCount = 10;
+  try {
+    !fs.existsSync(`./${fileLocation}`) &&
+      fs.mkdirSync(`./${fileLocation}`, { recursive: true });
+  } catch (e) {
+    console.log("Already Exist.");
+  }
+  var filesData = [];
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, fileLocation);
+    },
+    filename: function (req, file, cb) {
+      // console.log(req.body, file);
+      var extname = path.extname(file.originalname).toLowerCase();
+      var fileName = "sign" + "-" + Date.now() + extname;
+      console.log("fileName", fileName);
+      let fileObj = {};
+      //   req.body[file.fieldname] = fileName;
+      //   req.body.mimetype = file.mimetype;
+      //   req.body.location = fileLocation;
+      fileObj.fileName = fileName;
+      fileObj.mimetype = file.mimetype;
+      fileObj.location = fileLocation;
+      filesData.push(fileObj);
+      req.body.files = filesData;
+      cb(null, fileName);
+    },
+  });
+
+  var upload = multer({
+    storage: storage,
+    limits: { fileSize: maxSize },
+    fileFilter: (req, file, cb) => {
+      console.log(req.body, file);
+      if (
+        file.mimetype == "image/png" ||
+        file.mimetype == "image/jpg" ||
+        file.mimetype == "image/jpeg" ||
+        file.mimetype == "application/pdf"
+      ) {
+        cb(null, true);
+      } else {
+        cb(null, false);
+        // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+        req.file = {
+          error: true,
+          title: file.fieldname,
+          msg: "Only .png, .jpg and .jpeg format allowed!",
+          status: -6,
+        };
+      }
+    },
+    onFileSizeLimit: function (file) {
+      req.file = {
+        error: true,
+        title: file.fieldname,
+        msg: "Image file is to large",
+        status: -6,
+      };
+    },
+  }).fields([
+    {
+      name: fileFieldName,
+      maxCount: fileCount,
+    },
+  ]);
+
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log("uploading_err", err);
+      // A Multer error occurred when uploading.
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log("uploading_err", err);
+    }
+    next();
+    // Everything went fine.
+  });
+};
+
+
 module.exports = {
   book,
   customerBooking,
@@ -806,5 +1030,9 @@ module.exports = {
   deleteAppointment,
   changeStatus,
   getAppointmentDetail,
-  followUpBooking
+  followUpBooking,
+  bookingAppointmentSomeOneElse,
+  bookingAppointmentMySelf,
+  fileUpload,
+  
 };

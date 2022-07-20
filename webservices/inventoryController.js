@@ -367,11 +367,22 @@ const inventoryApis = {
     }
   },
   fileUpload: (req, res, next) => {
+
+    var fileLocation = "public/uploads/inventory";
+    var fileFieldName = "image";
+    var fileCount = 1;
+    try {
+      !fs.existsSync(`./${fileLocation}`) &&
+        fs.mkdirSync(`./${fileLocation}`, { recursive: true });
+    } catch (e) {
+      console.log("Already Exist.");
+    }
+
     var storage = multer.diskStorage({
       destination: function (req, file, cb) {
         // console.log(file);
         // Uploads is the Upload_folder_name
-        cb(null, "public/uploads/inventory");
+        cb(null, fileLocation);
       },
       filename: function (req, file, cb) {
         // console.log(req.body, file);
@@ -379,6 +390,7 @@ const inventoryApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         console.log("imageName", imageName);
         req.body[file.fieldname] = imageName;
+        req.body.fileUrl = fileLocation;
         cb(null, imageName);
       },
     });

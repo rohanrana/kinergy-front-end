@@ -6,7 +6,8 @@ const resMessage = require("../helper/httpResponseMessage");
 const generalHelper = require("../helper/general");
 var slugify = require("slugify");
 const path = require("path");
-
+const config = require("../config/env/config");
+const configEnv = config();
 const multer = require("multer");
 
 const fs = require("fs");
@@ -56,6 +57,7 @@ const serviceApis = {
       followUpAppointmentTitle,
       followUpAppointmentPrice,
       followUpAppointmentDuration,
+      imageURL
     } = req.body;
     var initialConsultationPriceArr = [];
     var followUpAppointmentPriceArr = [];
@@ -95,6 +97,7 @@ const serviceApis = {
       title: title,
       description: description,
       image: image,
+      imageUrl:imageURL,
       slug: slug,
       addBy: addBy,
       status: generalHelper.stringToUpperCase(status),
@@ -145,7 +148,7 @@ const serviceApis = {
       const {
         title,
         description,
-        image,
+        image,imageURL,
         status,
         addBy,
         category,
@@ -197,6 +200,7 @@ const serviceApis = {
         title: title,
         description: description,
         image: image,
+        imageUrl: imageURL,
         slug: slug,
         addBy: addBy,
         status: generalHelper.stringToUpperCase(status),
@@ -251,9 +255,10 @@ const serviceApis = {
       populate: [category],
       page: page,
       limit: perPage,
-      select: "_id title  serviceType parentService slug description category image priceDetail insuranceApplicable addBy status createdAt updatedAt",
+      select:
+        "_id title  serviceType parentService slug description category image priceDetail insuranceApplicable addBy status createdAt updatedAt",
     };
-    
+
     let query = {};
     query = {
       ...query,
@@ -321,16 +326,20 @@ const serviceApis = {
         });
     }
   },
-  
+
   getServiceDetailById: (req, res) => {
     if (!req.body._id) {
-      Response.sendResponseWithoutData(res, resCode.WENT_WRONG, "Please Enter Service Id.");
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Service Id."
+      );
     } else {
       Service.find({ _id: req.body._id })
         // .populate({
         //   path:"providers"
         // })
-        .select({subService:0,providers:0})
+        .select({ subService: 0, providers: 0 })
         .lean()
         .exec((err, result) => {
           // console.log(result.length);
@@ -358,13 +367,17 @@ const serviceApis = {
   },
   getServiceProvider: (req, res) => {
     if (!req.body.service) {
-      Response.sendResponseWithoutData(res, resCode.WENT_WRONG, "Please Enter Service Id.");
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Service Id."
+      );
     } else {
       Service.find({ _id: req.body.service })
         .populate({
-          path:"providers"
+          path: "providers",
         })
-        .select({providers:1,_id:0})
+        .select({ providers: 1, _id: 0 })
         .lean()
         .exec((err, result) => {
           // console.log(result.length);
@@ -447,7 +460,7 @@ const serviceApis = {
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
-              'Service status changed successfully.',
+              "Service status changed successfully.",
               result
             );
           } else
@@ -460,11 +473,21 @@ const serviceApis = {
     }
   },
   fileUpload: (req, res, next) => {
+    var fileLocation = "public/uploads/service";
+    var fileFieldName = "image";
+    var fileCount = 1;
+    try {
+      !fs.existsSync(`./${fileLocation}`) &&
+        fs.mkdirSync(`./${fileLocation}`, { recursive: true });
+    } catch (e) {
+      console.log("Already Exist.");
+    }
+
     var storage = multer.diskStorage({
       destination: function (req, file, cb) {
         // console.log(file);
         // Uploads is the Upload_folder_name
-        cb(null, "public/uploads/service");
+        cb(null, fileLocation);
       },
       filename: function (req, file, cb) {
         // console.log(req.body, file);
@@ -472,6 +495,7 @@ const serviceApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         // console.log(imageName);
         req.body[file.fieldname] = imageName;
+        req.body.imageURL = configEnv.base_url + fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });
@@ -508,8 +532,8 @@ const serviceApis = {
       },
     }).fields([
       {
-        name: "image",
-        maxCount: 1,
+        name: fileFieldName,
+        maxCount: fileCount,
       },
     ]);
 
@@ -708,20 +732,40 @@ const serviceApis = {
   },
   // Get Service List for Client Side
   getServiceListClientSide: (req, res) => {
-    var query = {status:"ACTIVE",serviceType:"SERVICE",category:req.body.category};
-    Service.find(query).select('id title slug description').lean().exec((err,result)=>{
-      console.log(err);
-      if (err)
-        Response.sendResponseWithoutData(res, resCode.WENT_WRONG,resMessage.WENT_WRONG  );
-      else if (!result || result.length == 0)
-        Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Services Not Found.");
-      else
-        Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Service List.",result);
-    });
+    var query = {
+      status: "ACTIVE",
+      serviceType: "SERVICE",
+      category: req.body.category,
+    };
+    Service.find(query)
+      .select("id title slug description")
+      .lean()
+      .exec((err, result) => {
+        console.log(err);
+        if (err)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            "Services Not Found."
+          );
+        else
+          Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Service List.",
+            result
+          );
+      });
   },
 
-   // Get Sub Service By Parent Service List for Client Side
-   getSubServiceListClientSide: (req, res) => {
+  // Get Sub Service By Parent Service List for Client Side
+  getSubServiceListClientSide: (req, res) => {
     if (!req.body.parentService) {
       Response.sendResponseWithoutData(
         res,
@@ -729,17 +773,37 @@ const serviceApis = {
         "Select Parent Service Id"
       );
     } else {
-    var query = {status:"ACTIVE",serviceType:"SUBSERVICE",parentService:req.body.parentService};
-    Service.find(query).select('id title slug description').lean().exec((err,result)=>{
-      console.log(err);
-      if (err)
-        Response.sendResponseWithoutData(res, resCode.WENT_WRONG,resMessage.WENT_WRONG  );
-      else if (!result || result.length == 0)
-        Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Sub Services Not Found.");
-      else
-        Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Sub Service List.",result);
-    });
-  }
+      var query = {
+        status: "ACTIVE",
+        serviceType: "SUBSERVICE",
+        parentService: req.body.parentService,
+      };
+      Service.find(query)
+        .select("id title slug description")
+        .lean()
+        .exec((err, result) => {
+          console.log(err);
+          if (err)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              resMessage.WENT_WRONG
+            );
+          else if (!result || result.length == 0)
+            Response.sendResponseWithoutData(
+              res,
+              resCode.WENT_WRONG,
+              "Sub Services Not Found."
+            );
+          else
+            Response.sendResponseWithData(
+              res,
+              resCode.EVERYTHING_IS_OK,
+              "Sub Service List.",
+              result
+            );
+        });
+    }
   },
 };
 

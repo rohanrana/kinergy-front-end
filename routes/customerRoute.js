@@ -37,7 +37,16 @@ router.post('/register',customerValidation.registerNewCustomer,customerApis.regi
 router.post('/registerSomeOneElse',authHandler.auth_func,customerValidation.CustomerAddSomeOneValidation,customerApis.registerSomeOneCustomer);
 router.post('/injuryRecord/add',authHandler.auth_func,injuryRecordApis.add);
 router.post('/injuryRecord/get',authHandler.auth_func,injuryRecordApis.get);
-router.post('/injuryRecord/getAppointmentDetailByCaseId',authHandler.auth_func,injuryRecordApis.getAppointmentDetailByCaseId);
 
+
+router.post('/injuryRecord/getAppointmentDetailByCaseId',authHandler.auth_func,injuryRecordApis.getAppointmentDetailByCaseId);
+// Some One Else  Appoinment
+router.post('/getExistingProfileList',authHandler.auth_func,customerApis.getExistingProfileList);
+
+// Client Portal Registration
+router.post('/clientPortalRegistration/clientDetail',authHandler.auth_func,customerValidation.clientPortalClientDetail,customerApis.addClientDetail);
+router.post('/clientPortalRegistration/communicationPreferences',authHandler.auth_func,customerValidation.clientPortalCommunicationPreferences,customerApis.communicationPreferences);
+router.post('/clientPortalRegistration/emergencyContact',authHandler.auth_func,customerValidation.clientPortalEmergencyContact,customerApis.clientPortalEmergencyContact);
+router.post('/clientPortalRegistration/medicalProviderInformation',authHandler.auth_func,customerValidation.medicalProviderInformation,customerApis.medicalProviderInformation);
 
 module.exports = router;

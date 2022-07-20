@@ -17,7 +17,8 @@ router.post('/changeStatus', authHandler.auth_func, appointmentApis.changeStatus
 
 // Client Side
 router.post('/customerBooking', authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.customerBooking);
-// router.post('/bookingAppointmentSomeOneElse', authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.bookingAppointmentSomeOneElse);
+router.post('/bookingAppointmentSomeOneElse',appointmentApis.fileUpload, authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.bookingAppointmentSomeOneElse);
+router.post('/bookingAppointmentMySelf',appointmentApis.fileUpload, authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.bookingAppointmentMySelf);
 router.post('/followUpBooking', authHandler.auth_func, appointmentValidator.addByCustomer, appointmentApis.followUpBooking);
 router.post('/getAppointmentDetail', authHandler.auth_func,appointmentApis.getAppointmentDetail);
 module.exports = router;

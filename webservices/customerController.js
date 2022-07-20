@@ -1,5 +1,6 @@
 const Customers = require("../models/customersModel.js");
 const TempUsers = require("../models/tempUserModel.js");
+const MedicalProviderInformationModel = require("../models/medicalProviderInformationModel");
 const Response = require("../common_functions/response_handler.js");
 const resCode = require("../helper/httpResponseCode.js");
 const resMessage = require("../helper/httpResponseMessage.js");
@@ -15,6 +16,11 @@ const fs = require("fs");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
 const generalHelper = require("../helper/general.js");
+
+const makeContactArray = async (phoneType, phone, primary) => {
+  const returnArr = [0, 1, 0];
+  phoneType && phoneType.length > 0 && phoneType.map((pt, ptx) => {});
+};
 const checkPhoneExist = async (phone) => {
   if (phone == "") {
     return -1;
@@ -276,12 +282,17 @@ const registerCustomer = (req, res, next) => {
   });
 };
 
-
-
-
 const registerSomeOneCustomer = (req, res, next) => {
-  const { firstName, lastName, email, phone, dob, gender, customerType ,refCustomer} =
-    req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    dob,
+    gender,
+    customerType,
+    refCustomer,
+  } = req.body;
   var customerData = new Customers({
     firstName: firstName,
     lastName: lastName,
@@ -290,7 +301,7 @@ const registerSomeOneCustomer = (req, res, next) => {
     dob: dob,
     gender: gender,
     customerType: customerType,
-    refCustomer:refCustomer
+    refCustomer: refCustomer,
   });
   customerData.save((err, result) => {
     if (!err) {
@@ -650,31 +661,28 @@ const updateEmergencyContact = async (req, res) => {
           ...emergencyContactObj,
           language: language[ecx],
         };
+
         emergencyContactObj = {
           ...emergencyContactObj,
-          phoneType: phoneType[ecx],
+          phone: [
+            {
+              phoneType: phoneType[ecx],
+              phone: phone[ecx],
+            },
+          ],
         };
-        emergencyContactObj = { ...emergencyContactObj, phone: phone[ecx] };
+
+        // emergencyContactObj = {...emergencyContactObj, phoneType: phoneType[ecx], };
+        // emergencyContactObj = { ...emergencyContactObj, phone: phone[ecx] };
+
         emergencyContactObj = {
           ...emergencyContactObj,
           altPhone: altPhone[ecx],
         };
+
         emergencyContactArr.push(emergencyContactObj);
       });
     }
-    // if (Array.isArray(emergencyContact)) {
-    //   emergencyContact.map((ec, ecx) => {
-    //     let emergencyContactObj = {};
-    //     emergencyContactObj = {...emergencyContactObj,fullName: ec.fullName,};
-    //     emergencyContactObj = {...emergencyContactObj,relationship: ec.relationship,};
-    //     emergencyContactObj = {...emergencyContactObj,language: ec.language,};
-    //     emergencyContactObj = {...emergencyContactObj,phoneType: ec.phoneType,};
-    //     emergencyContactObj = {...emergencyContactObj,altPhone: ec.altPhone,};
-    //     emergencyContactArr.push(emergencyContactObj);
-    //   });
-    // }
-    // contact:contactArr,
-    // console.log("emergencyContactArr", emergencyContactArr);
     let editData = {
       emergencyContact: emergencyContactArr,
     };
@@ -700,6 +708,104 @@ const updateEmergencyContact = async (req, res) => {
       });
   }
 };
+const communicationPreferences = async (req, res) => {
+  const { customerId, appointmentReminders, appointmentConfirmation } =
+    req.body;
+  // console.log("phoneType",contactInfo, phoneType,phone,primary);
+  var customerDetails = {
+    appointmentReminders: appointmentReminders,
+    appointmentConfirmation: appointmentConfirmation,
+  };
+  console.log("customerDetails", customerDetails);
+  Customers.findByIdAndUpdate({ _id: customerId }, customerDetails, {
+    new: true,
+  }).exec((err, result) => {
+    console.log("err", err);
+    if (!err) {
+      Response.sendResponseWithData(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        "Customer communication preferences update successfully.",
+        result
+      );
+    } else {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.WENT_WRONG
+      );
+    }
+  });
+};
+
+const addClientDetail = async (req, res) => {
+  const {
+    customerId,
+    firstName,
+    lastName,
+    nickName,
+    dob,
+    gender,
+    ssnNumber,
+    contactInfo,
+    primaryEmail,
+    secondaryEmail,
+    address,
+    state,
+    city,
+    pincode,
+    occupation,
+    employmentStatus,
+    phoneType,
+    phone,
+    primary,
+  } = req.body;
+  // console.log("phoneType",contactInfo, phoneType,phone,primary);
+  var customerDetails = {
+    firstName: firstName,
+    lastName: lastName,
+    nickName: nickName,
+    dob: dob,
+    gender: gender,
+    ssnNumber: ssnNumber,
+    primaryEmail: primaryEmail,
+    secondaryEmail: secondaryEmail,
+    address: address,
+    state: state,
+    city: city,
+    pincode: pincode,
+    occupation: occupation,
+    employmentStatus: employmentStatus,
+    primaryEmail: primaryEmail,
+    secondaryEmail: secondaryEmail,
+    contactInformation: generalHelper.managePhoneAndType(
+      phone,
+      phoneType,
+      primary
+    ),
+  };
+  console.log("customerDetails", customerDetails);
+  Customers.findByIdAndUpdate({ _id: customerId }, customerDetails, {
+    new: true,
+  }).exec((err, result) => {
+    console.log("err", err);
+    if (!err) {
+      Response.sendResponseWithData(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        "Customer update successfully.",
+        result
+      );
+    } else {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.WENT_WRONG
+      );
+    }
+  });
+};
+
 const deleteEmergencyContactByContactId = (req, res) => {
   if (!req.body.contactId) {
     Response.sendResponseWithoutData(
@@ -752,9 +858,9 @@ const deleteEmergencyContactByContactId = (req, res) => {
   }
 };
 
-const clientLock = async(req, res) => {
+const clientLock = async (req, res) => {
   if (!req.body._id) {
-   return await Response.sendResponseWithoutData(
+    return await Response.sendResponseWithoutData(
       res,
       resCode.WENT_WRONG,
       "Please enter client id"
@@ -766,24 +872,178 @@ const clientLock = async(req, res) => {
       "Please enter valid client id"
     );
   }
-  
-  Customers.findByIdAndUpdate({_id:req.body._id},{status:"LOCK"},{new:true}).lean()
-  .exec((err, result) => {
-    if (!err) {
-      Response.sendResponseWithData(
-        res,
-        resCode.EVERYTHING_IS_OK,
-        "Client Status Changed Successfully.",
-        result
-      );
-    } else
-      Response.sendResponseWithoutData(
-        res,
-        resCode.WENT_WRONG,
-        resMessage.WENT_WRONG
-      );
-  });
 
+  Customers.findByIdAndUpdate(
+    { _id: req.body._id },
+    { status: "LOCK" },
+    { new: true }
+  )
+    .lean()
+    .exec((err, result) => {
+      if (!err) {
+        Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Client Status Changed Successfully.",
+          result
+        );
+      } else
+        Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+    });
+};
+
+const getExistingProfileList = async (req, res) => {
+  var ID = await req.body.customerId;
+  if (!ID) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Please Enter Customer Id."
+    );
+  } else if (!generalHelper.checkObjectId(ID)) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Please Enter Valid Customer Id."
+    );
+  } else {
+    await Customers.find({ refCustomer: ID })
+      .select("_id firstName lastName nickName email")
+      .exec(async (err, result) => {
+        console.log(err, result);
+        if (err)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0 || result == [])
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            "Customer Not Found."
+          );
+        else {
+          return await Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Customer Found Successfully.",
+            result
+          );
+        }
+      });
+  }
+};
+
+const clientPortalEmergencyContact = async (req, res) => {
+  if (!req.body.customerId) {
+    Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      resMessage.ENTER_USER_ID
+    );
+  } else if (!generalHelper.checkObjectId(req.body.customerId)) {
+    Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      resMessage.ENTER_VALID_USER_ID
+    );
+  } else {
+    var { customerId, fullName, relationship, language, phoneType, phone } =
+      req.body;
+    let editData = {
+      emergencyContact: {
+        fullName: fullName,
+        relationship: relationship,
+        language: language,
+        phone: generalHelper.managePhoneAndType(phone, phoneType),
+      },
+    };
+
+    console.log("editData", editData);
+    Customers.findByIdAndUpdate({ _id: customerId }, editData, { new: true })
+      .lean()
+      .exec((err, result) => {
+        if (err) {
+          console.log(err);
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.INTERNAL_SERVER_ERROR
+          );
+        } else {
+          Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "User emergency contect save successfully.",
+            result.emergencyContact
+          );
+        }
+      });
+  }
+};
+const addMedicalToClient = async (customerId, medicalProviderRecord) => {
+  if (customerId && medicalProviderRecord) {
+    Customers.findByIdAndUpdate(
+      { _id: customerId },
+      { $pull: { medicalProviderInformation: medicalProviderRecord } },
+      { new: true }
+    ).lean().exec();
+  }
+};
+const medicalProviderInformation = async (req, res) => {
+  if (!(await req.body.customerId)) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      resMessage.ENTER_USER_ID
+    );
+  } else if (!(await generalHelper.checkObjectId(req.body.customerId))) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      resMessage.ENTER_VALID_USER_ID
+    );
+  } else {
+    var {
+      customerId,
+      familyDoctorName,
+      familyDoctorPhone,
+      referringDoctorName,
+      referringDoctorPhone,
+      lastPhysicalExamination,
+    } = req.body;
+    let MedicalProviderData = await new MedicalProviderInformationModel({
+      familyDoctorName: familyDoctorName,
+      familyDoctorPhone: familyDoctorPhone,
+      referringDoctorName: referringDoctorName,
+      referringDoctorPhone: referringDoctorPhone,
+      lastPhysicalExamination: lastPhysicalExamination,
+    });
+
+    MedicalProviderData.save(async (err, result) => {
+      if (err) {
+        console.log(err);
+        return await Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.INTERNAL_SERVER_ERROR
+        );
+      } else {
+        addMedicalToClient(customerId, result._id);
+        return await Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "User medical provider information save successfully.",
+          result
+        );
+      }
+    });
+  }
 };
 
 module.exports = {
@@ -798,5 +1058,11 @@ module.exports = {
   updateEmergencyContact,
   deleteEmergencyContactByContactId,
   getCustomerEmergencyContactById,
-  clientLock,registerSomeOneCustomer
+  clientLock,
+  registerSomeOneCustomer,
+  getExistingProfileList,
+  addClientDetail,
+  communicationPreferences,
+  clientPortalEmergencyContact,
+  medicalProviderInformation,
 };

@@ -20,6 +20,10 @@ const serviceCategorySchema = new Schema({
         type: String,
         default: null
     },
+    imageUrl: {
+        type: String,
+        default: null
+    },
     addBy:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Staff",
@@ -30,6 +34,7 @@ const serviceCategorySchema = new Schema({
         ref:"Service",
         default:null
     }],
+    
     // subService:{
     //     type:mongoose.Schema.Types.ObjectId,
     //     ref:"SubService",

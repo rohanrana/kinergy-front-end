@@ -306,11 +306,21 @@ const facilityApis = {
     }
   },
   fileUpload: (req, res, next) => {
+    var fileLocation = "public/uploads/facility";
+    var fileFieldName = "image";
+    var fileCount = 1;
+    try {
+      !fs.existsSync(`./${fileLocation}`) &&
+        fs.mkdirSync(`./${fileLocation}`, { recursive: true });
+    } catch (e) {
+      console.log("Already Exist.");
+    }
+
     var storage = multer.diskStorage({
       destination: function (req, file, cb) {
         console.log(file);
         // Uploads is the Upload_folder_name
-        cb(null, "public/uploads/facility");
+        cb(null, fileLocation);
       },
       filename: function (req, file, cb) {
         // console.log(req.body, file);
@@ -318,6 +328,8 @@ const facilityApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         console.log("imageName", imageName);
         req.body[file.fieldname] = imageName;
+        req.body.imageUrl = fileLocation;
+       
         cb(null, imageName);
       },
     });

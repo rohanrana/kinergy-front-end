@@ -84,6 +84,18 @@ const employeeSchema = new Schema({
         type: String,
         default: null
     },
+    ssnDocumentUrl: {
+        type: String,
+        default: null
+    },
+    driverLicenseUrl: {
+        type: String,
+        default: null
+    },
+    workPermitUrl: {
+        type: String,
+        default: null
+    },
     lastLoginIp: {
         type: String,
         default: null

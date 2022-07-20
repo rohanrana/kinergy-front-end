@@ -48,6 +48,8 @@ const optionsRoutes = require("./routes/optionRoute");
 const insuranceRoutes = require("./routes/insuranceRoute");
 const documentRoutes = require("./routes/documentRoute");
 const environment = config();
+console.log(environment);
+app.use(express.static(__dirname + '/'));
 
 app.listen(environment.port, () => {
   console.log(`Server is running on ${environment.port}`);

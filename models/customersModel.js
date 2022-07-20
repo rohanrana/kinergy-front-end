@@ -95,17 +95,27 @@ const customersSchema = new Schema(
           ref: "Language",
           default: null,
         },
-        //   phone: [
-        //     {
-        //       phoneType: { type: String, default: null },
-        //       phone: { type: String, default: null },
-        //     },
-        //   ],
-        phoneType: { type: String, default: null },
-        phone: { type: String, default: null },
+        phone: [
+          {
+            phoneType: { type: String, default: null },
+            phone: { type: String, default: null },
+          },
+        ],
+        // phoneType: { type: String, default: null },
+        // phone: { type: String, default: null },
         altPhone: { type: String, default: null },
       },
     ],
+    // Contact Info
+    contactInformation: [
+      {
+        phoneType: { type: String, default: null },
+        phone: { type: String, default: null },
+        primary: { type: mongoose.Schema.Types.Boolean, default: false },
+      },
+    ],
+    primaryEmail: { type: String, default: null },
+    secondaryEmail: { type: String, default: null },
     // Other
     profilePic: {
       type: String,
@@ -155,6 +165,15 @@ const customersSchema = new Schema(
     },
     relation: {
       type: String,
+      default: null,
+    },
+    appointmentReminders: {
+      type: String,
+      default: null,
+    },
+    medicalProviderInformation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MedicalProviderInformation",
       default: null,
     },
   },

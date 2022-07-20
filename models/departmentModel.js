@@ -15,6 +15,10 @@ const departmentsSchema = new Schema({
         type:String,
         default:null
     },
+    imageUrl:{
+        type:String,
+        default:null
+    },
     type:{
         type:String,
         enum: ["GENERAL", "MEDICAL", "PERFORMANSE"],

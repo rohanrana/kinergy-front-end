@@ -2,7 +2,8 @@ const Response = require("../common_functions/response_handler");
 const resCode = require("../helper/httpResponseCode");
 const resMessage = require("../helper/httpResponseMessage");
 const Department = require("../models/departmentModel");
-
+const config = require("../config/env/config");
+const configEnv = config();
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
@@ -13,60 +14,57 @@ const returnPagination = (result) => {
   return result;
 };
 const departmentApis = {
-    add: (req, res, next) => {
-        const {
-          name,
-          image,
-          type,
-          status,
-          description
-        } = req.body;
-        var department = new Department({
-          name,
-          type,
-          status,
-          image,
-          description
-        });
-        department.save((err, result) => {
-          // console.log(err, result);
-          if (!err)
-            Response.sendResponseWithData(
-              res,
-              resCode.EVERYTHING_IS_OK,
-              "Department Add Successfully.",
-              result
-            );
-          else {
-            console.log(err);
-            Response.sendResponseWithoutData(
-              res,
-              resCode.WENT_WRONG,
-              resMessage.WENT_WRONG
-            );
-          }
-        });
-      },
-      edit: (req, res, next) => {
-          if(!req.body._id){
-            Response.sendResponseWithoutData(res, resCode.WENT_WRONG, 'Please Enter Department Id.');
-          }else{    
-        const {
-          name,
-          image,
-          type,
-          status,
-          description
-        } = req.body;
-        var editData =  {
-          name,
-          type,
-          status,
-          image,
-          description
-        };
-        Department.findOneAndUpdate({ _id: req.body._id }, editData, { new: true }).lean().exec((err, result) => {
-        // department.findOneAndUpdate().exc((err, result) => {
+  add: (req, res, next) => {
+    const { name, image,imageURL, type, status, description } = req.body;
+    var department = new Department({
+      name,
+      type,
+      status,
+      image,
+      imageUrl:imageURL,
+      description,
+    });
+    department.save((err, result) => {
+      // console.log(err, result);
+      if (!err)
+        Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Department Add Successfully.",
+          result
+        );
+      else {
+        console.log(err);
+        Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      }
+    });
+  },
+  edit: (req, res, next) => {
+    if (!req.body._id) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please Enter Department Id."
+      );
+    } else {
+      const { name, image, type, status, description } = req.body;
+      var editData = {
+        name,
+        type,
+        status,
+        image,
+        description,
+      };
+      Department.findOneAndUpdate({ _id: req.body._id }, editData, {
+        new: true,
+      })
+        .lean()
+        .exec((err, result) => {
+          // department.findOneAndUpdate().exc((err, result) => {
           // console.log(err, result);
           if (!err)
             Response.sendResponseWithData(
@@ -85,7 +83,7 @@ const departmentApis = {
           }
         });
     }
-      },
+  },
   getList: (req, res, next) => {
     if (!req.body.type) {
       const perPage = 10,
@@ -125,12 +123,23 @@ const departmentApis = {
           );
       });
     }
-  },  fileUpload: (req, res, next) => {
+  },
+  fileUpload: (req, res, next) => {
+    var fileLocation = "public/uploads/department";
+    var fileFieldName = "image";
+    var fileCount = 1;
+    try {
+      !fs.existsSync(`./${fileLocation}`) &&
+        fs.mkdirSync(`./${fileLocation}`, { recursive: true });
+    } catch (e) {
+      console.log("Already Exist.");
+    }
+
     var storage = multer.diskStorage({
       destination: function (req, file, cb) {
         console.log(file);
         // Uploads is the Upload_folder_name
-        cb(null, "public/uploads/department");
+        cb(null, fileLocation);
       },
       filename: function (req, file, cb) {
         // console.log(req.body, file);
@@ -138,6 +147,7 @@ const departmentApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         console.log("imageName", imageName);
         req.body[file.fieldname] = imageName;
+        req.body.imageURL = configEnv.base_url + fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });
@@ -174,8 +184,8 @@ const departmentApis = {
       },
     }).fields([
       {
-        name: "image",
-        maxCount: 1,
+        name: fileFieldName,
+        maxCount: fileCount,
       },
     ]);
 
