@@ -7,6 +7,9 @@ export const appRoutesConst = {
   subServices: "/sub-services",
   signin: "/signin",
   serviceDetails: "/service/:_id/:category_name",
+  loginwithphone: "/login-with-phone",
+  loginwithemail: "/login-with-email",
+  appointmentFor: "/appointment-for",
 };
 
 // const config = {

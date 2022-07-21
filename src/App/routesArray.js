@@ -2,21 +2,20 @@ import { lazy } from "react";
 import { appRoutesConst } from "./navigation";
 
 const HomePage = lazy(() => import("../Containers/Services/ServiceCategories"));
-const SignInPage = lazy(() => import("../Pages/Authentication/SignInPage"));
+const SignInWithMobile = lazy(() =>
+  import("../Containers/SIgninWith/SignInWithMobile")
+);
+const SignInWithEmail = lazy(() =>
+  import("../Containers/SIgninWith/SignInWithEmail")
+);
+
 const ServiceDetails = lazy(() =>
   import("../Containers/Services/ServiceDetails")
 );
+const AppointmentFor = lazy(() =>
+  import("../Containers/Appointments/AppointmentFor")
+);
 
-// const HomePage = lazy(() => import("../Pages/Home/HomePage"));
-// import TherapyServices from "../Containers/TherapyServices";
-// import ForgotPasswordPage from "../Pages/Authentication/ForgotPasswordPage";
-// import SignInPage from "../Pages/Authentication/SignInPage";
-// import HomePage from "../Pages/Home/HomePage";
-// import RegisterPage from "../Pages/Register/RegisterPage";
-// import LetsStarted from "../Containers/LetsStarted";
-// // import UsingEmail from "./component/UsingEmail";
-// // import { appRoutesConst } from "./navigation";
-// import UsingEmail from "../Containers/UsingEmail";
 //isPrivateRoute
 //isOpenRoute
 //isPrivateRoute
@@ -45,6 +44,21 @@ export const routesArray = [
   {
     path: appRoutesConst.serviceDetails,
     element: ServiceDetails,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.loginwithemail,
+    element: SignInWithEmail,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.loginwithphone,
+    element: SignInWithMobile,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.appointmentFor,
+    element: AppointmentFor,
     isOpenRoute: true,
   },
 ];

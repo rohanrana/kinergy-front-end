@@ -28,6 +28,7 @@ const ServiceCategories = (props) => {
     //   navigate("/signin");
     // }
     setServiceCategoryDetail(null);
+    setServiceDetail(null);
   }, []);
   const dispatch = useDispatch();
   const serviceCategories = useSelector((state) => state.serviceCategories);
@@ -38,12 +39,18 @@ const ServiceCategories = (props) => {
       payload: serviceCategory,
     });
   };
+  const setServiceDetail = (service) => {
+    dispatch({
+      type: actionTypes.SET_SERVICE,
+      payload: service,
+    });
+  };
 
   useEffect(() => {
     dispatch(serviceCategoryActions.onRequest({}));
   }, []);
 
-//   console.log("serviceCategoriesData", data);
+  //   console.log("serviceCategoriesData", data);
   return (
     <div className="Home">
       <Container>

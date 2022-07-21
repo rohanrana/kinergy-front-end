@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import "./Custom.css";
 import "./Style.css";
 
 import AppRoutes from "./App/AppRoutes";
@@ -22,7 +23,6 @@ function App() {
       />
       <AppRoutes />
     </Fragment>
-
   );
 }
 

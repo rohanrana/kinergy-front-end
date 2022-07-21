@@ -1,0 +1,309 @@
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import Service1 from "../../images/service1.jpg";
+import BackArrow from "../../images/back-arrow.png";
+import ArrowRight from "../../images/arrow-right-circle.png";
+import Clock from "../../images/clock.png";
+import { OTPModal } from "./OTPModal";
+import { Link, useNavigate } from "react-router-dom";
+import { appRoutesConst } from "../../App/navigation";
+import BackButton from "../../Components/common/BackButton";
+import { useSelector } from "react-redux";
+import { errorToast, successToast, verifyObject } from "../../utilities/utils";
+import { isEmpty } from "lodash";
+import validator from "validator";
+import { loginWithEmail, loginWithMobile } from "../../Services/customer";
+import Loader from "../../Components/Loader/Loader";
+import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
+
+const SignInWithMobile = () => {
+  const [state, setState] = useState({
+    phone: "",
+    email: "",
+    loading: false,
+    errors: {
+      phone: null,
+      email: null,
+    },
+  });
+  const [modalShow, setModalShow] = React.useState(false);
+  const [loginModePhone, setLoginMode] = React.useState(true);
+  const localStore = useSelector((state) => state.localStore);
+  const serviceCategory = verifyObject(localStore, "serviceCategory", null);
+  const selectedService = verifyObject(localStore, "selectedService", null);
+  let token = verifyObject(localStore, "token", null);
+
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (!serviceCategory && !token) {
+      navigateTo(appRoutesConst.index);
+      errorToast({
+        content: "You are not allowed to access this pages",
+      });
+    }
+  }, []);
+
+  const validateInputs = () => {
+    console.log("called");
+    let { email, phone } = state;
+    let emailError,
+      phoneError = null;
+    console.log();
+    if (loginModePhone) {
+      return { phone: phoneError };
+    } else {
+      if (isEmpty(email)) {
+        emailError = "Please enter an email address";
+      } else if (!validator.isEmail(email)) {
+        if (email && email.length > 60) {
+          emailError = "Email should be less than  of 60 characters only";
+        }
+        emailError = "Please enter a valid email";
+      } else if (email && email.length > 60) {
+        emailError = "Email should be less than  of 60 characters only";
+      } else {
+        emailError = null;
+      }
+      return { email: emailError };
+    }
+  };
+
+  const validateAndSubmitPhone = async (e) => {
+    e.preventDefault();
+    let phoneError;
+    if (isEmpty(state.phone)) {
+      phoneError = "Please enter a phone number";
+      }
+      else if (!validator.isNumeric(state.phone)) {
+        phoneError = "Please enter a valid phone number";
+      } else if (!validator.isLength(state.phone, { min: 10, max: 10 })) {
+        phoneError = "Phone no should be of 10 digit";
+    } else {
+      phoneError = null;
+    }
+    console.log("errors", phoneError);
+    if (phoneError) {
+      setState({ ...state, errors: { phone: phoneError } });
+    } else {
+      try {
+        // let phone = JSON.parse(localStorage.getItem("otp-phone"));
+        await setState({ ...state, loading: true });
+        let response = await loginWithMobile({
+          phone: state.phone,
+        });
+        console.log("response", response);
+        if (response.data.response_message) {
+          successToast({
+            content: verifyObject(
+              response,
+              "data.response_message.message",
+              "Success"
+            ),
+          });
+          setModalShow(true);
+
+          await setState({ ...state, loading: false });
+        }
+      } catch (error) {
+        if (error.data && error.data.errors && isArray(error.data.errors)) {
+          setState({
+            ...state,
+            loading: false,
+            serverErrors: error.data.errors,
+          });
+        }
+      }
+    }
+  };
+  const validateAndSubmitEmail = async (e) => {
+    e.preventDefault();
+    let { email } = state;
+    let emailError;
+    if (isEmpty(email)) {
+      emailError = "Please enter an email address";
+    } else if (!validator.isEmail(email)) {
+      // if (email && email.length > 60) {
+      //   emailError = "Email should be less than  of 60 characters only";
+      // }
+      emailError = "Please enter a valid email";
+    } else if (email && email.length > 60) {
+      emailError = "Email should be less than  of 60 characters only";
+    } else {
+      emailError = null;
+    }
+    console.log("errors", emailError);
+    if (emailError) {
+      setState({ ...state, errors: { email: emailError } });
+    } else {
+      try {
+        // let phone = JSON.parse(localStorage.getItem("otp-phone"));
+        await setState({ ...state, loading: true });
+        let response = await loginWithEmail({
+          email: state.email,
+        });
+        console.log("response", response);
+        if (response.data.response_message) {
+          successToast({
+            content: verifyObject(
+              response,
+              "data.response_message.message",
+              "Success"
+            ),
+          });
+          setModalShow(true);
+
+          await setState({ ...state, loading: false });
+        }
+      } catch (error) {
+        if (error.data && error.data.errors && isArray(error.data.errors)) {
+          setState({
+            ...state,
+            loading: false,
+            serverErrors: error.data.errors,
+          });
+        }
+      }
+    }
+  };
+
+  const handleLoginMode = () => {
+    setLoginMode(!loginModePhone);
+    setState({
+      ...state,
+      phone: "",
+      email: "",
+      errors: {
+        phone: null,
+        email: null,
+      },
+    });
+  };
+
+  const handleChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+      errors: {
+        phone: null,
+        email: null,
+      },
+    });
+  };
+
+  return (
+    <div className="therapy-services">
+      <Container>
+        <Row>
+          <Col lg={12}>
+            <div className="appointment-details-row">
+              <AppointmentDetailsSection />
+              {loginModePhone && (
+                <div className="appointment-detail-col-2">
+                  <p>
+                    <BackButton />
+                  </p>
+                  <h5 className="text-center">Let's get started</h5>
+                  <p className="text-center">
+                    We will send you a One Time Password (OTP) to your phone
+                    number.
+                  </p>
+                  <Form className="mt-5">
+                    <Form.Group>
+                      <Form.Label>Enter Your Cell Phone Number*</Form.Label>
+                      <Form.Control
+                        onChange={handleChange}
+                        name="phone"
+                        value={state.phone}
+                        placeholder="(000-000-0000)"
+                      />
+                      {state.errors && state.errors.phone && (
+                        <span className="text-danger">
+                          {state.errors.phone}
+                        </span>
+                      )}
+                      <p className="text-right mt-2 mb-0 link-color-form">
+                        <span onClick={handleLoginMode}>
+                          <a className="cursor-pointer">Enter using email?</a>
+                        </span>
+                      </p>
+                    </Form.Group>
+
+                    <Button
+                      className="btn btn-form w-100 mt-5"
+                      onClick={validateAndSubmitPhone}
+                    >
+                      {state.loading ? (
+                        <Loader isButton={true} />
+                      ) : (
+                        <span>
+                          {" "}
+                          Next <img src={ArrowRight} alt={ArrowRight} />
+                        </span>
+                      )}
+                    </Button>
+                  </Form>
+                </div>
+              )}
+              {!loginModePhone && (
+                <div className="appointment-detail-col-2">
+                  <p>
+                    <BackButton />
+                  </p>
+                  <h5 className="text-center">Your Email Address</h5>
+
+                  <Form className="mt-5">
+                    <Form.Group>
+                      <Form.Label>Enter Your Email Address</Form.Label>
+                      <Form.Control
+                        onChange={handleChange}
+                        name="email"
+                        value={state.email}
+                        placeholder="xyz@company.com"
+                      />
+                      <p className="text-right mt-2 mb-0 link-color-form">
+                        <a href="lets-started"></a>
+                        <span onClick={handleLoginMode}>
+                          <a className="cursor-pointer">
+                            Enter using Cell Phone Number?
+                          </a>
+                        </span>
+                      </p>
+                    </Form.Group>
+                    {state.errors && state.errors.email && (
+                      <span className="text-danger">{state.errors.email}</span>
+                    )}
+
+                    <Button
+                      className="btn btn-form w-100 mt-5"
+                      onClick={validateAndSubmitEmail}
+                    >
+                      {state.loading ? (
+                        <Loader isButton={true} />
+                      ) : (
+                        <span>
+                          {" "}
+                          Next <img src={ArrowRight} alt={ArrowRight} />
+                        </span>
+                      )}
+                    </Button>
+                  </Form>
+                </div>
+              )}
+            </div>
+          </Col>
+        </Row>
+      </Container>
+
+      <OTPModal
+        phone={state.phone}
+        email={state.email}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        loginModePhone={loginModePhone}
+      />
+    </div>
+  );
+};
+
+export default SignInWithMobile;

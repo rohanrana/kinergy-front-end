@@ -1,0 +1,17 @@
+.mt-10 {
+  margin-top: 10px !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.otp-custom-input {
+  width: 47px !important;
+  height: 36px !important;
+  height: 33px !important;
+  margin-right: 20px !important;
+  text-align: center !important;
+}
+.otp-input-container {
+  display: flex;
+  justify-content: center;
+}

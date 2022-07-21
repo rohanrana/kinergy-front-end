@@ -1,5 +1,5 @@
 body {
-  font-family: "Inter", sans-serif !important;
+  font-family: "Roboto", sans-serif !important;
   font-size: 14px !important;
   color: #7d7d7d !important;
   position: relative;
@@ -259,6 +259,7 @@ h6 {
   position: absolute;
   top: 18px;
   right: 20px;
+  cursor: pointer;
 }
 
 .appointment-details-row
@@ -346,6 +347,7 @@ label {
   position: absolute;
   top: 18px;
   right: 20px;
+  cursor: pointer;
 }
 
 .appointment-details-row
@@ -378,6 +380,7 @@ label {
   align-items: center;
   vertical-align: middle;
   font-weight: 600 !important;
+  color: #ffffff !important;
 }
 
 .btn-form:focus {
@@ -428,6 +431,393 @@ label {
 .link-color-form a {
   color: #1479ff !important;
 }
-.mt-10 {
-  margin-top: 10px !important;
+
+.appointment-for-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #ffffff;
+  border: 2px solid #e5ebf0;
+  box-shadow: 0px 4px 4px rgba(32, 81, 146, 0.1);
+  border-radius: 5px;
+  position: relative;
+  padding: 6px 15px;
+  margin-top: 30px;
+}
+
+.appointment-for-row:hover {
+  background: #c9fcff;
+  border: 2px solid #37dbe6;
+  box-shadow: 0px 4px 4px rgb(32 81 146 / 10%);
+  border-radius: 5px;
+}
+
+.appointment-for-row .appointment-for-col-1 {
+  flex-basis: 10%;
+}
+
+.appointment-for-row .appointment-for-col-1 span {
+  background-color: #ffffff;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  display: block;
+  padding-top: 6px;
+}
+
+.appointment-for-row .appointment-for-col-2 {
+  flex-basis: 90%;
+}
+
+.appointment-for-row .appointment-for-col-2 p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.appointment-for-row .appointment-for-col-2 p img {
+  height: 16px;
+}
+
+.seperator {
+  float: left;
+  width: 100%;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  margin: 50px 0 0;
+}
+.seperator b {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+  line-height: 40px;
+  background: #fff;
+  display: inline-block;
+  border-radius: 50%;
+  position: relative;
+  top: -22px;
+  z-index: 1;
+  color: #191919;
+}
+
+.someone-span {
+  background: #9fedd7 !important;
+  color: #016670;
+  font-weight: 600;
+  padding-top: 9px !important;
+}
+
+.btn-add-some-one {
+  background: transparent !important;
+  border-color: #1479ff !important;
+  border-radius: 4px;
+  align-items: center;
+  vertical-align: middle;
+  color: #1479ff !important;
+  font-weight: 600 !important;
+}
+
+.btn-add-some-one:focus {
+  background: #1479ff !important;
+  border-color: #1479ff !important;
+  box-shadow: unset !important;
+  color: #ffffff !important;
+}
+
+.profile-provide-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile-provide-row .profile-provider-col-1 {
+  flex-basis: 15%;
+}
+
+.profile-provide-row .profile-provider-col-1 span {
+  background-color: #d1edc0;
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  text-align: center;
+  display: block;
+  padding-top: 10px;
+  color: #016670;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.profile-provide-row .profile-provider-col-2 {
+  flex-basis: 85%;
+}
+
+.profile-provide-row .profile-provider-col-2 h6 {
+  color: #ffffff;
+  margin-bottom: 0;
+}
+
+.profile-provide-row .profile-provider-col-2 p {
+  color: #ffffff;
+  margin-bottom: 0;
+}
+
+.provider-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e5ebf0;
+  box-shadow: 0px 4px 4px rgba(143, 196, 249, 0.271);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.provider-row .provider-row-col1 {
+  flex-basis: 15%;
+}
+.provider-row .provider-row-col1 span {
+  display: block;
+  height: 45px;
+  width: 45px;
+  background-color: #d1edc0;
+  color: #016670;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 10px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.provider-row .provider-row-col2 {
+  flex-basis: 60%;
+}
+
+.provider-row .provider-row-col2 h6 {
+  margin: 0;
+}
+
+.provider-row .provider-row-col2 h6 span {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.provider-row .provider-row-col2 p a {
+  color: #2f3a97 !important;
+}
+
+.provider-row .provider-row-col2 p {
+  margin: 0;
+}
+
+.provider-row .provider-row-col3 {
+  flex-basis: 25%;
+}
+
+.provider-row .provider-row-col3 .btn-book-now {
+  background: #f7a01d;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.appointment-detail-col-2 .react-calendar {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(143, 196, 249, 0.271);
+  border-radius: 10px;
+  border: unset !important;
+}
+
+.react-calendar__month-view__weekdays {
+  background: #dafdff;
+}
+.react-calendar__month-view__weekdays
+  .react-calendar__month-view__weekdays__weekday {
+  color: #0b0b0b;
+}
+abbr[title],
+abbr[data-bs-original-title] {
+  text-decoration: none !important;
+}
+.react-calendar__tile {
+  border-radius: 10px;
+}
+.react-calendar__tile--active {
+  background: #f7a01d !important;
+  border-radius: 10px;
+}
+
+.react-calendar__navigation button {
+  min-width: 44px;
+  color: #1479ff;
+  background: none;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.current-date-details .current-date-text {
+  color: #152c5b;
+  text-align: right;
+}
+
+.time-buttons {
+  padding: 0;
+  margin: 0;
+}
+
+.time-buttons li a {
+  background: #ffffff;
+  border: 1px solid #c1cfda;
+  border-radius: 4px;
+  color: #76787a;
+  padding: 5px;
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.time-buttons li:hover a {
+  background: #f7a01d;
+  color: #ffffff;
+}
+
+.time-buttons li a.active {
+  background: #f7a01d;
+  color: #ffffff;
+}
+
+.profile-details-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-details-row .profile-detail-col-1 {
+  flex-basis: 50%;
+  background: linear-gradient(1.09deg, #dafdff -54.51%, #ffffff 158.79%);
+  border-radius: 10px 0px 0px 10px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* .profile-details-row .profile-detail-col-1 img{
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+} */
+
+.profile-details-row .profile-detail-col-2 {
+  flex-basis: 50%;
+  border-radius: 0px 10px 10px 0px;
+  padding: 20px;
+}
+
+.profile-details-row .profile-detail-col-2 h5 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.profile-details-row .profile-detail-col-2 ul {
+  padding: 0;
+  margin: 0;
+}
+
+.profile-details-row .profile-detail-col-2 ul li {
+  display: inline-block;
+  background: #dafdff;
+  border-radius: 4px;
+  padding: 5px;
+  color: #0b0b0b;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.profile-details-row .profile-detail-col-2 h6 {
+  font-size: 14px;
+}
+
+.profile-details-row .profile-detail-col-2 p {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .home-content-row {
+    display: block;
+    margin-top: 30px;
+  }
+  .appointment-details-row {
+    display: block;
+  }
+  .home-content-row .home-content-col-2 .department-col {
+    margin-top: 30px !important;
+  }
+  .appointment-details-row .appointment-detail-col-2 {
+    min-height: 575px;
+    max-height: 575px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .home-content-row {
+    display: block;
+    margin-top: 30px;
+  }
+  .appointment-details-row {
+    display: block;
+  }
+
+  .profile-details-row {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .register-form {
+    width: 100%;
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: unset;
+    margin-top: 30px;
+  }
+  .home-content-row {
+    display: block;
+  }
+  .home-content-row .home-content-col-2 .department-col {
+    margin-top: 20px !important;
+  }
+  .appointment-details-row {
+    display: block;
+  }
+  .therapy-services {
+    padding: 0;
+    margin-top: 30px;
+  }
+  .p-0-mobile {
+    padding: 0 !important;
+  }
+  .appointment-for-row .appointment-for-col-2 {
+    padding-left: 10px;
+  }
+  .provider-row {
+    display: block;
+  }
+  .provider-row .provider-row-col1 {
+    flex-basis: 100%;
+  }
+  .provider-row .provider-row-col2 {
+    flex-basis: 100%;
+    margin-top: 10px;
+  }
+  .provider-row .provider-row-col3 {
+    flex-basis: 100%;
+    margin-top: 10px;
+  }
+
+  .profile-details-row {
+    display: block;
+  }
 }

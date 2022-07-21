@@ -18,8 +18,15 @@ import Loader from "../../Components/Loader/Loader";
 import BackButton from "../../Components/common/BackButton";
 import NotFoundLable from "../../Components/common/NotFoundLable";
 import { verifyObject } from "../../utilities/utils";
+import { ServiceCategoryDetailModal } from "./ServiceCategoryDetailModal";
+import { appRoutesConst } from "../../App/navigation";
+import { actionTypes } from "../../Reducers/localStore";
 const ServiceDetails = () => {
+  const [modalShow, setModalShow] = React.useState(false);
   const servicesByCateID = useSelector((state) => state.servicesByCateID);
+  const localStore = useSelector((state) => state.localStore);
+  let serviceCategory = verifyObject(localStore, "serviceCategory", null);
+
   //   const [servicesDetails, setServicesDetails] = useState(null);
   const serviecesData = verifyObject(servicesByCateID, "data", []);
   const isLoading = verifyObject(servicesByCateID, "isLoading", []);
@@ -34,6 +41,7 @@ const ServiceDetails = () => {
   useEffect(() => {
     // getServiceCategoryDetail();
     getServicesByCategoryID();
+    setServiceDetail(null);
   }, []);
 
   const getServicesByCategoryID = () => {
@@ -66,6 +74,16 @@ const ServiceDetails = () => {
       })
     );
   };
+  const handleModal = () => {
+    setModalShow(true);
+  };
+  const setServiceDetail = (service) => {
+    dispatch({
+      type: actionTypes.SET_SERVICE,
+      payload: service,
+    });
+  };
+  
   console.log("service", serviecesData);
   return (
     <div className="therapy-services">
@@ -82,7 +100,12 @@ const ServiceDetails = () => {
                   <div className="appointment-service-col-2">
                     <p>{category_name}</p>
                   </div>
-                  <img src={InfoIcon} alt={InfoIcon} className="info-icons" />
+                  <img
+                    onClick={handleModal}
+                    src={InfoIcon}
+                    alt={InfoIcon}
+                    className="info-icons"
+                  />
                 </div>
               </div>
               <div className="appointment-detail-col-2">
@@ -99,21 +122,28 @@ const ServiceDetails = () => {
                   isArray(serviecesData) &&
                   serviecesData.map((d) => {
                     return (
-                      <a href="/lets-started">
-                        <div className="appointment-service-row">
-                          <div className="appointment-service-col-1">
-                            <img src={Service2} alt={Service2} />
+                      <span
+                        onClick={() => {
+                          // console.log("dddd", d);
+                          setServiceDetail(d);
+                        }}
+                      >
+                        <Link to={appRoutesConst.loginwithphone}>
+                          <div className="appointment-service-row">
+                            <div className="appointment-service-col-1">
+                              <img src={Service2} alt={Service2} />
+                            </div>
+                            <div className="appointment-service-col-2">
+                              <p> {d.title}</p>
+                            </div>
+                            <img
+                              src={InfoIcon}
+                              alt={InfoIcon}
+                              className="info-icons"
+                            />
                           </div>
-                          <div className="appointment-service-col-2">
-                            <p> {d.title}</p>
-                          </div>
-                          <img
-                            src={InfoIcon}
-                            alt={InfoIcon}
-                            className="info-icons"
-                          />
-                        </div>
-                      </a>
+                        </Link>
+                      </span>
                     );
                   })}
                 {!isLoading && (
@@ -127,6 +157,11 @@ const ServiceDetails = () => {
           </Col>
         </Row>
       </Container>
+      <ServiceCategoryDetailModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        serviceCategory={serviceCategory}
+      />
     </div>
   );
 };
