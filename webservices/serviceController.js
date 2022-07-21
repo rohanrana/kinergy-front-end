@@ -256,7 +256,7 @@ const serviceApis = {
       page: page,
       limit: perPage,
       select:
-        "_id title  serviceType parentService slug description category image priceDetail insuranceApplicable addBy status createdAt updatedAt",
+        "_id title  serviceType parentService slug description category image imageUrl priceDetail insuranceApplicable addBy status createdAt updatedAt",
     };
 
     let query = {};
@@ -495,7 +495,7 @@ const serviceApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         // console.log(imageName);
         req.body[file.fieldname] = imageName;
-        req.body.imageURL = configEnv.base_url + fileLocation + "/" + imageName;
+        req.body.imageURL =  fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });

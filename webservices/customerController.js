@@ -992,7 +992,9 @@ const addMedicalToClient = async (customerId, medicalProviderRecord) => {
       { _id: customerId },
       { $pull: { medicalProviderInformation: medicalProviderRecord } },
       { new: true }
-    ).lean().exec();
+    )
+      .lean()
+      .exec();
   }
 };
 const medicalProviderInformation = async (req, res) => {

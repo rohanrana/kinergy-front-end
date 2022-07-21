@@ -147,7 +147,7 @@ const departmentApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         console.log("imageName", imageName);
         req.body[file.fieldname] = imageName;
-        req.body.imageURL = configEnv.base_url + fileLocation + "/" + imageName;
+        req.body.imageURL = fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });

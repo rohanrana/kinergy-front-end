@@ -119,7 +119,6 @@ const serviceCategoryApis = {
   // =============get Service Category List=============================
 
   getList: (req, res) => {
-    console.log('configEnv',configEnv);
     const perPage = 10,
       page =
         req.body.page != "undefined" && req.body.page
@@ -131,7 +130,7 @@ const serviceCategoryApis = {
         page: page,
         limit: perPage,
         select:
-          "_id title slug description image addBy status createdAt updatedAt",
+          "_id title slug description image imageUrl addBy status createdAt updatedAt",
       },
       function (err, result) {
         console.log(err);
@@ -328,7 +327,7 @@ const serviceCategoryApis = {
         var imageName = "service-" + Date.now() + extname;
         // console.log(imageName);
         req.body[file.fieldname] = imageName;
-        req.body.imageURL = configEnv.base_url+fileLocation + "/" + imageName;
+        req.body.imageURL = fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });

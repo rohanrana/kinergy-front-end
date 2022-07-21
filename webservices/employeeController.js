@@ -450,7 +450,7 @@ const employeeApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         // console.log(imageName);
         req.body[file.fieldname] = imageName;
-        req.body[`${file.fieldname}URL`] = configEnv.base_url + fileLocation + "/" + imageName;
+        req.body[`${file.fieldname}URL`] =  fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });
