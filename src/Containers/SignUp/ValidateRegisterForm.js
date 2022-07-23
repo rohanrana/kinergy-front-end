@@ -44,10 +44,6 @@ export function ValidateSignupInput(data) {
     errors.lastName = "Last name  is invalid";
   }
 
-  if (data.contact !== undefined && validator.isEmpty(data.contact)) {
-    errors.contact = "Mobile no is required";
-  }
-
   if (data.contact !== undefined && validator.isEmpty(data.contact) === false) {
     if (!validator.isLength(data.contact, { min: 10, max: 10 })) {
       errors.contact = "Mobile no should be of 10 digit";
@@ -78,56 +74,10 @@ export function ValidateSignupInput(data) {
     errors.email = "Email should be less than  of 40 characters only";
   }
 
-
-  if (data.password !== undefined && validator.isEmpty(data.password)) {
-    errors.password = "Password is required";
+  if (data.dob !== undefined && validator.isEmpty(data.dob)) {
+    errors.dob = "Date of birth   is required";
   }
 
-  if (
-    data.password !== undefined &&
-    validator.isEmpty(data.password) === false
-  ) {
-    let test = passwordRegex.test(data.password);
-    if (!test) {
-      errors.password =
-        "Password should be atleast 8 characters including a number,an uppercase,one special character and lowercase letter";
-    }
-  }
-
-  if (data.password !== undefined && data.password.length > 25) {
-    errors.password = "Password should be max 25 characters";
-  }
-
-  if (
-    data.password !== undefined &&
-    !validator.isEmpty(data.password) &&
-    spaceRegex.test(data.password) === false
-  ) {
-    errors.password = "Password  is invalid";
-  }
-
-  if (
-    data.confirm_password !== undefined &&
-    !validator.isEmpty(data.confirm_password) &&
-    spaceRegex.test(data.confirm_password) === false
-  ) {
-    errors.confirm_password = "Confirm password  is invalid";
-  }
-
-  if (
-    data.confirm_password !== undefined &&
-    validator.isEmpty(data.confirm_password)
-  ) {
-    errors.confirm_password = "Enter Confirm password";
-  }
-
-  if (
-    data.password !== undefined &&
-    data.confirm_password &&
-    data.password !== data.confirm_password
-  ) {
-    errors.confirm_password = "Confirm password should be same as New Password";
-  }
   console.log("DATA", data);
   return { errors, isValid: isEmpty(errors) };
 }

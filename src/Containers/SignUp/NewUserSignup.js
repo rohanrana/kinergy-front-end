@@ -18,7 +18,7 @@ import Clock from "../../images/clock.png";
 import { useSelector } from "react-redux";
 import { errorToast } from "../../utilities/utils";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
-import { DatePicker } from "react-rainbow-components";
+import { DatePicker, Picklist, Option } from "react-rainbow-components";
 
 const NewUserSignup = (props) => {
   const [state, setState] = useState({
@@ -32,6 +32,7 @@ const NewUserSignup = (props) => {
     errors: null,
     serverErrors: [],
     signingUpResponse: null,
+    dob: null,
   });
   const localStore = useSelector((state) => state.localStore);
   const serviceCategory = verifyObject(localStore, "serviceCategory", null);
@@ -220,13 +221,16 @@ const NewUserSignup = (props) => {
                           placeholder="Phone Number"
                         /> */}
                         <DatePicker
-                          formatStyle="small"
-                          placeholder="MM/DD/YYYY"
-                          
+                          formatStyle="medium"
+                          placeholder="DD/MM/YYYY"
+                          value={state.dob}
+                          onChange={(value) =>
+                            setState({ ...state, dob: value })
+                          }
                         />
                         {state.errors && (
                           <span className="text-danger">
-                            {state.errors.contact}
+                            {state.errors.dob}
                           </span>
                         )}
                       </Form.Group>
@@ -235,13 +239,33 @@ const NewUserSignup = (props) => {
                     <Col lg={12} sm={12} xs={12}>
                       <Form.Group className="mb-3">
                         <Form.Label>Gender*</Form.Label>
-                        <Form.Control
-                          type=""
-                          onChange={handleChange}
-                          name={"contact"}
-                          value={state.contact}
-                          placeholder="Phone Number"
-                        />
+                        {/* <select className="form-control">
+                          <option value={"MALE"}> Male</option>
+                          <option value={"FEMALE"}> Female</option>
+                        </select> */}
+                        <Picklist
+                          // style={{
+                          //   marginTop: 10,
+                          // }}
+                          onChange={(value) =>
+                            setState({ ...state, gender: value })
+                          }
+                          // value={state.value}
+                          placeholder="Select Gender"
+                        >
+                          <Option
+                            name="header"
+                            label="Your Buildings"
+                            variant="header"
+                          />
+                          <Option
+                            name="option 1"
+                            label="Experimental Building"
+                          />
+                          <Option name="option 2" label="Empire State" />
+                          <Option name="option 3" label="Plaza" />
+                          <Option name="option 4" label="Central Park" />
+                        </Picklist>
                         {state.errors && (
                           <span className="text-danger">
                             {state.errors.contact}
