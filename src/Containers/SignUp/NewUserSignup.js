@@ -222,6 +222,7 @@ const NewUserSignup = (props) => {
                         <DatePicker
                           formatStyle="small"
                           placeholder="MM/DD/YYYY"
+                          
                         />
                         {state.errors && (
                           <span className="text-danger">
