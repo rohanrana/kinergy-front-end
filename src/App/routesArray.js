@@ -8,14 +8,22 @@ const SignInWithMobile = lazy(() =>
 const SignInWithEmail = lazy(() =>
   import("../Containers/SIgninWith/SignInWithEmail")
 );
-
 const ServiceDetails = lazy(() =>
   import("../Containers/Services/ServiceDetails")
 );
 const AppointmentFor = lazy(() =>
   import("../Containers/Appointments/AppointmentFor")
 );
-
+const AppointmentTypes = lazy(() =>
+  import("../Containers/Appointments/AppointmentTypes")
+);
+const NewAppointmentBooking = lazy(() =>
+  import("../Containers/Appointments/NewAppointmentBooking")
+);
+const FollowUpAppointmentBooking = lazy(() =>
+  import("../Containers/Appointments/FollowUpAppointmentBooking")
+);
+const NewUserSignUp = lazy(() => import("../Containers/SignUp/NewUserSignup"));
 //isPrivateRoute
 //isOpenRoute
 //isPrivateRoute
@@ -61,4 +69,30 @@ export const routesArray = [
     element: AppointmentFor,
     isOpenRoute: true,
   },
+  {
+    path: appRoutesConst.appointmentTypes,
+    element: AppointmentTypes,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.newAppointmentBooking,
+    element: NewAppointmentBooking,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.newAppointmentBooking,
+    element: NewAppointmentBooking,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.followUpAppointmentBooking,
+    element: FollowUpAppointmentBooking,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.newUserSignUp,
+    element: NewUserSignUp,
+    isOpenRoute: true,
+  },
+ 
 ];

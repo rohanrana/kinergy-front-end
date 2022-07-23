@@ -11,12 +11,18 @@ export default function AppointmentDetailsSection() {
   const localStore = useSelector((state) => state.localStore);
   const serviceCategory = verifyObject(localStore, "serviceCategory", null);
   const selectedService = verifyObject(localStore, "selectedService", null);
+  const appointmentDuration = verifyObject(
+    localStore,
+    "appointmentBookingDetails",
+    null
+  );
   return (
     <div className="appointment-detail-col-1">
       <h5>
         Appointment Details{" "}
         <span className="appointmrnt-time">
-          <img src={Clock} alt={Clock} /> 30 min
+          <img src={Clock} alt={Clock} />{" "}
+          {appointmentDuration && appointmentDuration.duration} min
         </span>
       </h5>
       <div className="appointment-service-row appointment-service-row22">

@@ -1,0 +1,16 @@
+.appointments-types-container {
+  /* background: url("../../images/bg-common.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  top: 91px;
+  background-position: bottom; */
+  background-color: white;
+  min-height: 100vh;
+
+}
+
+.custom-appt-details-row{
+
+  justify-content: center;
+}

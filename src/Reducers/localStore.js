@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   serviceCategory: null,
   selectedService: null,
+  appointmentBookingDetails: null,
 
   // dynamicInputs: null,
 };
@@ -12,6 +13,7 @@ export const actionTypes = {
   CLEAR_LOCAL_STATE: "CLEAR_LOCAL_STATE",
   SET_SERVICE_CATEGORY: "serviceCategories/SET_SERVICE_CATEGORY",
   SET_SERVICE: "services/SET_SERVICE",
+  SET_APPOINTMENT_BOOKING_DETAIL: "appointments/SET_APPOINTMENT_BOOKING_DETAIL",
 };
 export const localStore = (state = initialState, action) => {
   switch (action.type) {
@@ -24,6 +26,9 @@ export const localStore = (state = initialState, action) => {
     }
     case actionTypes.SET_SERVICE: {
       return { ...state, selectedService: action.payload };
+    }
+    case actionTypes.SET_APPOINTMENT_BOOKING_DETAIL: {
+      return { ...state, appointmentBookingDetails: action.payload };
     }
     case sessionTypes.LOG_OUT:
       return initialState;

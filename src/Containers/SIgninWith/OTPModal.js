@@ -42,7 +42,11 @@ export function OTPModal(props) {
           content: verifyObject(response, "data.response_message", "Success"),
         });
         setLoading(false);
-        navigateTo(appRoutesConst.appointmentFor);
+        if (props.isNewUser) {
+          navigateTo(appRoutesConst.newUserSignUp);
+        } else {
+          navigateTo(appRoutesConst.appointmentFor);
+        }
       }
     } catch (error) {
       const { message } = getErrorObject(error);
@@ -140,6 +144,7 @@ export function OTPModal(props) {
               <a href="#/">Resend</a>
             </span>
           </p>
+          {props.otp && <p>OTP : {props.otp}</p>}
         </Form>
         <Row>
           <Col Col lg={12} sm={12} xs={12}>

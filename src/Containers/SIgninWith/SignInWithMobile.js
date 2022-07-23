@@ -25,6 +25,8 @@ const SignInWithMobile = () => {
       phone: null,
       email: null,
     },
+    otp: null,
+    isNewUser: false,
   });
   const [modalShow, setModalShow] = React.useState(false);
   const [loginModePhone, setLoginMode] = React.useState(true);
@@ -74,11 +76,10 @@ const SignInWithMobile = () => {
     let phoneError;
     if (isEmpty(state.phone)) {
       phoneError = "Please enter a phone number";
-      }
-      else if (!validator.isNumeric(state.phone)) {
-        phoneError = "Please enter a valid phone number";
-      } else if (!validator.isLength(state.phone, { min: 10, max: 10 })) {
-        phoneError = "Phone no should be of 10 digit";
+    } else if (!validator.isNumeric(state.phone)) {
+      phoneError = "Please enter a valid phone number";
+    } else if (!validator.isLength(state.phone, { min: 10, max: 10 })) {
+      phoneError = "Phone no should be of 10 digit";
     } else {
       phoneError = null;
     }
@@ -103,7 +104,16 @@ const SignInWithMobile = () => {
           });
           setModalShow(true);
 
-          await setState({ ...state, loading: false });
+          await setState({
+            ...state,
+            loading: false,
+            otp: verifyObject(response, "data.response_message.otp", null),
+            isNewUser: verifyObject(
+              response,
+              "data.response_message.newUser",
+              false
+            ),
+          });
         }
       } catch (error) {
         if (error.data && error.data.errors && isArray(error.data.errors)) {
@@ -153,7 +163,17 @@ const SignInWithMobile = () => {
           });
           setModalShow(true);
 
-          await setState({ ...state, loading: false });
+          console.log("response", response.data.response_message.otp);
+          await setState({
+            ...state,
+            loading: false,
+            otp: verifyObject(response, "data.response_message.otp", null),
+            isNewUser: verifyObject(
+              response,
+              "data.response_message.newUser",
+              false
+            ),
+          });
         }
       } catch (error) {
         if (error.data && error.data.errors && isArray(error.data.errors)) {
@@ -190,7 +210,7 @@ const SignInWithMobile = () => {
       },
     });
   };
-
+  console.log("OTP", state.otp);
   return (
     <div className="therapy-services">
       <Container>
@@ -301,6 +321,8 @@ const SignInWithMobile = () => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         loginModePhone={loginModePhone}
+        otp={state.otp}
+        isNewUser={state.isNewUser}
       />
     </div>
   );

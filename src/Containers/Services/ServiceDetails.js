@@ -83,7 +83,7 @@ const ServiceDetails = () => {
       payload: service,
     });
   };
-  
+
   console.log("service", serviecesData);
   return (
     <div className="therapy-services">
@@ -128,7 +128,7 @@ const ServiceDetails = () => {
                           setServiceDetail(d);
                         }}
                       >
-                        <Link to={appRoutesConst.loginwithphone}>
+                        <Link to={appRoutesConst.appointmentTypes}>
                           <div className="appointment-service-row">
                             <div className="appointment-service-col-1">
                               <img src={Service2} alt={Service2} />

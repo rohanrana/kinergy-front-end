@@ -6,3 +6,11 @@ export const getServiceByCategoryByID = (data) => {
   };
   return post(request);
 };
+
+export const getServiceDetailByByID = (data) => {
+  const request = {
+    subUrl: `/service/getServiceDetailById`,
+    data,
+  };
+  return post(request);
+};

@@ -10,6 +10,12 @@ export const appRoutesConst = {
   loginwithphone: "/login-with-phone",
   loginwithemail: "/login-with-email",
   appointmentFor: "/appointment-for",
+  appointmentTypes: "/appointment-type",
+  newAppointmentBooking: "/new-appointment-booking",
+  followUpAppointmentBooking: "/followup-appointment-booking",
+  newUserSignUp: "/new-user-registration",
+
+
 };
 
 // const config = {

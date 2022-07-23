@@ -74,7 +74,7 @@ export const formatJustDate = ({ date }) => {
 
 export const getErrorObject = (error) => {
   let message = "Error!";
-  console.log("getErrorObject", error)
+  console.log("getErrorObject", error);
   if (error && error.data && error.data.response_message) {
     // API server error message
     message = error.data.response_message;
@@ -87,7 +87,7 @@ export const getErrorObject = (error) => {
   };
 };
 
-export const errorToast = ({ content, options = { closeOnClick: true, } }) => {
+export const errorToast = ({ content, options = { closeOnClick: true } }) => {
   if (!content) {
     return;
   }
@@ -100,7 +100,7 @@ export const errorToast = ({ content, options = { closeOnClick: true, } }) => {
     draggable: true,
     progress: undefined,
     containerId: "container_main",
-    ...options
+    ...options,
   });
 };
 
@@ -117,7 +117,7 @@ export const successToast = ({ content, options = {} }) => {
     draggable: true,
     progress: undefined,
     containerId: "container_main",
-    ...options
+    ...options,
   });
 };
 
@@ -182,6 +182,7 @@ export const currencies = {
   inr: { key: "inr", symbol: "₹" },
   euro: { key: "euro", symbol: "€" },
   pound: { key: "pound", symbol: "£" },
+  dollor: { key: "dollor", symbol: "$" },
 };
 
 export const normalizeResponseWithPagination = ({ response, key = "id" }) => {
@@ -191,13 +192,13 @@ export const normalizeResponseWithPagination = ({ response, key = "id" }) => {
   //Current workaround
   let resPagination = null;
   if (response.data.paginationData) {
-    resPagination = response.data.paginationData
+    resPagination = response.data.paginationData;
   } else {
     resPagination = {
-      "total": 0,
-      "limit": 0,
-      "page": 0,
-      "pages": 0
+      total: 0,
+      limit: 0,
+      page: 0,
+      pages: 0,
     };
   }
 
@@ -211,7 +212,6 @@ export const normalizeResponseWithPagination = ({ response, key = "id" }) => {
   };
 };
 let pubNubCr = {};
-
 
 export const chatChannelCreator = ({ order_id, order_type, currentTab }) => {
   // const orderIdTemp = `${order_id}_`;
