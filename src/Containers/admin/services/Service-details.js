@@ -227,7 +227,7 @@ const Servicedetails = () => {
                       }
 
                       {
-                        <Table responsive="lg" className="table_s mt-5 mb-5">
+                        <Table responsive="lg" className="table_s mb-5">
                           <thead>
                             <tr>
                               <th>Service Name</th>
