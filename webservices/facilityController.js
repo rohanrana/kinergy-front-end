@@ -2,13 +2,17 @@ const Response = require("../common_functions/response_handler");
 const resCode = require("../helper/httpResponseCode");
 const resMessage = require("../helper/httpResponseMessage");
 const Facility = require("../models/facilityModel");
+const Appointment = require("../models/appointmentModel");
 const generalHelper = require("../helper/general");
+const appointmentHelper = require("../helper/appointmentHelper");
+
 const path = require("path");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
 
 const returnPagination = (result) => {
-  delete result.docs; return result;
+  delete result.docs;
+  return result;
 };
 
 const facilityApis = {
@@ -25,6 +29,7 @@ const facilityApis = {
       location,
       address,
       image,
+      imageUrl,
       status,
     } = req.body;
     let phoneArr = [];
@@ -40,12 +45,13 @@ const facilityApis = {
         phoneArr.push(phoneObj);
       });
     }
-    
+
     const facility = new Facility({
       facilityName: facilityName,
       location: location,
       openHours: openHours,
       image: image,
+      imageUrl: imageUrl,
       contact: [{ phone: phoneArr, email: email }],
       address: [
         { address: address, state: state, city: city, pincode: pincode },
@@ -92,6 +98,7 @@ const facilityApis = {
         location,
         address,
         image,
+        imageUrl,
         status,
       } = req.body;
       let phoneArr = [];
@@ -112,7 +119,7 @@ const facilityApis = {
         location: location,
         openHours: openHours,
         image: image,
-
+        imageUrl: imageUrl,
         contact: [
           {
             phone: phoneArr,
@@ -232,10 +239,16 @@ const facilityApis = {
     };
     let query = {};
     if (req.body.search && req.body.search != "")
-      query = { ...query, facilityName:  { $regex: `${req.body.search}`, $options: "i" } };
+      query = {
+        ...query,
+        facilityName: { $regex: `${req.body.search}`, $options: "i" },
+      };
 
     if (req.body.status && req.body.status != "" && req.body.status != "all")
-      query = { ...query, status: generalHelper.stringToUpperCase(req.body.status) };
+      query = {
+        ...query,
+        status: generalHelper.stringToUpperCase(req.body.status),
+      };
 
     Facility.paginate(query, options, function (err, result) {
       console.log(err);
@@ -328,8 +341,8 @@ const facilityApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         console.log("imageName", imageName);
         req.body[file.fieldname] = imageName;
-        req.body.imageUrl = fileLocation;
-       
+        req.body.imageUrl = fileLocation + "/" + imageName;
+
         cb(null, imageName);
       },
     });
@@ -383,6 +396,47 @@ const facilityApis = {
 
       next();
     });
+  },
+  getProviderBookedSlot: async (req, res) => {
+    const { providerId } = req.body;
+    if (!(await providerId))
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Enter service provider id."
+      );
+    await Appointment.find({
+      provider: providerId,
+      appointmentDate: {
+        $gte: new Date(),
+      },
+    })
+      .select("_id appointmentDate appointmentTime provider")
+      .exec(async (err, result) => {
+        console.log(err);
+        if (err) {
+          await Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        } else if (!result || result.length == 0) {
+          await Response.sendResponseWithData(
+            res,
+            resCode.WENT_WRONG,
+            "Booking list not found.",
+            result
+          );
+        } else {
+          appointmentResult = await appointmentHelper.manageProviderSlot(result);
+          await Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Booked time slot list.",
+            appointmentResult
+          );
+        }
+      });
   },
 };
 

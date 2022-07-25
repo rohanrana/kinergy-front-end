@@ -117,7 +117,8 @@ const dateFormat = (date) => {
   // return  new Date(+new Date(date) +  5.5 * 60 * 60 * 1000);
   // return new Date(date);
   // console.log( moment(date).add(5, 'hours').add(30, 'minutes').format(this.getDateFormat));
-  return moment(new Date(date)).add(5, "hours").add(30, "minutes");
+  // return moment(new Date(date)).add(5, "hours").add(30, "minutes");
+  return moment(new Date(date));
 };
 // Data, Key,  and Value
 function checkValueExist(data, key, value) {

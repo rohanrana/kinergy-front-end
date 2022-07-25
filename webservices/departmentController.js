@@ -15,13 +15,13 @@ const returnPagination = (result) => {
 };
 const departmentApis = {
   add: (req, res, next) => {
-    const { name, image,imageURL, type, status, description } = req.body;
+    const { name, image,imageUrl, type, status, description } = req.body;
     var department = new Department({
       name,
       type,
       status,
       image,
-      imageUrl:imageURL,
+      imageUrl:imageUrl,
       description,
     });
     department.save((err, result) => {
@@ -147,7 +147,7 @@ const departmentApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         console.log("imageName", imageName);
         req.body[file.fieldname] = imageName;
-        req.body.imageURL = fileLocation + "/" + imageName;
+        req.body.imageUrl = fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });

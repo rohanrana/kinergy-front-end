@@ -30,8 +30,9 @@ router.get('/', function(req, res, next) {
 
 // Client Side
 router.post('/loginWithMobile',customerValidation.mobileLogin,customerApis.loginWithMobile);
-router.post('/loginWithEmail',customerValidation.emailLogin,customerApis.loginWithEmail);
+router.post('/resendMobileOtp',customerValidation.mobileLogin,customerApis.resendMobileOtp);
 router.post('/verifyMobileOtp',customerValidation.verifyOtp,customerApis.verifyMobileOtp);
+router.post('/loginWithEmail',customerValidation.emailLogin,customerApis.loginWithEmail);
 router.post('/verifyEmailOtp',customerValidation.verifyOtp,customerApis.verifyEmailOtp);
 router.post('/register',customerValidation.registerNewCustomer,customerApis.registerCustomer);
 router.post('/registerSomeOneElse',authHandler.auth_func,customerValidation.CustomerAddSomeOneValidation,customerApis.registerSomeOneCustomer);
@@ -48,5 +49,13 @@ router.post('/clientPortalRegistration/clientDetail',authHandler.auth_func,custo
 router.post('/clientPortalRegistration/communicationPreferences',authHandler.auth_func,customerValidation.clientPortalCommunicationPreferences,customerApis.communicationPreferences);
 router.post('/clientPortalRegistration/emergencyContact',authHandler.auth_func,customerValidation.clientPortalEmergencyContact,customerApis.clientPortalEmergencyContact);
 router.post('/clientPortalRegistration/medicalProviderInformation',authHandler.auth_func,customerValidation.medicalProviderInformation,customerApis.medicalProviderInformation);
+router.post('/clientPortalRegistration/personalHabit',authHandler.auth_func,customerValidation.personalHabit,customerApis.personalHabit);
+router.post('/clientPortalRegistration/medicationAndSupplement',authHandler.auth_func,customerValidation.medicationAndSupplement,customerApis.medicationAndSupplement);
+router.post('/clientPortalRegistration/allergies',authHandler.auth_func,customerApis.allergies);
+router.post('/clientPortalRegistration/medicalHistory',authHandler.auth_func,customerApis.medicalHistory);
+router.post('/clientPortalRegistration/femalesOnly',authHandler.auth_func,customerApis.femalesOnly);
+router.post('/clientPortalRegistration/surgicalHistory',authHandler.auth_func,customerApis.surgicalHistory);
+router.post('/clientPortalRegistration/musculoskeletalHistory',authHandler.auth_func,customerApis.musculoskeletalHistory);
+
 
 module.exports = router;

@@ -478,13 +478,13 @@ const clientPortalEmergencyContact = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Enter full name."),
-    check("relationship")
+  check("relationship")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Select relationship."),
-    check("language")
+  check("language")
     .trim()
     .escape()
     .not()
@@ -504,12 +504,96 @@ const medicalProviderInformation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Enter family doctor name."),
-    check("familyDoctorPhone")
+  check("familyDoctorPhone")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Enter family doctor phone."),
+];
+const medicationAndSupplement = (req, res, next) => [
+  check("customerId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter customer id."),
+  // check("medication")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter medication description."),
+  // check("supplement")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter supplement description."),
+];
+const personalHabit = (req, res, next) => [
+  check("customerId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter customer id."),
+  check("smoke")
+    .custom((value, { req, loc, path }) => {
+      if (value === false || value === true || value === 0 || value === 1) {
+        return true;
+      } else {
+        return Promise.reject("Value Should be true or false.");
+      }
+    })
+    .withMessage("Value Should be true or false.")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter smoke/chew tobacco."),
+  check("drinkAlcohol")
+    .custom((value, { req, loc, path }) => {
+      if (value === false || value === true || value === 0 || value === 1) {
+        return true;
+      } else {
+        return Promise.reject("Value Should be true or false.");
+      }
+    })
+    .withMessage("Value Should be true or false.")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter drink alcohol."),
+  check("drinkCoffee")
+    .custom((value, { req, loc, path }) => {
+      if (value === false || value === true || value === 0 || value === 1) {
+        return true;
+      } else {
+        return Promise.reject("Value Should be true or false.");
+      }
+    })
+    .withMessage("Value Should be true or false.")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter drink coffee."),
+  check("drinkSoda")
+    .custom((value, { req, loc, path }) => {
+      if (value === false || value === true || value === 0 || value === 1) {
+        return true;
+      } else {
+        return Promise.reject("Value Should be true or false.");
+      }
+    })
+    .withMessage("Value Should be true or false.")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter drink soda."),
 ];
 
 const reporter = (req, res, next) => {
@@ -596,8 +680,12 @@ module.exports = {
   progressReportAdd: [generateProgressReportValidators(), reporter],
   emergencyContact: [emergencyContact(), reporter],
   clientPortalClientDetail: [clientPortalClientDetail(), reporter],
-  clientPortalCommunicationPreferences: [clientPortalCommunicationPreferences(),reporter,],
-  clientPortalEmergencyContact: [clientPortalEmergencyContact(),reporter,],
-  medicalProviderInformation: [medicalProviderInformation(),reporter,],
-
+  clientPortalCommunicationPreferences: [
+    clientPortalCommunicationPreferences(),
+    reporter,
+  ],
+  clientPortalEmergencyContact: [clientPortalEmergencyContact(), reporter],
+  medicalProviderInformation: [medicalProviderInformation(), reporter],
+  personalHabit: [personalHabit(), reporter],
+  medicationAndSupplement: [medicationAndSupplement(), reporter],
 };

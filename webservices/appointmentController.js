@@ -20,7 +20,7 @@ const fs = require("fs");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
 
-const book = (req, res, next) => {
+const book = async (req, res, next) => {
   console.log(req.body);
   const {
     provider,
@@ -44,21 +44,25 @@ const book = (req, res, next) => {
     serviceDuration,
     serviceAmount,
   } = req.body;
+  
+  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot."); 
+
   const appointment = new Appointment({
     spentTime,
     serviceType,
     staff,
-    status: generalHelper.stringToUpperCase(status),
+    status: await generalHelper.stringToUpperCase(status),
     location,
     department,
     appointmentType: appointmentType,
     service: service,
     servicePrice: servicePrice,
-    appointmentDate: generalHelper.dateFormat(appointmentDate),
-    appointmentTime: appointmentTime,
+    appointmentDate: await generalHelper.dateFormat(appointmentDate),
+    appointmentTime: await generalHelper.stringToUpperCase(appointmentTime).replaceAll(' ', ''),
     customer: customer,
     provider: provider,
-    status: generalHelper.stringToUpperCase(status),
+    status: await generalHelper.stringToUpperCase(status),
     couponApplied: coupon && coupon._id ? 1 : 0,
     coupon: coupon,
     amount: amount,
@@ -70,11 +74,11 @@ const book = (req, res, next) => {
   });
   console.log("appointment", appointment);
 
-  appointment.save((err, result) => {
+  appointment.save(async(err, result) => {
     console.log(err, result);
-    couponHelper.couponHit(coupon._id);
+    await couponHelper.couponHit(coupon._id);
     if (!err)
-      Response.sendResponseWithData(
+    await Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
         resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
@@ -82,7 +86,7 @@ const book = (req, res, next) => {
       );
     else {
       console.log(err);
-      Response.sendResponseWithoutData(
+      await Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         resMessage.WENT_WRONG
@@ -91,8 +95,8 @@ const book = (req, res, next) => {
   });
 };
 
-const customerBooking = (req, res, next) => {
-  console.log(req.body);
+const customerBooking = async (req, res, next) => {
+
   const {
     appointmentType,
     appointmentFor,
@@ -117,17 +121,20 @@ const customerBooking = (req, res, next) => {
     serviceAmount,
 
   } = req.body;
+  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
   const appointment = new Appointment({
     appointmentType: appointmentType,
     appointmentFor:appointmentFor,
     service: service,
     servicePrice: servicePrice,
-    appointmentDate: generalHelper.dateFormat(appointmentDate),
-    appointmentTime: appointmentTime,
+    appointmentDate: await generalHelper.dateFormat(appointmentDate),
+    appointmentTime: await generalHelper.stringToUpperCase(appointmentTime).replaceAll(' ', ''),
     customer: customer,
     refCustomer:refCustomer,
     provider: provider,
-    status: generalHelper.stringToUpperCase(status),
+    status: await generalHelper.stringToUpperCase(status),
     couponApplied: coupon && coupon._id ? 1 : 0,
     coupon: coupon,
     amount: amount,
@@ -140,11 +147,11 @@ const customerBooking = (req, res, next) => {
 
   console.log("appointment", appointment);
 
-  appointment.save((err, result) => {
+  await appointment.save( async (err, result) => {
     console.log(err, result);
     if (!err) {
-      couponHelper.couponHit(coupon._id);
-      Response.sendResponseWithData(
+       await  couponHelper.couponHit(coupon._id);
+      return await  Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
         resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
@@ -152,7 +159,7 @@ const customerBooking = (req, res, next) => {
       );
     } else {
       console.log(err);
-      Response.sendResponseWithoutData(
+      return await  Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         resMessage.WENT_WRONG
@@ -161,7 +168,7 @@ const customerBooking = (req, res, next) => {
   });
 };
 
-const bookingAppointmentSomeOneElse = (req, res, next) => {
+const bookingAppointmentSomeOneElse = async (req, res, next) => {
   console.log(req.body);
   const {
     appointmentType,
@@ -196,17 +203,21 @@ const bookingAppointmentSomeOneElse = (req, res, next) => {
     couponType,
     couponValue,
   } = req.body;
+  
+  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
   const appointment = new Appointment({
     appointmentType: appointmentType,
     appointmentFor: appointmentFor,
     service: service,
     servicePrice: servicePrice,
-    appointmentDate: generalHelper.dateFormat(appointmentDate),
-    appointmentTime: appointmentTime,
+    appointmentDate: await generalHelper.dateFormat(appointmentDate),
+    appointmentTime:await generalHelper.stringToUpperCase(appointmentTime).replaceAll(' ', ''),
     customer: customer,
     refCustomer: refCustomer,
     provider: provider,
-    status: generalHelper.stringToUpperCase(status),
+    status: await generalHelper.stringToUpperCase(status),
     couponApplied: couponId ? 1 : 0,
     coupon: {
       _id: couponId,
@@ -225,10 +236,10 @@ const bookingAppointmentSomeOneElse = (req, res, next) => {
 
   console.log("appointment", appointment);
 
-  appointment.save((err, result) => {
+  await appointment.save( async(err, result) => {
     console.log(err, result);
     if (!err) {
-      couponHelper.couponHit(couponId);
+      await couponHelper.couponHit(couponId);
       waiver = new Waiver({
         appointment: result._id,
         authorizedRepresentativeName:
@@ -239,11 +250,11 @@ const bookingAppointmentSomeOneElse = (req, res, next) => {
         needSign: waiverAndReleaseOfLiabilityNeedSign,
         signature: files && files.length > 0 ? files[0].fileName : null,
       });
-      waiver.save((waiverErr, waiverResult) => {
+      await waiver.save( async(waiverErr, waiverResult) => {
         console.log("waiverSave Err", waiverErr);
         console.log("waiverSave Success", waiverResult);
       });
-      Response.sendResponseWithData(
+      await Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
         resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
@@ -252,7 +263,7 @@ const bookingAppointmentSomeOneElse = (req, res, next) => {
     } else {
       // console.log(err);
 
-      Response.sendResponseWithoutData(
+      await Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         resMessage.WENT_WRONG
@@ -260,7 +271,7 @@ const bookingAppointmentSomeOneElse = (req, res, next) => {
     }
   });
 };
-const bookingAppointmentMySelf = (req, res, next) => {
+const bookingAppointmentMySelf = async (req, res, next) => {
   console.log(req.body);
   const {
     appointmentType,
@@ -294,16 +305,20 @@ const bookingAppointmentMySelf = (req, res, next) => {
     couponType,
     couponValue,
   } = req.body;
+  
+  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
   const appointment = new Appointment({
     appointmentType: appointmentType,
     appointmentFor: appointmentFor,
     service: service,
     servicePrice: servicePrice,
-    appointmentDate: generalHelper.dateFormat(appointmentDate),
+    appointmentDate:await generalHelper.dateFormat(appointmentDate),
     appointmentTime: appointmentTime,
     customer: customer,
     provider: provider,
-    status: generalHelper.stringToUpperCase(status),
+    status: await generalHelper.stringToUpperCase(status),
     couponApplied: couponId ? 1 : 0,
     coupon: {
       _id: couponId,
@@ -322,10 +337,10 @@ const bookingAppointmentMySelf = (req, res, next) => {
 
   console.log("appointment", appointment);
 
-  appointment.save((err, result) => {
+  await appointment.save(async(err, result) => {
     console.log(err, result);
     if (!err) {
-      couponHelper.couponHit(couponId);
+      await couponHelper.couponHit(couponId);
       waiver = new Waiver({
         appointment: result._id,
         authorizedRepresentativeName:
@@ -336,11 +351,11 @@ const bookingAppointmentMySelf = (req, res, next) => {
         needSign: waiverAndReleaseOfLiabilityNeedSign,
         signature: files && files.length > 0 ? files[0].fileName : null,
       });
-      waiver.save((waiverErr, waiverResult) => {
+      await waiver.save( async(waiverErr, waiverResult) => {
         console.log("waiverSave Err", waiverErr);
         console.log("waiverSave Success", waiverResult);
       });
-      Response.sendResponseWithData(
+      await Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
         resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
@@ -349,7 +364,7 @@ const bookingAppointmentMySelf = (req, res, next) => {
     } else {
       // console.log(err);
 
-      Response.sendResponseWithoutData(
+      await Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         resMessage.WENT_WRONG
@@ -357,8 +372,7 @@ const bookingAppointmentMySelf = (req, res, next) => {
     }
   });
 };
-const followUpBooking = (req, res, next) => {
-    console.log(req.body);
+const followUpBooking = async (req, res, next) => {
     const {
       appointmentType,
       servicePrice,
@@ -381,16 +395,20 @@ const followUpBooking = (req, res, next) => {
       serviceDuration,
       serviceAmount,
     } = req.body;
+    
+  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
     const appointment = new Appointment({
       case: caseId,
       appointmentType: appointmentType,
       service: service,
       servicePrice: servicePrice,
-      appointmentDate: generalHelper.dateFormat(appointmentDate),
+      appointmentDate: await generalHelper.dateFormat(appointmentDate),
       appointmentTime: appointmentTime,
       customer: customer,
       provider: provider,
-      status: generalHelper.stringToUpperCase(status),
+      status: await generalHelper.stringToUpperCase(status),
       couponApplied: coupon && coupon._id ? 1 : 0,
       coupon: coupon,
       amount: amount,
@@ -403,11 +421,11 @@ const followUpBooking = (req, res, next) => {
 
     console.log("appointment", appointment);
 
-    appointment.save((err, result) => {
+    await appointment.save(async (err, result) => {
       console.log(err, result);
       if (!err) {
-        couponHelper.couponHit(coupon._id);
-        Response.sendResponseWithData(
+        await couponHelper.couponHit(coupon._id);
+        await Response.sendResponseWithData(
           res,
           resCode.EVERYTHING_IS_OK,
           resMessage.APPOINTMENT + resMessage.SAVED_SUCCESSFULLY,
@@ -415,7 +433,7 @@ const followUpBooking = (req, res, next) => {
         );
       } else {
         console.log(err);
-        Response.sendResponseWithoutData(
+        await Response.sendResponseWithoutData(
           res,
           resCode.WENT_WRONG,
           resMessage.WENT_WRONG
@@ -1020,8 +1038,7 @@ const fileUpload = (req, res, next) => {
 
 
 module.exports = {
-  book,
-  customerBooking,
+  
   edit,
   getList,
   appointmentById,
@@ -1033,6 +1050,8 @@ module.exports = {
   followUpBooking,
   bookingAppointmentSomeOneElse,
   bookingAppointmentMySelf,
+  book,
+  customerBooking,
   fileUpload,
   
 };

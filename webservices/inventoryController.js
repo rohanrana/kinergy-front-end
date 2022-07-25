@@ -10,8 +10,6 @@ const fs = require("fs");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
 
-
-
 const getFloatData = (result) => {
   let ItemData = result.map((item, index) => {
     // console.log('index',index,'item',item);
@@ -51,6 +49,7 @@ const inventoryApis = {
       status,
       stockStatus,
       image,
+      imageUrl
     } = req.body;
     var inventoryData = new Inventory({
       name,
@@ -63,6 +62,7 @@ const inventoryApis = {
       status,
       stockStatus,
       image,
+      imageUrl
     });
     inventoryData.save((err, result) => {
       // console.log(err, result);
@@ -102,6 +102,7 @@ const inventoryApis = {
         status,
         stockStatus,
         image,
+        imageUrl
       } = req.body;
       var inventoryData = {
         name,
@@ -114,6 +115,7 @@ const inventoryApis = {
         status,
         stockStatus,
         image,
+        imageUrl
       };
 
       Inventory.findOneAndUpdate({ _id: req.body._id }, inventoryData, {
@@ -367,7 +369,6 @@ const inventoryApis = {
     }
   },
   fileUpload: (req, res, next) => {
-
     var fileLocation = "public/uploads/inventory";
     var fileFieldName = "image";
     var fileCount = 1;
@@ -390,7 +391,7 @@ const inventoryApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         console.log("imageName", imageName);
         req.body[file.fieldname] = imageName;
-        req.body.fileUrl = fileLocation;
+        req.body.imageUrl = fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });

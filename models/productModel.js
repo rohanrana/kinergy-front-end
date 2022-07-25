@@ -43,6 +43,10 @@ const productSchema = new Schema(
       type: String,
       default: null,
     },
+    imageUrl: {
+      type: String,
+      default: null,
+    },
     status: {
       type: String,
       // enum: ["ACTIVE", "INACTIVE", "BLOCK", "ARCHIVED"],

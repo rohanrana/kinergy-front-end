@@ -176,6 +176,37 @@ const customersSchema = new Schema(
       ref: "MedicalProviderInformation",
       default: null,
     },
+    personalHabitInformation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PersonalHabit",
+      default: null,
+    },
+    customerDetail: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "customerDetail",
+      default: null,
+    },
+    medicalHistory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MedicalHistory",
+      default: null,
+    },
+    surgicalHistory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MedicalHistory",
+      default: null,
+    },
+    femalesOnly: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "FemalesOnly",
+      default: null,
+    },
+    musculoskeletalHistory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MusculoskeletalHistory",
+      default: null,
+    },
+    
   },
 
   {

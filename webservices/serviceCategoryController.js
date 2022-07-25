@@ -19,7 +19,7 @@ const serviceCategoryApis = {
 
   add: (req, res) => {
     
-    const { title, description, image,imageURL, status, addBy } = req.body;
+    const { title, description, image,imageUrl, status, addBy } = req.body;
     const slug = slugify(title, {
       replacement: "-",
       remove: undefined,
@@ -31,7 +31,7 @@ const serviceCategoryApis = {
       title: title,
       description: description,
       image: image,
-      imageUrl:imageURL,
+      imageUrl:imageUrl,
       slug: slug,
       addBy: addBy,
       status: status,
@@ -63,7 +63,7 @@ const serviceCategoryApis = {
         "Please Enter Service Id."
       );
     } else {
-      const { title, description, image,imageURL, status, addBy } = req.body;
+      const { title, description, image,imageUrl, status, addBy } = req.body;
       const slug = slugify(title, {
         replacement: "-",
         remove: undefined,
@@ -75,7 +75,7 @@ const serviceCategoryApis = {
         title: title,
         description: description,
         image: image,
-        imageUrl:imageURL,
+        imageUrl:imageUrl,
         slug: slug,
         addBy: addBy,
         status: status,
@@ -327,7 +327,7 @@ const serviceCategoryApis = {
         var imageName = "service-" + Date.now() + extname;
         // console.log(imageName);
         req.body[file.fieldname] = imageName;
-        req.body.imageURL = fileLocation + "/" + imageName;
+        req.body.imageUrl = fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });

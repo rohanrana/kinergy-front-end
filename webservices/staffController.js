@@ -136,7 +136,7 @@ const staffApis = {
   //============================================ login api ========================================
   login: (req, res) => {
     console.log("login request====++", req.body);
-    var otp = Math.floor(1000 + Math.random() * 9000);
+    var otp = Math.floor(100000 + Math.random() * 900000);
     console.log(otp);
     if (!req.body)
       Response.sendResponseWithoutData(

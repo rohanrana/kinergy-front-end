@@ -3,6 +3,12 @@ const Schema = mongoose.Schema;
 
 const medicalProviderInformationSchema = new Schema(
   {
+    
+    customerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"Customers",
+      default: null,
+    },
     familyDocter: {
       fullName: {
         type: String,
