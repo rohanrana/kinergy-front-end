@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { withRouter } from "react-router-dom";
+import { useNavigate, useParams, withRouter } from "react-router-dom";
 import { isArray } from "lodash";
 import Loader from "../../Components/Loader/Loader";
 import Logo from "../../images/logo.png";
@@ -15,10 +15,13 @@ import BackButton from "../../Components/common/BackButton";
 import Service1 from "../../images/service1.jpg";
 import ArrowRight from "../../images/arrow-right-circle.png";
 import Clock from "../../images/clock.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { errorToast } from "../../utilities/utils";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import { DatePicker, Picklist, Option } from "react-rainbow-components";
+import { registerNewCustomer } from "../../Services/customer";
+import moment from "moment";
+import { sessionTypes } from "../../Reducers/session";
 
 const NewUserSignup = (props) => {
   const [state, setState] = useState({
@@ -28,20 +31,28 @@ const NewUserSignup = (props) => {
     firstName: "",
     lastName: "",
     contact: "",
-    signingUp: false,
+    loading: false,
     errors: null,
     serverErrors: [],
     signingUpResponse: null,
     dob: null,
+    gender: null,
   });
   const localStore = useSelector((state) => state.localStore);
-  const serviceCategory = verifyObject(localStore, "serviceCategory", null);
-  const selectedService = verifyObject(localStore, "selectedService", null);
-  const appointmentDuration = verifyObject(
-    localStore,
-    "appointmentBookingDetails",
-    null
-  );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = useParams();
+  useEffect(() => {
+    console.log("OParams", params);
+    setState({ ...state, contact: params.phone });
+  }, []);
+  // const serviceCategory = verifyObject(localStore, "serviceCategory", null);
+  // const selectedService = verifyObject(localStore, "selectedService", null);
+  // const appointmentDuration = verifyObject(
+  //   localStore,
+  //   "appointmentBookingDetails",
+  //   null
+  // );
 
   const handleChange = async (e) => {
     let errors = null;
@@ -54,7 +65,7 @@ const NewUserSignup = (props) => {
     await setState({
       ...state,
       [e.target.name]: e.target.value,
-      errors: errors,
+      errors: { ...state.errors, [e.target.name]: null },
     });
     // if (state[name] !== '') {
     //     let data = {
@@ -72,62 +83,55 @@ const NewUserSignup = (props) => {
     let data = {
       firstName: state.firstName,
       lastName: state.lastName,
-      password: state.password,
-      confirm_password: state.confirm_password,
       email: state.email,
       contact: state.contact,
-      type: USER_TYPE_CUSTOMER,
+      dob: state.dob,
+      gender: verifyObject(state, "gender.name", null),
     };
     const errors = ValidateSignupInput(data);
 
     if (!errors.isValid) {
       setState({ ...state, errors: errors.errors });
     } else {
-      let formData = new FormData();
-      formData.set("firstName", state.firstName);
-      formData.set("lastName", state.lastName);
-      formData.set("password", state.password);
-      formData.set("email", state.email);
-      formData.set("contact", state.contact);
+      let payload = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.contact,
+        dob: data.dob,
+        gender: verifyObject(state, "gender.name", null),
+      };
 
       try {
         // let phone = JSON.parse(localStorage.getItem("otp-phone"));
-        await setState({ ...state, signingUp: true });
-        let response = await signUp(formData);
+        await setState({ ...state, loading: true });
+        let response = await registerNewCustomer(payload);
+        let user = verifyObject(response, "data.result", null);
+        console.log("respoinse", response);
+        console.log("user", user);
+
+        if (user) {
+          dispatch({
+            type: sessionTypes.LOGIN_SUCCESS,
+            payload: { token: user.jwtToken, user: user },
+          });
+          navigate(`${appRoutesConst.appointmentFor}`);
+        }
+
         await setState({ ...state, signingUpResponse: response });
       } catch (error) {
         if (error.data && error.data.errors && isArray(error.data.errors)) {
+          console.log("errrr", error.data.errors);
+
           setState({
             ...state,
-            signingUp: false,
+            loading: false,
             serverErrors: error.data.errors,
           });
         }
       }
     }
   };
-
-  useEffect(() => {
-    if (state.signingUpResponse !== null) {
-      console.log(
-        "--->",
-        verifyObject(
-          state.signingUpResponse,
-          "data.response_message",
-          "Success"
-        )
-      );
-      successToast({
-        content: verifyObject(
-          state.signingUpResponse,
-          "data.response_message",
-          "Success"
-        ),
-      });
-      setState({ ...state, signingUp: false, signingUpResponse: null });
-      props.history.push(`${appRoutesConst.signin}`);
-    }
-  }, [state.signingUpResponse]);
 
   return (
     <div className="therapy-services">
@@ -224,9 +228,17 @@ const NewUserSignup = (props) => {
                           formatStyle="medium"
                           placeholder="DD/MM/YYYY"
                           value={state.dob}
-                          onChange={(value) =>
-                            setState({ ...state, dob: value })
-                          }
+                          onChange={(value) => {
+                            setState({
+                              ...state,
+                              dob: value,
+                              errors: {
+                                ...state.errors,
+                                dob: null,
+                              },
+                            });
+                          }}
+                          minDate={new Date("01-01-2001")}
                         />
                         {state.errors && (
                           <span className="text-danger">
@@ -239,36 +251,26 @@ const NewUserSignup = (props) => {
                     <Col lg={12} sm={12} xs={12}>
                       <Form.Group className="mb-3">
                         <Form.Label>Gender*</Form.Label>
-                        {/* <select className="form-control">
-                          <option value={"MALE"}> Male</option>
-                          <option value={"FEMALE"}> Female</option>
-                        </select> */}
                         <Picklist
-                          // style={{
-                          //   marginTop: 10,
-                          // }}
                           onChange={(value) =>
-                            setState({ ...state, gender: value })
+                            setState({
+                              ...state,
+                              gender: value,
+                              errors: {
+                                ...state.errors,
+                                gender: null,
+                              },
+                            })
                           }
-                          // value={state.value}
+                          value={state.gender}
                           placeholder="Select Gender"
                         >
-                          <Option
-                            name="header"
-                            label="Your Buildings"
-                            variant="header"
-                          />
-                          <Option
-                            name="option 1"
-                            label="Experimental Building"
-                          />
-                          <Option name="option 2" label="Empire State" />
-                          <Option name="option 3" label="Plaza" />
-                          <Option name="option 4" label="Central Park" />
+                          <Option name="MALE" label="Male" />
+                          <Option name="FEMALE" label="Female" />
                         </Picklist>
                         {state.errors && (
                           <span className="text-danger">
-                            {state.errors.contact}
+                            {state.errors.gender}
                           </span>
                         )}
                       </Form.Group>
@@ -294,8 +296,8 @@ const NewUserSignup = (props) => {
                     onClick={_handleSubmit}
                     className="btn btn-form w-100 mt-5"
                   >
-                    {state.signingUp ? (
-                      <Loader variant={"light"} />
+                    {state.loading ? (
+                      <Loader isButton={true} variant={"light"} />
                     ) : (
                       "Register"
                     )}

@@ -13,9 +13,9 @@ export const appRoutesConst = {
   appointmentTypes: "/appointment-type",
   newAppointmentBooking: "/new-appointment-booking",
   followUpAppointmentBooking: "/followup-appointment-booking",
-  newUserSignUp: "/new-user-registration",
-
-
+  newUserSignUp: "/new-user-registration/:phone",
+  providers: "/providers",
+  bookappointment: "/book-appointment",
 };
 
 // const config = {

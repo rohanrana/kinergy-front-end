@@ -10,6 +10,8 @@ import ArrowForward from "../../images/arrow-forward.png";
 import Users from "../../images/users.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
+import { Link } from "react-router-dom";
+import { appRoutesConst } from "../../App/navigation";
 
 const AppointmentFor = () => {
   return (
@@ -27,7 +29,7 @@ const AppointmentFor = () => {
                   Who are you booking this <br />
                   appointment for?
                 </h5>
-                <a href="/appointment-detail">
+                <Link to={appRoutesConst.providers}>
                   <div className="appointment-for-row">
                     <div className="appointment-for-col-1">
                       <span>
@@ -43,7 +45,7 @@ const AppointmentFor = () => {
                       </p>
                     </div>
                   </div>
-                </a>
+                </Link>
 
                 <div class="seperator">
                   <b>Or</b>

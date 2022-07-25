@@ -43,7 +43,7 @@ export function OTPModal(props) {
         });
         setLoading(false);
         if (props.isNewUser) {
-          navigateTo(appRoutesConst.newUserSignUp);
+          navigateTo(`/new-user-registration/${props.phone}`);
         } else {
           navigateTo(appRoutesConst.appointmentFor);
         }

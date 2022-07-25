@@ -18,7 +18,7 @@ import {
   successToast,
   verifyObject,
 } from "../utilities/utils";
-export const types = {
+export const sessionTypes = {
   LOGIN_REQUEST: "session/LOGIN_REQUEST",
   LOGIN_SUCCESS: "session/LOGIN_SUCCESS",
   LOGIN_FAILURE: "session/LOGIN_FAILURE",
@@ -49,41 +49,41 @@ const initialState = {
 
 export const session = (state = initialState, action) => {
   switch (action.type) {
-    case types.LOGIN_REQUEST:
+    case sessionTypes.LOGIN_REQUEST:
       return { ...state, isLoading: true };
-    case types.LOGOUT_REQUEST:
+    case sessionTypes.LOGOUT_REQUEST:
       return { ...state, isLoading: true };
-    case types.LOGIN_SUCCESS:
+    case sessionTypes.LOGIN_SUCCESS:
       return { ...state, error: null, isLoading: false };
-    case types.LOGIN_FAILURE: {
+    case sessionTypes.LOGIN_FAILURE: {
       const { error } = action.payload;
       return { ...state, error, isLoading: false };
     }
-    case types.LOGOUT_FAILURE: {
+    case sessionTypes.LOGOUT_FAILURE: {
       const { error } = action.payload;
       return { ...state, error, isLoading: false };
     }
-    case types.RESET_FORM_STATE:
+    case sessionTypes.RESET_FORM_STATE:
       return { ...state, error: null };
-    case types.LOG_OUT:
+    case sessionTypes.LOG_OUT:
       return initialState;
-    case types.FORGOT_PASSWORD_REQUEST:
+    case sessionTypes.FORGOT_PASSWORD_REQUEST:
       return { ...state, isLoading: true };
-    case types.FORGOT_PASSWORD_SUCCESS:
+    case sessionTypes.FORGOT_PASSWORD_SUCCESS:
       const { data } = action.payload;
       return { ...state, error: null, isLoading: false, role: data };
 
-    case types.FORGOT_PASSWORD_FAILURE: {
+    case sessionTypes.FORGOT_PASSWORD_FAILURE: {
       const { error } = action.payload;
       return { ...state, error, isLoading: false };
     }
 
-    case types.RESET_PASS_REQUEST:
+    case sessionTypes.RESET_PASS_REQUEST:
       return { ...state, isLoading: true };
-    case types.RESET_PASS_SUCCESS:
+    case sessionTypes.RESET_PASS_SUCCESS:
       return { ...state, error: null, isLoading: false };
 
-    case types.RESET_PASS_FAILURE: {
+    case sessionTypes.RESET_PASS_FAILURE: {
       const { error } = action.payload;
       return { ...state, error, isLoading: false };
     }

@@ -30,3 +30,11 @@ export const verifyOTPViaEmail = (data) => {
   };
   return post(request);
 };
+
+export const registerNewCustomer = (data) => {
+  const request = {
+    subUrl: `/customer/register`,
+    data,
+  };
+  return post(request);
+};

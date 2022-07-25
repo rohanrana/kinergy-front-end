@@ -1,14 +1,21 @@
 import { combineReducers } from "redux";
-import { types as sessionTypes } from "../Reducers/session";
+import { sessionTypes } from "../Reducers/session";
 import { routerReducer } from "react-router-redux";
-import { session, localStore, serviceCategories,servicesByCateID } from "../Reducers/index";
+import {
+  session,
+  localStore,
+  serviceCategories,
+  servicesByCateID,
+  providers,
+} from "../Reducers/index";
 
 const appReducer = combineReducers({
   session,
   localStore,
   routing: routerReducer,
   serviceCategories,
-  servicesByCateID
+  servicesByCateID,
+  providers,
 });
 const rootReducers = (state, action) => {
   if (action.type === sessionTypes.LOG_OUT) {

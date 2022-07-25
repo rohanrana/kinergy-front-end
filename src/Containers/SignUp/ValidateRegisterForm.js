@@ -43,7 +43,9 @@ export function ValidateSignupInput(data) {
   ) {
     errors.lastName = "Last name  is invalid";
   }
-
+  if (data.contact !== undefined && validator.isEmpty(data.contact)) {
+    errors.contact = "Phone number is required";
+  }
   if (data.contact !== undefined && validator.isEmpty(data.contact) === false) {
     if (!validator.isLength(data.contact, { min: 10, max: 10 })) {
       errors.contact = "Mobile no should be of 10 digit";
@@ -73,9 +75,11 @@ export function ValidateSignupInput(data) {
   ) {
     errors.email = "Email should be less than  of 40 characters only";
   }
-
-  if (data.dob !== undefined && validator.isEmpty(data.dob)) {
-    errors.dob = "Date of birth   is required";
+  if (data.dob === null) {
+    errors.dob = "Date of birth is required";
+  }
+  if (data.gender === null) {
+    errors.gender = "Gender is required";
   }
 
   console.log("DATA", data);

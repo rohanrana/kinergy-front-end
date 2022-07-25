@@ -1,4 +1,4 @@
-import { types as sessionTypes } from "./session";
+import { sessionTypes } from "./session";
 
 const initialState = {
   token: null,
@@ -6,6 +6,7 @@ const initialState = {
   serviceCategory: null,
   selectedService: null,
   appointmentBookingDetails: null,
+  selectedProviders: null,
 
   // dynamicInputs: null,
 };
@@ -14,6 +15,7 @@ export const actionTypes = {
   SET_SERVICE_CATEGORY: "serviceCategories/SET_SERVICE_CATEGORY",
   SET_SERVICE: "services/SET_SERVICE",
   SET_APPOINTMENT_BOOKING_DETAIL: "appointments/SET_APPOINTMENT_BOOKING_DETAIL",
+  SET_APPOINTMENT_PROVIDER: "appointments/SET_APPOINTMENT_PROVIDER",
 };
 export const localStore = (state = initialState, action) => {
   switch (action.type) {
@@ -29,6 +31,9 @@ export const localStore = (state = initialState, action) => {
     }
     case actionTypes.SET_APPOINTMENT_BOOKING_DETAIL: {
       return { ...state, appointmentBookingDetails: action.payload };
+    }
+    case actionTypes.SET_APPOINTMENT_PROVIDER: {
+      return { ...state, selectedProviders: action.payload };
     }
     case sessionTypes.LOG_OUT:
       return initialState;

@@ -1,16 +1,16 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { verifyObject } from "../../utilities/utils";
 import Clock from "../../images/clock.png";
-import InfoIcon from "../../images/Info.png";
-import User from "../../images/user.png";
-import ArrowForward from "../../images/arrow-forward.png";
-import Users from "../../images/users.png";
 import Service1 from "../../images/service1.jpg";
 export default function AppointmentDetailsSection() {
   const localStore = useSelector((state) => state.localStore);
   const serviceCategory = verifyObject(localStore, "serviceCategory", null);
   const selectedService = verifyObject(localStore, "selectedService", null);
+  const selectedProvider = verifyObject(localStore, "selectedProviders", null);
+
+  const selectedUser = verifyObject(localStore, "user", null);
+
   const appointmentDuration = verifyObject(
     localStore,
     "appointmentBookingDetails",
@@ -35,6 +35,42 @@ export default function AppointmentDetailsSection() {
           <p>{selectedService.description}</p>
         </div>
       </div>
+      {selectedUser && (
+        <Fragment>
+          <h6 className="text-white mt-5">Client Details</h6>
+
+          <div className="profile-provide-row">
+            <div className="profile-provider-col-1">
+              <span>CM</span>
+            </div>
+            {
+              <div className="profile-provider-col-2">
+                <h6>
+                  {verifyObject(selectedUser, "firstName", null)}{" "}
+                  {verifyObject(selectedUser, "lastName", null)}
+                </h6>
+                <p> {verifyObject(selectedUser, "phone", null)}</p>
+              </div>
+            }
+          </div>
+        </Fragment>
+      )}
+      {}
+      {selectedProvider && (
+        <Fragment>
+          <h6 className="text-white mt-5">Provider:</h6>
+          <div className="profile-provide-row">
+            <div className="profile-provider-col-1">
+              <span>SE</span>
+            </div>
+            <div className="profile-provider-col-2">
+              <h6>{verifyObject(selectedProvider, "facilityName", null)}</h6>
+              <p>Atheletic Therapist / Trainer</p>
+              <p>Exp. 5y</p>
+            </div>
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 }

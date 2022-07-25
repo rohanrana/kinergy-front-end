@@ -24,6 +24,12 @@ const FollowUpAppointmentBooking = lazy(() =>
   import("../Containers/Appointments/FollowUpAppointmentBooking")
 );
 const NewUserSignUp = lazy(() => import("../Containers/SignUp/NewUserSignup"));
+
+const Providers = lazy(() => import("../Containers/Appointments/Providers"));
+const BookAppointment = lazy(() =>
+  import("../Containers/Appointments/BookAppointment")
+);
+
 //isPrivateRoute
 //isOpenRoute
 //isPrivateRoute
@@ -94,5 +100,14 @@ export const routesArray = [
     element: NewUserSignUp,
     isOpenRoute: true,
   },
- 
+  {
+    path: appRoutesConst.providers,
+    element: Providers,
+    isOpenRoute: true,
+  },
+  {
+    path: appRoutesConst.bookappointment,
+    element: BookAppointment,
+    isOpenRoute: true,
+  },
 ];

@@ -68,7 +68,7 @@ const ServiceDetails = () => {
     console.log("PAGE CHANGE", data);
     const { page } = data;
     dispatch(
-      facilitiesActions.onPageChange({
+      servicesByCateIDActions.onPageChange({
         page: page,
         category: _id,
       })
