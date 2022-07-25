@@ -907,6 +907,7 @@ button.accordion-button.collapsed::after {
   border-radius: 10px;
   padding: 16px;
   margin-top: 24px;
+  height: 280px;
 }
 #service_id h3 {
   font-family: "Inter", sans-serif;
@@ -929,7 +930,7 @@ button.accordion-button.collapsed::after {
   color: #000000;
 }
 .sevice_c {
-  padding: 60px 0px 35px 0px;
+  padding: 20px 0px 35px 0px;
 }
 .active_span span.dot_span {
   background: #000000;
@@ -1194,7 +1195,7 @@ div#textAr {
   position: relative;
   padding: 1rem 0.75rem;
   border-radius: 0.25rem;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 div#textAr textarea {
   padding: 0;
@@ -1204,7 +1205,7 @@ div#textAr textarea {
 hr#myHr {
   position: relative;
   height: 1px;
-  width: 100vw;
+  width: calc(100vw - 286px);
   left: -12px;
   right: -12px;
 }
@@ -1315,4 +1316,34 @@ span.edit {
 
 .mt-15 {
   margin-top: 15px;
+}
+.btnForm {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000!important;
+  background: none!important;
+  border: none!important;
+}
+.btnForm:hover, .btnForm:focus, .btnForm:active{
+  background:#ffffff!important;
+  color: #000000!important;
+  border: none!important;
+}
+#ffAdd{
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000;
+}
+.ser-img {
+  padding-top: 30px;
+}
+img.addimg {
+  height: 48px;
+  background: #D9D9D9;
+  border-radius: 50%;
+  width: 48px;
 }
