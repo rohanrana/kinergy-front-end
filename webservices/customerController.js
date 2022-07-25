@@ -3,9 +3,9 @@ const TempUsers = require("../models/tempUserModel.js");
 const MedicalProviderInformationModel = require("../models/medicalProviderInformationModel");
 const PersonalHabitModel = require("../models/personalHabitModel");
 const CustomerDetail = require("../models/customerDetailModel");
-const MedicalHistory = require("../models/MedicalHistoryModel");
+const MedicalHistory = require("../models/medicalHistoryModel");
 const SurgicalHistory = require("../models/surgicalHistoryModel");
-const FemalesOnly = require("../models/FemalesOnlyModel");
+const FemalesOnly = require("../models/femalesOnlyModel");
 const MusculoskeletalHistory = require("../models/musculoskeletalHistoryModel");
 
 const Response = require("../common_functions/response_handler.js");
