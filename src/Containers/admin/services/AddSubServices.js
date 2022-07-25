@@ -39,7 +39,6 @@ export default function AddSubServices({
     consultationElemntArray: [
       {
         _id: uniqueId("consultation_"),
-
         initialConsultationPrice: "",
         initialConsultationDuration: "",
         error: null,
@@ -48,7 +47,6 @@ export default function AddSubServices({
     followUpElemntArray: [
       {
         _id: uniqueId("followup_"),
-
         followUpAppointmentPrice: "",
         followUpAppointmentDuration: "",
         error: null,
@@ -101,6 +99,21 @@ export default function AddSubServices({
           "servicesDetails.followUpAppointment.priceDetails",
           servicesDetails.followUpAppointment.priceDetails
         );
+        if (servicesDetails.followUpAppointment.priceDetails.length == 0) {
+          setState((prevState) => {
+            return {
+              ...prevState,
+              followUpElemntArray: [
+                {
+                  _id: uniqueId("followup_"),
+                  followUpAppointmentPrice: null,
+                  followUpAppointmentDuration: null,
+                },
+              ],
+            };
+          });
+        }
+
         servicesDetails.followUpAppointment.priceDetails.map((k) => {
           setState((prevState) => {
             return {
@@ -108,12 +121,12 @@ export default function AddSubServices({
               followUpAppointmentTitle:
                 servicesDetails.followUpAppointment.title,
               followUpElemntArray: [
+                ...prevState.followUpElemntArray,
                 {
                   _id: k._id,
                   followUpAppointmentPrice: k.price,
                   followUpAppointmentDuration: k.duration,
                 },
-                ...state.followUpElemntArray,
               ],
             };
           });
@@ -131,6 +144,20 @@ export default function AddSubServices({
         "servicesDetails.initialConsultation.priceDetails",
         servicesDetails.initialConsultation.priceDetails
       );
+      if (servicesDetails.initialConsultation.priceDetails.length === 0) {
+        setState((prevState) => {
+          return {
+            ...prevState,
+            consultationElemntArray: [
+              {
+                _id: uniqueId("consultation_"),
+                initialConsultationPrice: null,
+                initialConsultationDuration: null,
+              },
+            ],
+          };
+        });
+      }
       servicesDetails.initialConsultation.priceDetails.map((k) => {
         console.log("k", k);
         setState((prevState) => {
@@ -138,12 +165,12 @@ export default function AddSubServices({
             ...prevState,
             initialConsultationTitle: servicesDetails.initialConsultation.title,
             consultationElemntArray: [
+              ...prevState.consultationElemntArray,
               {
                 _id: k._id,
                 initialConsultationPrice: k.price,
                 initialConsultationDuration: k.duration,
               },
-              ...state.consultationElemntArray,
             ],
           };
         });
@@ -186,6 +213,14 @@ export default function AddSubServices({
     });
   };
 
+  const removeConsultationElement = (_id) => {
+    setState({
+      ...state,
+      consultationElemntArray: state.consultationElemntArray.filter(
+        (d) => d._id !== _id
+      ),
+    });
+  };
   const addNewFollowUpElement = () => {
     setState({
       ...state,
@@ -199,6 +234,15 @@ export default function AddSubServices({
           error: null,
         },
       ],
+    });
+  };
+
+  const removeFollowUpElement = (_id) => {
+    setState({
+      ...state,
+      followUpElemntArray: state.followUpElemntArray.filter(
+        (d) => d._id !== _id
+      ),
     });
   };
 
@@ -387,84 +431,76 @@ export default function AddSubServices({
                   </span>
                 )}
               </Form.Group>
-              <div className="d-flex align-itmes-center justify-content-between">
-                {state.consultationElemntArray.map((el, i) => {
-                  return (
-                    <Fragment>
-                      {/* <div style={{ display: "flex" }}> */}
-                      <Form.Group className="mb-4 form-type pos-rel">
-                        <Form.Label className="floatLabel">
+              {/* <div> */}
+              {state.consultationElemntArray.map((el, i) => {
+                return (
+                  <div className="d-flex align-itmes-center justify-content-between">
+                    {/* <div> */}
+                    <Form.Group className="mb-4 form-type pos-rel">
+                      <Form.Label className="floatLabel">
+                        Select Duration*
+                      </Form.Label>
+                      <Form.Select
+                        onChange={(e) => handleConsultationInputChange(e, i)}
+                        name="initialConsultationDuration"
+                        value={el.initialConsultationDuration}
+                      >
+                        <option disabled value={""} selected>
                           Select Duration*
-                        </Form.Label>
-                        <Form.Select
-                          onChange={(e) => handleConsultationInputChange(e, i)}
-                          name="initialConsultationDuration"
-                          value={el.initialConsultationDuration}
+                        </option>
+                        <option value={15}>15mins</option>
+                        <option value={30}>30mins</option>
+                        <option value={45}>45mins</option>
+                        <option value={60}>60mins</option>
+                        <option value={120}>120mins</option>
+                        <option value={"other"}>Other</option>
+                      </Form.Select>
+                    </Form.Group>
+                    <Form.Group className="mb-4 form-type pos-rel">
+                      <Form.Label className="floatLabel">Price*</Form.Label>
+                      <Form.Control
+                        onChange={(e) => handleConsultationInputChange(e, i)}
+                        name="initialConsultationPrice"
+                        value={el.initialConsultationPrice}
+                        placeholder="Price*"
+                      />
+                    </Form.Group>
+                    {i == 0 && (
+                      <Form.Group className="mb-4 form-type pos-rel mt-15">
+                        <a onClick={addNewConsultationElement} className="addm">
+                          <i className="fa fa-plus"></i>
+                        </a>
+                      </Form.Group>
+                    )}
+                    {i != 0 && (
+                      <Form.Group className="mb-4 form-type pos-rel mt-15">
+                        <a
+                          onClick={() => removeConsultationElement(el._id)}
+                          className="addm"
                         >
-                          <option disabled value={""} selected>
-                            Select Duration*
-                          </option>
-                          <option value={15}>15mins</option>
-                          <option value={30}>30mins</option>
-                          <option value={45}>45mins</option>
-                          <option value={60}>60mins</option>
-                          <option value={120}>120mins</option>
-                          <option value={"other"}>Other</option>
-                        </Form.Select>
+                          <i className="fa fa-minus"></i>
+                        </a>
                       </Form.Group>
-                      <Form.Group className="mb-4 form-type pos-rel">
-                        <Form.Label className="floatLabel">Price*</Form.Label>
-                        <Form.Control
-                          onChange={(e) => handleConsultationInputChange(e, i)}
-                          name="initialConsultationPrice"
-                          value={el.initialConsultationPrice}
-                          placeholder="Price*"
-                        />
-                      </Form.Group>
+                    )}
+                    {/* </div> */}
 
-                      {i == 0 && (
-                        <Form.Group className="mb-4 form-type pos-rel">
-                          <a
-                            onClick={addNewConsultationElement}
-                            className="addm"
-                          >
-                            <i className="fa fa-plus"></i>
-                          </a>
-                        </Form.Group>
+                    {/* </div> */}
+                    {state.errors &&
+                      state.errors[`initialConsultationPrice${el._id}`] && (
+                        <span className="text-danger">
+                          {state.errors[`initialConsultationPrice${el._id}`]}
+                        </span>
                       )}
-                      {i != 0 && (
-                        <Form.Group className="mb-4 form-type pos-rel">
-                          <a
-                            onClick={addNewConsultationElement}
-                            className="addm"
-                          >
-                            <i className="fa fa-minus"></i>
-                          </a>
-                        </Form.Group>
+                    {state.errors &&
+                      state.errors[`initialConsultationDuration${el._id}`] && (
+                        <span className="text-danger">
+                          {state.errors[`initialConsultationDuration${el._id}`]}
+                        </span>
                       )}
-                      {/* </div> */}
-                      {state.errors &&
-                        state.errors[`initialConsultationPrice${el._id}`] && (
-                          <span className="text-danger">
-                            {state.errors[`initialConsultationPrice${el._id}`]}
-                          </span>
-                        )}
-                      {state.errors &&
-                        state.errors[
-                          `initialConsultationDuration${el._id}`
-                        ] && (
-                          <span className="text-danger">
-                            {
-                              state.errors[
-                                `initialConsultationDuration${el._id}`
-                              ]
-                            }
-                          </span>
-                        )}
-                    </Fragment>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
+              {/* </div> */}
               <h3 className="md_txt">Follow-up Appointment Details</h3>
               <Form.Group className="mb-4 form-type pos-rel">
                 <Form.Label className="floatLabel">Title</Form.Label>
@@ -480,74 +516,78 @@ export default function AddSubServices({
                   </span>
                 )}
               </Form.Group>
-              <div className="d-flex align-itmes-center justify-content-between">
-                {state.followUpElemntArray.map((el, i) => {
-                  return (
-                    <Fragment>
-                      <Form.Group className="mb-4 form-type pos-rel">
-                        <Form.Label className="floatLabel">Duration</Form.Label>
-                        <Form.Select
-                          onChange={(e) => handlefollowUpInputChange(e, i)}
-                          name="followUpAppointmentDuration"
-                          value={el.followUpAppointmentDuration}
+              {/* <div> */}
+              {state.followUpElemntArray.map((el, i) => {
+                return (
+                  <div className="d-flex align-itmes-center justify-content-between">
+                    <Form.Group className="mb-4 form-type pos-rel">
+                      <Form.Label className="floatLabel">Duration</Form.Label>
+                      <Form.Select
+                        onChange={(e) => handlefollowUpInputChange(e, i)}
+                        name="followUpAppointmentDuration"
+                        value={el.followUpAppointmentDuration}
+                      >
+                        <option disabled value={""} selected>
+                          Select Duration*
+                        </option>
+                        <option value={15}>15mins</option>
+                        <option value={30}>30mins</option>
+                        <option value={45}>45mins</option>
+                        <option value={60}>60mins</option>
+                        <option value={120}>120mins</option>
+                        <option value={"other"}>Other</option>
+                      </Form.Select>
+                    </Form.Group>
+                    <Form.Group className="mb-4 form-type pos-rel">
+                      <Form.Label className="floatLabel">Price*</Form.Label>
+                      <Form.Control
+                        onChange={(e) => handlefollowUpInputChange(e, i)}
+                        name="followUpAppointmentPrice"
+                        value={el.followUpAppointmentPrice}
+                        placeholder="Price*"
+                      />
+                    </Form.Group>
+                    {i === 0 && (
+                      <Form.Group
+                        style={{ display: i === 4 ? "none" : "block" }}
+                        className="mb-4 form-type pos-rel  mt-15"
+                      >
+                        <a
+                          onClick={addNewFollowUpElement}
+                          to="/"
+                          className="addm"
                         >
-                          <option disabled value={""} selected>
-                            Select Duration*
-                          </option>
-                          <option value={15}>15mins</option>
-                          <option value={30}>30mins</option>
-                          <option value={45}>45mins</option>
-                          <option value={60}>60mins</option>
-                          <option value={120}>120mins</option>
-                          <option value={"other"}>Other</option>
-                        </Form.Select>
+                          <i className="fa fa-plus"></i>
+                        </a>
                       </Form.Group>
-                      <Form.Group className="mb-4 form-type pos-rel">
-                        <Form.Label className="floatLabel">Price*</Form.Label>
-                        <Form.Control
-                          onChange={(e) => handlefollowUpInputChange(e, i)}
-                          name="followUpAppointmentPrice"
-                          value={el.followUpAppointmentPrice}
-                          placeholder="Price*"
-                        />
-                      </Form.Group>
-                      {i === 0 && (
-                        <Form.Group
-                          style={{ display: i === 4 ? "none" : "block" }}
-                          className="mb-4 form-type pos-rel"
+                    )}
+                    {i != 0 && (
+                      <Form.Group className="mb-4 form-type pos-rel mt-15">
+                        <a
+                          onClick={() => removeFollowUpElement(el._id)}
+                          className="addm"
                         >
-                          <a
-                            onClick={addNewFollowUpElement}
-                            to="/"
-                            className="addm"
-                          >
-                            <i className="fa fa-plus"></i>
-                          </a>
-                        </Form.Group>
-                      )}
+                          <i className="fa fa-minus"></i>
+                        </a>
+                      </Form.Group>
+                    )}
 
-                      {state.errors &&
-                        state.errors[
-                          `followUpAppointmentDuration${el._id}`
-                        ] && (
-                          <span className="text-danger">
-                            {
-                              state.errors[
-                                `followUpAppointmentDuration${el._id}`
-                              ]
-                            }
-                          </span>
-                        )}
-                      {state.errors &&
-                        state.errors[`followUpAppointmentPrice${el._id}`] && (
-                          <span className="text-danger">
-                            {state.errors[`followUpAppointmentPrice${el._id}`]}
-                          </span>
-                        )}
-                    </Fragment>
-                  );
-                })}
-              </div>
+                    {state.errors &&
+                      state.errors[`followUpAppointmentDuration${el._id}`] && (
+                        <span className="text-danger">
+                          {state.errors[`followUpAppointmentDuration${el._id}`]}
+                        </span>
+                      )}
+                    {state.errors &&
+                      state.errors[`followUpAppointmentPrice${el._id}`] && (
+                        <span className="text-danger">
+                          {state.errors[`followUpAppointmentPrice${el._id}`]}
+                        </span>
+                      )}
+                  </div>
+                );
+              })}
+              {/* </div> */}
               <Form.Group className="mb-4 form-type">
                 <UploadPreviewAdd handleFile={handleFile} />
                 {state.errors && (

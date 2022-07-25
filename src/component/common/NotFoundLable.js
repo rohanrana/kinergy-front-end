@@ -1,4 +1,5 @@
 import React from "react";
+import "./NotFoundLable.css";
 
 export default function NotFoundLable({ message }) {
   return (
