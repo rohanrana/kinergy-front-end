@@ -501,14 +501,18 @@ const verifyMobileOtp = (req, res, next) => {
               Response.sendResponseWithData(
                 res,
                 resCode.EVERYTHING_IS_OK,
-                "Otp Verified Successfully1",customerResult
+                "Otp Verified Successfully",customerResult
               );
             } else {
               Response.sendResponseWithData(
                 res,
                 resCode.EVERYTHING_IS_OK,
-                "Otp Verified Successfully2",
-                customerResult
+                "Otp Verified Successfully",
+                {
+                  newUser: true,
+                  phone: phone,
+                  otp: otp,
+                }
               );
             }
           }
