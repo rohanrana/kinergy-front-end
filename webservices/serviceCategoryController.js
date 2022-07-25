@@ -161,7 +161,7 @@ const serviceCategoryApis = {
   //============== get Service Category List For Client===
   getServiceCategoryList: (req, res) => {
     ServiceCategory.find({ status: "ACTIVE" })
-      .select("_id title slug description image status")
+      .select("_id title slug description image imageUrl status")
       .lean()
       .exec((err, result) => {
         console.log(err);
