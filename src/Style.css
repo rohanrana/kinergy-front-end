@@ -1305,3 +1305,24 @@ span.edit{
 .mt-mb{margin-top: 41px!important; margin-bottom: 35px!important;}
 .space{margin-left: 41px;}
 /* rupali css end */
+.btnForm {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000!important;
+  background: none!important;
+  border: none!important;
+}
+.btnForm:hover, .btnForm:focus, .btnForm:active{
+  background:#ffffff!important;
+  color: #000000!important;
+  border: none!important;
+}
+#ffAdd{
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000000;
+}
