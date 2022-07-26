@@ -359,6 +359,117 @@ const loginWithEmail = async (req, res, next) => {
   }
 };
 
+
+const resendEmailOtp = async (req, res, next) => {
+  const { email } = req.body;
+  if (!email) {
+    return Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      resMessage.EMAIL_REQUIRED
+    );
+  }
+  const emailExist = await checkEmailExist(email);
+  console.log("emailExist", emailExist);
+  if (emailExist == -1) {
+    Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      resMessage.EMAIL_REQUIRED
+    );
+  } else if (emailExist && !generalHelper.isObjectEmpty(emailExist)) {
+    var otp = Math.floor(100000 + Math.random() * 900000);
+    var tempUserData = {
+      email: email,
+      otp: otp,
+    };
+    // Response.sendResponseWithoutData( res,resCode.EVERYTHING_IS_OK,emailExist);
+    TempUsers.findOneAndUpdate(
+      { email: email }, //your condition for check
+      { $set: tempUserData }, //new values you want to set
+      { upsert: true, new: true }
+    ).exec(function (err, result) {
+      // if(result && !err)
+      // Response.sendResponseWithData( res,resCode.EVERYTHING_IS_OK,{newUser:false,email:email,otp:otp,message:"Otp Sent Successfully."});
+      // else
+      // Response.sendResponseWithoutData( res,resCode.WENT_WRONG,resMessage.WENT_WRONG);
+    });
+    Customers.findOneAndUpdate(
+      { email: email }, //your condition for check
+      { $set: { otp: otp } }, //new values you want to set
+      { new: true }
+    ).exec(function (err, result) {
+      if (result && !err)
+        return Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, {
+          newUser: false,
+          email: email,
+          otp: otp,
+          message: "Otp resend successfully.",
+        });
+      else
+        return Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+    });
+  } else {
+    var otp = Math.floor(100000 + Math.random() * 900000);
+    var tempUserData = {
+      email: email,
+      otp: otp,
+    };
+    // console.log('tempUserData',tempUserData);
+    const otpSend = false;
+    message.sendemail(
+      email,
+      "OTP",
+      "Your email id is " + email + " and OTP is " + otp,
+      (err, success) => {
+        console.log("email error======", err, success, otp);
+        const otpSend = true;
+        //          Response.sendResponseWithData(res, resCode.WENT_WRONG, resMessage.INTERNAL_SERVER_ERROR,err)
+
+        //     }
+        //   else{
+        // console.log("emaillllll", success, result,otp)
+        //  callback(null, success)
+        // Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,resMessage.LOGIN_SUCCESS,res2,token);
+        // }
+
+        // const otpSend = sendMobileOtp();
+        if (otpSend) {
+          TempUsers.findOneAndUpdate(
+            { email: email }, //your condition for check
+            { $set: tempUserData }, //new values you want to set
+            { upsert: true, new: true }
+          ).exec(function (err, result) {
+            if (result && !err)
+              Response.sendResponseWithData(res, resCode.EVERYTHING_IS_OK, {
+                newUser: true,
+                email: email,
+                otp: otp,
+                message: "Otp Sent Successfully.",
+              });
+            else
+              Response.sendResponseWithoutData(
+                res,
+                resCode.WENT_WRONG,
+                resMessage.WENT_WRONG
+              );
+          });
+        } else {
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            "Otp not Sent. Please try again later."
+          );
+        }
+      }
+    );
+  }
+};
+
 const registerCustomer = (req, res, next) => {
   const { firstName, lastName, email, phone, dob, gender, customerType } =
     req.body;
@@ -446,18 +557,21 @@ const verifyMobileOtp = (req, res, next) => {
       resCode.WENT_WRONG,
       "Please enter valid phone number."
     );
+
   if (isNaN(otp))
     return Response.sendResponseWithoutData(
       res,
       resCode.WENT_WRONG,
       "Please enter valid otp."
     );
+
   if (!phone)
     return Response.sendResponseWithoutData(
       res,
       resCode.WENT_WRONG,
       "Please enter phone number."
     );
+
   otp = typeof otp === "string" ? parseInt(otp) : otp;
   TempUsers.find({ phone: phone, otp: otp })
     .lean()
@@ -504,11 +618,19 @@ const verifyMobileOtp = (req, res, next) => {
                 "Otp Verified Successfully",customerResult
               );
             } else {
+              var token = jwt.sign(
+                {
+                  phone: phone,
+                  // otp: otp,
+                },
+                config().secret_key
+              );
               Response.sendResponseWithData(
                 res,
                 resCode.EVERYTHING_IS_OK,
                 "Otp Verified Successfully",
                 {
+                  token:token,
                   newUser: true,
                   phone: phone,
                   otp: otp,
@@ -524,11 +646,7 @@ const verifyMobileOtp = (req, res, next) => {
 const verifyEmailOtp = (req, res, next) => {
   const { email, otp } = req.body;
   if (!email) {
-    return Response.sendResponseWithoutData(
-      res,
-      resCode.WENT_WRONG,
-      resMessage.EMAIL_REQUIRED
-    );
+    return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.EMAIL_REQUIRED);
   }
   TempUsers.find({ email: email, otp: otp })
     .lean()
@@ -570,17 +688,39 @@ const verifyEmailOtp = (req, res, next) => {
               } catch (errorUpdateCustomer) {
                 console.log("errorUpdateCustomer", errorUpdateCustomer);
               }
+              
               Response.sendResponseWithData(
                 res,
                 resCode.EVERYTHING_IS_OK,
-                "Otp Verified Successfully"
-              );
+                "Otp Verified Successfully",
+                {
+                  token:token,
+                  newUser: true,
+                  email: email,
+                  otp: otp,
+                }
+              );              
             } else {
+              
+              var token = jwt.sign(
+                {
+                  email: email,
+                  // otp: otp,
+                },
+                config().secret_key
+              );
+
               Response.sendResponseWithData(
                 res,
                 resCode.EVERYTHING_IS_OK,
-                "Otp Verified Successfully"
-              );
+                "Otp Verified Successfully",
+                {
+                  token:token,
+                  newUser: true,
+                  email: email,
+                  otp: otp,
+                }
+              );              
             }
           }
         );
@@ -717,13 +857,13 @@ const getCustomerEmergencyContactById = (req, res) => {
       resCode.WENT_WRONG,
       resMessage.ENTER_USER_ID
     );
-  } else if (!generalHelper.checkObjectId(req.body._id)) {
+  } else if (!generalHelper.checkObjectId(req.body._id)) { 
     Response.sendResponseWithoutData(
       res,
       resCode.WENT_WRONG,
       resMessage.ENTER_VALID_USER_ID
     );
-  } else {
+   } else {
     Customers.find({ _id: req.body._id })
       .lean()
       .exec((err, result) => {
@@ -938,6 +1078,7 @@ const addClientDetail = async (req, res) => {
     }
   });
 };
+
 
 const deleteEmergencyContactByContactId = (req, res) => {
   if (!req.body.contactId) {
@@ -2086,6 +2227,7 @@ module.exports = {
   registerCustomer,
   verifyMobileOtp,
   loginWithEmail,
+  resendEmailOtp,
   verifyEmailOtp,
   editClientDetails,
   getList,

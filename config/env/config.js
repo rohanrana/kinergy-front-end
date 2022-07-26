@@ -4,6 +4,7 @@ const dev = require("./development");
 const stage = require("./staging");
 
 const config_function = () => {
+  
   var config = {};
   switch (current_env) {
     case "production":

@@ -33,6 +33,7 @@ router.post('/loginWithMobile',customerValidation.mobileLogin,customerApis.login
 router.post('/resendMobileOtp',customerValidation.mobileLogin,customerApis.resendMobileOtp);
 router.post('/verifyMobileOtp',customerValidation.verifyOtp,customerApis.verifyMobileOtp);
 router.post('/loginWithEmail',customerValidation.emailLogin,customerApis.loginWithEmail);
+router.post('/resendEmailOtp',customerValidation.emailLogin,customerApis.resendEmailOtp);
 router.post('/verifyEmailOtp',customerValidation.verifyOtp,customerApis.verifyEmailOtp);
 router.post('/register',customerValidation.registerNewCustomer,customerApis.registerCustomer);
 router.post('/registerSomeOneElse',authHandler.auth_func,customerValidation.CustomerAddSomeOneValidation,customerApis.registerSomeOneCustomer);

@@ -47,6 +47,9 @@ const accessLevelPermissionRoutes = require("./routes/accessLevelPermissionRoute
 const optionsRoutes = require("./routes/optionRoute");
 const insuranceRoutes = require("./routes/insuranceRoute");
 const documentRoutes = require("./routes/documentRoute");
+const blockCalenderRoutes = require("./routes/blockCalenderRoute");
+
+
 const environment = config();
 
 app.use(express.static(__dirname + '/'));
@@ -103,7 +106,9 @@ app.use("/api/v1/options", optionsRoutes);
 app.use("/api/v1/insurance", insuranceRoutes);
 app.use("/api/v1/document", documentRoutes);
 
-app.use(express.static(path.join(__dirname, "dist")));
+app.use("/api/v1/blockCalender", blockCalenderRoutes);
+
+// app.use(express.static(path.join(__dirname, "dist")));
 
 app.get("*", (req, res) => {
   console.log("Server Running");

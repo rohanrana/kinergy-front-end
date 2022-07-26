@@ -80,7 +80,7 @@ const add = async (req, res, next) => {
       return Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
-        "Documen add successfully.",
+        "Document add successfully.",
         documentResult
       );
     }
@@ -140,7 +140,7 @@ const edit = async (req, res, next) => {
       return Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
-        "Documen Edit successfully.",
+        "Document Edit successfully.",
         documentResult
       );
     }
