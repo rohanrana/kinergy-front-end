@@ -43,7 +43,7 @@ export function OTPModal(props) {
         });
         setLoading(false);
         if (props.isNewUser) {
-          navigateTo(appRoutesConst.newUserSignUp);
+          navigateTo(`/new-user-registration/${props.phone}`);
         } else {
           navigateTo(appRoutesConst.appointmentFor);
         }
@@ -75,7 +75,7 @@ export function OTPModal(props) {
                 value={OTP}
                 onChange={setOTP}
                 autoFocus
-                OTPLength={4}
+                OTPLength={6}
                 otpType="number"
                 disabled={false}
                 secure

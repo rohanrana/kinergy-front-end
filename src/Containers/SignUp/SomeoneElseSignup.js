@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useNavigate, useParams, withRouter, Link } from "react-router-dom";
+import { useNavigate, useParams, withRouter } from "react-router-dom";
 import { isArray } from "lodash";
 import Loader from "../../Components/Loader/Loader";
 import Logo from "../../images/logo.png";
@@ -19,11 +19,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { errorToast } from "../../utilities/utils";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import { DatePicker, Picklist, Option } from "react-rainbow-components";
-import { registerNewCustomer } from "../../Services/customer";
+import {
+  registerNewCustomer,
+  registerSomeOneElse,
+} from "../../Services/customer";
 import moment from "moment";
 import { sessionTypes } from "../../Reducers/session";
+import { actionTypes } from "../../Reducers/localStore";
 
-const NewUserSignup = (props) => {
+const SomeoneElseSignUp = (props) => {
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -46,7 +50,8 @@ const NewUserSignup = (props) => {
     console.log("OParams", params);
     setState({ ...state, contact: params.phone });
   }, []);
-  // const serviceCategory = verifyObject(localStore, "serviceCategory", null);
+  const user_id = verifyObject(localStore, "user._id", null);
+
   // const selectedService = verifyObject(localStore, "selectedService", null);
   // const appointmentDuration = verifyObject(
   //   localStore,
@@ -94,6 +99,8 @@ const NewUserSignup = (props) => {
       setState({ ...state, errors: errors.errors });
     } else {
       let payload = {
+        refCustomer: user_id,
+        customerType: "GUEST",
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
@@ -105,17 +112,14 @@ const NewUserSignup = (props) => {
       try {
         // let phone = JSON.parse(localStorage.getItem("otp-phone"));
         await setState({ ...state, loading: true });
-        let response = await registerNewCustomer(payload);
+        let response = await registerSomeOneElse(payload);
         let user = verifyObject(response, "data.result", null);
         console.log("respoinse", response);
         console.log("user", user);
 
         if (user) {
-          dispatch({
-            type: sessionTypes.LOGIN_SUCCESS,
-            payload: { token: user.jwtToken, user: user },
-          });
-          navigate(`${appRoutesConst.appointmentFor}`);
+     
+          navigate(`${appRoutesConst.someoneelse}`);
         }
 
         await setState({ ...state, signingUpResponse: response });
@@ -292,9 +296,7 @@ const NewUserSignup = (props) => {
                       })}
                   </ul>
 
-                  <Link className="btn btn-form" to={appRoutesConst.appointmentFor}>Register</Link>
-
-                  {/* <Button
+                  <Button
                     onClick={_handleSubmit}
                     className="btn btn-form w-100 mt-5"
                   >
@@ -303,7 +305,7 @@ const NewUserSignup = (props) => {
                     ) : (
                       "Register"
                     )}
-                  </Button> */}
+                  </Button>
                 </Form>
               </div>
             </div>
@@ -314,4 +316,4 @@ const NewUserSignup = (props) => {
   );
 };
 
-export default NewUserSignup;
+export default SomeoneElseSignUp;

@@ -14,7 +14,7 @@ class PrivateRoute extends Component {
     console.log("INN ");
     const { token } = this.props;
     if (!token) {
-      return <Navigate to={appRoutesConst.signin} />;
+      return <Navigate to={appRoutesConst.loginwithphone} />;
     }
     return this.props.children;
   }

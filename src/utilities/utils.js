@@ -278,6 +278,10 @@ export const modifiedDataObjectToArrayByIDs = (dataSource) => {
   }
 };
 
+export const getIntials = (str)=>{
+    return `${str}`.split(" ").map((n)=>n[0])
+}
+
 export const calculateBMI = (fac_obj) => {
   var first_height_value = 0,
     second_height_value = 0,

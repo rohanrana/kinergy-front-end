@@ -10,8 +10,22 @@ import ArrowForward from "../../images/arrow-forward.png";
 import Users from "../../images/users.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
+import { Link } from "react-router-dom";
+import { appRoutesConst } from "../../App/navigation";
+import { verifyObject } from "../../utilities/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { actionTypes } from "../../Reducers/localStore";
 
 const AppointmentFor = () => {
+  const localStore = useSelector((state) => state.localStore);
+  const user = verifyObject(localStore, "user", null);
+  const dispatch = useDispatch();
+  const handleNavigation = () => {
+    dispatch({
+      type: actionTypes.SET_CLIENT_DETAILS,
+      payload: user,
+    });
+  };
   return (
     <div className="therapy-services">
       <Container>
@@ -27,29 +41,31 @@ const AppointmentFor = () => {
                   Who are you booking this <br />
                   appointment for?
                 </h5>
-                <a href="/appointment-detail">
-                  <div className="appointment-for-row">
-                    <div className="appointment-for-col-1">
-                      <span>
-                        <img src={User} alt={User} />
-                      </span>
-                    </div>
-                    <div className="appointment-for-col-2">
-                      <p>
-                        Myself
-                        <span className="float-right">
-                          <img src={ArrowForward} alt={ArrowForward} />
+                <span onClick={handleNavigation}>
+                  <Link to={appRoutesConst.providers}>
+                    <div className="appointment-for-row">
+                      <div className="appointment-for-col-1">
+                        <span>
+                          <img src={User} alt={User} />
                         </span>
-                      </p>
+                      </div>
+                      <div className="appointment-for-col-2">
+                        <p>
+                          Myself
+                          <span className="float-right">
+                            <img src={ArrowForward} alt={ArrowForward} />
+                          </span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </a>
+                  </Link>
+                </span>
 
                 <div class="seperator">
                   <b>Or</b>
                 </div>
 
-                <a href="/someone-else">
+                <Link to={appRoutesConst.someoneelse}>
                   <div className="appointment-for-row">
                     <div className="appointment-for-col-1">
                       <span>
@@ -65,7 +81,7 @@ const AppointmentFor = () => {
                       </p>
                     </div>
                   </div>
-                </a>
+                </Link>
               </div>
             </div>
           </Col>

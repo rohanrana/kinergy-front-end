@@ -27,6 +27,10 @@ const ServiceCategories = (props) => {
     // } else {
     //   navigate("/signin");
     // }
+    store.dispatch({
+      type: actionTypes.CLEAR_LOCAL_STATE,
+      payload: null,
+    });
     setServiceCategoryDetail(null);
     setServiceDetail(null);
   }, []);
@@ -38,6 +42,7 @@ const ServiceCategories = (props) => {
       type: actionTypes.SET_SERVICE_CATEGORY,
       payload: serviceCategory,
     });
+ 
   };
   const setServiceDetail = (service) => {
     dispatch({
