@@ -5,6 +5,7 @@ export default function BackButton(to) {
   const navigate = useNavigate();
   return (
     <p
+      className="link-tag"
       onClick={() => {
         if (to) {
           navigate(-1);

@@ -278,9 +278,9 @@ export const modifiedDataObjectToArrayByIDs = (dataSource) => {
   }
 };
 
-export const getIntials = (str)=>{
-    return `${str}`.split(" ").map((n)=>n[0])
-}
+export const getIntials = (str) => {
+  return `${str}`.split(" ").map((n) => n[0]);
+};
 
 export const calculateBMI = (fac_obj) => {
   var first_height_value = 0,
@@ -387,5 +387,22 @@ export const calculateBMI = (fac_obj) => {
 
     return bmi_value;
   }
+};
+
+export const secondsToTime = (secs) => {
+  let hours = Math.floor(secs / (60 * 60));
+
+  let divisor_for_minutes = secs % (60 * 60);
+  let minutes = Math.floor(divisor_for_minutes / 60);
+
+  let divisor_for_seconds = divisor_for_minutes % 60;
+  let seconds = Math.ceil(divisor_for_seconds);
+
+  let obj = {
+    h: hours,
+    m: minutes,
+    s: seconds,
+  };
+  return obj;
 };
 export { pubNubCr };

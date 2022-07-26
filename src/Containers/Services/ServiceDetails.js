@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Department1 from "../../images/department1.png";
 import InfoIcon from "../../images/Info.png";
 import Arrowicon from "../../images/arrow-2.svg";
 import Service2 from "../../images/service2.png";
-
+import Department1 from "../../images/department2.png";
 import { Link } from "react-router-dom";
 import { actions as servicesByCateIDActions } from "../../Reducers/servicesByCateID";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +17,7 @@ import { verifyObject } from "../../utilities/utils";
 import { ServiceCategoryDetailModal } from "./ServiceCategoryDetailModal";
 import { appRoutesConst } from "../../App/navigation";
 import { actionTypes } from "../../Reducers/localStore";
+import { baseURL } from "../../Services";
 const ServiceDetails = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const servicesByCateID = useSelector((state) => state.servicesByCateID);
@@ -88,19 +88,29 @@ const ServiceDetails = () => {
         <Row>
           <Col lg={12}>
             <div className="select-service">
-            <BackButton />
-            <div className="service-top-about-row">
-              <div className="service-top-about-left">
-                <img src={Department1} alt={Department1} className="rounded" />
+              <BackButton />
+              <div className="service-top-about-row">
+                <div className="service-top-about-left">
+                  <img
+                    src={
+                      serviceCategory && serviceCategory.imageUrl
+                        ? `${baseURL}/${serviceCategory.imageUrl}`
+                        : `${Department1}`
+                    }
+                    alt={Department1}
+                    className="rounded"
+                  />
+                </div>
+                <div className="service-top-about-right">
+                  <h5> {verifyObject(serviceCategory, "title", "")} </h5>
+                  <p>{verifyObject(serviceCategory, "description", "")}</p>
+                  <Link to="#/" onClick={handleModal}>
+                    Read more <i class="fas fa-arrow-circle-right"></i>
+                  </Link>
+                </div>
               </div>
-              <div className="service-top-about-right">
-                <h5>Therapy Services </h5>
-                <p>Whether you're a weekend warrior, homemaker, professional athlete or farmer, our Athletic Therapists will help you reach your physical potential. Using manual therapies, modalities, exercise prescription</p>
-                <Link to="#/" onClick={handleModal}>Read more <i class="fas fa-arrow-circle-right"></i></Link>
-              </div>
-            </div>
-            <div className="all-services">
-            {isLoading && <Loader />}
+              <div className="all-services">
+                {isLoading && <Loader />}
                 {error && <NotFoundLable message={error} />}
                 {serviecesData &&
                   serviecesData &&
@@ -109,23 +119,27 @@ const ServiceDetails = () => {
                     return (
                       <div className="all-block-services-col">
                         <span
-                        onClick={() => {
-                          // console.log("dddd", d);
-                          setServiceDetail(d);
-                        }}
-                      >
-                        <Link to={appRoutesConst.appointmentTypes}>
-                          <div className="appointment-service-row">
-                            <div className="appointment-service-col-1">
-                              <img src={Service2} alt={Service2} />
+                          onClick={() => {
+                            // console.log("dddd", d);
+                            setServiceDetail(d);
+                          }}
+                        >
+                          <Link to={appRoutesConst.appointmentTypes}>
+                            <div className="appointment-service-row">
+                              <div className="appointment-service-col-1">
+                                <img src={Service2} alt={Service2} />
+                              </div>
+                              <div className="appointment-service-col-2">
+                                <p> {d.title}</p>
+                              </div>
+                              <img
+                                src={Arrowicon}
+                                alt={Arrowicon}
+                                className="info-icons"
+                              />
                             </div>
-                            <div className="appointment-service-col-2">
-                              <p> {d.title}</p>
-                            </div>
-                            <img src={Arrowicon} alt={Arrowicon} className="info-icons" />
-                          </div>
-                        </Link>
-                      </span>
+                          </Link>
+                        </span>
                       </div>
                     );
                   })}
@@ -135,10 +149,8 @@ const ServiceDetails = () => {
                     onPageChange={onPageChange}
                   />
                 )}
+              </div>
             </div>
-            
-            </div>
-           
           </Col>
         </Row>
       </Container>

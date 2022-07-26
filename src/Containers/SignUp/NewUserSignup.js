@@ -292,9 +292,9 @@ const NewUserSignup = (props) => {
                       })}
                   </ul>
 
-                  <Link className="btn btn-form" to={appRoutesConst.appointmentFor}>Register</Link>
+                  {/* <Link className="btn btn-form" to={appRoutesConst.appointmentFor}>Register</Link> */}
 
-                  {/* <Button
+                  <Button
                     onClick={_handleSubmit}
                     className="btn btn-form w-100 mt-5"
                   >
@@ -303,7 +303,7 @@ const NewUserSignup = (props) => {
                     ) : (
                       "Register"
                     )}
-                  </Button> */}
+                  </Button>
                 </Form>
               </div>
             </div>

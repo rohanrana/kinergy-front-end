@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
-import ArrowRight from "../../images/arrow-right-circle.png";
+// import ArrowRight from "../../images/arrow-right-circle.png";
 import Mobileotp from "../../images/mobile-otp.png";
 import OTPInput, { ResendOTP } from "otp-input-react";
 import { isEmpty } from "lodash";
-import { verifyOTPViaEmail, verifyOTPViaMobile } from "../../Services/customer";
+import {
+  resendOTPMail,
+  resendOTPMobile,
+  verifyOTPViaEmail,
+  verifyOTPViaMobile,
+} from "../../Services/customer";
 import Loader from "../../Components/Loader/Loader";
 import {
   getErrorObject,
+  secondsToTime,
   successToast,
   verifyObject,
 } from "../../utilities/utils";
@@ -16,9 +22,12 @@ import { useNavigate } from "react-router";
 
 export function OTPModal(props) {
   const [OTP, setOTP] = useState("");
+  const [ResentOTP, setResendOTP] = useState("");
+
   const [isLoading, setLoading] = useState(false);
+  const [isResending, setResendLoading] = useState(false);
+
   const navigateTo = useNavigate();
-  console.log("OTP", OTP);
 
   const handleOTPVerification = async () => {
     try {
@@ -36,7 +45,6 @@ export function OTPModal(props) {
           otp: OTP,
         });
       }
-      console.log("response", response);
       if (response.data.response_message) {
         successToast({
           content: verifyObject(response, "data.response_message", "Success"),
@@ -52,6 +60,37 @@ export function OTPModal(props) {
       const { message } = getErrorObject(error);
       errorToast({ content: message });
       setLoading(false);
+    }
+  };
+  const resendOTP = async () => {
+    try {
+      // let phone = JSON.parse(localStorage.getItem("otp-phone"));
+      setResendLoading(true);
+      let response = null;
+      if (props.loginModePhone) {
+        response = await resendOTPMobile({
+          phone: props.phone,
+        });
+      } else {
+        response = await resendOTPMail({
+          email: props.email,
+        });
+      }
+      if (response.data) {
+        successToast({
+          content: verifyObject(
+            response,
+            "data.response_message.message",
+            "Success"
+          ),
+        });
+        setResendOTP(verifyObject(response, "data.response_message.otp", null));
+        setResendLoading(false);
+      }
+    } catch (error) {
+      const { message } = getErrorObject(error);
+      errorToast({ content: message });
+      setResendLoading(false);
     }
   };
   return (
@@ -82,25 +121,41 @@ export function OTPModal(props) {
                 inputClassName="form-control otp-custom-input"
               />
             </div>
-            {/* <ResendOTP
-              maxTime={60}
-              renderButton={() => {
-                return (
-                  <span className="float-right">
-                    <a href="#/">Resend</a>
-                  </span>
-                );
-              }}
-              renderTime={(d) => {
-                console.log("d", d);
-                return (
-                  <span className="float-right">
-                    <a href="#/">{d}</a>
-                  </span>
-                );
-              }}
-              onResendClick={() => console.log("Resend clicked")}
-            /> */}
+            <p className="otp-timeline">
+              <ResendOTP
+                maxTime={20}
+                renderButton={(d) => {
+                  if (d.remainingTime === 0) {
+                    return (
+                      <span className="float-right">
+                        <a onClick={d.onClick} href="#">
+                          {isResending ? "Resending..." : "Resend"}
+                        </a>
+                      </span>
+                    );
+                  } else {
+                    return (
+                      <span className="float-right">
+                        {isResending ? "Resending..." : "Resend"}
+                      </span>
+                    );
+                  }
+                }}
+                renderTime={(d) => {
+                  let time = secondsToTime(d);
+                  return (
+                    <span className="float-right">
+                      <a href="#/">
+                        {time.m < 10 ? `0${time.m}` : time.m} :{" "}
+                        {time.s < 10 ? `0${time.s}` : time.s}
+                      </a>
+                    </span>
+                  );
+                }}
+                onResendClick={resendOTP}
+              />
+            </p>
+
             {/* <Col lg={2} sm={2} xs={2}>
               <Form.Group>
                 <Form.Control placeholder="0" className="text-center" />
@@ -138,13 +193,13 @@ export function OTPModal(props) {
             </Col> */}
           </Row>
 
-          <p className="otp-timeline">
+          {/* <p className="otp-timeline">
             01:60{" "}
             <span className="float-right">
               <a href="#/">Resend</a>
             </span>
-          </p>
-          {props.otp && <p>OTP : {props.otp}</p>}
+          </p> */}
+          {props.otp && <p>OTP : {ResentOTP ? ResentOTP : props.otp}</p>}
         </Form>
         <Row>
           <Col Col lg={12} sm={12} xs={12}>

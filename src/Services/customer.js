@@ -31,9 +31,25 @@ export const verifyOTPViaEmail = (data) => {
   return post(request);
 };
 
+export const resendOTPMobile = (data) => {
+  const request = {
+    subUrl: `/customer/resendMobileOtp`,
+    data,
+  };
+  return post(request);
+};
+
 export const registerNewCustomer = (data) => {
   const request = {
     subUrl: `/customer/register`,
+    data,
+  };
+  return post(request);
+};
+
+export const resendOTPMail = (data) => {
+  const request = {
+    subUrl: `/customer/resendEmailOtp`,
     data,
   };
   return post(request);

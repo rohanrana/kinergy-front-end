@@ -17,6 +17,7 @@ import store from "../../App/store";
 import { isArray } from "lodash";
 import PageLoader from "../../Components/common/PageLoader";
 import { actionTypes } from "../../Reducers/localStore";
+import { baseURL } from "../../Services";
 
 const ServiceCategories = (props) => {
   const navigate = useNavigate();
@@ -42,7 +43,6 @@ const ServiceCategories = (props) => {
       type: actionTypes.SET_SERVICE_CATEGORY,
       payload: serviceCategory,
     });
- 
   };
   const setServiceDetail = (service) => {
     dispatch({
@@ -83,7 +83,14 @@ const ServiceCategories = (props) => {
                       return (
                         <Col className="mt-10" lg={4} sm={4} xs={12}>
                           <div className="department-col mt-0">
-                            <img src={Department2} alt={Department2} />
+                            <img
+                              src={
+                                d.imageUrl
+                                  ? `${baseURL}/${d.imageUrl}`
+                                  : `${Department2}`
+                              }
+                              alt={Department2}
+                            />
                             <div className="department-col-content">
                               <p>{d.title}</p>
                               <span
