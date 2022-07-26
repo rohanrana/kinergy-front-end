@@ -75,7 +75,7 @@ export function OTPModal(props) {
                 value={OTP}
                 onChange={setOTP}
                 autoFocus
-                OTPLength={4}
+                OTPLength={6}
                 otpType="number"
                 disabled={false}
                 secure

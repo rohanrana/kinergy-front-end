@@ -38,3 +38,19 @@ export const registerNewCustomer = (data) => {
   };
   return post(request);
 };
+
+export const registerSomeOneElse = (data) => {
+  const request = {
+    subUrl: `/customer/registerSomeOneElse`,
+    data,
+  };
+  return post(request);
+};
+
+export const getExistingProfileList = (data) => {
+  const request = {
+    subUrl: `/customer/getExistingProfileList`,
+    data,
+  };
+  return post(request);
+};

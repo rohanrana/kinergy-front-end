@@ -16,6 +16,9 @@ export const appRoutesConst = {
   newUserSignUp: "/new-user-registration/:phone",
   providers: "/providers",
   bookappointment: "/book-appointment",
+  someoneelse: "/for-someone-else",
+  someoneelsesignup: "/for-someone-else-signup",
+  
 };
 
 // const config = {

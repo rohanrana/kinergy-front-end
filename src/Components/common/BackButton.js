@@ -1,12 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import BackArrow from "../../images/back-arrow.png";
-export default function BackButton() {
+export default function BackButton(to) {
   const navigate = useNavigate();
   return (
     <p
       onClick={() => {
-        navigate(-1);
+        if (to) {
+          navigate(-1);
+        } else {
+          navigate(to);
+        }
       }}
     >
       <img src={BackArrow} alt={BackArrow} className="mr-2" />

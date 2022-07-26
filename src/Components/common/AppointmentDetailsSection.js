@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { verifyObject } from "../../utilities/utils";
+import { getIntials, verifyObject } from "../../utilities/utils";
 import Clock from "../../images/clock.png";
 import Service1 from "../../images/service1.jpg";
 export default function AppointmentDetailsSection() {
@@ -9,7 +9,7 @@ export default function AppointmentDetailsSection() {
   const selectedService = verifyObject(localStore, "selectedService", null);
   const selectedProvider = verifyObject(localStore, "selectedProviders", null);
 
-  const selectedUser = verifyObject(localStore, "user", null);
+  const clientDetails = verifyObject(localStore, "clientDetails", null);
 
   const appointmentDuration = verifyObject(
     localStore,
@@ -35,21 +35,26 @@ export default function AppointmentDetailsSection() {
           <p>{selectedService.description}</p>
         </div>
       </div>
-      {selectedUser && (
+      {clientDetails && (
         <Fragment>
           <h6 className="text-white mt-5">Client Details</h6>
 
           <div className="profile-provide-row">
             <div className="profile-provider-col-1">
-              <span>CM</span>
+              <span>
+                {getIntials(
+                  `${clientDetails.firstName} ${clientDetails.lastName}`
+                )}
+              </span>
             </div>
             {
               <div className="profile-provider-col-2">
                 <h6>
-                  {verifyObject(selectedUser, "firstName", null)}{" "}
-                  {verifyObject(selectedUser, "lastName", null)}
+                  {verifyObject(clientDetails, "firstName", null)}{" "}
+                  {verifyObject(clientDetails, "lastName", null)}
                 </h6>
-                <p> {verifyObject(selectedUser, "phone", null)}</p>
+                <p> {verifyObject(clientDetails, "phone", null)}</p>
+                <p> {verifyObject(clientDetails, "email", null)}</p>
               </div>
             }
           </div>

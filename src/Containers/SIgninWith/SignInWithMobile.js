@@ -8,13 +8,14 @@ import { OTPModal } from "./OTPModal";
 import { Link, useNavigate } from "react-router-dom";
 import { appRoutesConst } from "../../App/navigation";
 import BackButton from "../../Components/common/BackButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { errorToast, successToast, verifyObject } from "../../utilities/utils";
 import { isEmpty } from "lodash";
 import validator from "validator";
 import { loginWithEmail, loginWithMobile } from "../../Services/customer";
 import Loader from "../../Components/Loader/Loader";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
+import { actionTypes } from "../../Reducers/localStore";
 
 const SignInWithMobile = () => {
   const [state, setState] = useState({
@@ -32,44 +33,21 @@ const SignInWithMobile = () => {
   const [loginModePhone, setLoginMode] = React.useState(true);
   const localStore = useSelector((state) => state.localStore);
   const serviceCategory = verifyObject(localStore, "serviceCategory", null);
-  const selectedService = verifyObject(localStore, "selectedService", null);
-  let token = verifyObject(localStore, "token", null);
+  const dispatch = useDispatch();
 
   const navigateTo = useNavigate();
 
   useEffect(() => {
-    if (!serviceCategory && !token) {
+    if (!serviceCategory) {
       navigateTo(appRoutesConst.index);
       errorToast({
         content: "You are not allowed to access this pages",
       });
     }
+    dispatch({
+      type: actionTypes.CLEAR_USER_PROVIDER,
+    });
   }, []);
-
-  const validateInputs = () => {
-    console.log("called");
-    let { email, phone } = state;
-    let emailError,
-      phoneError = null;
-    console.log();
-    if (loginModePhone) {
-      return { phone: phoneError };
-    } else {
-      if (isEmpty(email)) {
-        emailError = "Please enter an email address";
-      } else if (!validator.isEmail(email)) {
-        if (email && email.length > 60) {
-          emailError = "Email should be less than  of 60 characters only";
-        }
-        emailError = "Please enter a valid email";
-      } else if (email && email.length > 60) {
-        emailError = "Email should be less than  of 60 characters only";
-      } else {
-        emailError = null;
-      }
-      return { email: emailError };
-    }
-  };
 
   const validateAndSubmitPhone = async (e) => {
     e.preventDefault();
