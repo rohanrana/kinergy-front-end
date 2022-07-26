@@ -159,7 +159,7 @@ export function OTPModal(props) {
                 ) : (
                   <span>
                     {" "}
-                    Next <img src={ArrowRight} alt={ArrowRight} />
+                    Next <i class="far fa-arrow-alt-circle-right"></i>
                   </span>
                 )}
               </Button>
