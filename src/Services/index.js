@@ -9,10 +9,12 @@ export const responseHeaderKeys = {
   pagination: "x-pagination",
 };
 
+export const baseURL = `http://18.235.179.99:3000`;
+
 const apiBaseUrls = {
-  prod: "http://18.235.179.99:3000/api/v1",
-  dev: "http://18.235.179.99:3000/api/v1",
-  stage: "http://18.235.179.99:3000/api/v1",
+  prod: `${baseURL}/api/v1`,
+  dev: `${baseURL}/api/v1`,
+  stage: `${baseURL}/api/v1`,
 };
 
 const webSocketURL = {
@@ -240,7 +242,7 @@ const commonFetch = (request: Irequest) => {
   let forTokenParams = {
     data: data,
   };
-  if(token){
+  if (token) {
     if (isFile) {
       forTokenParams = {
         data: data,
@@ -253,14 +255,13 @@ const commonFetch = (request: Irequest) => {
         params: params,
       };
     }
-  
+
     if (method === "get") {
       forTokenParams = {
         data: { params: { ...params, token: token }, data: data },
       };
     }
   }
-
 
   return axios({
     method,
