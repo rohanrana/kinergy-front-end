@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useNavigate, useParams, withRouter } from "react-router-dom";
+import { useNavigate, useParams, withRouter, Link } from "react-router-dom";
 import { isArray } from "lodash";
 import Loader from "../../Components/Loader/Loader";
 import Logo from "../../images/logo.png";
@@ -292,7 +292,9 @@ const NewUserSignup = (props) => {
                       })}
                   </ul>
 
-                  <Button
+                  <Link className="btn btn-form" to={appRoutesConst.appointmentFor}>Register</Link>
+
+                  {/* <Button
                     onClick={_handleSubmit}
                     className="btn btn-form w-100 mt-5"
                   >
@@ -301,7 +303,7 @@ const NewUserSignup = (props) => {
                     ) : (
                       "Register"
                     )}
-                  </Button>
+                  </Button> */}
                 </Form>
               </div>
             </div>

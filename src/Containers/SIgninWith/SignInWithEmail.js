@@ -74,7 +74,7 @@ export default function SignInWithEmail() {
                     className="btn btn-form w-100 mt-5"
                     onClick={() => setModalShow(true)}
                   >
-                    Next <img src={ArrowRight} alt={ArrowRight} />
+                    Next <i class="far fa-arrow-alt-circle-right"></i>
                   </Button>
                 </Form>
               </div>
