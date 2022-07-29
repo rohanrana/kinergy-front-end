@@ -48,6 +48,7 @@ const optionsRoutes = require("./routes/optionRoute");
 const insuranceRoutes = require("./routes/insuranceRoute");
 const documentRoutes = require("./routes/documentRoute");
 const blockCalenderRoutes = require("./routes/blockCalenderRoute");
+const scheduleCalenderRoutes = require("./routes/scheduleCalenderRoute");
 
 
 const environment = config();
@@ -107,6 +108,7 @@ app.use("/api/v1/insurance", insuranceRoutes);
 app.use("/api/v1/document", documentRoutes);
 
 app.use("/api/v1/blockCalender", blockCalenderRoutes);
+app.use("/api/v1/scheduleCalender", scheduleCalenderRoutes);
 
 // app.use(express.static(path.join(__dirname, "dist")));
 

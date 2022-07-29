@@ -1,80 +1,377 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Node.js Express Save Data from Html Form to Mongodb Database </title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  </head>
-  <body>
-    <div class="container mt-4">
-      <div class="card">
-        <div class="card-body">
- 
- 
-          <form action="http://localhost:8080/api/v1/customer/updateEmergencyContact" method="POST">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="firstName">fullName</label>
-                <input type="hidden" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjUwODRlYTU1NGE2MzI3ZWUxNTMzNmQiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkLmhaRkxHNG5vbjRKZkJHT3VGY25CT3AxUXlTWlNlU2JmLmVWbzEwUVpOeXRDRS8vYWdPNnUiLCJpYXQiOjE2NDk2NjYzOTR9.FrYRY79Nej3HS-ae6pXkvUU3aS7RkThBHVqUbqeAa_E" name="token">
-                <input type="hidden" value="62693e648aa4a8446d0579ba" name="_id">
-                <input type="text" class="form-control " id="fullName"  placeholder="Enter fullName" name="fullName[]" value="rahul">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">relationship</label>
-                <input type="text" class="form-control " id="relationship" name="relationship[]" placeholder="Enter relationship" value="brother">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">language</label>
-                <input type="text" class="form-control " id="language" name="language[]" placeholder="Enter language" value="EN">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">phoneType</label>
-                <input type="text" class="form-control " id="phoneType" name="phoneType[]" placeholder="Enter phoneType"  value="HOME">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">Phone</label>
-                <input type="text" class="form-control " id="phone" name="phone[]" placeholder="Enter Phone" value="6789067891">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">altPhone</label>
-                <input type="text" class="form-control " id="altPhone" name="altPhone[]" placeholder="Enter altPhone" value="6789067890">
-              </div>
-            </div>
+<head>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <title></title>
+      <link
+        rel="stylesheet"
+        href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"
+      />
+      <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+      <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
-            <!--  -->
-            <hr>
+      <style>
+        /* RANGE SLIDER STYLES */
+        .range-checkbox {
+          clear: left;
+          float: left;
+          margin: 13px 10px 10px;
+        }
+        .range-label {
+          float: left;
+          display: block;
+          width: 80px;
+          margin: 10px;
+          cursor: pointer;
+        }
+        .range-slider {
+          float: left;
+          margin: 10px;
+        }
+        .range-time {
+          width: 100px;
+          float: left;
+          margin: 10px;
+        }
+        .range-day-disabled {
+          opacity: 0.5;
+        }
+        .range-day .ui-slider-range {
+          background: #00a000;
+        }
+        .range-day .ui-slider-handle {
+          cursor: w-resize !important;
+        }
+        .range-day-disabled .ui-slider-range {
+          background: #fff;
+        }
+        .range-day-disabled .ui-slider-handle {
+          cursor: default !important;
+          background: none !important;
+          border: none !important;
+        }
+        .range-values {
+          position: relative;
+          display: block;
+          height: 20px;
+          overflow: hidden;
+          margin: 10px 0 10px;
+        }
+        .range-values span {
+          position: absolute;
+          border-left: 1px solid grey;
+          padding-left: 5px;
+        }
+        .range-values span.r-0 {
+          left: 0;
+        }
+        .range-values span.r-3 {
+          left: 12.5%;
+        }
+        .range-values span.r-6 {
+          left: 25%;
+        }
+        .range-values span.r-9 {
+          left: 37.5%;
+        }
+        .range-values span.r-12 {
+          left: 50%;
+        }
+        .range-values span.r-15 {
+          left: 62.5%;
+        }
+        .range-values span.r-18 {
+          left: 75%;
+        }
+        .range-values span.r-21 {
+          left: 87.5%;
+        }
+        .range-values span.r-24 {
+          left: 100%;
+          margin-left: -1px;
+        }
 
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="firstName">fullName</label>
-                <input type="text" class="form-control " id="fullName"  placeholder="Enter fullName" name="fullName[]" value="rahul2">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">relationship</label>
-                <input type="text" class="form-control " id="relationship" name="relationship[]" placeholder="Enter relationship" value="brother2">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">language</label>
-                <input type="text" class="form-control " id="language" name="language[]" placeholder="Enter language" value="EN">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">phoneType</label>
-                <input type="text" class="form-control " id="phoneType" name="phoneType[]" placeholder="Enter phoneType"  value="OFFICE">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">Phone</label>
-                <input type="text" class="form-control " id="phone" name="phone[]" placeholder="Enter Phone" value="67890678912">
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-4">
-                <label for="exampleInputEmail1">altPhone</label>
-                <input type="text" class="form-control " id="altPhone" name="altPhone[]" placeholder="Enter altPhone" value="6789067893">
-              </div>
-            </div>
-                    
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-    </div>
-  </div>
-  </body>
-</html>
+        /* RESULT DATA STYLES */
+        #schedule {
+          width: 500px;
+          background: #eee;
+          margin-top: 20px;
+        }
+        #schedule th {
+          text-align: left;
+          border-bottom: 1px solid grey;
+        }
+        #schedule th,
+        #schedule td {
+          padding: 5px;
+        }
+
+        /************ PARAMS ************/
+        body {
+        }
+        .range-slider,
+        .range-values {
+          width: 400px;
+        }
+        .range-values,
+        #schedule,
+        h1 {
+          margin-left: 143px;
+        }
+      </style>
+    </head>
+    <body>
+      <br />
+
+      <div class="range-head">
+        <div class="range-values">
+          <span class="r-0">0:00</span>
+          <span class="r-3">3:00</span>
+          <span class="r-6">6:00</span>
+          <span class="r-9">9:00</span>
+          <span class="r-12">12:00</span>
+          <span class="r-15">15:00</span>
+          <span class="r-18">18:00</span>
+          <span class="r-21">21:00</span>
+          <span class="r-24">24:00</span>
+        </div>
+      </div>
+
+      <div class="range-day" id="range-day-1" data-day="1">
+        <input
+          type="checkbox"
+          name="day-1"
+          id="day-1"
+          value="1"
+          class="range-checkbox"
+          checked
+        />
+        <label for="day-1" class="range-label">Monday:</label>
+        <div id="range-slider-1" class="range-slider"></div>
+        <span id="range-time-1" class="range-time"></span>
+      </div>
+
+      <div class="range-day" id="range-day-2" data-day="2">
+        <input
+          type="checkbox"
+          name="day-2"
+          id="day-2"
+          value="1"
+          class="range-checkbox"
+          checked
+        />
+        <label for="day-2" class="range-label">Tuesday:</label>
+        <div id="range-slider-2" class="range-slider"></div>
+        <span id="range-time-2" class="range-time"></span>
+      </div>
+
+      <div class="range-day" id="range-day-3" data-day="3">
+        <input
+          type="checkbox"
+          name="day-3"
+          id="day-3"
+          value="1"
+          class="range-checkbox"
+          checked
+        />
+        <label for="day-3" class="range-label">Wednesday:</label>
+        <div id="range-slider-3" class="range-slider"></div>
+        <span id="range-time-3" class="range-time"></span>
+      </div>
+
+      <div class="range-day" id="range-day-4" data-day="4">
+        <input
+          type="checkbox"
+          name="day-4"
+          id="day-4"
+          value="1"
+          class="range-checkbox"
+          checked
+        />
+        <label for="day-4" class="range-label">Thursday‎:</label>
+        <div id="range-slider-4" class="range-slider"></div>
+        <span id="range-time-4" class="range-time"></span>
+      </div>
+
+      <div class="range-day" id="range-day-5" data-day="5">
+        <input
+          type="checkbox"
+          name="day-5"
+          id="day-5"
+          value="1"
+          class="range-checkbox"
+          checked
+        />
+        <label for="day-5" class="range-label">Friday:</label>
+        <div id="range-slider-5" class="range-slider"></div>
+        <span id="range-time-5" class="range-time"></span>
+      </div>
+
+      <div class="range-day" id="range-day-6" data-day="6">
+        <input
+          type="checkbox"
+          name="day-6"
+          id="day-6"
+          value="1"
+          class="range-checkbox"
+          checked
+        />
+        <label for="day-6" class="range-label">Saturday:</label>
+        <div id="range-slider-6" class="range-slider"></div>
+        <span id="range-time-6" class="range-time"></span>
+      </div>
+
+      <div class="range-day" id="range-day-7" data-day="7">
+        <input
+          type="checkbox"
+          name="day-7"
+          id="day-7"
+          value="1"
+          class="range-checkbox"
+        />
+        <label for="day-7" class="range-label">Sunday:</label>
+        <div id="range-slider-7" class="range-slider"></div>
+        <span id="range-time-7" class="range-time"></span>
+      </div>
+
+      <br style="clear: both" />
+      <script>
+        var rangeTimes = [];
+
+        $(".range-slider").slider({
+          range: true,
+          min: 0,
+          max: 1440,
+          values: [540, 1080],
+          step: 30,
+          slide: slideTime,
+          change: updateOpeningHours,
+        });
+
+        function slideTime(event, ui) {
+          if (event && event.target) {
+            var $rangeslider = $(event.target);
+            var $rangeday = $rangeslider.closest(".range-day");
+            var rangeday_d = parseInt($rangeday.data("day"));
+            var $rangecheck = $rangeday.find(":checkbox");
+            var $rangetime = $rangeslider.next(".range-time");
+          }
+
+          if ($rangecheck.is(":checked")) {
+            $rangeday.removeClass("range-day-disabled");
+            $rangeslider.slider("enable");
+
+            if (ui !== undefined) {
+              var val0 = ui.values[0],
+                val1 = ui.values[1];
+            } else {
+              var val0 = $rangeslider.slider("values", 0),
+                val1 = $rangeslider.slider("values", 1);
+            }
+
+            var minutes0 = parseInt(val0 % 60, 10),
+              hours0 = parseInt((val0 / 60) % 24, 10),
+              minutes1 = parseInt(val1 % 60, 10),
+              hours1 = parseInt((val1 / 60) % 24, 10);
+            if (hours1 == 0) hours1 = 24;
+
+            rangeTimes[rangeday_d] = [
+              getTime(hours0, minutes0),
+              getTime(hours1, minutes1),
+            ];
+
+            $rangetime.text(
+              rangeTimes[rangeday_d][0] + " - " + rangeTimes[rangeday_d][1]
+            );
+          } else {
+            $rangeday.addClass("range-day-disabled");
+            $rangeslider.slider("disable");
+
+            rangeTimes[rangeday_d] = [];
+
+            $rangetime.text("Closed");
+          }
+        }
+
+        function updateOpeningHours() {
+          if ($("#schedule").length) {
+            $("#schedule tbody").empty();
+          } else {
+            $("body").append(
+              '<br>\
+      <table id="schedule">\
+	    <thead>\
+		    <tr>\
+          <th>Day</th>\
+			    <th>Start Time</th>\
+			    <th>End Time</th>\
+		    </tr>\
+	    </thead>\
+	    <tbody>\
+	    </tbody>\
+      </table>'
+            );
+          }
+          var timeArr = [];
+          for (d = 1; d <= 7; d++) {
+            timeArr.push({
+              day: d,
+              status: rangeTimes[d][0] === undefined ? 0 : 1,
+              startDate: rangeTimes[d][0] === undefined ? "" : rangeTimes[d][0],
+              endDate: rangeTimes[d][1] === undefined ? "" : rangeTimes[d][1],
+            });
+            $("#schedule tbody").append(
+              "<tr>" +
+                "<td>" +
+                d +
+                "</td>" +
+                "<td>" +
+                (rangeTimes[d][0] === undefined ? "Closed" : rangeTimes[d][0]) +
+                "</td>" +
+                "<td>" +
+                (rangeTimes[d][1] === undefined ? "" : rangeTimes[d][1]) +
+                "</td>" +
+                "</tr>"
+            );
+          }
+          console.log(timeArr);
+          $.ajax({ 
+            url: "http://localhost:8080/api/v1/scheduleCalender/addDays", 
+            type: "POST", 
+            data: timeArr,
+            success:(res)=>{console.log(res)}
+           });
+        }
+
+        function getTime(hours, minutes) {
+          var time = null;
+          minutes = minutes + "";
+          if (minutes.length == 1) {
+            minutes = "0" + minutes;
+          }
+          return hours + ":" + minutes;
+        }
+
+        $(".range-checkbox").on("change", function () {
+          var $rangecheck = $(this);
+          var $rangeslider = $rangecheck
+            .closest(".range-day")
+            .find(".range-slider");
+          slideTime({ target: $rangeslider });
+          updateOpeningHours();
+        });
+
+        $("#scheduleSubmit").on("click", updateOpeningHours);
+
+        slideTime({ target: $("#range-slider-1") });
+        slideTime({ target: $("#range-slider-2") });
+        slideTime({ target: $("#range-slider-3") });
+        slideTime({ target: $("#range-slider-4") });
+        slideTime({ target: $("#range-slider-5") });
+        slideTime({ target: $("#range-slider-6") });
+        slideTime({ target: $("#range-slider-7") });
+        updateOpeningHours();
+      </script>
+    </body>
+  </html>
+</head>

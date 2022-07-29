@@ -7,6 +7,30 @@ const Staff = require("../models/staffModel");
 // const path = require('path');
 // const fs = require('fs');
 const generateAddByCustomerValidation = (req, res, next) => [
+  check("amount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter amount"),
+    check("taxAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter taxAmount"),
+    check("discountAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter discountAmount"),
+    check("totalAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter totalAmount"),
   check("service")
     .trim()
     .escape()
@@ -68,7 +92,282 @@ const generateAddByCustomerValidation = (req, res, next) => [
   //   .isEmpty()
   //   .withMessage("Staff is required"),
 ];
+const bookingAppointmentMySelf = (req, res, next) => [
+  check("amount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter amount"),
+  check("taxAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter taxAmount"),
+  check("discountAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter discountAmount"),
+  check("totalAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter totalAmount"),
+  check("appointmentType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentType"),
+  check("service")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select service"),
+
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentDate"),
+  check("appointmentTime")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentTime"),
+  check("appointmentTime")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Appointment Time is required"),
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Appointment Date is required"),
+  check("customer")
+    .custom((value) => {
+      if (value) {
+        return Customer.findOne({ _id: value }).then((customer) => {
+          if (!customer) {
+            return Promise.reject("Customer not exist");
+          }
+        });
+      }
+    })
+    .withMessage("Customer not exist")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Customer is required"),
+];
+
+const bookingAppointmentSomeOneElse = (req, res, next) => [
+    check("amount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter amount"),
+    check("taxAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter taxAmount"),
+    check("discountAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter discountAmount"),
+    check("totalAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter totalAmount"),
+  check("appointmentType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentType"),
+  check("appointmentFor")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentFor"),
+  check("service")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select service"),
+
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentDate"),
+  check("appointmentTime")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentTime"),
+  check("appointmentTime")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Appointment Time is required"),
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Appointment Date is required"),
+  check("customer")
+    .custom((value) => {
+      if (value) {
+        return Customer.findOne({ _id: value }).then((customer) => {
+          if (!customer) {
+            return Promise.reject("Customer not exist");
+          }
+        });
+      }
+    })
+    .withMessage("Customer not exist")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Customer is required"),
+];
+
+const followUpBooking = (req, res, next) => [
+  check("amount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter amount"),
+  check("taxAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter taxAmount"),
+  check("discountAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter discountAmount"),
+  check("totalAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter totalAmount"),
+  check("case")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter case"),
+  check("appointmentType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentType"),
+  check("service")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select service"),
+
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentDate"),
+  check("appointmentTime")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select appointmentTime"),
+  check("appointmentTime")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Appointment Time is required"),
+  check("appointmentDate")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Appointment Date is required"),
+  check("customer")
+    .custom((value) => {
+      if (value) {
+        return Customer.findOne({ _id: value }).then((customer) => {
+          if (!customer) {
+            return Promise.reject("Customer not exist");
+          }
+        });
+      }
+    })
+    .withMessage("Customer not exist")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Customer is required"),
+];
 const generateAddValidation = (req, res, next) => [
+  check("amount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter amount"),
+  check("taxAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter taxAmount"),
+  check("discountAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter discountAmount"),
+  check("totalAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter totalAmount"),
   check("service")
     .trim()
     .escape()
@@ -137,13 +436,37 @@ const generateAddValidation = (req, res, next) => [
   //   .withMessage("Staff is required"),
 ];
 const generateEditValidation = (req, res, next) => [
+  check("amount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter amount"),
+    check("taxAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter taxAmount"),
+    check("discountAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter discountAmount"),
+    check("totalAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter totalAmount"),
   check("service")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please select service"),
-  
+
   check("appointmentDate")
     .trim()
     .escape()
@@ -200,6 +523,9 @@ const reporter = (req, res, next) => {
 
 module.exports = {
   add: [generateAddValidation(), reporter],
+  bookingAppointmentMySelf: [bookingAppointmentMySelf(), reporter],
+  bookingAppointmentSomeOneElse: [bookingAppointmentSomeOneElse(), reporter],
+  followUpBooking: [followUpBooking(), reporter],
   addByCustomer: [generateAddByCustomerValidation(), reporter],
   edit: [generateEditValidation(), reporter],
 };

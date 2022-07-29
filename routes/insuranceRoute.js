@@ -11,4 +11,10 @@ router.post('/delete',authHandler.auth_func,insuranceApis.insuranceDelete);
 router.post('/getInsuranceList',authHandler.auth_func,insuranceApis.getInsuranceList);
 router.post('/getInsuranceById',authHandler.auth_func,insuranceApis.getInsuranceById);
 
+
+// Client Side
+router.post('/client/add',insuranceApis.fileUpload,authHandler.auth_func,insuranceValidation.clientAdd,insuranceApis.clientAddInsurance);
+router.post('/client/getInsurance',authHandler.auth_func,insuranceApis.getClientInsurance);
+router.post('/client/edit',insuranceApis.fileUpload,authHandler.auth_func,insuranceValidation.clientEdit,insuranceApis.clientEditInsurance);
+
 module.exports = router;

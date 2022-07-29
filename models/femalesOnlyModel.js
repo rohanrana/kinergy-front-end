@@ -8,7 +8,6 @@ const femailsOnlySchema = new Schema(
       ref: "Customers",
       default: null,
     },
-
     pregnant: {
       type: mongoose.Schema.Types.Boolean,
       default: false,

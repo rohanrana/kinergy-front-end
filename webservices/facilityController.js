@@ -5,6 +5,7 @@ const Facility = require("../models/facilityModel");
 const Appointment = require("../models/appointmentModel");
 const generalHelper = require("../helper/general");
 const appointmentHelper = require("../helper/appointmentHelper");
+const facilityHelper = require("../helper/facilityHelper");
 
 const path = require("path");
 const multer = require("multer");
@@ -61,14 +62,15 @@ const facilityApis = {
 
     facility.save((err, result) => {
       // console.log(err, result);
-      if (!err)
+      if (!err) {
+        facilityHelper.addInterval(result._id);
         Response.sendResponseWithData(
           res,
           resCode.EVERYTHING_IS_OK,
           "Facility Add Successfully.",
           result
         );
-      else {
+      } else {
         console.log(err);
         Response.sendResponseWithoutData(
           res,
@@ -428,7 +430,9 @@ const facilityApis = {
             result
           );
         } else {
-          appointmentResult = await appointmentHelper.manageProviderSlot(result);
+          appointmentResult = await appointmentHelper.manageProviderSlot(
+            result
+          );
           await Response.sendResponseWithData(
             res,
             resCode.EVERYTHING_IS_OK,

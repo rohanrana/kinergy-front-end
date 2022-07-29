@@ -16,6 +16,4 @@ const blockSchema = new Schema({
         ref: 'BlockCalenderTime'
     }]
 });
-
-
 module.exports = mongoose.model('BlockCalender', blockSchema);

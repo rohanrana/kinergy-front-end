@@ -767,7 +767,7 @@ const serviceApis = {
         parentService: req.body.parentService,
       };
       Service.find(query)
-        .select("id title slug description")
+        .select("id title slug description image imageUrl")
         .lean()
         .exec((err, result) => {
           console.log(err);

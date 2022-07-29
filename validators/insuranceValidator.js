@@ -5,46 +5,46 @@ const resMessage = require("../helper/httpResponseMessage.js");
 const Response = require("../common_functions/response_handler");
 const generalHelper = require("../helper/general");
 const add = (req, res, next) => [
-  check("clientFirstName")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Enter client first name."),
-  check("clientLastName")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Enter client last name."),
-  check("clientDob")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Enter client date of birth."),
-  check("clientGender")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Enter client gender."),
-  check("clientPhone")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Enter client contact number."),
-  check("clientEmail")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Enter client contact email.")
-    .bail()
-    .normalizeEmail()
-    .isEmail()
-    .withMessage("Enter valied client contact email."),
+  // check("clientFirstName")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client first name."),
+  // check("clientLastName")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client last name."),
+  // check("clientDob")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client date of birth."),
+  // check("clientGender")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client gender."),
+  // check("clientPhone")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client contact number."),
+  // check("clientEmail")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client contact email.")
+  //   .bail()
+  //   .normalizeEmail()
+  //   .isEmail()
+  //   .withMessage("Enter valied client contact email."),
 
   check("providerName")
     .trim()
@@ -64,42 +64,267 @@ const add = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Enter insurance number."),
-  check("claimNumber")
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage("Enter claim number."),
+  // check("claimNumber")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter claim number."),
   check("orderOfBenefits")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Select order of benefits."),
-  check("effectiveFrom")
+  // check("effectiveFrom")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter effective from."),
+  // check("effectiveTill")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter effective tille."),
+  // check("copayType")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter copay type."),
+  // check("copayValue")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter copay value."),
+  check("relationToInsured")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Enter effective from."),
-  check("effectiveTill")
+    .withMessage("Enter relation to insured."),
+];
+const clientAdd = (req, res, next) => [
+  check("sign")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Enter effective tille."),
-  check("copayType")
+    .withMessage("Enter signature please."),
+  check("clientId")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Enter copay type."),
-  check("copayValue")
+    .withMessage("Enter client id."),
+  // check("clientLastName")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client last name."),
+  // check("clientDob")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client date of birth."),
+  // check("clientGender")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client gender."),
+  // check("clientPhone")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client contact number."),
+  // check("clientEmail")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client contact email.")
+  //   .bail()
+  //   .normalizeEmail()
+  //   .isEmail()
+  //   .withMessage("Enter valied client contact email."),
+
+  check("providerName")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Enter copay value."),
+    .withMessage("Enter provider name."),
+  check("providerPhone")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter provider phone."),
+  check("insuranceNumber")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter insurance number."),
+  // check("claimNumber")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter claim number."),
+  check("orderOfBenefits")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Select order of benefits."),
+  // check("effectiveFrom")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter effective from."),
+  // check("effectiveTill")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter effective tille."),
+  // check("copayType")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter copay type."),
+  // check("copayValue")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter copay value."),
+  check("relationToInsured")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter relation to insured."),
+];
+
+const clientEdit = (req, res, next) => [
+  check("sign")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter signature please."),
+  check("clientId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter client id."),
+  // check("clientFirstName")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client first name."),
+  // check("clientLastName")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client last name."),
+  // check("clientDob")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client date of birth."),
+  // check("clientGender")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client gender."),
+  // check("clientPhone")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client contact number."),
+  // check("clientEmail")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter client contact email.")
+  //   .bail()
+  //   .normalizeEmail()
+  //   .isEmail()
+  //   .withMessage("Enter valied client contact email."),
+
+  check("providerName")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter provider name."),
+  check("providerPhone")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter provider phone."),
+  check("insuranceNumber")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter insurance number."),
+  // check("claimNumber")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter claim number."),
+  check("orderOfBenefits")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Select order of benefits."),
+  // check("effectiveFrom")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter effective from."),
+  // check("effectiveTill")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter effective tille."),
+  // check("copayType")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter copay type."),
+  // check("copayValue")
+  //   .trim()
+  //   .escape()
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Enter copay value."),
   check("relationToInsured")
     .trim()
     .escape()
@@ -300,5 +525,8 @@ const reporter = (req, res, next) => {
 
 module.exports = {
   add: [add(), reporter],
+  clientAdd: [clientAdd(), reporter],
   edit: [edit(), reporter],
+
+  clientEdit: [clientEdit(), reporter],
 };

@@ -97,7 +97,13 @@ const CustomerAddValidation = (req, res, next) => [
 ];
 
 const CustomerAddSomeOneValidation = (req, res, next) => [
-  check("firstName")
+  check("refCustomer")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter referance customer."), 
+     check("firstName")
     .trim()
     .escape()
     .not()

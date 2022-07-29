@@ -7,7 +7,6 @@ const Question = require("../models/questionModel");
 const generalHelper = require("../helper/general");
 
 const formService = require("../models/formServiceModel");
-
 const formHelper = require("../helper/form.js");
 
 var oldSections = null;
@@ -542,6 +541,7 @@ const formApis = {
 
   list: (req, res) => {
     Form.find({})
+
       // .populate({
       //   path: "section",
       //   populate: {
@@ -583,6 +583,7 @@ const formApis = {
       );
     } else {
       Form.find({ _id: req.body._id })
+
         .populate({
           path: "section",
           options: { sort: { sort: 1 } },
@@ -674,12 +675,13 @@ const formApis = {
               "Form Status Changed Successfully.",
               result
             );
-          } else
+          } else {
             Response.sendResponseWithoutData(
               res,
               resCode.WENT_WRONG,
               resMessage.WENT_WRONG
             );
+          }
         });
     }
   },

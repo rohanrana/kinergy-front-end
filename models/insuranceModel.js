@@ -5,6 +5,11 @@ const Schema = mongoose.Schema;
 const insuranceSchema = new Schema(
   {
     // Client Details
+    clientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customers",
+      default: null,
+    },
     clientFirstName: {
       type: String,
       default: null,
@@ -89,12 +94,24 @@ const insuranceSchema = new Schema(
     },
     copayType: {
       type: String,
-    //   enum: ["fixed", "percent"],
+      //   enum: ["fixed", "percent"],
       default: "fixed",
     },
     copayValue: {
       type: String,
       default: "0",
+    },
+    ssn: {
+      type: String,
+      default: null,
+    },
+    insuredOrGuarantorName: {
+      type: String,
+      default: null,
+    },
+    insuredOrGuarantorDob: {
+      type: String,
+      default: null,
     },
     relationToInsured: {
       type: String,

@@ -91,7 +91,7 @@ const loginWithMobile = async (req, res, next) => {
       // Response.sendResponseWithoutData( res,resCode.WENT_WRONG,resMessage.WENT_WRONG);
     });
     Customers.findOneAndUpdate(
-      { phone: phone }, //your condition for check
+      { phone: phone }, // 2our condition for check
       { $set: { otp: otp } }, //new values you want to set
       { new: true }
     ).exec(function (err, result) {

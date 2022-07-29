@@ -15,6 +15,7 @@ const returnPagination = (result) => {
   delete result.docs;
   return result;
 };
+const perPage = 10;
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
@@ -871,8 +872,12 @@ const getAppointmentDetail = async (req, res) => {
   } else {
     await Appointment.find({ _id: req.body._id })
       .populate(
-        "customer",
-        "_id firstName lastName address profilePic email status gender customerType phone"
+        {
+          path: "customer",
+          select: {
+            _id: 1,firstName: 1,lastName: 1,address: 1,profilePic: 1,email: 1,status: 1,gender: 1,customerType: 1,phone: 1,
+          },
+        }
       )
       .populate({
         path: "service",
@@ -935,6 +940,12 @@ const getAppointmentDetail = async (req, res) => {
               status: a.status,
               createdAt: a.createdAt,
               updatedAt: a.updatedAt,
+              serviceDuration:a.serviceDuration,
+              serviceAmount:a.serviceAmount,
+              amount:a.amount,
+              taxAmount:a.taxAmount,
+              discountAmount:a.discountAmount,
+              totalAmount:a.totalAmount
             };
             return await obj;
           });
@@ -1037,6 +1048,152 @@ const fileUpload = (req, res, next) => {
 };
 
 
+const getAppointmentList = async (req,res)=>{
+  let query = {};
+  page = req.body.page != "undefined" && req.body.page
+        ? Math.max(0, req.body.page) : 1;
+  var customer = { path: "customer", select: { _id: 1, firstName:1,lastName:1 } };
+  var provider = { path: "provider", select: { _id: 1, facilityName:1 } };
+    let options = {
+      page: page,
+      limit: perPage,
+      select : "_id appointmentDate appointmentTime customer provider status appointmentType appointmentFor",
+      lean: true,
+      populate: [customer,provider],
+      sort: { createdAt: -1 },
+    };
+  await Appointment
+  // .find({})
+  // .select("_id appointmentDate appointmentTime customer provider status appointmentType appointmentFor")
+  .paginate(query, options, async(err,result)=>{
+    if (err)
+    return await  Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.WENT_WRONG);
+    else if (!result || result.length == 0 || result == [])
+    return await Response.sendResponseWithoutData( res,resCode.WENT_WRONG,"Appointment Not Found.");
+    else {
+      Response.sendResponseWithPagination(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        "Appointment list Found Successfully.",
+        result.docs,
+        returnPagination(result)
+      );
+      }
+  })
+}
+
+
+
+
+const getAppointmentDetailWithClientPortal = async (req, res) => {
+  var ID = await req.body._id;
+  if (!ID) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Please Enter Appointment Id."
+    );
+  } else if (!objectid.isValid(ID)) {
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      "Please Enter Valid Appointment Id."
+    );
+  } else {
+    await Appointment.find({ _id: req.body._id })
+      .populate(
+        {
+          path: "customer",
+          select: {
+            _id: 1,firstName: 1,lastName: 1,address: 1,profilePic: 1,email: 1,status: 1,gender: 1,customerType: 1,phone: 1,
+          },
+        }
+      )
+      // .populate({
+      //   path: "service",
+      //   select: {
+      //     initialConsultation: 0,
+      //     followUpAppointment: 0,
+      //     parentService: 0,
+      //     serviceType: 0,
+      //     haveSubService: 0,
+      //     subService: 0,
+      //     insuranceApplicable: 0,
+      //     addBy: 0,
+      //     __v: 0,
+      //     providers: 0,
+      //   },
+      // })
+      .populate(
+        "staff",
+        "_id firstName lastName address profilePic email status gender "
+      )
+      
+      .populate({path:"provider",select:{contact:0,address:0}})
+      .populate("department")
+      .exec(async (err, result) => {
+        console.log(err, result);
+        if (err)
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0 || result == [])
+          Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            "Appointment Not Found."
+          );
+        else {
+          var appointmentArr = [];
+          var appointmentPromice = await result.map(async (a, ax) => {
+            let obj = {};
+            obj = await {
+              _id: a._id,
+              service: a.service,
+              servicePrice: await appointmentHelper.getServicePriceDetails(
+                a.service,
+                a.servicePrice,
+                a.appointmentType
+              ),
+              appointmentType: a.appointmentType,
+              serviceType: a.serviceType,
+              appointmentDate: a.appointmentDate,
+              appointmentTime: a.appointmentTime,
+              customer: a.customer,
+              staff: a.staff,
+              provider: a.provider,
+              department: a.department,
+              case: a.case,
+              location: a.location,
+              spentTime: a.spentTime,
+              status: a.status,
+              createdAt: a.createdAt,
+              updatedAt: a.updatedAt,
+              serviceDuration:a.serviceDuration,
+              serviceAmount:a.serviceAmount,
+              amount:a.amount,
+              taxAmount:a.taxAmount,
+              discountAmount:a.discountAmount,
+              totalAmount:a.totalAmount
+            };
+            return await obj;
+          });
+
+          appointmentArr = await Promise.all(appointmentPromice);
+          // console.log('appointmentPromice',appointmentArr);
+          return await Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Appointment Found Successfully.",
+            appointmentArr
+          );
+        }
+      });
+  }
+};
+
 module.exports = {
   
   edit,
@@ -1047,11 +1204,12 @@ module.exports = {
   deleteAppointment,
   changeStatus,
   getAppointmentDetail,
+  getAppointmentDetailWithClientPortal,
   followUpBooking,
   bookingAppointmentSomeOneElse,
   bookingAppointmentMySelf,
   book,
   customerBooking,
   fileUpload,
-  
+  getAppointmentList  
 };

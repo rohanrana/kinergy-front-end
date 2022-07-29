@@ -4,7 +4,7 @@ const medicalRecordApis = require("../webservices/medicalRecordController.js");
 const injuryRecordApis = require("../webservices/injuryRecordController.js");
 const surgeryRecordApis = require("../webservices/surgeryRecordController.js");
 const progressReportApis = require("../webservices/progressReportController.js");
-const authHandler = require('../middleware/authHandler.js')
+const authHandler = require('../middleware/authHandler.js');
 const customerValidation = require('../validators/customerValidator.js');
 const router = routers.Router();
 
@@ -35,13 +35,14 @@ router.post('/verifyMobileOtp',customerValidation.verifyOtp,customerApis.verifyM
 router.post('/loginWithEmail',customerValidation.emailLogin,customerApis.loginWithEmail);
 router.post('/resendEmailOtp',customerValidation.emailLogin,customerApis.resendEmailOtp);
 router.post('/verifyEmailOtp',customerValidation.verifyOtp,customerApis.verifyEmailOtp);
+
 router.post('/register',customerValidation.registerNewCustomer,customerApis.registerCustomer);
 router.post('/registerSomeOneElse',authHandler.auth_func,customerValidation.CustomerAddSomeOneValidation,customerApis.registerSomeOneCustomer);
+
 router.post('/injuryRecord/add',authHandler.auth_func,injuryRecordApis.add);
 router.post('/injuryRecord/get',authHandler.auth_func,injuryRecordApis.get);
-
-
 router.post('/injuryRecord/getAppointmentDetailByCaseId',authHandler.auth_func,injuryRecordApis.getAppointmentDetailByCaseId);
+
 // Some One Else  Appoinment
 router.post('/getExistingProfileList',authHandler.auth_func,customerApis.getExistingProfileList);
 
