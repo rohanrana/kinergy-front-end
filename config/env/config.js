@@ -1,4 +1,4 @@
-var current_env = "staging";
+var current_env = "production";
 const pord = require("./production");
 const dev = require("./development");
 const stage = require("./staging");

@@ -100,7 +100,7 @@ const getBlockCalender = async (req, res, next) => {
       resCode.WENT_WRONG,
       "Please enter service provider id."
     );
-  BlockCalender.find()
+  BlockCalender.find({provider: { $exists: true, $ne: null }})
   .populate("time","from to")
   .exec(async (blockCalenderErr, blockCalenderResult) => {
     if (blockCalenderErr)

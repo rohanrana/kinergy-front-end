@@ -46,7 +46,7 @@ const book = async (req, res, next) => {
     serviceAmount,
   } = req.body;
   
-  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
   if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot."); 
 
   const appointment = new Appointment({
@@ -122,7 +122,7 @@ const customerBooking = async (req, res, next) => {
     serviceAmount,
 
   } = req.body;
-  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
   if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
 
   const appointment = new Appointment({
@@ -205,7 +205,7 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
     couponValue,
   } = req.body;
   
-  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
   if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
 
   const appointment = new Appointment({
@@ -307,7 +307,7 @@ const bookingAppointmentMySelf = async (req, res, next) => {
     couponValue,
   } = req.body;
   
-  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
   if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
 
   const appointment = new Appointment({
@@ -397,7 +397,7 @@ const followUpBooking = async (req, res, next) => {
       serviceAmount,
     } = req.body;
     
-  if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
+  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
   if(! await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
 
     const appointment = new Appointment({
