@@ -134,40 +134,6 @@ export function OTPModal(props) {
                 inputClassName="form-control otp-custom-input"
               />
             </div>
-            <p className="otp-timeline">
-              <ResendOTP
-                maxTime={20}
-                renderButton={(d) => {
-                  if (d.remainingTime === 0) {
-                    return (
-                      <span className="float-right">
-                        <a onClick={d.onClick} href="#">
-                          {isResending ? "Resending..." : "Resend"}
-                        </a>
-                      </span>
-                    );
-                  } else {
-                    return (
-                      <span className="float-right">
-                        {isResending ? "Resending..." : "Resend"}
-                      </span>
-                    );
-                  }
-                }}
-                renderTime={(d) => {
-                  let time = secondsToTime(d);
-                  return (
-                    <span className="float-right">
-                      <a href="#/">
-                        {time.m < 10 ? `0${time.m}` : time.m} :{" "}
-                        {time.s < 10 ? `0${time.s}` : time.s}
-                      </a>
-                    </span>
-                  );
-                }}
-                onResendClick={resendOTP}
-              />
-            </p>
 
             {/* <Col lg={2} sm={2} xs={2}>
               <Form.Group>
@@ -212,6 +178,40 @@ export function OTPModal(props) {
               <a href="#/">Resend</a>
             </span>
           </p> */}
+          <p className="otp-timeline">
+            <ResendOTP
+              maxTime={120}
+              renderButton={(d) => {
+                if (d.remainingTime === 0) {
+                  return (
+                    <span className="float-right">
+                      <a onClick={d.onClick} href="#">
+                        {isResending ? "Resending..." : "Resend"}
+                      </a>
+                    </span>
+                  );
+                } else {
+                  return (
+                    <span className="float-right">
+                      {isResending ? "Resending..." : "Resend"}
+                    </span>
+                  );
+                }
+              }}
+              renderTime={(d) => {
+                let time = secondsToTime(d);
+                return (
+                  <span className="float-right">
+                    <a href="#/">
+                      {time.m < 10 ? `0${time.m}` : time.m} :{" "}
+                      {time.s < 10 ? `0${time.s}` : time.s}
+                    </a>
+                  </span>
+                );
+              }}
+              onResendClick={resendOTP}
+            />
+          </p>
           {props.otp && <p>OTP : {ResentOTP ? ResentOTP : props.otp}</p>}
         </Form>
         <Row>

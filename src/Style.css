@@ -185,7 +185,7 @@ h6 {
 }
 .home-content-row .home-content-col-2 .department-col img {
   width: 100%;
-  height: 110px;
+  height: 137.76px;
   object-fit: fill;
 }
 .home-content-row .home-content-col-2 .department-col .department-col-content {
@@ -766,12 +766,9 @@ abbr[data-bs-original-title] {
   background-size: cover;
   border-radius: 10px;
   min-height: 525px;
-    max-height: 525px;
-    overflow-y: auto;
-  
+  max-height: 525px;
+  overflow-y: auto;
 }
-
-
 
 .select-service .service-top-about-row {
   display: flex;

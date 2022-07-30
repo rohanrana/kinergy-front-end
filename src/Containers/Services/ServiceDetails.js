@@ -112,7 +112,10 @@ const ServiceDetails = () => {
                           <Link to={appRoutesConst.appointmentTypes}>
                             <div className="appointment-service-row">
                               <div className="appointment-service-col-1">
-                                <img src={Service2} alt={Service2} />
+                                <img
+                                  src={`${baseURL}/${d.imageUrl}`}
+                                  alt={Service2}
+                                />
                               </div>
                               <div className="appointment-service-col-2">
                                 <p> {d.title}</p>
