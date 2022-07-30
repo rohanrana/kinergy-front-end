@@ -30,6 +30,7 @@ import { isArray } from "lodash";
 import AddServieCategory from "./AddServieCategory";
 import AddSubServices from "./AddSubServices";
 import BackButton from "../../../component/BackButton";
+import { baseURL } from "../../../Services";
 
 const Servicedetails = () => {
   const [checked, setChecked] = useState(false);
@@ -162,21 +163,23 @@ const Servicedetails = () => {
                     </Form>
                   </p>
                 </div>
-                <div className="details-sec mt-5 mb-5">
-                  <Row>
-                    <Col md={2} sm={4} xs={12}>
-                      <img
-                        src={Dummyimage}
-                        alt={Dummyimage}
-                        className="dmImg"
-                      />
-                    </Col>
-                    <Col md={10} sm={8} xs={12}>
-                      <h3 className="det_head"> {servicesDetails.title} </h3>
-                      <p className="dt-dsc">{servicesDetails.description}</p>
-                    </Col>
-                  </Row>
-                </div>
+                {servicesDetails && (
+                  <div className="details-sec mt-5 mb-5">
+                    <Row>
+                      <Col md={2} sm={4} xs={12}>
+                        <img
+                          src={`${baseURL}/${servicesDetails.imageUrl}`}
+                          alt={Dummyimage}
+                          className="dmImg"
+                        />
+                      </Col>
+                      <Col md={10} sm={8} xs={12}>
+                        <h3 className="det_head"> {servicesDetails.title} </h3>
+                        <p className="dt-dsc">{servicesDetails.description}</p>
+                      </Col>
+                    </Row>
+                  </div>
+                )}
               </div>
             )}
             {servicesDetails && (
@@ -219,6 +222,7 @@ const Servicedetails = () => {
                           <Button
                             className="btn btn-theme pl-2 pr-2"
                             id="formBtn"
+                            style={{marginBottom:10}}
                             onClick={handleShow1}
                           >
                             + Add Service
@@ -244,7 +248,7 @@ const Servicedetails = () => {
                                   <tr key={s._id}>
                                     <td>
                                       <img
-                                        src={Dummyimage}
+                                        src={`${baseURL}/${s.imageUrl}`}
                                         alt={Dummyimage}
                                         className="table_img"
                                       />

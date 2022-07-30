@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import AdminLeftMenu from "../AdminLeftMenu";
 import UploadPreviewAdd from "./UploadPreviewAdd";
 
-import Addimgser from '../../../image/ser-img.png';
+import Addimgser from "../../../image/ser-img.png";
 import { useSelector, useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
 import NotFoundLable from "../../../component/common/NotFoundLable";
@@ -13,6 +13,7 @@ import TableLoader from "../../../component/common/TableLoader";
 import { actions as serviceCategoryActions } from "../../../Reducers/serviceCategories";
 import { debounce, isArray } from "lodash";
 import AddServieCategory from "./AddServieCategory";
+import { baseURL } from "../../../Services";
 
 const Services = () => {
   const [show, setShow] = useState(false);
@@ -91,7 +92,11 @@ const Services = () => {
                             </span>
                           </div>
                           <div className="ser-img">
-                          <img src={Addimgser} className='addimg' alt={Addimgser} />
+                            <img
+                              src={`${baseURL}/${d.imageUrl}`}
+                              className="addimg"
+                              alt={Addimgser}
+                            />
                           </div>
                           <div className="sevice_c">
                             <h3>{d.title}</h3>

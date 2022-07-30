@@ -11,6 +11,7 @@ import {
 } from "../../../utilities/utils";
 import UploadPreviewAdd from "./UploadPreviewAdd";
 import { isArray, uniqueId } from "lodash";
+import { baseURL } from "../../../Services";
 
 export default function AddSubServices({
   show,
@@ -73,19 +74,21 @@ export default function AddSubServices({
     };
   }
   const [state, setState] = useState(intialState);
+  const [imageUrl, setImageState] = useState(null);
   const localStore = useSelector((state) => state.localStore);
 
   useEffect(() => {
-    // console.log("servicesDetails", servicesDetails);
+    console.log("servicesDetails", servicesDetails);
     // let initialConsultation = [];
     if (servicesDetails) {
+      setImageState(servicesDetails.imageUrl);
       setState((prevState) => {
         return {
           ...prevState,
           edit_id: servicesDetails._id,
           service_name: servicesDetails.title,
           description: servicesDetails.description,
-          image: servicesDetails.image,
+          image: servicesDetails.imageUrl,
         };
       });
 
@@ -589,7 +592,12 @@ export default function AddSubServices({
               })}
               {/* </div> */}
               <Form.Group className="mb-4 form-type">
-                <UploadPreviewAdd handleFile={handleFile} />
+                {servicesDetails && (
+                  <UploadPreviewAdd
+                    showFile={`${baseURL}/${servicesDetails.imageUrl}`}
+                    handleFile={handleFile}
+                  />
+                )}
                 {state.errors && (
                   <span className="text-danger">{state.errors.image}</span>
                 )}

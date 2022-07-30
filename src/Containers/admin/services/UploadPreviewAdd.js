@@ -4,7 +4,8 @@ import { Button } from "react-bootstrap";
 class UploadPreviewAdd extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { file: null, showFile: null };
+    console.log("this.props.showFile", this.props.showFile);
+    this.state = { file: null, showFile: this.props.showFile };
     // this.onChange = this.onChange.bind(this);
     this.resetFile = this.resetFile.bind(this);
   }

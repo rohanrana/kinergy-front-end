@@ -31,6 +31,7 @@ import AddSubServices from "./AddSubServices";
 import { floor, isArray } from "lodash";
 import AddProviders from "./AddProviders";
 import BackButton from "../../../component/BackButton";
+import { baseURL } from "../../../Services";
 
 const options = [
   { label: "Terill Lobo", value: "Terill Lobo" },
@@ -246,7 +247,7 @@ const Subservicedetails = () => {
                   <Row>
                     <Col md={2} sm={4} xs={12}>
                       <img
-                        src={Dummyimage}
+                        src={`${baseURL}/${servicesDetails.imageUrl}`}
                         alt={Dummyimage}
                         className="dmImg"
                       />
