@@ -744,82 +744,102 @@ abbr[data-bs-original-title] {
   margin-bottom: 0;
 }
 
-.therapy-modal-top{
+.therapy-modal-top {
   padding: 5rem 2rem;
-  background: linear-gradient(281.82deg, #DAFDFF 25.87%, #F7FFFF 103.8%);
+  background: linear-gradient(281.82deg, #dafdff 25.87%, #f7ffff 103.8%);
 }
 
-.there-modal-bottom{
+.there-modal-bottom {
   padding: 20px;
   margin-top: -100px;
 }
 
-.select-service{
-  background: #ffffff;
+.select-service {
+  /* background: #ffffff; */
   background-image: url(../src/images/layer.svg);
   background-repeat: no-repeat;
   padding: 20px;
   background-size: cover;
   border-radius: 10px;
+  min-height: 525px;
+    max-height: 525px;
+    overflow-y: auto;
+  
 }
 
-.select-service .service-top-about-row{
+
+
+.select-service .service-top-about-row {
   display: flex;
   flex-direction: row;
 }
-.select-service .service-top-about-row .service-top-about-left{
- margin-right: 25px; 
+.select-service .service-top-about-row .service-top-about-left {
+  margin-right: 25px;
 }
 
-.select-service .service-top-about-row .service-top-about-left img{
+.select-service .service-top-about-row .service-top-about-left img {
   height: 120px;
 }
-.select-service .appointment-service-row{
+.select-service .appointment-service-row {
   display: flex;
   align-items: center;
   position: relative;
   background-color: #ffffff;
-  border: 1px solid #E5EBF0;
-  border-left: 5px solid #37DBE6;
-box-shadow: 0px 4px 4px rgba(32, 81, 146, 0.1);
-border-radius: 5px;
+  border: 1px solid #e5ebf0;
+  border-left: 5px solid #37dbe6;
+  box-shadow: 0px 4px 4px rgba(32, 81, 146, 0.1);
+  border-radius: 5px;
   padding: 10px;
 }
 
-.select-service .appointment-service-col-1{
+.select-service .appointment-service-col-1 {
   flex-basis: 15%;
 }
 
-.select-service .appointment-service-col-1 img{
+.select-service .appointment-service-col-1 img {
   height: 56px;
   border-radius: 4px;
 }
 
-.select-service .appointment-service-col-2{
+.select-service .appointment-service-col-2 {
   flex-basis: 85%;
 }
 
-.select-service .appointment-service-col-2 p{
+.select-service .appointment-service-col-2 p {
   font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 22px;
-margin: 0;
-color: #191919;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  margin: 0;
+  color: #191919;
 }
 
-.select-service .all-services{
+.select-service .all-services {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
-i.info-icons{
+i.info-icons {
   font-size: 20px;
-  color: #18EDD8;
+  color: #18edd8;
 }
-.select-service .all-services .all-block-services-col{
+.select-service .all-services .all-block-services-col {
   flex: 0 0 49.5%;
   margin-top: 20px;
+}
+.select-service .appointmet-book-row {
+  margin-bottom: 20px;
+  border-left: unset;
+}
+.select-service .appointmet-book-row .appointment-service-col-2 {
+  flex-basis: 100%;
+  padding: 10px;
+}
+.select-service .appointmet-book-row .appointment-service-col-2 .link-button {
+  font-weight: 500;
+  font-size: 16px;
+  display: block;
+  color: #508de8;
 }
 @media screen and (max-width: 1024px) {
   .home-content-row {

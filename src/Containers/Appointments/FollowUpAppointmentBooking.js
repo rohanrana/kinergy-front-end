@@ -8,7 +8,7 @@ import { useParams } from "react-router";
 import BackButton from "../../Components/common/BackButton";
 import { currencies, verifyObject } from "../../utilities/utils";
 import { appRoutesConst } from "../../App/navigation";
-import { getServiceDetailByByID } from "../../Services/servicesByCateID";
+import { getServiceDetailByByID } from "../../Services/servicesByCateID"; 
 import { isArray } from "lodash";
 import Loader from "../../Components/Loader/Loader";
 import NotFoundLable from "../../Components/common/NotFoundLable";
@@ -63,13 +63,14 @@ export default function FollowUpAppointmentBooking() {
       <Container>
         <Row>
           <Col lg={12}>
-            <div className="appointment-details-row custom-appt-details-row">
+            <div className="select-service">
               <div className="appointment-detail-col-2">
                 <BackButton />
                 <h5 className="text-center">Book a follow up appointment</h5>
                 <p className="text-center">
                   Please select one of the options below
                 </p>
+                <div className="all-services">
                 {state.loading && <Loader />}
                 {state.newBookingDurations &&
                   state.newBookingDurations.priceDetails &&
@@ -80,19 +81,18 @@ export default function FollowUpAppointmentBooking() {
                     />
                   )}
                 {!state.loading && (
-                  <Row>
+                  <Row className="w-100">
                     {" "}
                     {state.newBookingDurations &&
                       state.newBookingDurations.priceDetails &&
                       isArray(state.newBookingDurations.priceDetails) &&
                       state.newBookingDurations.priceDetails.map((d) => {
                         return (
+                          <div className="all-block-services-col">
                           <Fragment>
                             <Link to={appRoutesConst.newAppointmentBooking}>
-                              <div className="appointment-service-row">
-                                <div className="appointment-service-col-1">
-                                  <img src={Service2} alt={Service2} />
-                                </div>
+                              <div className="appointment-service-row appointmet-book-row">
+                              
                                 <div className="appointment-service-col-2">
                                   <a>
                                     {verifyObject(
@@ -126,10 +126,13 @@ export default function FollowUpAppointmentBooking() {
                               </div>
                             </Link>
                           </Fragment>
+                          </div>
                         );
                       })}
                   </Row>
                 )}
+                </div>
+                
               </div>
             </div>
           </Col>
