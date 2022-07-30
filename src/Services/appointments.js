@@ -6,3 +6,19 @@ export const getProviders = (data) => {
   };
   return post(request);
 };
+
+export const getProvidersAvailability = (data) => {
+  const request = {
+    subUrl: `/scheduleCalender/getDays`,
+    data,
+  };
+  return post(request);
+};
+
+export const bookAppointment = (data) => {
+  const request = {
+    subUrl: `/appointments/customerBooking`,
+    data,
+  };
+  return post(request);
+};

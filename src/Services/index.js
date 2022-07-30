@@ -114,7 +114,7 @@ const commonFetchFormData = (request: Irequest) => {
     data = {},
     params = {},
     headers = {},
-    isFile,
+    // isFile,
     isEMDR,
     isOnlyURL,
   } = request;
@@ -143,7 +143,7 @@ const commonFetchFormData = (request: Irequest) => {
   // }
 
   // var arrStr = encodeURIComponent(JSON.stringify(params))
-  let token = getToken();
+  // let token = getToken();
 
   return axios({
     method,

@@ -1,20 +1,20 @@
 import React from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TherapyServices from "../Containers/TherapyServices";
-import ForgotPasswordPage from "../Pages/Authentication/ForgotPasswordPage";
+// import TherapyServices from "../Containers/TherapyServices";
+// import ForgotPasswordPage from "../Pages/Authentication/ForgotPasswordPage";
 // import SignInPage from "../Pages/Authentication/SignInPage";
-import HomePage from "../Pages/Home/HomePage";
+// import HomePage from "../Pages/Home/HomePage";
 // import RegisterPage from "../Pages/Register/RegisterPage";
 import LetsStarted from "../Containers/LetsStarted";
 // import UsingEmail from "./component/UsingEmail";
-import { appRoutesConst } from "./navigation";
+// import { appRoutesConst } from "./navigation";
 import UsingEmail from "../Containers/UsingEmail";
 import PrivateRoutes from "../Hoc/PrivateRoutes";
 import RestrictedRoutes from "../Hoc/RestrictedRoutes";
 import PageLoader from "../Components/common/PageLoader";
 import { routesArray } from "./routesArray";
-import RedirectComponent from "../Components/common/RedirectComponent";
+// import RedirectComponent from "../Components/common/RedirectComponent";
 import { Header } from "../Components/Header/Header";
 
 export default function AppRoutes() {
@@ -29,7 +29,6 @@ export default function AppRoutes() {
 
     //     <Route path="/therapy-services" element={<TherapyServices />} />
     //     <Route path="/lets-started" element={<LetsStarted />} />
-        
 
     //     {/* <Route exact path="/therapy-services" component={TherapyServices} /> */}
     //   </Routes>
@@ -49,6 +48,7 @@ export default function AppRoutes() {
                 element={
                   <React.Suspense fallback={<PageLoader />}>
                     <PrivateRoutes>
+                      <Header />
                       <ComponentName />
                       {/* </PageLayout> */}
                     </PrivateRoutes>
@@ -66,6 +66,8 @@ export default function AppRoutes() {
                 element={
                   <React.Suspense fallback={<PageLoader />}>
                     <RestrictedRoutes>
+                      <Header />
+
                       <ComponentName />
                     </RestrictedRoutes>
                   </React.Suspense>
@@ -81,6 +83,8 @@ export default function AppRoutes() {
                 path={route.path}
                 element={
                   <React.Suspense fallback={<PageLoader />}>
+                    <Header />
+
                     <ComponentName />
                   </React.Suspense>
                 }

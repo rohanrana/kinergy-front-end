@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Service1 from "../../images/service1.jpg";
-import ArrowRight from "../../images/arrow-right-circle.png";
+
 import Clock from "../../images/clock.png";
 import { OTPModal } from "./OTPModal";
 import { Link, useNavigate } from "react-router-dom";
@@ -63,7 +64,6 @@ export default function SignInWithEmail() {
                     <Form.Label>Enter Your Email Address</Form.Label>
                     <Form.Control placeholder="xyz@company.com" />
                     <p className="text-right mt-2 mb-0 link-color-form">
-                      <a href="lets-started"></a>
                       <Link to={appRoutesConst.loginwithphone}>
                         Enter using Cell Phone Number?
                       </Link>

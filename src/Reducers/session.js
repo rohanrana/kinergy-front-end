@@ -8,9 +8,7 @@ import {
 } from "../Services/session";
 
 import {
-  navigateToIndex,
   appRoutesConst,
-  navigateToHome,
 } from "../App/navigation";
 import {
   getErrorObject,
@@ -94,7 +92,7 @@ export const session = (state = initialState, action) => {
 
 export const login = (data, navigate) => {
   return async (dispatch) => {
-    dispatch({ type: types.LOGIN_REQUEST });
+    dispatch({ type: sessionTypes.LOGIN_REQUEST });
 
     try {
       let response = await loginApi(data);
@@ -105,7 +103,7 @@ export const login = (data, navigate) => {
         tokenparams = { token: auth.token, user: auth.result };
       }
       dispatch({
-        type: types.LOGIN_SUCCESS,
+        type: sessionTypes.LOGIN_SUCCESS,
         payload: { ...tokenparams },
       });
       successToast({
@@ -114,7 +112,7 @@ export const login = (data, navigate) => {
       await navigate(`${appRoutesConst.index}`);
     } catch (error) {
       const { message } = getErrorObject(error);
-      dispatch({ type: types.LOGIN_FAILURE, payload: { error: message } });
+      dispatch({ type: sessionTypes.LOGIN_FAILURE, payload: { error: message } });
       errorToast({ content: message });
     }
   };
@@ -122,12 +120,12 @@ export const login = (data, navigate) => {
 
 export const logOut = (data, navigate) => {
   return async (dispatch) => {
-    dispatch({ type: types.LOGOUT_REQUEST });
+    dispatch({ type: sessionTypes.LOGOUT_REQUEST });
     try {
       let response = await logOutApi(data);
       // let logout = response.data;
       dispatch({
-        type: types.LOG_OUT,
+        type: sessionTypes.LOG_OUT,
       });
       dispatch({ type: "CLEAR_LOCAL_STATE" });
       successToast({
@@ -136,7 +134,7 @@ export const logOut = (data, navigate) => {
       await navigate(`${appRoutesConst.index}`);
     } catch (error) {
       const { message } = getErrorObject(error);
-      dispatch({ type: types.LOGOUT_FAILURE, payload: { error: message } });
+      dispatch({ type: sessionTypes.LOGOUT_FAILURE, payload: { error: message } });
       errorToast({ content: message });
     }
 
@@ -147,7 +145,7 @@ export const logOut = (data, navigate) => {
 export const resetFormState = () => {
   return (dispatch) => {
     dispatch({
-      type: types.RESET_FORM_STATE,
+      type: sessionTypes.RESET_FORM_STATE,
     });
   };
 };

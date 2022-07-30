@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { Row, Col, Form, Button, Modal } from "react-bootstrap";
 // import ArrowRight from "../../images/arrow-right-circle.png";
@@ -12,6 +13,7 @@ import {
 } from "../../Services/customer";
 import Loader from "../../Components/Loader/Loader";
 import {
+  errorToast,
   getErrorObject,
   secondsToTime,
   successToast,
@@ -19,6 +21,8 @@ import {
 } from "../../utilities/utils";
 import { appRoutesConst } from "../../App/navigation";
 import { useNavigate } from "react-router";
+import { sessionTypes } from "../../Reducers/session";
+import { useDispatch } from "react-redux";
 
 export function OTPModal(props) {
   const [OTP, setOTP] = useState("");
@@ -28,6 +32,7 @@ export function OTPModal(props) {
   const [isResending, setResendLoading] = useState(false);
 
   const navigateTo = useNavigate();
+  const dispatch = useDispatch();
 
   const handleOTPVerification = async () => {
     try {
@@ -53,7 +58,15 @@ export function OTPModal(props) {
         if (props.isNewUser) {
           navigateTo(`/new-user-registration/${props.phone}`);
         } else {
-          navigateTo(appRoutesConst.appointmentFor);
+          console.log("USER", verifyObject(response, "data.result", null));
+          const user = verifyObject(response, "data.result", null);
+          if (user) {
+            dispatch({
+              type: sessionTypes.LOGIN_SUCCESS,
+              payload: { token: user.jwtToken, user: user },
+            });
+            navigateTo(`${appRoutesConst.appointmentFor}`);
+          }
         }
       }
     } catch (error) {

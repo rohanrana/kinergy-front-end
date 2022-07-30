@@ -18,6 +18,7 @@ export const appRoutesConst = {
   bookappointment: "/book-appointment",
   someoneelse: "/for-someone-else",
   someoneelsesignup: "/for-someone-else-signup",
+  homepage: "/home-page",
   
 };
 
@@ -25,26 +26,3 @@ export const appRoutesConst = {
 //   activeClassName: "active",
 // };
 
-export const navigateToIndex = () => {
-  return (dispatch) => {
-    dispatch(push(appRoutesConst.index));
-  };
-};
-
-export const navigateToHome = () => {
-  return (dispatch) => {
-    dispatch(push(appRoutesConst.home));
-  };
-};
-
-export const navigateToRightToWork = () => {
-  return (dispatch) => {
-    dispatch(push(appRoutesConst.rightToWork));
-  };
-};
-
-export const navigateTo = (path) => {
-  return (dispatch) => {
-    dispatch(push(path));
-  };
-};

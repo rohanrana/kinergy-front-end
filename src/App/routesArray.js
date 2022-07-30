@@ -35,6 +35,9 @@ const SomeoneElse = lazy(() =>
 const SomeoneElseSignUp = lazy(() =>
   import("../Containers/SignUp/SomeoneElseSignup")
 );
+const HomePage2 = lazy(() =>
+  import("../Containers/Home")
+);
 
 //isPrivateRoute
 //isOpenRoute
@@ -125,5 +128,11 @@ export const routesArray = [
     path: appRoutesConst.someoneelsesignup,
     element: SomeoneElseSignUp,
     isPrivateRoute: true,
+  },
+
+  {
+    path: appRoutesConst.homepage,
+    element: HomePage2,
+    isOpenRoute: true,
   },
 ];

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import InfoIcon from "../../images/Info.png";
 import Arrowicon from "../../images/arrow-2.svg";
 import Service2 from "../../images/service2.png";
 import Department1 from "../../images/department2.png";
@@ -32,7 +32,7 @@ const ServiceDetails = () => {
 
   const routeParams = useParams();
   const dispatch = useDispatch();
-  const { _id, category_name } = routeParams;
+  const { _id } = routeParams;
   console.log("routeParams", servicesByCateID);
 
   useEffect(() => {
@@ -45,21 +45,6 @@ const ServiceDetails = () => {
     dispatch(servicesByCateIDActions.onRequest({ category: _id }));
   };
 
-  const getServiceCategoryDetail = async () => {
-    try {
-      await setLoading(true);
-      let response = await getServiceCategoryByID({ _id: service_cat_id });
-      setServicesDetails(verifyObject(response, "data.result", null));
-      await setLoading(false);
-      if (response.data.message) {
-        successToast({ content: response.data.message });
-      }
-    } catch (error) {
-      const { message } = getErrorObject(error);
-      errorToast({ content: message });
-      await setLoading(false);
-    }
-  };
   const onPageChange = (data) => {
     // const { customerId: patient_id } = this.props.localStore;
     console.log("PAGE CHANGE", data);
@@ -88,7 +73,7 @@ const ServiceDetails = () => {
         <Row>
           <Col lg={12}>
             <div className="select-service">
-              <BackButton />
+              <BackButton to={appRoutesConst.index} />
               <div className="service-top-about-row">
                 <div className="service-top-about-left">
                   <img

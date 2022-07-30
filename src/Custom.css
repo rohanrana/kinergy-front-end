@@ -67,3 +67,10 @@
 p.link-tag {
   cursor: pointer;
 }
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+.active-timeslot {
+  background: #f7a01d !important;
+  color: #ffffff !important;
+}

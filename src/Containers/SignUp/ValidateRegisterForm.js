@@ -1,6 +1,6 @@
 import validator from "validator";
 import isEmpty from "lodash/isEmpty";
-import { passwordRegex, spaceRegex } from "../../Constants/common";
+import { spaceRegex } from "../../Constants/common";
 
 export function ValidateSignupInput(data) {
   let errors = {};
