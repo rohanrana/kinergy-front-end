@@ -3,16 +3,9 @@ import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { actions as serviceCategoryActions } from "../../Reducers/serviceCategories";
-import Department1 from "../../images/department1.png";
 import Department2 from "../../images/department2.png";
-import Department3 from "../../images/department3.png";
-import Department4 from "../../images/department4.png";
-import Department5 from "../../images/department5.png";
-import Department6 from "../../images/department6.png";
-import Department7 from "../../images/department7.png";
 import { verifyObject } from "../../utilities/utils";
-import { Link, useNavigate } from "react-router-dom";
-import { appRoutesConst } from "../../App/navigation";
+import { Link } from "react-router-dom";
 import store from "../../App/store";
 import { isArray } from "lodash";
 import PageLoader from "../../Components/common/PageLoader";
@@ -20,7 +13,6 @@ import { actionTypes } from "../../Reducers/localStore";
 import { baseURL } from "../../Services";
 
 const ServiceCategories = (props) => {
-  const navigate = useNavigate();
   useEffect(() => {
     // console.log("props", props);
     // if (props.token) {
@@ -29,7 +21,15 @@ const ServiceCategories = (props) => {
     //   navigate("/signin");
     // }
     store.dispatch({
-      type: actionTypes.CLEAR_LOCAL_STATE,
+      type: actionTypes.SET_APPOINTMENT_BOOKING_DETAIL,
+      payload: null,
+    });
+    store.dispatch({
+      type: actionTypes.SET_APPOINTMENT_PROVIDER,
+      payload: null,
+    });
+    store.dispatch({
+      type: actionTypes.SET_CLIENT_DETAILS,
       payload: null,
     });
     setServiceCategoryDetail(null);

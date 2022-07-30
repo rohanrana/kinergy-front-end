@@ -18,23 +18,27 @@ export default function AppointmentDetailsSection() {
   );
   return (
     <div className="appointment-detail-col-1">
-      <h5>
-        Appointment Details{" "}
-        <span className="appointmrnt-time">
-          <img src={Clock} alt={Clock} />{" "}
-          {appointmentDuration && appointmentDuration.duration} min
-        </span>
-      </h5>
-      <div className="appointment-service-row appointment-service-row22">
-        <div className="appointment-service-col-1">
-          <img src={Service1} alt={Service1} />
+      {appointmentDuration && (
+        <h5>
+          Appointment Details{" "}
+          <span className="appointmrnt-time">
+            <img src={Clock} alt={Clock} />{" "}
+            {appointmentDuration && appointmentDuration.duration} min
+          </span>
+        </h5>
+      )}
+      {serviceCategory && (
+        <div className="appointment-service-row appointment-service-row22">
+          <div className="appointment-service-col-1">
+            <img src={Service1} alt={Service1} />
+          </div>
+          <div className="appointment-service-col-22 pl-2">
+            <p>{serviceCategory.title}</p>
+            <h6>{selectedService.title}</h6>
+            <p>{selectedService.description}</p>
+          </div>
         </div>
-        <div className="appointment-service-col-22 pl-2">
-          <p>{serviceCategory.title}</p>
-          <h6>{selectedService.title}</h6>
-          <p>{selectedService.description}</p>
-        </div>
-      </div>
+      )}
       {clientDetails && (
         <Fragment>
           <h6 className="text-white mt-5">Client Details</h6>

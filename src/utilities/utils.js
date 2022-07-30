@@ -279,7 +279,9 @@ export const modifiedDataObjectToArrayByIDs = (dataSource) => {
 };
 
 export const getIntials = (str) => {
-  return `${str}`.split(" ").map((n) => n[0]);
+  return (
+    <p className="text-uppercase">{`${str}`.split(" ").map((n) => n[0])}</p>
+  );
 };
 
 export const calculateBMI = (fac_obj) => {

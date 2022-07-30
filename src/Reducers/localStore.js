@@ -27,7 +27,6 @@ export const localStore = (state = initialState, action) => {
       return {
         ...state,
         user: user,
-        clientDetails: user,
         token: token,
         reset_pass_token: reset_pass_token,
       };

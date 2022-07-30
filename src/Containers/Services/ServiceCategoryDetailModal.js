@@ -1,5 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { Container, Row, Col, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import Run from "../../images/about2.svg";
 
 export function ServiceCategoryDetailModal(props) {
@@ -17,9 +18,9 @@ export function ServiceCategoryDetailModal(props) {
         </a>
         <div className="therapy-modal-top"></div>
         <div className="there-modal-bottom">
-        <img src={Run} alt={Run} height="120" className="rounded" />
-        <h4 className="mt-3">Therapy Services</h4>
-        <p>{serviceCategory.description}</p>
+          <img src={Run} alt={Run} height="120" className="rounded" />
+          <h4 className="mt-3">Therapy Services</h4>
+          <p>{serviceCategory.description}</p>
         </div>
       </Modal.Body>
     </Modal>

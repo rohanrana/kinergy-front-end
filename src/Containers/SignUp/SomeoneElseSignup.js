@@ -2,30 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useNavigate, useParams, withRouter } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { isArray } from "lodash";
 import Loader from "../../Components/Loader/Loader";
-import Logo from "../../images/logo.png";
-import { signUp } from "../../Services/session";
-import { successToast, verifyObject } from "../../utilities/utils";
+// import Logo from "../../images/logo.png";
+import { verifyObject } from "../../utilities/utils";
 import { ValidateSignupInput } from "./ValidateRegisterForm";
 import { appRoutesConst } from "../../App/navigation";
-import { USER_TYPE_CUSTOMER } from "../../Constants/common";
 import BackButton from "../../Components/common/BackButton";
-import Service1 from "../../images/service1.jpg";
-import ArrowRight from "../../images/arrow-right-circle.png";
-import Clock from "../../images/clock.png";
-import { useDispatch, useSelector } from "react-redux";
-import { errorToast } from "../../utilities/utils";
+import { useSelector } from "react-redux";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import { DatePicker, Picklist, Option } from "react-rainbow-components";
 import {
-  registerNewCustomer,
   registerSomeOneElse,
 } from "../../Services/customer";
-import moment from "moment";
-import { sessionTypes } from "../../Reducers/session";
-import { actionTypes } from "../../Reducers/localStore";
 
 const SomeoneElseSignUp = (props) => {
   const [state, setState] = useState({
@@ -43,7 +33,6 @@ const SomeoneElseSignUp = (props) => {
     gender: null,
   });
   const localStore = useSelector((state) => state.localStore);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
   useEffect(() => {
@@ -118,7 +107,6 @@ const SomeoneElseSignUp = (props) => {
         console.log("user", user);
 
         if (user) {
-     
           navigate(`${appRoutesConst.someoneelse}`);
         }
 

@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import InfoIcon from "../../images/arrow-2.svg";
 import Service2 from "../../images/service2.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
 import BackButton from "../../Components/common/BackButton";
 import { currencies, verifyObject } from "../../utilities/utils";
 import { appRoutesConst } from "../../App/navigation";
@@ -21,6 +22,7 @@ export default function NewAppointmentBooking() {
   });
   const dispatch = useDispatch();
   const localStore = useSelector((state) => state.localStore);
+  const token = verifyObject(localStore, "token", null);
   let selectedService = verifyObject(localStore, "selectedService", null);
 
   useEffect(() => {
@@ -86,7 +88,7 @@ export default function NewAppointmentBooking() {
                 {state.newBookingDurations &&
                   state.newBookingDurations.priceDetails &&
                   isArray(state.newBookingDurations.priceDetails) &&
-                  state.newBookingDurations.priceDetails.length == 0 && (
+                  state.newBookingDurations.priceDetails.length === 0 && (
                     <NotFoundLable
                       message={"No price and duration detail found"}
                     />
@@ -102,7 +104,13 @@ export default function NewAppointmentBooking() {
                             <span
                               onClick={() => setAppointmentBookingDetails(d)}
                             >
-                              <Link to={appRoutesConst.loginwithphone}>
+                              <Link
+                                to={
+                                  token
+                                    ? appRoutesConst.appointmentFor
+                                    : appRoutesConst.loginwithphone
+                                }
+                              >
                                 <div className="appointment-service-row">
                                   <div className="appointment-service-col-1">
                                     <img src={Service2} alt={Service2} />

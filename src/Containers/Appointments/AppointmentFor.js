@@ -1,10 +1,6 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Service1 from "../../images/service1.jpg";
-import BackArrow from "../../images/back-arrow.png";
-
-import Clock from "../../images/clock.png";
-import InfoIcon from "../../images/Info.png";
 import User from "../../images/user.png";
 import ArrowForward from "../../images/arrow-forward.png";
 import Users from "../../images/users.png";
@@ -20,6 +16,18 @@ const AppointmentFor = () => {
   const localStore = useSelector((state) => state.localStore);
   const user = verifyObject(localStore, "user", null);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.SET_CLIENT_DETAILS,
+      payload: null,
+    });
+    dispatch({
+      type: actionTypes.SET_APPOINTMENT_PROVIDER,
+      payload: null,
+    });
+  }, []);
+
   const handleNavigation = () => {
     dispatch({
       type: actionTypes.SET_CLIENT_DETAILS,

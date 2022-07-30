@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { actions as serviceCategoryActions } from "../Reducers/serviceCategories";
 import Department1 from "../images/department1.png";
 import Department2 from "../images/department2.png";
@@ -14,24 +14,9 @@ import { verifyObject } from "../utilities/utils";
 // import { withRouter } from "react-router-dom";
 
 const Home = (props) => {
-  // useEffect(() => {
-  //   console.log("props", props);
-  //   if (props.token) {
-  //     props.history.push("/home");
-  //   } else {
-  //     props.history.push("/signin");
-  //   }
-  // }, [props.token]);
   const dispatch = useDispatch();
-  const {
-    data: serviceCategoriesData,
-    isLoading,
-    pagination,
-  } = useSelector((state) => state.serviceCategories);
 
-  // useEffect(() => {
-  //   console.log("isLoading", isLoading);
-  // }, [isLoading]);
+ 
 
   useEffect(() => {
     dispatch(serviceCategoryActions.onRequest({}));

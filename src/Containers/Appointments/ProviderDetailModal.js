@@ -1,10 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Modal } from "react-bootstrap";
-import Service1 from "../../images/service1.jpg";
-import BackArrow from "../../images/back-arrow.png";
 import Profile from "../../images/profile.png";
-import Clock from "../../images/clock.png";
-import InfoIcon from "../../images/Info.png";
 import { isArray, map } from "lodash";
 import { verifyObject } from "../../utilities/utils";
 

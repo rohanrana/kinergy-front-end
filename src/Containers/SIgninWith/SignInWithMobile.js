@@ -1,16 +1,15 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import Service1 from "../../images/service1.jpg";
-import BackArrow from "../../images/back-arrow.png";
-import ArrowRight from "../../images/arrow-right-circle.png";
-import Clock from "../../images/clock.png";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+
 import { OTPModal } from "./OTPModal";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { appRoutesConst } from "../../App/navigation";
 import BackButton from "../../Components/common/BackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { errorToast, successToast, verifyObject } from "../../utilities/utils";
-import { isEmpty } from "lodash";
+import { isArray, isEmpty } from "lodash";
 import validator from "validator";
 import { loginWithEmail, loginWithMobile } from "../../Services/customer";
 import Loader from "../../Components/Loader/Loader";
@@ -32,6 +31,8 @@ const SignInWithMobile = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [loginModePhone, setLoginMode] = React.useState(true);
   const localStore = useSelector((state) => state.localStore);
+  const token = verifyObject(localStore, "token", null);
+
   const serviceCategory = verifyObject(localStore, "serviceCategory", null);
   const dispatch = useDispatch();
 
@@ -43,10 +44,19 @@ const SignInWithMobile = () => {
       errorToast({
         content: "You are not allowed to access this pages",
       });
+    } else if (!serviceCategory && token) {
+      dispatch({
+        type: actionTypes.SET_APPOINTMENT_PROVIDER,
+        payload: null,
+      });
+      dispatch({
+        type: actionTypes.SET_CLIENT_DETAILS,
+        payload: null,
+      });
+      navigateTo(appRoutesConst.index);
+    } else if (token) {
+      navigateTo(appRoutesConst.appointmentTypes);
     }
-    dispatch({
-      type: actionTypes.CLEAR_USER_PROVIDER,
-    });
   }, []);
 
   const validateAndSubmitPhone = async (e) => {
@@ -260,7 +270,6 @@ const SignInWithMobile = () => {
                         placeholder="xyz@company.com"
                       />
                       <p className="text-right mt-2 mb-0 link-color-form">
-                        <a href="lets-started"></a>
                         <span onClick={handleLoginMode}>
                           <a className="cursor-pointer">
                             Enter using Cell Phone Number?
