@@ -288,7 +288,7 @@ const NewUserSignup = (props) => {
 
                   <Button
                     onClick={_handleSubmit}
-                    className="btn btn-form w-100 mt-5"
+                    className="btn btn-form w-100 mt-3"
                   >
                     {state.loading ? (
                       <Loader isButton={true} variant={"light"} />
