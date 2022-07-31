@@ -3,7 +3,35 @@ body {
   font-size: 14px !important;
   color: #7d7d7d !important;
   position: relative;
-  min-height: 100vh;
+  
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.Home{
+  min-height: 89vh;
+  background-image: url(./images/common-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.therapy-services{
+  min-height: 89vh;
   background-image: url(./images/common-bg.png);
   background-repeat: no-repeat;
   background-size: cover;
@@ -128,6 +156,46 @@ h6 {
   background: #131313 !important;
   color: #ffffff !important;
 }
+.navbar{
+  background-color: #ffffff;
+  padding-top: unset !important;
+  padding-bottom: unset !important;
+}
+
+.navbar-brand img{
+  height: 55px;
+}
+
+.navbar .ml-auto{
+  margin-left: auto;
+  align-items: center;
+}
+.navbar-light .navbar-nav .nav-link{
+    font-weight: 600;
+    font-size: 14px !important;
+    line-height: 19px;
+    color: #000000 !important;
+    margin-left: 15px;
+}
+
+.navbar-light .navbar-nav .nav-link:first-child{
+  margin-left: unset;
+}
+
+.navbar-light .navbar-nav .nav-link .btn{
+  padding: 5px 35px !important;
+  border-radius: 4px !important;
+}
+
+.navbar-light .navbar-nav .nav-link .btn-logout{
+  font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1F3864;
+    background-color: transparent;
+    border: 2px solid #1F3864;
+    padding: 5px 12px !important;
+}
 .login-form {
   width: 350px;
   position: absolute;
@@ -165,13 +233,13 @@ h6 {
 
 .home-content-row .home-content-col-1 h3 {
   color: #ffffff;
-  font-size: 55px;
+  font-size: 45px;
   font-weight: 600;
 }
 
 .home-content-row .home-content-col-1 p {
   color: #ffffff;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .home-content-row .home-content-col-2 {
@@ -198,7 +266,7 @@ h6 {
   .department-col-content
   p {
   margin: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -208,8 +276,8 @@ h6 {
   .department-col-content
   .font-icon-department {
   position: absolute;
-  bottom: 20px;
-  right: 15px;
+  bottom: 15px;
+    right: 5px;
   height: 25px;
   width: unset;
 }
@@ -378,19 +446,21 @@ label {
 }
 
 .btn-form {
-  background: #acfcea !important;
-  border-color: #acfcea !important;
+  background: #ACFCEA !important;
+  border-color: #ACFCEA !important;
   box-shadow: 0px 5px 4px rgba(31, 56, 100, 0.1);
   border-radius: 4px;
   align-items: center;
   vertical-align: middle;
   font-weight: 600 !important;
-  color: #000000 !important;
+  padding: 8px 10px !important;
+  font-size: 14px !important;
+  color: #1F3864!important;
 }
 
 .btn-form:focus {
-  background: #acfcea !important;
-  border-color: #acfcea !important;
+  background: #ACFCEA !important;
+  border-color: #ACFCEA !important;
   box-shadow: unset !important;
 }
 
@@ -462,7 +532,7 @@ label {
 }
 
 .appointment-for-row .appointment-for-col-1 span {
-  background-color: #ffffff;
+  background-color: #18EDD8;
   border-radius: 50%;
   height: 40px;
   width: 40px;
@@ -538,7 +608,7 @@ label {
 }
 
 .profile-provide-row .profile-provider-col-1 {
-  flex-basis: 15%;
+  flex-basis: 12%;
 }
 
 .profile-provide-row .profile-provider-col-1 span {
@@ -555,12 +625,13 @@ label {
 }
 
 .profile-provide-row .profile-provider-col-2 {
-  flex-basis: 85%;
+  flex-basis: 88%;
 }
 
 .profile-provide-row .profile-provider-col-2 h6 {
   color: #ffffff;
   margin-bottom: 0;
+  text-transform: capitalize;
 }
 
 .profile-provide-row .profile-provider-col-2 p {
@@ -587,7 +658,7 @@ label {
   display: block;
   height: 45px;
   width: 45px;
-  background-color: #d1edc0;
+  background-color:  #B7E3FF;;
   color: #016670;
   border-radius: 50%;
   text-align: center;
@@ -602,6 +673,7 @@ label {
 
 .provider-row .provider-row-col2 h6 {
   margin: 0;
+  text-transform: capitalize;
 }
 
 .provider-row .provider-row-col2 h6 span {
@@ -622,9 +694,10 @@ label {
 }
 
 .provider-row .provider-row-col3 .btn-book-now {
-  background: #f7a01d;
+  background: #ACFCEA;
+box-shadow: 0px 4px 4px rgba(31, 56, 100, 0.15);
   border-radius: 4px;
-  color: #ffffff;
+  color: #000000;
 }
 
 .appointment-detail-col-2 .react-calendar {
@@ -637,6 +710,10 @@ label {
 
 .react-calendar__month-view__weekdays {
   background: #dafdff;
+  padding: 5px 10px;
+}
+.react-calendar__month-view__days{
+  padding: 10px;
 }
 .react-calendar__month-view__weekdays
   .react-calendar__month-view__weekdays__weekday {
@@ -650,8 +727,9 @@ abbr[data-bs-original-title] {
   border-radius: 10px;
 }
 .react-calendar__tile--active {
-  background: #f7a01d !important;
+  background: #ACFCEA !important;
   border-radius: 10px;
+  color: #000000 !important;
 }
 
 .react-calendar__navigation button {
@@ -673,8 +751,8 @@ abbr[data-bs-original-title] {
 }
 
 .time-buttons li a {
-  background: #ffffff;
-  border: 1px solid #c1cfda;
+  background: #E3F4FE;
+border: 1px solid rgba(1, 102, 112, 0.25);
   border-radius: 4px;
   color: #76787a;
   padding: 5px;
@@ -686,13 +764,13 @@ abbr[data-bs-original-title] {
 }
 
 .time-buttons li:hover a {
-  background: #f7a01d;
-  color: #ffffff;
+  background: #ACFCEA !important;
+  color: #1F3864 !important;
 }
 
 .time-buttons li a.active {
-  background: #f7a01d;
-  color: #ffffff;
+  background: #ACFCEA !important;
+  color: #1F3864 !important;
 }
 
 .profile-details-row {
@@ -742,6 +820,7 @@ abbr[data-bs-original-title] {
 
 .profile-details-row .profile-detail-col-2 h6 {
   font-size: 14px;
+  text-transform: capitalize;
 }
 
 .profile-details-row .profile-detail-col-2 p {
@@ -790,7 +869,7 @@ abbr[data-bs-original-title] {
   border-left: 5px solid #37dbe6;
   box-shadow: 0px 4px 4px rgba(32, 81, 146, 0.1);
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px 10px;
 }
 
 .select-service .appointment-service-col-1 {
@@ -841,6 +920,100 @@ i.info-icons {
   font-size: 16px;
   display: block;
   color: #508de8;
+}
+
+.Home2{
+  padding-top: 80px;
+}
+
+.Home2 .home-page-main-details h1{
+  font-weight: 500 !important;
+font-size: 60px;
+line-height: 80px;
+letter-spacing: 1.5px;
+color: #0B0B0B;
+}
+.Home2 .home-page-main-details p{
+  font-weight: 400;
+font-size: 16px;
+line-height: 28px;
+color: #A4A4A4;
+}
+
+.Home2 .home-page-main-details .button-home .btn{
+  display: block;
+  padding: 7px !important;
+  font-size: 20px;
+  margin-left: unset;
+}
+.Home2 .home-page-main-details p a{
+  font-weight: 400;
+font-size: 20px;
+line-height: 24px;
+color: #000000 !important;
+}
+
+.profile-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile-row .rofile-col-1 img{
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+}
+
+.profile-row .rofile-col-2{
+  padding-left: 10px;
+}
+
+.profile-row .rofile-col-3{
+  padding-left: 10px;
+}
+
+.profile-row .rofile-col-3 img{
+  height: 14px;
+}
+.navbar .dropdown-toggle::after{
+  display:none;
+}
+
+.profile-row .rofile-col-2 .profile-name{
+  font-weight: 600;
+  font-size: 14px;
+line-height: 18px;
+color: #1F3864;
+margin: 0;
+}
+
+.profile-row .rofile-col-2 .profile-id{
+  font-weight: 600;
+font-size: 12px;
+line-height: 18px;
+color: #1F3864;
+opacity: 0.4;
+margin: 0;
+}
+
+.react-calendar__navigation{
+  background: #00468C;
+  border: 1px solid #E7F0FF;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-bottom: unset !important;
+}
+.react-calendar__tile--now{
+  background-color: unset !important;
+}
+.react-calendar__navigation button{
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+.spinner-border{
+  width: 1rem !important;
+  height: 1rem !important;
 }
 @media screen and (max-width: 1024px) {
   .home-content-row {

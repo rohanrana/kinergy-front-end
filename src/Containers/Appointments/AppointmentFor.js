@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import User from "../../images/user.png";
-import ArrowForward from "../../images/arrow-forward.png";
+import ArrowForward from "../../images/arrow-forward2.svg";
 import Users from "../../images/users.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";

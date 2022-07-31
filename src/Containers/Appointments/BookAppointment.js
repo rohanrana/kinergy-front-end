@@ -187,14 +187,14 @@ const BookAppointment = () => {
                         disabled={
                           dateState === null || state.selectedTimeSlot === null
                         }
-                        className="btn btn-form btn-sm w-100 pl-5 pr-5"
+                        className="btn btn-form btn-sm w-100"
                         onClick={_bookAppointment}
                       >
                         {state.bookingAppointment ? (
                           <Loader isButton={true} />
                         ) : (
                           <span>
-                            Submit <img src={ArrowRight} alt={ArrowRight} />
+                            Submit <i class="far fa-arrow-alt-circle-right"></i>
                           </span>
                         )}
                       </Button>

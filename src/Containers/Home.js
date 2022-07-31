@@ -3,11 +3,12 @@
 import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Header from "../Components/Header/Header"
+import Call from "../images/call.png"
+
 const Home = (props) => {
   return (
     <div className="Home2">
-      <Header />
+      
       <Container>
         <Row>
           <Col lg={12} sm={12} xs={12}>
@@ -30,6 +31,9 @@ const Home = (props) => {
                       Book Appointment
                     </Link>
                   </div>
+                </Col>
+                <Col lg={9} sm={8} xs={12}>
+                  <p className="mt-2"><span className="mr-2">(or)</span> <Link to={"tel:1234567890"}><img src={Call} alt={Call} className="mr-2" />Call at (123 456 7890)</Link></p>
                 </Col>
               </Row>
             </div>
