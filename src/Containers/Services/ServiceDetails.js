@@ -94,10 +94,12 @@ const ServiceDetails = () => {
                   </Link>
                 </div>
               </div>
+              {isLoading && <Loader />}
+
               <div className="all-services">
-                {isLoading && <Loader />}
                 {error && <NotFoundLable message={error} />}
-                {serviecesData &&
+                {!isLoading &&
+                  serviecesData &&
                   serviecesData &&
                   isArray(serviecesData) &&
                   serviecesData.map((d) => {

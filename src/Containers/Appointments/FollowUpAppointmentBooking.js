@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import BackButton from "../../Components/common/BackButton";
 import { currencies, verifyObject } from "../../utilities/utils";
 import { appRoutesConst } from "../../App/navigation";
-import { getServiceDetailByByID } from "../../Services/servicesByCateID"; 
+import { getServiceDetailByByID } from "../../Services/servicesByCateID";
 import { isArray } from "lodash";
 import Loader from "../../Components/Loader/Loader";
 import NotFoundLable from "../../Components/common/NotFoundLable";
@@ -73,75 +73,74 @@ export default function FollowUpAppointmentBooking() {
                 <p className="text-center">
                   Please select one of the options below
                 </p>
-                <div className="all-services">
                 {state.loading && <Loader />}
-                {state.newBookingDurations &&
-                  state.newBookingDurations.priceDetails &&
-                  isArray(state.newBookingDurations.priceDetails) &&
-                  state.newBookingDurations.priceDetails.length === 0 && (
-                    <NotFoundLable
-                      message={"No price and duration detail found"}
-                    />
-                  )}
-                {!state.loading && (
-               <Fragment>
-                    {" "}
-                    {state.newBookingDurations &&
-                      state.newBookingDurations.priceDetails &&
-                      isArray(state.newBookingDurations.priceDetails) &&
-                      state.newBookingDurations.priceDetails.map((d) => {
-                        return (
-                          <div className="all-block-services-col">
-                          <Fragment>
-                          <Link
-                              to={
-                                token
-                                  ? appRoutesConst.appointmentFor
-                                  : appRoutesConst.loginwithphone
-                              }
-                            >
-                              <div className="appointment-service-row appointmet-book-row">
-                              
-                                <div className="appointment-service-col-2">
-                                  <a>
-                                    {verifyObject(
-                                      state,
-                                      "newBookingDurations.serviceName",
-                                      ""
-                                    )}
-                                  </a>
-                                  <Fragment>
-                                    <div className="price-duration-section">
-                                      <span>
-                                        <p>{d.duration} mins</p>
-                                      </span>
-                                      <span>
-                                        <p>|</p>
-                                      </span>
-                                      <span>
-                                        <p>
-                                          {currencies.dollor.symbol}
-                                          {d.price}
-                                        </p>
-                                      </span>
+
+                <div className="all-services">
+                  {state.newBookingDurations &&
+                    state.newBookingDurations.priceDetails &&
+                    isArray(state.newBookingDurations.priceDetails) &&
+                    state.newBookingDurations.priceDetails.length === 0 && (
+                      <NotFoundLable
+                        message={"No price and duration detail found"}
+                      />
+                    )}
+                  {!state.loading && (
+                    <Fragment>
+                      {" "}
+                      {state.newBookingDurations &&
+                        state.newBookingDurations.priceDetails &&
+                        isArray(state.newBookingDurations.priceDetails) &&
+                        state.newBookingDurations.priceDetails.map((d) => {
+                          return (
+                            <div className="all-block-services-col">
+                              <Fragment>
+                                <Link
+                                  to={
+                                    token
+                                      ? appRoutesConst.appointmentFor
+                                      : appRoutesConst.loginwithphone
+                                  }
+                                >
+                                  <div className="appointment-service-row appointmet-book-row">
+                                    <div className="appointment-service-col-2">
+                                      <a>
+                                        {verifyObject(
+                                          state,
+                                          "newBookingDurations.serviceName",
+                                          ""
+                                        )}
+                                      </a>
+                                      <Fragment>
+                                        <div className="price-duration-section">
+                                          <span>
+                                            <p>{d.duration} mins</p>
+                                          </span>
+                                          <span>
+                                            <p>|</p>
+                                          </span>
+                                          <span>
+                                            <p>
+                                              {currencies.dollor.symbol}
+                                              {d.price}
+                                            </p>
+                                          </span>
+                                        </div>
+                                      </Fragment>
                                     </div>
-                                  </Fragment>
-                                </div>
-                                <img
-                                  src={InfoIcon}
-                                  alt={InfoIcon}
-                                  className="info-icons"
-                                />
-                              </div>
-                            </Link>
-                          </Fragment>
-                          </div>
-                        );
-                      })}
-                </Fragment>
-                )}
+                                    <img
+                                      src={InfoIcon}
+                                      alt={InfoIcon}
+                                      className="info-icons"
+                                    />
+                                  </div>
+                                </Link>
+                              </Fragment>
+                            </div>
+                          );
+                        })}
+                    </Fragment>
+                  )}
                 </div>
-                
               </div>
             </div>
           </Col>

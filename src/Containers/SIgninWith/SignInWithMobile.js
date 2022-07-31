@@ -209,7 +209,7 @@ const SignInWithMobile = () => {
               {loginModePhone && (
                 <div className="appointment-detail-col-2">
                   <p>
-                    <BackButton />
+                    <BackButton to={`${appRoutesConst.appointmentTypes}`} />
                   </p>
                   <h5 className="text-center">Let's get started</h5>
                   <p className="text-center">

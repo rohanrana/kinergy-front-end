@@ -3,14 +3,23 @@ import "./loader.css";
 function Loader({ message, variant, isButton }) {
   if (isButton) {
     return (
-      <div>
+      <div
+        style={{
+          textAlign: "center",
+        }}
+      >
         {message && <span>{message}</span>}
         <Spinner animation="border" role={variant ? variant : "status"} />
       </div>
     );
   } else {
     return (
-      <div className="loader-custom">
+      <div
+        style={{
+          textAlign: "center",
+        }}
+        className="loader-custom"
+      >
         {message && <span>{message}</span>}
         <Spinner animation="border" role={variant ? variant : "status"} />
       </div>

@@ -84,9 +84,10 @@ export default function NewAppointmentBooking() {
                 <p className="text-center">
                   Please select one of the options below
                 </p>
+                {state.loading && <Loader />}
+s
                 <Row>
                   <Col lg={6} sm={6} xs={12} className=" mx-auto">
-                  {state.loading && <Loader />}
                 {state.newBookingDurations &&
                   state.newBookingDurations.priceDetails &&
                   isArray(state.newBookingDurations.priceDetails) &&
