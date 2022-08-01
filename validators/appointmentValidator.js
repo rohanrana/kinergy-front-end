@@ -7,25 +7,49 @@ const Staff = require("../models/staffModel");
 // const path = require('path');
 // const fs = require('fs');
 const generateAddByCustomerValidation = (req, res, next) => [
+  check("appointmentType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter appointment type."),
+  check("serviceDuration")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter service duration"),
+  check("provider")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select provider"),
+      check("serviceAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter service amount"),
   check("amount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter amount"),
-    check("taxAmount")
+  check("taxAmount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter taxAmount"),
-    check("discountAmount")
+  check("discountAmount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter discountAmount"),
-    check("totalAmount")
+  check("totalAmount")
     .trim()
     .escape()
     .not()
@@ -93,30 +117,54 @@ const generateAddByCustomerValidation = (req, res, next) => [
   //   .withMessage("Staff is required"),
 ];
 const bookingAppointmentMySelf = (req, res, next) => [
+  check("appointmentType")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter appointment type."),
+check("serviceDuration")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service duration"),
+check("provider")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please select provider"),
+    check("serviceAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service amount"),
   check("amount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter amount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter amount"),
   check("taxAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter taxAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter taxAmount"),
   check("discountAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter discountAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter discountAmount"),
   check("totalAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter totalAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter totalAmount"),
   check("appointmentType")
     .trim()
     .escape()
@@ -173,25 +221,49 @@ const bookingAppointmentMySelf = (req, res, next) => [
 ];
 
 const bookingAppointmentSomeOneElse = (req, res, next) => [
-    check("amount")
+  check("appointmentType")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter appointment type."),
+check("serviceDuration")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service duration"),
+check("provider")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please select provider"),
+    check("serviceAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service amount"),
+  check("amount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter amount"),
-    check("taxAmount")
+  check("taxAmount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter taxAmount"),
-    check("discountAmount")
+  check("discountAmount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter discountAmount"),
-    check("totalAmount")
+  check("totalAmount")
     .trim()
     .escape()
     .not()
@@ -259,30 +331,54 @@ const bookingAppointmentSomeOneElse = (req, res, next) => [
 ];
 
 const followUpBooking = (req, res, next) => [
+  check("appointmentType")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter appointment type."),
+  check("serviceDuration")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter service duration"),
+  check("provider")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please select provider"),
+      check("serviceAmount")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter service amount"),
   check("amount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter amount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter amount"),
   check("taxAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter taxAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter taxAmount"),
   check("discountAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter discountAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter discountAmount"),
   check("totalAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter totalAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter totalAmount"),
   check("case")
     .trim()
     .escape()
@@ -344,30 +440,54 @@ const followUpBooking = (req, res, next) => [
     .withMessage("Customer is required"),
 ];
 const generateAddValidation = (req, res, next) => [
+  check("appointmentType")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter appointment type."),
+check("serviceDuration")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service duration"),
+check("provider")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please select provider"),
+    check("serviceAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service amount"),
   check("amount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter amount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter amount"),
   check("taxAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter taxAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter taxAmount"),
   check("discountAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter discountAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter discountAmount"),
   check("totalAmount")
-  .trim()
-  .escape()
-  .not()
-  .isEmpty()
-  .withMessage("Please enter totalAmount"),
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter totalAmount"),
   check("service")
     .trim()
     .escape()
@@ -436,25 +556,49 @@ const generateAddValidation = (req, res, next) => [
   //   .withMessage("Staff is required"),
 ];
 const generateEditValidation = (req, res, next) => [
+  check("appointmentType")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter appointment type."),
+check("serviceDuration")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service duration"),
+check("provider")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please select provider"),
+    check("serviceAmount")
+  .trim()
+  .escape()
+  .not()
+  .isEmpty()
+  .withMessage("Please enter service amount"),
   check("amount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter amount"),
-    check("taxAmount")
+  check("taxAmount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter taxAmount"),
-    check("discountAmount")
+  check("discountAmount")
     .trim()
     .escape()
     .not()
     .isEmpty()
     .withMessage("Please enter discountAmount"),
-    check("totalAmount")
+  check("totalAmount")
     .trim()
     .escape()
     .not()

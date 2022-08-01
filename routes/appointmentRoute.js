@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const authHandler = require('../middleware/authHandler')
 const appointmentApis = require('../webservices/appointmentController');
-
 const appointmentValidator = require('../validators/appointmentValidator');
 
 router.post('/book', authHandler.auth_func, appointmentValidator.add, appointmentApis.book);
@@ -20,6 +19,7 @@ router.post('/customerBooking', authHandler.auth_func, appointmentValidator.addB
 router.post('/bookingAppointmentSomeOneElse',appointmentApis.fileUpload, authHandler.auth_func, appointmentValidator.bookingAppointmentSomeOneElse, appointmentApis.bookingAppointmentSomeOneElse);
 router.post('/bookingAppointmentMySelf',appointmentApis.fileUpload, authHandler.auth_func, appointmentValidator.bookingAppointmentMySelf, appointmentApis.bookingAppointmentMySelf);
 router.post('/followUpBooking', authHandler.auth_func, appointmentValidator.followUpBooking, appointmentApis.followUpBooking);
+
 router.post('/getAppointmentDetail', authHandler.auth_func,appointmentApis.getAppointmentDetail);
 router.post('/getAppointmentDetailWithClientPortal', authHandler.auth_func,appointmentApis.getAppointmentDetailWithClientPortal);
 router.post('/getAppointmentList', authHandler.auth_func,appointmentApis.getAppointmentList);

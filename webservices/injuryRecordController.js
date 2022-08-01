@@ -225,7 +225,13 @@ const getAppointmentDetailByCaseId = async (req, res, next) => {
           resCode.WENT_WRONG,
           resMessage.WENT_WRONG
         );
-      } else {
+      } else if(!result || result.length == 0)
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "No appointment found."
+      );
+      else {
         return await Response.sendResponseWithData(
           res,
           resCode.EVERYTHING_IS_OK,

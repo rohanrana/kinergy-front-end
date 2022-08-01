@@ -95,32 +95,14 @@ const checkAvailability = async (AppointDate, Time) => {
   return await returnVar;
 };
 const manageProviderSlot = async (appointment) => {
-    
-//   return appointment;
-//   var appointmentReturnArr = await [];
-//   var appointmentReturnObj = await {};
-//   var appointmentPromise =
-//     appointment &&
-//     appointment.length > 0 &&
-//     appointment.map(async (a, x) => {
-//         appointmentReturnArr.push({provider:a.provider,appointmentDate:a.appointmentDate,appointmentTime:[]});
-//     })
-// //   appointmentPromise = await Promise.All(appointmentPromise);
-//   return await appointmentReturnArr;
-// this gives an object with dates as keys
 const groups = appointment.reduce((groups, appoint) => {    
-    // console.log('appoint',appoint);
-    // const date = appoint.appointmentDate;
     const date = moment(appoint.appointmentDate).format(moment.HTML5_FMT.DATE);
-
-    // console.log('datedate',date);
     if (!groups[date]) {
       groups[date] = [];
     }
     groups[date].push({appointmentTime:appoint.appointmentTime});
     return groups;
-  }, {});
-  
+  }, {});  
   // Edit: to add it in the array format instead
   console.log('groups',groups);
   const groupArrays = Object.keys(groups).map((date) => {
@@ -131,10 +113,33 @@ const groups = appointment.reduce((groups, appoint) => {
   });
   return groupArrays;
 };
+
+const manageAvailbilityTime = async (appointment) => {
+  const groups = appointment.reduce((groups, appoint) => {    
+    console.log(appoint);
+      const date = moment(appoint.from).format(moment.HTML5_FMT.DATE);
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push({to:appoint.to,from:appoint.from});
+      return groups;
+    }, {});  
+    // Edit: to add it in the array format instead
+    console.log('groups',groups);
+    const groupArrays = Object.keys(groups).map((date) => {
+      return {
+        date,
+        times: groups[date]
+      };
+    });
+    return groupArrays;
+  };
+
 module.exports = {
   getServicePriceDetails,
   getServicePrice,
   checkValidTime,
   checkAvailability,
   manageProviderSlot,
+  manageAvailbilityTime
 };

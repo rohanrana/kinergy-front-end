@@ -31,6 +31,7 @@ const settingApis = {
           );
       });
   },
+
   getCommunicationSettingList: (req, res, next) => {
     Setting.find({ type: "communication_setting" })
       .select("_id name value type")
@@ -57,6 +58,7 @@ const settingApis = {
           );
       });
   },
+  
   getAppointmentSettingList: (req, res, next) => {
     Setting.find({ type: "appointment_setting" })
       .select("_id name value type")

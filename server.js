@@ -48,6 +48,7 @@ const optionsRoutes = require("./routes/optionRoute");
 const insuranceRoutes = require("./routes/insuranceRoute");
 const documentRoutes = require("./routes/documentRoute");
 const blockCalenderRoutes = require("./routes/blockCalenderRoute");
+const availabilityCalenderRoutes = require("./routes/availabilityCalenderRoute");
 const scheduleCalenderRoutes = require("./routes/scheduleCalenderRoute");
 
 
@@ -109,7 +110,7 @@ app.use("/api/v1/document", documentRoutes);
 
 app.use("/api/v1/blockCalender", blockCalenderRoutes);
 app.use("/api/v1/scheduleCalender", scheduleCalenderRoutes);
-
+app.use("/api/v1/availabilityCalender", availabilityCalenderRoutes);
 // app.use(express.static(path.join(__dirname, "dist")));
 
 app.get("*", (req, res) => {

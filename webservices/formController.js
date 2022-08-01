@@ -52,6 +52,47 @@ const getServiceCategory = async (formId) => {
   }
   return await Promise.all(servicePromise);
 };
+
+const getManageQuestion = async (section) => {
+  if (!section || section.length == 0) return await null;
+  sectionData =
+    section &&
+    section.map(async (s, x) => {
+      returnObj = {
+        _id: s._id,
+        title: s.title,
+        slug: s.slug,
+        description: s.description,
+      };
+      returnObj.optionType = s.optionType;
+      returnObj.required = s.required;
+      if (s.optionType == "radio") returnObj.options = s.options;
+      else if (s.optionType == "dropdown") returnObj.options = s.options;
+      else if (s.optionType == "file") returnObj.file = s.file;
+      else if (s.optionType == "checkBox") returnObj.options = s.options;
+
+      returnObj.comment = s.comment;
+      returnObj.sort = s.sort;
+      return returnObj;
+    });
+  return await Promise.all(sectionData);
+};
+
+const manageSection = async (section) => {
+  if (!section || section.length == 0) return await null;
+  sectionData =
+    section &&
+    section.map(async (s, x) => {
+      return await {
+        _id: s._id,
+        title: s.title,
+        slug: s.slug,
+        description: s.description,
+        question: await getManageQuestion(s.question),
+      };
+    });
+  return await Promise.all(sectionData);
+};
 const getServices = async (formId, serviceCategory) => {
   // console.log('serviceCategory',serviceCategory,'formId',formId);
   var serviceData = await getRecord(
@@ -137,7 +178,7 @@ const createTree = async (formId) => {
 const addSectionInForm = function (formId, section) {
   Form.findByIdAndUpdate(
     { _id: formId },
-    { $push: { section: section._id } },
+    { $addToSet: { section: section._id } },
     { new: true, useFindAndModify: false }
   )
     .lean()
@@ -351,8 +392,8 @@ const formApis = {
       );
     } else {
       const { title, description, data } = req.body;
-      const slug = generalHelper.slugify(title);
-      formData = { title, description, slug };
+      var slug = generalHelper.slugify(title);
+      formData = { title: title, description: description, slug: slug };
       // formDoc = new Form(formData);
       // Save Form================================================================================
       // formDoc.save((err, formResult) => {
@@ -371,6 +412,7 @@ const formApis = {
                   sectionData = {
                     title: section.title,
                     sort: section.sort,
+                    slug: generalHelper.slugify(section.title),
                     description: section.description,
                     form: formResult._id,
                   };
@@ -378,6 +420,15 @@ const formApis = {
 
                   // Save section ====================================================
                   sectionDoc.save((err, sectionResult) => {
+                  //   console.log('req.body.section._id ',req.body.section._id );
+                  // Section.findOneAndUpdate(
+                  //   { _id: req.body.section._id },
+                  //   sectionData,
+                  //   {
+                  //     new: true,
+                  //     upsert: true,
+                  //   }
+                  // ).exec((err, sectionResult) => {
                     if (!err) {
                       addSectionInForm(formResult._id, sectionResult);
 
@@ -617,6 +668,57 @@ const formApis = {
             );
         });
     }
+  },
+
+  formByIdDetails: async (req, res) => {
+    if (!req.body._id)
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.ENTER_FORM_ID
+      );
+    Form.findOne({ _id: req.body._id })
+      .populate({
+        path: "section",
+        options: { sort: { sort: 1 } },
+        populate: {
+          path: "question",
+          options: { sort: { sort: 1 } },
+        },
+      })
+
+      .lean()
+      .exec(async (err, result) => {
+        // console.log(result.length);
+        if (err)
+          return await Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0)
+          return await Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            "Form Not Found."
+          );
+        else {
+          finalFormResult = {
+            _id: result._id,
+            title: result.title,
+            slug: result.slug,
+            description: result.description,
+            section: await manageSection(result.section),
+          };
+          console.log(finalFormResult);
+          return await Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Form Found Successfully.",
+            finalFormResult
+          );
+        }
+      });
   },
   delete: (req, res) => {
     if (!req.body._id) {
