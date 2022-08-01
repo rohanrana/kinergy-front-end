@@ -1033,12 +1033,26 @@ margin: 0;
     min-height: 575px;
     max-height: 575px;
   }
+  .home-content-row .home-content-col-2 .department-col img{
+    height: 155px;
+  }
 }
 
 @media screen and (max-width: 992px) {
+  .Home2 .home-page-main-details h1{
+    font-size: 50px;
+    line-height: 70px;
+  }
   .home-content-row {
     display: block;
     margin-top: 30px;
+  }
+
+  .select-service{
+    max-height: unset;
+  }
+  .select-service .all-services .all-block-services-col{
+    flex: 0 0 100%;
   }
   .appointment-details-row {
     display: block;
@@ -1047,9 +1061,44 @@ margin: 0;
   .profile-details-row {
     display: block;
   }
+  .home-content-row .home-content-col-2 .department-col img{
+    height: 115px;
+  }
+  
 }
 
 @media screen and (max-width: 600px) {
+  .Home2{
+    padding-top: 30px;
+  }
+  .Home2 .home-page-main-details h1{
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .Home2 .home-page-main-details .button-home .btn{
+    margin-bottom: 20px;
+  }
+
+  .home-content-row .home-content-col-2 .department-col img{
+    height: 140px;
+    object-fit: cover;
+  }
+  .select-service{
+    max-height: unset;
+  }
+  .select-service .appointment-service-col-2{
+    padding-left: 10px;
+  }
+  .select-service .service-top-about-row{
+    display: block;
+  }
+  .select-service .service-top-about-row .service-top-about-left{
+    margin-right: unset;
+    margin-bottom: 20px;
+  }
+  .select-service .all-services .all-block-services-col{
+    flex: 0 0 100%;
+  }
   .register-form {
     width: 100%;
     position: relative;
@@ -1066,6 +1115,16 @@ margin: 0;
   }
   .appointment-details-row {
     display: block;
+    margin: 10px 0px;
+  }
+  .otp-custom-input{
+    width: 32px !important;
+  }
+  .profile-provide-row .profile-provider-col-1{
+    flex-basis: 20%;
+  }
+  .profile-provide-row .profile-provider-col-2{
+    flex-basis: 80%;
   }
   .therapy-services {
     padding: 0;
