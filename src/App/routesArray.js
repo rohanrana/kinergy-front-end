@@ -1,7 +1,9 @@
 import { lazy } from "react";
 import { appRoutesConst } from "./navigation";
 
-const HomePage = lazy(() => import("../Containers/Services/ServiceCategories"));
+const ServiceCategories = lazy(() =>
+  import("../Containers/Services/ServiceCategories")
+);
 const SignInWithMobile = lazy(() =>
   import("../Containers/SIgninWith/SignInWithMobile")
 );
@@ -35,10 +37,8 @@ const SomeoneElse = lazy(() =>
 const SomeoneElseSignUp = lazy(() =>
   import("../Containers/SignUp/SomeoneElseSignup")
 );
-const HomePage2 = lazy(() =>
-  import("../Containers/Home")
-);
-
+const HomePage = lazy(() => import("../Containers/Home"));
+const ConsentForm = lazy(() => import("../Containers/ConsentForm/ConsentForm"));
 //isPrivateRoute
 //isOpenRoute
 //isPrivateRoute
@@ -50,8 +50,8 @@ export const routesArray = [
   //   isRestrictedRoute: true,
   // },
   {
-    path: appRoutesConst.home,
-    element: HomePage,
+    path: appRoutesConst.serviceCategories,
+    element: ServiceCategories,
     isOpenRoute: true,
   },
   {
@@ -61,7 +61,7 @@ export const routesArray = [
   },
   {
     path: appRoutesConst.subServices,
-    element: HomePage,
+    element: ServiceCategories,
     isOpenRoute: true,
   },
   {
@@ -129,10 +129,9 @@ export const routesArray = [
     element: SomeoneElseSignUp,
     isPrivateRoute: true,
   },
-
   {
-    path: appRoutesConst.homepage,
-    element: HomePage2,
-    isOpenRoute: true,
+    path: appRoutesConst.consentForm,
+    element: ConsentForm,
+    isPrivateRoute: true,
   },
 ];

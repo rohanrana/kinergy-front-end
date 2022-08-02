@@ -71,6 +71,58 @@ p.link-tag {
   text-transform: uppercase !important;
 }
 .active-timeslot {
-  background: #ACFCEA !important;
-  color:  #1F3864 !important;
+  background: #acfcea !important;
+  color: #1f3864 !important;
+}
+.appointment-detail-col-2.consent-form {
+  background: white;
+  padding: 60px;
+}
+span.checkbox-text {
+  margin-left: 5px;
+  font-weight: 500;
+  /* font-size: 18px; */
+  /* font-family: Lexend; */
+}
+.display-flex {
+  display: flex;
+}
+.consent-form-container {
+  padding: 43px 130px;
+  background-image: url(../src/images/layer.svg);
+  background-repeat: no-repeat;
+  padding: 20px;
+  background-size: cover;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+canvas.signatureCanvas {
+  border: 1px solid;
+  color: black;
+  margin-bottom: 10px;
+
+  /* width: 52%; */
+  /* width: 52%;
+  height: 150px; */
+}
+.signature-pad {
+  display: flex;
+  justify-content: center;
+}
+div.signatureCanvas {
+  border: 1px solid;
+  color: black;
+  width: 400px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.signature-container {
+  text-align: center;
+}
+
+.signature-control {
+  /* display: flex; */
+  justify-content: center;
 }

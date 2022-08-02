@@ -100,8 +100,12 @@ const ServiceCategories = (props) => {
                                   setServiceCategoryDetail(d);
                                 }}
                               >
-                                <Link to={`service/${d._id}/${d.title}`}>
-                                  <img src={RightColor} alt={RightColor} className="font-icon-department" />
+                                <Link to={`/service/${d._id}/${d.title}`}>
+                                  <img
+                                    src={RightColor}
+                                    alt={RightColor}
+                                    className="font-icon-department"
+                                  />
                                 </Link>
                               </span>
                             </div>

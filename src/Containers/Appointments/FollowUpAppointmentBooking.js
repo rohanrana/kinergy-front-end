@@ -3,7 +3,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import InfoIcon from "../../images/arrow-2.svg";
-import Service2 from "../../images/service2.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import BackButton from "../../Components/common/BackButton";

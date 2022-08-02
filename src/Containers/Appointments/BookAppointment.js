@@ -6,26 +6,30 @@ import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Call from "../../images/call.png";
-import ArrowRight from "../../images/arrow-right-circle.png";
+// import ArrowRight from "../../images/arrow-right-circle.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
 import {
-  bookAppointment,
+  // bookAppointment,
   getProvidersAvailability,
 } from "../../Services/appointments";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   errorToast,
   getErrorObject,
   verifyObject,
 } from "../../utilities/utils";
 import Loader from "../../Components/Loader/Loader";
+import { actionTypes } from "../../Reducers/localStore";
+import { appRoutesConst } from "../../App/navigation";
+import { useNavigate } from "react-router";
 
 const BookAppointment = () => {
   const [dateState, setDateState] = useState(new Date());
   const changeDate = (e) => {
     setDateState(e);
   };
+  const navigate = useNavigate(false);
   const [state, setState] = useState({
     loading: false,
     timeSlots: [],
@@ -34,10 +38,16 @@ const BookAppointment = () => {
     bookingAppointment: false,
   });
   const localStore = useSelector((state) => state.localStore);
+  const dispatch = useDispatch();
 
   const provider_id = verifyObject(localStore, "selectedProviders._id", null);
   const service_id = verifyObject(localStore, "selectedService._id", null);
   const customer_id = verifyObject(localStore, "clientDetails._id", null);
+  const appointmentBookingDetails = verifyObject(
+    localStore,
+    "appointmentBookingDetails",
+    null
+  );
 
   useEffect(() => {
     _getProvidersAvailibility();
@@ -72,52 +82,69 @@ const BookAppointment = () => {
     }
   };
 
-  const _bookAppointment = async () => {
-    try {
-      // let phone = JSON.parse(localStorage.getItem("otp-phone"));
-      await setState({ ...state, bookingAppointment: true });
-      let response = await bookAppointment({
-        appointmentType: "INITIAL",
-        service: service_id,
-        servicePrice: "62beb78c63f710d3ea5b01c4",
-        serviceDuration: "60",
-        serviceAmount: "100",
-        appointmentDate: moment(dateState).format("YYYY-MM-DD"),
+  // const _bookAppointment = async () => {
+  //   try {
+  //     // let phone = JSON.parse(localStorage.getItem("otp-phone"));
+  //     await setState({ ...state, bookingAppointment: true });
+  //     let response = await bookAppointment({
+  //       appointmentType: "INITIAL",
+  //       service: service_id,
+  //       // servicePrice: "62beb78c63f710d3ea5b01c4",
+  //       serviceDuration: "60",
+  //       serviceAmount: "100",
+  //       appointmentDate: moment(dateState).format("YYYY-MM-DD"),
+  //       appointmentTime: state.selectedTimeSlot,
+  //       customer: customer_id,
+  //       provider: provider_id,
+  //       case: null,
+  //       amount: "100",
+  //       taxAmount: "20",
+  //       discountAmount: "10",
+  //       totalAmount: "110",
+  //       status: "PENDING",
+  //     });
+  //     console.log("response", response);
+  //     let timeSlots = verifyObject(response, "data.result[0].intervals", []);
+  //     // let serviceName = verifyObject(response, "data.result[0].title", []);
+  //     // console.log("initialConsultation", priceDetails);
+  //     await setState({
+  //       ...state,
+  //       timeSlots: timeSlots,
+  //       bookingAppointment: false,
+  //     });
+  //   } catch (error) {
+  //     const { message } = getErrorObject(error);
+  //     errorToast({
+  //       content: message,
+  //     });
+  //     setState({
+  //       ...state,
+  //       bookingAppointment: false,
+  //       appointmentDate: moment(dateState).format("YYYY-MM-DD"),
+  //       // timeSlots: [],
+  //     });
+  //   }
+  // };
+
+  const _handleAppointment = () => {
+    dispatch({
+      type: actionTypes.SET_APPOINTMENT_BOOKING_DETAIL,
+      payload: {
+        ...appointmentBookingDetails,
         appointmentTime: state.selectedTimeSlot,
+        appointmentDate: moment(dateState).format("YYYY-MM-DD"),
         customer: customer_id,
         provider: provider_id,
-        case: null,
-        amount: "100",
-        taxAmount: "20",
-        discountAmount: "10",
-        totalAmount: "110",
-        status: "PENDING",
-      });
-      console.log("response", response);
-      let timeSlots = verifyObject(response, "data.result[0].intervals", []);
-      // let serviceName = verifyObject(response, "data.result[0].title", []);
-      // console.log("initialConsultation", priceDetails);
-      await setState({
-        ...state,
-        timeSlots: timeSlots,
-        bookingAppointment: false,
-      });
-    } catch (error) {
-      const { message } = getErrorObject(error);
-      errorToast({
-        content: message,
-      });
-      setState({
-        ...state,
-        bookingAppointment: false,
-        // timeSlots: [],
-      });
-    }
+        service: service_id,
+      },
+    });
+    navigate(appRoutesConst.consentForm);
   };
 
   const handleSlot = (slot, slotID) => {
     setState({ ...state, selectedTimeSlot: slot, selectedSlotID: slotID });
   };
+
   return (
     <div className="therapy-services">
       <Container>
@@ -188,13 +215,13 @@ const BookAppointment = () => {
                           dateState === null || state.selectedTimeSlot === null
                         }
                         className="btn btn-form btn-sm w-100"
-                        onClick={_bookAppointment}
+                        onClick={_handleAppointment}
                       >
                         {state.bookingAppointment ? (
                           <Loader isButton={true} />
                         ) : (
                           <span>
-                            Submit <i class="far fa-arrow-alt-circle-right"></i>
+                            Next <i class="far fa-arrow-alt-circle-right"></i>
                           </span>
                         )}
                       </Button>

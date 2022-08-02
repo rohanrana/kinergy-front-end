@@ -55,8 +55,13 @@ export function OTPModal(props) {
           content: verifyObject(response, "data.response_message", "Success"),
         });
         setLoading(false);
+        console.log("Props IS NEW", props.isNewUser);
         if (props.isNewUser) {
-          navigateTo(`/new-user-registration/${props.phone}`);
+          if (props.loginModePhone) {
+            navigateTo(`/new-user-registration/${props.phone}/phone`);
+          } else {
+            navigateTo(`/new-user-registration/${props.email}/email`);
+          }
         } else {
           console.log("USER", verifyObject(response, "data.result", null));
           const user = verifyObject(response, "data.result", null);

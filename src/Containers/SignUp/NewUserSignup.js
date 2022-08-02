@@ -36,7 +36,11 @@ const NewUserSignup = (props) => {
   const params = useParams();
   useEffect(() => {
     console.log("OParams", params);
-    setState({ ...state, contact: params.phone });
+    if (params.login_type === "phone") {
+      setState({ ...state, contact: params.login_mode_param });
+    } else {
+      setState({ ...state, email: params.login_mode_param });
+    }
   }, []);
   // const serviceCategory = verifyObject(localStore, "serviceCategory", null);
   // const selectedService = verifyObject(localStore, "selectedService", null);
@@ -230,7 +234,9 @@ const NewUserSignup = (props) => {
                               },
                             });
                           }}
-                          minDate={new Date("01-01-2001")}
+                          minDate={new Date("01-01-1940")}
+                          maxDate={new Date("01-01-2010")}
+
                         />
                         {state.errors && (
                           <span className="text-danger">
