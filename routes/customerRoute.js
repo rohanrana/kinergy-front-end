@@ -23,7 +23,7 @@ router.post('/updateEmergencyContact',authHandler.auth_func,customerApis.updateE
 router.post('/deleteEmergencyContactByContactId',authHandler.auth_func,customerApis.deleteEmergencyContactByContactId);
 
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'add user' });
+    res.render('form', { title: 'add user' });
   });
 
  router.post('/clientLock',authHandler.auth_func,customerApis.clientLock);

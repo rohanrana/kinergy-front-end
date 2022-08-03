@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dynamic form</title>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+}
+:root {
+    --primary: #333;
+    --secondary: #333;
+    --errorColor: red;
+    --stepNumber: 6;
+    --containerWidth: 600px;
+    --bgColor: #333;
+    --inputBorderColor: lightgray;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--bgColor);
+}
+::selection {
+    color: #fff;
+    background: var(--primary);
+}
+.container {
+    width: var(--containerWidth);
+    background: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 50px 35px 10px 35px;
+}
+.container header {
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0 0 30px 0;
+}
+.container .form-outer {
+    width: 100%;
+    overflow: hidden;
+}
+.container .form-outer form {
+    display: flex;
+    width: calc(100% * var(--stepNumber));
+}
+.form-outer form .page {
+    /* width: calc(100% / var(--stepNumber));
+    transition: margin-left 0.3s ease-in-out; */
+    text-align: left;
+}
+.form-outer form .page .title {
+    text-align: left;
+    font-size: 25px;
+    font-weight: 500;
+}
+.form-outer form .page .field {
+    width: var(--containerWidth);
+    height: 45px;
+    margin: 45px 0;
+    display: flex;
+    position: relative;
+}
+form .page .field .label {
+    position: absolute;
+    top: -30px;
+    font-weight: 500;
+}
+form .page .field input {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    border: 1px solid var(--inputBorderColor);
+    border-radius: 5px;
+    padding-left: 15px;
+    margin: 0 1px;
+    font-size: 18px;
+    transition: border-color 150ms ease;
+}
+form .page .field input.invalid-input {
+    border-color: var(--errorColor);
+}
+form .page .field select {
+    width: 100%;
+    padding-left: 10px;
+    font-size: 17px;
+    font-weight: 500;
+}
+form .page .field button {
+    width: 100%;
+    height: calc(100% + 5px);
+    border: none;
+    background: var(--secondary);
+    margin-top: -20px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s ease;
+}
+form .page .field button:hover {
+    background: #000;
+}
+form .page .btns button {
+    margin-top: -20px !important;
+}
+form .page .btns button.prev {
+    margin-right: 3px;
+    font-size: 17px;
+}
+form .page .btns button.next {
+    margin-left: 3px;
+}
+.container .progress-bar {
+    display: flex;
+    margin: 40px 0;
+    user-select: none;
+}
+.container .progress-bar .step {
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+.container .progress-bar .step p {
+    font-weight: 500;
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 8px;
+}
+.progress-bar .step .bullet {
+    height: 25px;
+    width: 25px;
+    border: 2px solid #000;
+    display: inline-block;
+    border-radius: 50%;
+    position: relative;
+    transition: 0.2s;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 25px;
+}
+.progress-bar .step .bullet.active {
+    border-color: var(--primary);
+    background: var(--primary);
+}
+.progress-bar .step .bullet span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.progress-bar .step .bullet.active span {
+    display: none;
+}
+.progress-bar .step .bullet:before,
+.progress-bar .step .bullet:after {
+    position: absolute;
+    content: "";
+    bottom: 11px;
+    right: -51px;
+    height: 3px;
+    width: 44px;
+    background: #262626;
+}
+.progress-bar .step .bullet.active:after {
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: animate 0.3s linear forwards;
+}
+@keyframes animate {
+    100% {
+        transform: scaleX(1);
+    }
+}
+.progress-bar .step:last-child .bullet:before,
+.progress-bar .step:last-child .bullet:after {
+    display: none;
+}
+.progress-bar .step p.active {
+    color: var(--primary);
+    transition: 0.2s linear;
+}
+.progress-bar .step .check {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.progress-bar .step .check.active {
+    display: block;
+    color: #fff;
+}
+
+@media screen and (max-width: 660px) {
+    :root {
+        --containerWidth: 400px;
+    }
+    .progress-bar .step p {
+        display: none;
+    }
+    .progress-bar .step .bullet::after,
+    .progress-bar .step .bullet::before {
+        display: none;
+    }
+    .progress-bar .step .bullet {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .progress-bar .step .check {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        font-size: 15px;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+    .step {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+@media screen and (max-width: 490px) {
+    :root {
+        --containerWidth: 100%;
+    }
+    .container {
+        box-sizing: border-box;
+        border-radius: 0;
+    }
+}
+
+  </style>
+    <body>
+        
+      <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+      <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <div class="container">
+            <div class="form-outer">
+                <form  id="dynamicForm">
+                    <div id="FORMIDSEC"></div>
+
+                </form>
+            </div>
+        </div>
+        <script>
+            formArr = {
+            "_id": "62d122d0a0f1bc4b58f0552e",  
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjUwODRlYTU1NGE2MzI3ZWUxNTMzNmQiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkLmhaRkxHNG5vbjRKZkJHT3VGY25CT3AxUXlTWlNlU2JmLmVWbzEwUVpOeXRDRS8vYWdPNnUiLCJpYXQiOjE2NDk2NjYzOTR9.FrYRY79Nej3HS-ae6pXkvUU3aS7RkThBHVqUbqeAa_E"
+        };
+            $.ajax({ 
+            url: "http://localhost:8080/api/v1/form/formByIdDetails", 
+            type: "POST", 
+            data: formArr,
+            success:(res)=>{
+                console.log('res',res.result);
+                
+                
+                function getOptionHtml(options,optionType,questionId,required){
+                    var optionHtml  = '';
+                     for(let i = 0;i< Object.keys(options).length;i++){   
+                        if(optionType == "radio"){                            
+                         optionHtml +='<input type="'+optionType+'" name="'+questionId+'" value="'+options[i].value+'" required="'+required+'"> '+options[i].label+'<br>';
+                        }else if(optionType == "checkBox"){                            
+                         optionHtml +='<input type="checkbox" name="'+questionId+'" value="'+options[i].value+'"  > '+options[i].label+'<br>';
+                        }else if(optionType == "dropdown"){                            
+                         optionHtml +='<option value="'+options[i].value+'"> '+options[i].label+'</option><br>';
+                        }
+                     }
+                    return optionHtml; 
+                }
+                function getOptions(optionType,options,required,questionId){
+                    console.log(questionId);
+                    var optionHtml  = '';
+                    var optionH  = '';
+                    
+                    if(optionType == "radio" || optionType == "checkBox"){
+                        optionHtml += '<div>'+getOptionHtml(options,optionType,questionId,required)+'\
+                            </div>';
+                    }else if(optionType == "dropdown"){
+                        optionHtml += '<div><select name="'+questionId+'" required="'+required+'">'+getOptionHtml(options,optionType,questionId,required)+'</select>\
+                            </div>';
+                    }else if(optionType == "paragraph" || optionType == "shortAnswer"){
+                        optionHtml += '<div><textarea name="'+questionId+'" required="'+required+'" rows="5">';
+                            optionHtml += '</textarea></div>';
+                    }else if(optionType == "date"){
+                        optionHtml += '<div><input type="date" required="'+required+'" name="'+questionId+'"></div>';
+                    }else if(optionType == "file"){
+                        optionHtml += '<div><input type="file" required="'+required+'" name="'+questionId+'"></div>';
+                    }
+                    return optionHtml;
+                }
+                // <div class=""></div>\
+                //                 <div class="">\
+                //                     <input type="text" required hidden name="questionId['+formData._id+']['+formData.section[i]._id+']['+formData.section[i].question[j]._id+']" value="'+formData.section[i]._id+'" /><br\>\
+                //                 </div>\
+                var formData = res.result;
+                var sectionHtml = '';
+                for(let i = 0;i< Object.keys(formData.section).length;i++){
+                    var questionHtml = '';
+                    if(formData.section[i].question && formData.section[i].question.length > 0){
+                            for(let j = 0;j< Object.keys(formData.section[i].question).length;j++){
+                                options = getOptions(formData.section[i].question[j].optionType,formData.section[i].question[j].options,formData.section[i].question[j].required,"question["+formData.section[i].question[j]._id+"][]");
+                                questionHtml += '<hr/><div class="page slide-page">\
+                                    <div  style="width:100%;">\
+                                    <p> Question : '+formData.section[i].question[j].title+'</p>\
+                                </div>\
+                                <div class="" style="width:100%;">\
+                                    <p >'+options+'</p>\
+                                </div>\
+                            </div>';    
+                        }
+                }
+                
+                // <div class=""></div>\
+                //         <div class="field">\
+                //             <input type="text" required hidden name="sectionId['+formData._id+']['+formData.section[i]._id+']" value="'+formData.section[i]._id+'" /><br\>\
+                //         </div>\
+
+                    sectionHtml += '<div class="page slide-page">\
+                        <div class="field">\
+                            <div class="label">Section : '+formData.section[i].title+'</div>\
+                        </div>\
+                        <div class="field">\
+                            <div class="label">Description : '+formData.section[i].description+'</div>\
+                        </div>\
+                    </div><hr/><div class="container">'+questionHtml+'</div>';    
+                 }
+                
+
+                // <input type="text" required  hidden name="formId['+formData._id+']" value="'+formData._id+'" /><br\>\
+                    html = '<div class="page slide-page">\
+                        <div class="title">Form Info:</div>\
+                        <div class="field">\
+                            <input type="text" required  hidden id="tokenId" name="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjUwODRlYTU1NGE2MzI3ZWUxNTMzNmQiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkLmhaRkxHNG5vbjRKZkJHT3VGY25CT3AxUXlTWlNlU2JmLmVWbzEwUVpOeXRDRS8vYWdPNnUiLCJpYXQiOjE2NDk2NjYzOTR9.FrYRY79Nej3HS-ae6pXkvUU3aS7RkThBHVqUbqeAa_E" /><br\>\
+                            <input type="text" required  hidden name="formId" value="62d122d0a0f1bc4b58f0552e" />\
+                            <input type="text" required  hidden name="customerId" value="62e274356e6971cf21bd84c7" />\
+                        </div>\
+                        <div class="field">\
+                            <div class="label">'+formData.title+'</div>\
+                        </div>\
+                    </div><hr/>'+sectionHtml +'<div class="field">\
+                            <button class="firstNext next">Submit</button>\
+                        </div>';
+
+                    $("#FORMIDSEC").html(html);
+            }
+           });
+
+           $("#dynamicForm").submit(function(e){
+            event.preventDefault();
+            // var datastring = $("#dynamicForm").serialize();
+            var datastring = new FormData(e.target);
+            //   alert("Submitted");
+              console.log(datastring)
+              $.ajax({ 
+            url: "http://localhost:8080/api/v1/form/formSubmit", 
+            type: "POST", 
+            processData: false,
+            contentType: false,
+            data: datastring,
+            // data: {questionDataRow:datastring,token:$("#tokenId").val()},
+            success:(res)=>{
+                console.log('res',res);
+                }
+                });  
+            });
+        </script>
+    </body>
+</html>

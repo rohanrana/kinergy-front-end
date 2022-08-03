@@ -8,7 +8,14 @@ const generalHelper = require("../helper/general");
 
 const formService = require("../models/formServiceModel");
 const formHelper = require("../helper/form.js");
-
+const fileHelper = require("../helper/fileHelper");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+var formidable = require("formidable");
+const maxSize = 1 * 1024 * 1024;
+const CustomerQuestionAnswers = require("../models/CustomerQuestionAnswersModel");
+var ObjectID = require("mongodb").ObjectID;
 var oldSections = null;
 function setValue(result) {
   oldSections = result;
@@ -198,7 +205,7 @@ const addQuestionInForm = function (formId, question) {
 const addQuestionInSection = function (sectionId, question) {
   Section.findByIdAndUpdate(
     { _id: sectionId },
-    { $push: { question: question._id } },
+    { $addToSet: { question: question._id } },
     { new: true, useFindAndModify: false }
   )
     .lean()
@@ -401,12 +408,13 @@ const formApis = {
         .lean()
         .exec((err, formResult) => {
           if (!err && formResult) {
-            generalHelper.removeSection(req.body._id);
+            // generalHelper.removeSection(req.body._id);
 
             if (data[0] && data[0].section && data[0].section.length > 0) {
               var sectionPromise = data[0].section.map(
                 (section, sectionKey) => {
-                  console.log("sectionKey", sectionKey);
+                  // console.log("section", section);
+                  // console.log("111111111111111IDDDD", new ObjectID());
                   // Section Payload==========================
                   // console.log(sectionData);
                   sectionData = {
@@ -416,160 +424,231 @@ const formApis = {
                     description: section.description,
                     form: formResult._id,
                   };
-                  sectionDoc = new Section(sectionData);
+                  // console.log("1111111111111111111111======".sectionData);
+                  // sectionDoc = new Section(sectionData);
 
                   // Save section ====================================================
-                  sectionDoc.save((err, sectionResult) => {
+                  // sectionDoc.save((err, sectionResult) => {
                   //   console.log('req.body.section._id ',req.body.section._id );
-                  // Section.findOneAndUpdate(
-                  //   { _id: req.body.section._id },
-                  //   sectionData,
-                  //   {
-                  //     new: true,
-                  //     upsert: true,
-                  //   }
-                  // ).exec((err, sectionResult) => {
-                    if (!err) {
-                      addSectionInForm(formResult._id, sectionResult);
-
-                      // Add Questions===================================================
-                      if (
-                        section &&
-                        section.question &&
-                        section.question.length > 0
-                      ) {
-                        // Question And Options -=================================
-                        var questionObj = {};
-
-                        section.question.map((question, questionKey) => {
-                          questionObj =
-                            question.title &&
-                            question.title != null &&
-                            question.title != "undefined"
-                              ? { ...questionObj, title: question.title }
-                              : { ...questionObj };
-                          questionObj =
-                            question.sort &&
-                            question.sort != null &&
-                            question.sort != "undefined"
-                              ? { ...questionObj, sort: question.sort }
-                              : { ...questionObj };
-                          questionObj =
-                            question.optionType &&
-                            question.optionType != null &&
-                            question.optionType != "undefined"
-                              ? {
-                                  ...questionObj,
-                                  optionType: question.optionType,
-                                }
-                              : { ...questionObj };
-                          questionObj =
-                            question.comment &&
-                            question.comment != null &&
-                            question.comment != "undefined"
-                              ? { ...questionObj, comment: question.comment }
-                              : { ...questionObj };
-                          questionObj =
-                            question.required &&
-                            question.required != null &&
-                            question.required != "undefined"
-                              ? { ...questionObj, required: question.required }
-                              : { ...questionObj };
-
-                          if (
-                            question.optionType == "file" ||
-                            question.optionType == "sign"
-                          ) {
-                            var fileObj = {};
-                            questionObj = { ...questionObj, options: [] };
-                            fileObj = {
-                              ...fileObj,
-                              active: question.file.fileType.active,
-                            };
-                            fileObj = {
-                              ...fileObj,
-                              maxFiles: question.file.fileType.maxFiles,
-                            };
-                            fileObj = {
-                              ...fileObj,
-                              maxFileSize: question.file.fileType.maxFileSize,
-                            };
-
-                            let fileTypesExt = {};
-                            if (
-                              question.file.fileType.type &&
-                              question.file.fileType.type != "undefined"
-                            ) {
-                              var TypesArr = question.file.fileType.type;
-                              console.log("TypesArr", TypesArr);
-                              fileTypesExt = TypesArr;
-                              fileObj = { ...fileObj, fileType: fileTypesExt };
-                            }
-                            questionObj = { ...questionObj, file: fileObj };
-                            // console.log(questionObj);
-                            questionDoc = new Question(questionObj);
-                            questionDoc.save((err, questionResult) => {
-                              addQuestionInSection(
-                                sectionResult._id,
-                                questionResult
-                              );
-                            });
-                          } else if (
-                            question.optionType == "checkBox" ||
-                            question.optionType == "radio" ||
-                            question.optionType == "dropdown"
-                          ) {
-                            questionObj = { ...questionObj, file: {} };
-                            if (question.options.length > 0) {
-                              var optionArr = [];
-                              question.options.map((option, optionKey) => {
-                                var optionObj = {};
-                                optionObj = {
-                                  ...optionObj,
-                                  label: option.label,
-                                };
-                                optionObj = {
-                                  ...optionObj,
-                                  value: option.value,
-                                };
-                                optionArr.push(optionObj);
-                              });
-                              questionObj = {
-                                ...questionObj,
-                                options: optionArr,
-                              };
-                              questionObj = { ...questionObj, file: null };
-                              questionObj = {
-                                ...questionObj,
-                                section: sectionResult._id,
-                              };
-                              questionObj = {
-                                ...questionObj,
-                                form: formResult._id,
-                              };
-                              questionDoc = new Question(questionObj);
-                              questionDoc.save((err, questionResult) => {
-                                // console.log("quesion_Add_ERR1", err);
-                                addQuestionInSection(
-                                  sectionResult._id,
-                                  questionResult
-                                );
-                              });
-                            }
-                          } else {
-                            questionObj = { ...questionObj, options: [] };
-                            questionDoc = new Question(questionObj);
-                            questionDoc.save((err, questionResult) => {
-                              addQuestionInSection(
-                                sectionResult._id,
-                                questionResult
-                              );
-                            });
-                          }
-                        });
-                      }
+                  Section.findOneAndUpdate(
+                    {
+                      _id:
+                        section && section._id ? section._id : new ObjectID(),
+                    },
+                    // { _id: section._id },
+                    { $set: sectionData },
+                    {
+                      new: true,
+                      upsert: true,
                     }
-                  });
+                  )
+
+                    .lean()
+                    .exec((err, sectionResult) => {
+                      console.log(
+                        "errOfsection",
+                        err,
+                        "sectionResult",
+                        sectionResult
+                      );
+                      if (!err) {
+                        addSectionInForm(formResult._id, sectionResult);
+
+                        // Add Questions===================================================
+                        if (
+                          section &&
+                          section.question &&
+                          section.question.length > 0
+                        ) {
+                          // Question And Options -=================================
+                          var questionObj = {};
+
+                          section.question.map((question, questionKey) => {
+                            questionObj =
+                              question.title &&
+                              question.title != null &&
+                              question.title != "undefined"
+                                ? { ...questionObj, title: question.title }
+                                : { ...questionObj };
+                            questionObj =
+                              question.sort &&
+                              question.sort != null &&
+                              question.sort != "undefined"
+                                ? { ...questionObj, sort: question.sort }
+                                : { ...questionObj };
+                            questionObj =
+                              question.optionType &&
+                              question.optionType != null &&
+                              question.optionType != "undefined"
+                                ? {
+                                    ...questionObj,
+                                    optionType: question.optionType,
+                                  }
+                                : { ...questionObj };
+                            questionObj =
+                              question.comment &&
+                              question.comment != null &&
+                              question.comment != "undefined"
+                                ? { ...questionObj, comment: question.comment }
+                                : { ...questionObj };
+                            questionObj =
+                              question.required &&
+                              question.required != null &&
+                              question.required != "undefined"
+                                ? {
+                                    ...questionObj,
+                                    required: question.required,
+                                  }
+                                : { ...questionObj };
+
+                            if (
+                              question.optionType == "file" ||
+                              question.optionType == "sign"
+                            ) {
+                              var fileObj = {};
+                              questionObj = { ...questionObj, options: [] };
+                              fileObj = {
+                                ...fileObj,
+                                active: question.file.fileType.active,
+                              };
+                              fileObj = {
+                                ...fileObj,
+                                maxFiles: question.file.fileType.maxFiles,
+                              };
+                              fileObj = {
+                                ...fileObj,
+                                maxFileSize: question.file.fileType.maxFileSize,
+                              };
+
+                              let fileTypesExt = {};
+                              if (
+                                question.file.fileType.type &&
+                                question.file.fileType.type != "undefined"
+                              ) {
+                                var TypesArr = question.file.fileType.type;
+                                console.log("TypesArr", TypesArr);
+                                fileTypesExt = TypesArr;
+                                fileObj = {
+                                  ...fileObj,
+                                  fileType: fileTypesExt,
+                                };
+                              }
+                              questionObj = { ...questionObj, file: fileObj };
+                              // console.log(questionObj);
+                              // questionDoc = new Question(questionObj);
+                              // questionDoc.save((err, questionResult) => {
+                              Question.findOneAndUpdate(
+                                {
+                                  _id:
+                                    question && question._id
+                                      ? question._id
+                                      : new ObjectID(),
+                                },
+                                // { _id: section._id },
+                                { $set: questionObj },
+                                {
+                                  new: true,
+                                  upsert: true,
+                                }
+                              )
+
+                                .lean()
+                                .exec((err, questionResult) => {
+                                  addQuestionInSection(
+                                    sectionResult._id,
+                                    questionResult
+                                  );
+                                });
+                            } else if (
+                              question.optionType == "checkBox" ||
+                              question.optionType == "radio" ||
+                              question.optionType == "dropdown"
+                            ) {
+                              questionObj = { ...questionObj, file: {} };
+                              if (question.options.length > 0) {
+                                var optionArr = [];
+                                question.options.map((option, optionKey) => {
+                                  var optionObj = {};
+                                  optionObj = {
+                                    ...optionObj,
+                                    label: option.label,
+                                  };
+                                  optionObj = {
+                                    ...optionObj,
+                                    value: option.value,
+                                  };
+                                  optionArr.push(optionObj);
+                                });
+                                questionObj = {
+                                  ...questionObj,
+                                  options: optionArr,
+                                };
+                                questionObj = { ...questionObj, file: null };
+                                questionObj = {
+                                  ...questionObj,
+                                  section: sectionResult._id,
+                                };
+                                questionObj = {
+                                  ...questionObj,
+                                  form: formResult._id,
+                                };
+                                // questionDoc = new Question(questionObj);
+                                // questionDoc.save((err, questionResult) => {
+                                Question.findOneAndUpdate(
+                                  {
+                                    _id:
+                                      question && question._id
+                                        ? question._id
+                                        : new ObjectID(),
+                                  },
+                                  // { _id: section._id },
+                                  { $set: questionObj },
+                                  {
+                                    new: true,
+                                    upsert: true,
+                                  }
+                                )
+
+                                  .lean()
+                                  .exec((err, questionResult) => {
+                                    // console.log("quesion_Add_ERR1", err);
+                                    addQuestionInSection(
+                                      sectionResult._id,
+                                      questionResult
+                                    );
+                                  });
+                              }
+                            } else {
+                              questionObj = { ...questionObj, options: [] };
+                              // questionDoc = new Question(questionObj);
+                              // questionDoc.save((err, questionResult) => {
+                              Question.findOneAndUpdate(
+                                {
+                                  _id:
+                                    question && question._id
+                                      ? question._id
+                                      : new ObjectID(),
+                                },
+                                // { _id: section._id },
+                                { $set: questionObj },
+                                {
+                                  new: true,
+                                  upsert: true,
+                                }
+                              )
+
+                                .lean()
+                                .exec((err, questionResult) => {
+                                  addQuestionInSection(
+                                    sectionResult._id,
+                                    questionResult
+                                  );
+                                });
+                            }
+                          });
+                        }
+                      }
+                    });
                 }
               );
             }
@@ -890,6 +969,166 @@ const formApis = {
         resDataPromise
       );
     }
+  },
+  formSubmit: async (req, res) => {
+    console.log("formData", req.body);
+
+    const { customerId, formId, question } = JSON.parse(
+      JSON.stringify(req.body)
+    );
+
+    if (!customerId)
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please enter customer id."
+      );
+    if (!formId)
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please enter form id."
+      );
+    if (!question)
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please enter question data."
+      );
+
+    for (let key in question) {
+      if (question.hasOwnProperty(key)) {
+        //  console.log(key, question[key]);
+        var questionData = {
+          customerId: customerId,
+          formId: formId,
+          question: key,
+          value: question[key].toString(),
+        };
+        console.log("questionData", questionData);
+
+        CustomerQuestionAnswers.findOneAndUpdate(
+          { customerId: customerId, formId: formId, question: key }, //your condition for check
+          { $set: questionData }, //new values you want to set
+          { upsert: true, new: true }
+        ).exec(async (errRespoinse, successResponse) => {
+          console.log(
+            "errRespoinse",
+            errRespoinse,
+            "successResponse",
+            successResponse
+          );
+        });
+      }
+    }
+
+    return await Response.sendResponseWithoutData(
+      res,
+      resCode.EVERYTHING_IS_OK,
+      "Form submit successfully."
+    );
+  },
+
+  formFileUpload: async (req, res, next) => {
+    var fileName = "";
+    var form = await new formidable.IncomingForm();
+    await form.parse(req, async(err, fields, files) => {  
+      // console.log("fields", fields, "files", files);
+      for (let key in files) {
+        if (files.hasOwnProperty(key)) {
+          fileName = key;
+          console.log('key',key)
+        }
+      }
+    });
+    console.log("++++++++++++++", fileName);
+      console.log("reqBody", req.body);
+      var fileLocation = await "public/uploads/form";
+      // var fileFieldName = "question";
+      var fileCount = await 10;
+      try {
+        !fs.existsSync(`./${fileLocation}`) &&
+          fs.mkdirSync(`./${fileLocation}`, { recursive: true });
+      } catch (e) {
+        console.log("Already Exist.");
+      }
+
+      var fileFieldName = "";
+
+      var filesData = [];
+      var storage = await multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, fileLocation);
+        },
+        filename: async (req, file, cb) => {
+          console.log("##Form", req.body, file);
+          var extname = path.extname(file.originalname).toLowerCase();
+          var fileName = file.fieldname + "-" + Date.now() + extname;
+          console.log("fileName", fileName);
+          let fileObj = {};
+          //   req.body[file.fieldname] = fileName;
+          //   req.body.mimetype = file.mimetype;
+          //   req.body.location = fileLocation;
+          fileObj.fileName = fileName;
+          fileObj.mimetype = file.mimetype;
+          fileObj.location = fileLocation;
+          filesData.push(fileObj);
+          req.body.files = filesData;
+
+          cb(null, fileName);
+        },
+      });
+
+      var upload = await multer({
+        storage: storage,
+        limits: { fileSize: maxSize },
+        fileFilter: (req, file, cb) => {
+          // console.log("---------------------------", req.body, file);
+          if (
+            file.mimetype == "image/png" ||
+            file.mimetype == "image/jpg" ||
+            (file.mimetype == "image/jpeg") |
+              (file.mimetype == "application/pdf")
+          ) {
+            cb(null, true);
+          } else {
+            cb(null, false);
+            // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+            req.file = {
+              error: true,
+              title: file.fieldname,
+              msg: "Only .png, .jpg and .jpeg .pdf format allowed!",
+              status: -6,
+            };
+          }
+        },
+        onFileSizeLimit: async (file) => {
+          req.file = {
+            error: true,
+            title: file.fieldname,
+            msg: "Image file is to large",
+            status: -6,
+          };
+        },
+      }).fields([
+        {
+          name: await fileFieldName,
+          maxCount: await fileCount,
+        },
+      ]);
+
+      upload(req, res, function (err, file) {
+        console.log("errBOdy", req.body, file);
+        if (err instanceof multer.MulterError) {
+          console.log("uploading_err", err);
+          // A Multer error occurred when uploading.
+        } else if (err) {
+          // An unknown error occurred when uploading.
+          console.log("uploading_err", err);
+        }
+        next();
+        // Everything went fine.
+      });
   },
 };
 

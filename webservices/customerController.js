@@ -661,7 +661,7 @@ const verifyEmailOtp = (req, res, next) => {
       } else if (result.length == 0) {
         Response.sendResponseWithData(
           res,
-          resCode.EVERYTHING_IS_OK,
+          resCode.WENT_WRONG,
           "Invalid Otp.",
           result
         );
@@ -670,7 +670,7 @@ const verifyEmailOtp = (req, res, next) => {
           { email: email },
           function (customerErr, customerResult) {
             console.log("findCustomerByEmail", customerResult);
-            if (!customerErr && customerResult && customerResult) {
+            if (!customerErr && customerResult ) {
               var token = jwt.sign(
                 {
                   _id: customerResult._id,
@@ -693,12 +693,7 @@ const verifyEmailOtp = (req, res, next) => {
                 res,
                 resCode.EVERYTHING_IS_OK,
                 "Otp Verified Successfully",
-                {
-                  token:token,
-                  newUser: true,
-                  email: email,
-                  otp: otp,
-                }
+                customerResult
               );              
             } else {
               

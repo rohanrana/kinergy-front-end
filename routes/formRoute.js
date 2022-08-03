@@ -14,5 +14,6 @@ router.post('/delete', authHandler.auth_func, formsApis.delete);
 router.post('/status', authHandler.auth_func, formsApis.status); 
 router.post('/addServiceToForm',authHandler.auth_func,formsApis.addServiceToForm);
 router.post('/getLinkServices',authHandler.auth_func,formsApis.getLinkServices);
+router.post('/formSubmit',formsApis.formFileUpload,authHandler.auth_func,formsApis.formSubmit);
 
 module.exports = router;  
