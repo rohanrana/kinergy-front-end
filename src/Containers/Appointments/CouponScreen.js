@@ -3,12 +3,25 @@
 import React, { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import Call from "../../images/call.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
+import { useSelector } from "react-redux";
+import { currencies, verifyObject } from "../../utilities/utils";
 
 export default function CouponScreen() {
+  const [state, setState] = useState({
+    couponCode: "",
+  });
+  const localStore = useSelector((state) => state.localStore);
+  const amount = verifyObject(
+    localStore,
+    "appointmentBookingDetails.price",
+    null
+  );
+
+  const handleChange = () => {};
   return (
     <div className="therapy-services">
       <Container>
@@ -20,45 +33,82 @@ export default function CouponScreen() {
                 <p>
                   <BackButton />
                 </p>
-                <h5 className="text-center">Select Date & Time</h5>
+                <span>Total Amount</span>
+                <p>
+                  <h6>
+                    {currencies.dollor.symbol} {parseInt(amount, 10).toFixed(2)}
+                  </h6>
+                </p>
 
-                <Row>
-                  <Col lg={8} sm={8} xs={12}>
-                    <div className="d-flex mt-3">
-                      <div className="d-flex-1-icon mr-2">
-                        <img src={Call} alt={Call} />
-                      </div>
-                      <div className="d-flex-2-detail pl-2">
-                        <p className="m-0">
-                          <b>
-                            If you are unable to find a date and time that is
-                            feasible for you or need assistance in booking your
-                            appointment, please call us at... (000)-000-0000
-                          </b>
-                        </p>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col lg={4} sm={4} xs={12}></Col>
-                </Row>
+                <Form className="mt-5">
+                  <Row>
+                    <Col lg={12} sm={12} xs={12}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>
+                          Add a gift card or promotion code or voucher
+                        </Form.Label>
+                        <Form.Control
+                          onChange={handleChange}
+                          name={"couponCode"}
+                          className="w-100"
+                          value={state.couponCode}
+                          placeholder="Enter Coupon Codes"
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col lg={4} sm={4} xs={12}></Col>
+                  </Row>
+                  <span>Checkout Summary</span>
 
-                <Row>
-                  <Col Col lg={12} sm={12} xs={12}>
-                    <div className="text-center mt-3">
-                      <Button
-                        // disabled={
-                        //   dateState === null || state.selectedTimeSlot === null
-                        // }
-                        className="btn btn-form btn-sm w-100"
-                        // onClick={_handleAppointment}
-                      >
+                  <Row>
+                    <Col>
+                      <div className="price-lable-container">
+                        <span>Amount</span>
+                        <span>Tax</span>
+                        <span className="dark">Discount</span>
+                        <span className="dark">Total Amount</span>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className="price-lable-container">
                         <span>
-                          Next <i class="far fa-arrow-alt-circle-right"></i>
+                          {currencies.dollor.symbol}{" "}
+                          {parseInt(amount, 10).toFixed(2)}
                         </span>
-                      </Button>
-                    </div>
-                  </Col>
-                </Row>
+                        <span>
+                          {currencies.dollor.symbol}{" "}
+                          {parseInt(amount, 10).toFixed(2)}
+                        </span>
+                        <span className="dark">
+                          {currencies.dollor.symbol}{" "}
+                          {parseInt(amount, 10).toFixed(2)}
+                        </span>
+                        <span className="dark">
+                          {currencies.dollor.symbol}{" "}
+                          {parseInt(amount, 10).toFixed(2)}
+                        </span>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col Col lg={12} sm={12} xs={12}>
+                      <div className="text-center mt-3">
+                        <Button
+                          // disabled={
+                          //   dateState === null || state.selectedTimeSlot === null
+                          // }
+                          className="btn btn-form btn-sm w-100"
+                          // onClick={_handleAppointment}
+                        >
+                          <span>
+                            Proceed{" "}
+                            <i class="far fa-arrow-alt-circle-right"></i>
+                          </span>
+                        </Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </Form>
               </div>
             </div>
           </Col>

@@ -7,6 +7,8 @@ import SignaturePad from "react-signature-canvas";
 import { verifyObject } from "../../utilities/utils";
 import DatePickerImage from "../../images/Vector.png";
 import { ValidateConsentForm } from "./ConsentFormValidations";
+import { appRoutesConst } from "../../App/navigation";
+import { useNavigate } from "react-router";
 
 export default function ConsentForm() {
   const [state, setState] = useState({
@@ -19,6 +21,7 @@ export default function ConsentForm() {
     errors: null,
   });
   const sigCanvas = useRef({});
+  const navigate = useNavigate();
   //   const localStore = useSelector((state) => state.localStore);
 
   //   const clientName = `${verifyObject(
@@ -97,6 +100,7 @@ export default function ConsentForm() {
     if (!errors.isValid) {
       setState({ ...state, errors: errors.errors });
     } else {
+      navigate(appRoutesConst.couponScreen);
       //   let payload = {
       //     firstName: data.firstName,
       //     lastName: data.lastName,

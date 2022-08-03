@@ -126,3 +126,19 @@ div.signatureCanvas {
   /* display: flex; */
   justify-content: center;
 }
+
+.price-lable-container {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+.price-lable-container .dark {
+  color: #212529;
+  font-weight: 500;
+}
+.price-lable-container > span {
+  font-weight: 500;
+}
+.appointment-details-row .appointment-detail-col-2 {
+  max-height: unset !important;
+}

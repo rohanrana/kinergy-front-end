@@ -3,6 +3,11 @@ import { useSelector } from "react-redux";
 import { getIntials, verifyObject } from "../../utilities/utils";
 import Clock from "../../images/clock.png";
 import Service1 from "../../images/service1.jpg";
+import DateImage from "../../images/white_cal.png";
+import WhiteClock from "../../images/white_clock.png";
+
+import moment from "moment";
+
 export default function AppointmentDetailsSection() {
   const localStore = useSelector((state) => state.localStore);
   const serviceCategory = verifyObject(localStore, "serviceCategory", null);
@@ -14,6 +19,17 @@ export default function AppointmentDetailsSection() {
   const appointmentDuration = verifyObject(
     localStore,
     "appointmentBookingDetails",
+    null
+  );
+  const appointmentDate = verifyObject(
+    localStore,
+    "appointmentBookingDetails.appointmentDate",
+    null
+  );
+
+  const appointmentTime = verifyObject(
+    localStore,
+    "appointmentBookingDetails.appointmentTime",
     null
   );
   return (
@@ -76,6 +92,32 @@ export default function AppointmentDetailsSection() {
               <h6>{verifyObject(selectedProvider, "facilityName", null)}</h6>
               <p>Atheletic Therapist / Trainer</p>
               <p>Exp. 5y</p>
+            </div>
+          </div>
+        </Fragment>
+      )}
+
+      {appointmentTime && (
+        <Fragment>
+          <h6 className="text-white mt-5">Date and Time</h6>
+          <div className="profile-provide-row">
+            <div className="profile-provider-col-2">
+              <p>
+                <span>
+                  <img style={{ width: 10 }} src={DateImage} alt={DateImage} />{" "}
+                </span>
+                <span>{moment(appointmentDate).format("DD/MM/YYYY")}</span>
+              </p>
+              <p>
+                <span>
+                  <img
+                    style={{ width: 10 }}
+                    src={WhiteClock}
+                    alt={WhiteClock}
+                  />{" "}
+                </span>
+                <span>{appointmentTime.split("-")[0]}</span>
+              </p>
             </div>
           </div>
         </Fragment>

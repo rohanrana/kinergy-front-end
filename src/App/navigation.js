@@ -21,6 +21,7 @@ export const appRoutesConst = {
   someoneelsesignup: "/for-someone-else-signup",
   homepage: "/home-page",
   consentForm: "/consentForm",
+  couponScreen: "/couponScreen",
 };
 
 // const config = {

@@ -39,6 +39,8 @@ const SomeoneElseSignUp = lazy(() =>
 );
 const HomePage = lazy(() => import("../Containers/Home"));
 const ConsentForm = lazy(() => import("../Containers/ConsentForm/ConsentForm"));
+const CouponScreen = lazy(() => import("../Containers/Appointments/CouponScreen"));
+
 //isPrivateRoute
 //isOpenRoute
 //isPrivateRoute
@@ -132,6 +134,11 @@ export const routesArray = [
   {
     path: appRoutesConst.consentForm,
     element: ConsentForm,
+    isPrivateRoute: true,
+  },
+  {
+    path: appRoutesConst.couponScreen,
+    element: CouponScreen,
     isPrivateRoute: true,
   },
 ];
