@@ -971,11 +971,11 @@ const formApis = {
     }
   },
   formSubmit: async (req, res) => {
+    console.log('res.files',res.files);
+    return res.send(res.files);
     console.log("formData", req.body);
 
-    const { customerId, formId, question } = JSON.parse(
-      JSON.stringify(req.body)
-    );
+    const { customerId, formId, question } =     req.body;
 
     if (!customerId)
       return await Response.sendResponseWithoutData(
@@ -1005,7 +1005,7 @@ const formApis = {
           question: key,
           value: question[key].toString(),
         };
-        console.log("questionData", questionData);
+        // console.log("questionData", questionData);
 
         CustomerQuestionAnswers.findOneAndUpdate(
           { customerId: customerId, formId: formId, question: key }, //your condition for check
@@ -1016,7 +1016,7 @@ const formApis = {
             "errRespoinse",
             errRespoinse,
             "successResponse",
-            successResponse
+            successResponse.value +"Inserted ✔"
           );
         });
       }
@@ -1030,6 +1030,17 @@ const formApis = {
   },
 
   formFileUpload: async (req, res, next) => {
+    console.log('req.files',req.files);
+    // const file = req.files.myFile;
+    // const path = __dirname + "/files/" + file.name;
+  
+    // file.mv(path, (err) => {
+    //   if (err) {
+    //     return res.status(500).send(err);
+    //   }
+    //   return res.send({ status: "success", path: path });
+    // });
+
     var fileName = "";
     var form = await new formidable.IncomingForm();
     await form.parse(req, async(err, fields, files) => {  

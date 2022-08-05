@@ -11,7 +11,7 @@ router.post('/delete', authHandler.auth_func, facilityApis.delete);
 router.post('/facilityList', authHandler.auth_func, facilityApis.facilityList);
 
 
-router.post('/facilityById', authHandler.auth_func, facilityApis.facilityById);
+router.post('/facilityById', facilityApis.facilityById);
 router.post('/changeStatus', authHandler.auth_func, facilityApis.changeStatus);
 // Client Side 
 router.post('/getProviderBookedSlot',  facilityApis.getProviderBookedSlot);

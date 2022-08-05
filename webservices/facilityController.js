@@ -3,10 +3,13 @@ const resCode = require("../helper/httpResponseCode");
 const resMessage = require("../helper/httpResponseMessage");
 const Facility = require("../models/facilityModel");
 const Appointment = require("../models/appointmentModel");
+const ServiceCategory = require("../models/serviceCategoryModel");
+const Speciality = require("../models/specialityModel");
+const Service = require("../models/serviceModel");
 const generalHelper = require("../helper/general");
 const appointmentHelper = require("../helper/appointmentHelper");
 const facilityHelper = require("../helper/facilityHelper");
-
+const languageHelper = require("../helper/languageHelper");
 const path = require("path");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
@@ -17,72 +20,89 @@ const returnPagination = (result) => {
 };
 
 const facilityApis = {
-  add: (req, res, next) => {
-    const {
-      facilityName,
-      city,
-      state,
-      pincode,
-      phone,
-      phoneType,
-      openHours,
-      email,
-      location,
-      address,
-      image,
-      imageUrl,
-      status,
-    } = req.body;
-    let phoneArr = [];
-    if (phone) {
-      phone.map((value, index) => {
-        phoneObj = {};
-        if (phoneType[index]) {
-          phoneObj.phoneType = phoneType[index];
-        } else {
-          phoneObj.phoneType = null;
-        }
-        phoneObj = { ...phoneObj, phone: value };
-        phoneArr.push(phoneObj);
-      });
-    }
-
-    const facility = new Facility({
-      facilityName: facilityName,
-      location: location,
-      openHours: openHours,
-      image: image,
-      imageUrl: imageUrl,
-      contact: [{ phone: phoneArr, email: email }],
-      address: [
-        { address: address, state: state, city: city, pincode: pincode },
-      ],
-      status: status,
-    });
-
-    facility.save((err, result) => {
-      // console.log(err, result);
-      if (!err) {
-        facilityHelper.addInterval(result._id);
-        Response.sendResponseWithData(
-          res,
-          resCode.EVERYTHING_IS_OK,
-          "Facility Add Successfully.",
-          result
-        );
-      } else {
-        console.log(err);
-        Response.sendResponseWithoutData(
-          res,
-          resCode.WENT_WRONG,
-          resMessage.WENT_WRONG
-        );
+  add: async (req, res, next) => {
+    try {
+      const {
+        facilityName,
+        city,
+        state,
+        pincode,
+        phone,
+        phoneType,
+        openHours,
+        email,
+        location,
+        address,
+        image,
+        imageUrl,
+        status,
+        speciality,
+        experience,
+        about,
+        language,
+      } = req.body;
+      let phoneArr = [];
+      if (phone) {
+        phone.map(async (value, index) => {
+          phoneObj = {};
+          if (phoneType[index]) {
+            phoneObj.phoneType = phoneType[index];
+          } else {
+            phoneObj.phoneType = null;
+          }
+          phoneObj = { ...phoneObj, phone: value };
+          phoneArr.push(phoneObj);
+        });
       }
-    });
+
+      const facility = new Facility({
+        facilityName: facilityName,
+        location: location,
+        openHours: openHours,
+        image: image,
+        imageUrl: imageUrl,
+        contact: [{ phone: phoneArr, email: email }],
+        address: [
+          { address: address, state: state, city: city, pincode: pincode },
+        ],
+        speciality: await facilityHelper.syncSpeciality(speciality),
+        experience: experience,
+        about: about,
+        language: await languageHelper.checkMultiLanguage(language),
+        status: status,
+      });
+
+      await facility.save(async (err, result) => {
+        // console.log(err, result);
+        if (!err) {
+          await facilityHelper.addInterval(result._id);
+          return await Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Facility Add Successfully.",
+            result
+          );
+        } else {
+          console.log(err);
+          return await Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        }
+      });
+    } catch (unError) {
+      console.log(unError);
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.WENT_WRONG
+      );
+    }
   },
-  edit: (req, res, next) => {
-    if (!req.body._id) {
-      Response.sendResponseWithoutData(
+  edit: async (req, res, next) => {
+    if (!(await req.body._id)) {
+      return await Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         "Please Enter Facility Id."
@@ -102,6 +122,10 @@ const facilityApis = {
         image,
         imageUrl,
         status,
+        speciality,
+        experience,
+        about,
+        language,
       } = req.body;
       let phoneArr = [];
       if (phone) {
@@ -131,22 +155,26 @@ const facilityApis = {
         address: [
           { address: address, state: state, city: city, pincode: pincode },
         ],
+        speciality: await facilityHelper.syncSpeciality(speciality),
+        experience: experience,
+        about: about,
+        language: await languageHelper.checkMultiLanguage(language),
         status: status,
       };
       //   console.log("editData", {$set: editData});
       Facility.findOneAndUpdate({ _id: req.body._id }, editData, { new: true })
         .lean()
-        .exec((err, result) => {
+        .exec(async (err, result) => {
           console.log(err);
           if (!err) {
-            Response.sendResponseWithData(
+            return await Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
               "Facility Update Successfully.",
               result
             );
           } else
-            Response.sendResponseWithoutData(
+            return await Response.sendResponseWithoutData(
               res,
               resCode.WENT_WRONG,
               resMessage.WENT_WRONG
@@ -184,39 +212,62 @@ const facilityApis = {
     }
   },
 
-  facilityById: (req, res, next) => {
-    if (!req.body._id) {
-      Response.sendResponseWithoutData(
+  facilityById: async (req, res, next) => {
+    if (!(await req.body._id)) {
+      return await Response.sendResponseWithoutData(
         res,
         resCode.WENT_WRONG,
         "Please Enter Facility Id."
       );
     } else {
-      Facility.find({ _id: req.body._id })
+      await Facility.find({ _id: req.body._id })
+        .select(
+          "_id facilityName location openHours contact address image imageUrl   status createdAt updatedAt about experience language speciality"
+        )
         .populate("address.city", "_id name")
         .populate("address.state", "_id name")
+        .populate("speciality", "_id name")
+        .populate("language", "_id code name")
         .lean()
-        .exec((err, result) => {
+        .exec(async (err, result) => {
           console.log(err);
           if (err)
-            Response.sendResponseWithoutData(
+            return await Response.sendResponseWithoutData(
               res,
               resCode.WENT_WRONG,
               resMessage.WENT_WRONG
             );
           else if (!result || result.length == 0)
-            Response.sendResponseWithoutData(
+            return await Response.sendResponseWithoutData(
               res,
               resCode.WENT_WRONG,
               "Facility Not Found."
             );
-          else
-            Response.sendResponseWithData(
+          else {
+            // if(req.body.serviceCategory){
+            //     result[0].serviceInformation = await Service.find({"providers":req.body._id,"category":req.body.serviceCategory})
+            //     .select("_id title slug category").populate("category","_id title slug").lean().exec();
+            // }
+            if (req.body.serviceCategory) {
+              result[0].serviceInformation = await ServiceCategory.find({
+                _id: req.body.serviceCategory,
+              })
+                .select("_id title slug category")
+                .populate({
+                  path: "service",
+                  select: "_id title slug",
+                  match: { providers: req.body._id },
+                })
+                .lean()
+                .exec();
+            }
+            return await Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
               "Facility Found Successfully.",
               result
             );
+          }
         });
     }
   },

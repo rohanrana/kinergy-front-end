@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate");
 const Schema = mongoose.Schema;
-
 const facilitySchema = new Schema(
   {
     facilityName: {
@@ -16,6 +15,7 @@ const facilitySchema = new Schema(
       type: String,
       default: null,
     },
+
     contact: [
       {
         phone: [
@@ -64,7 +64,28 @@ const facilitySchema = new Schema(
       type: String,
       default: null,
     },
-
+    speciality: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Speciality",
+        default: null,
+      },
+    ],
+    language: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Language",
+        default: null,
+      },
+    ],
+    experience: {
+      type: String,
+      default: null,
+    },
+    about: {
+      type: String,
+      default: null,
+    },
     status: {
       type: String,
       enum: ["ACTIVE", "INACTIVE", "BLOCK"],

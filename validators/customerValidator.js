@@ -5,7 +5,7 @@ const Customers = require("../models/customersModel.js");
 const resCode = require("../helper/httpResponseCode.js");
 const resMessage = require("../helper/httpResponseMessage.js");
 const Response = require("../common_functions/response_handler");
-
+var fs = require('fs');
 const generateMobileloginValidators = (req, res, next) => [
   check("phone")
     .trim()
@@ -602,6 +602,38 @@ const personalHabit = (req, res, next) => [
     .withMessage("Enter drink soda."),
 ];
 
+
+
+
+
+// consent and certificate
+  
+const concentAndCertification = (req, res, next) => [
+  check("customerId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter customer id."),
+  check("fullName")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter full name."),
+  check("relationship")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Select relationship."),
+  check("language")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Select language."),
+];
 const reporter = (req, res, next) => {
   // ================== IF FILE ERROR =============
   console.log(req.file);
@@ -631,11 +663,12 @@ const reporter = (req, res, next) => {
       );
     }
   }
+
   // ==================
 
   var errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(req.files);
+    console.log('requestFiles',req.files);
     if (req.files) {
       if (req.files.length > 0) {
         if (req.files != "undefined" && req.files != null) {
@@ -694,4 +727,5 @@ module.exports = {
   medicalProviderInformation: [medicalProviderInformation(), reporter],
   personalHabit: [personalHabit(), reporter],
   medicationAndSupplement: [medicationAndSupplement(), reporter],
+  concentAndCertification: [concentAndCertification(), reporter],
 };

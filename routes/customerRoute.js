@@ -6,6 +6,7 @@ const surgeryRecordApis = require("../webservices/surgeryRecordController.js");
 const progressReportApis = require("../webservices/progressReportController.js");
 const authHandler = require('../middleware/authHandler.js');
 const customerValidation = require('../validators/customerValidator.js');
+const consentAndCertificateValidation = require("../validators/concentAndCertificationValidator");
 const router = routers.Router();
 
 // Admin Side
@@ -59,5 +60,8 @@ router.post('/clientPortalRegistration/femalesOnly',authHandler.auth_func,custom
 router.post('/clientPortalRegistration/surgicalHistory',authHandler.auth_func,customerApis.surgicalHistory);
 router.post('/clientPortalRegistration/musculoskeletalHistory',authHandler.auth_func,customerApis.musculoskeletalHistory);
 
+// Consent and ceritificate
+
+router.post('/concentAndCertification',customerApis.signatureUpload,authHandler.auth_func,consentAndCertificateValidation.concentAndCertification,customerApis.concentAndCertification);
 
 module.exports = router;

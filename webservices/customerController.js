@@ -7,7 +7,7 @@ const MedicalHistory = require("../models/medicalHistoryModel");
 const SurgicalHistory = require("../models/surgicalHistoryModel");
 const FemalesOnly = require("../models/femalesOnlyModel");
 const MusculoskeletalHistory = require("../models/musculoskeletalHistoryModel");
-
+const ConsentAndCertification = require("../models/consentAndCertificationModel");
 const Response = require("../common_functions/response_handler.js");
 const resCode = require("../helper/httpResponseCode.js");
 const resMessage = require("../helper/httpResponseMessage.js");
@@ -359,7 +359,6 @@ const loginWithEmail = async (req, res, next) => {
   }
 };
 
-
 const resendEmailOtp = async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
@@ -615,7 +614,8 @@ const verifyMobileOtp = (req, res, next) => {
               Response.sendResponseWithData(
                 res,
                 resCode.EVERYTHING_IS_OK,
-                "Otp Verified Successfully",customerResult
+                "Otp Verified Successfully",
+                customerResult
               );
             } else {
               var token = jwt.sign(
@@ -630,7 +630,7 @@ const verifyMobileOtp = (req, res, next) => {
                 resCode.EVERYTHING_IS_OK,
                 "Otp Verified Successfully",
                 {
-                  token:token,
+                  token: token,
                   newUser: true,
                   phone: phone,
                   otp: otp,
@@ -646,7 +646,11 @@ const verifyMobileOtp = (req, res, next) => {
 const verifyEmailOtp = (req, res, next) => {
   const { email, otp } = req.body;
   if (!email) {
-    return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.EMAIL_REQUIRED);
+    return Response.sendResponseWithoutData(
+      res,
+      resCode.WENT_WRONG,
+      resMessage.EMAIL_REQUIRED
+    );
   }
   TempUsers.find({ email: email, otp: otp })
     .lean()
@@ -670,7 +674,7 @@ const verifyEmailOtp = (req, res, next) => {
           { email: email },
           function (customerErr, customerResult) {
             console.log("findCustomerByEmail", customerResult);
-            if (!customerErr && customerResult ) {
+            if (!customerErr && customerResult) {
               var token = jwt.sign(
                 {
                   _id: customerResult._id,
@@ -688,15 +692,14 @@ const verifyEmailOtp = (req, res, next) => {
               } catch (errorUpdateCustomer) {
                 console.log("errorUpdateCustomer", errorUpdateCustomer);
               }
-              
+
               Response.sendResponseWithData(
                 res,
                 resCode.EVERYTHING_IS_OK,
                 "Otp Verified Successfully",
                 customerResult
-              );              
+              );
             } else {
-              
               var token = jwt.sign(
                 {
                   email: email,
@@ -710,12 +713,12 @@ const verifyEmailOtp = (req, res, next) => {
                 resCode.EVERYTHING_IS_OK,
                 "Otp Verified Successfully",
                 {
-                  token:token,
+                  token: token,
                   newUser: true,
                   email: email,
                   otp: otp,
                 }
-              );              
+              );
             }
           }
         );
@@ -852,13 +855,13 @@ const getCustomerEmergencyContactById = (req, res) => {
       resCode.WENT_WRONG,
       resMessage.ENTER_USER_ID
     );
-  } else if (!generalHelper.checkObjectId(req.body._id)) { 
+  } else if (!generalHelper.checkObjectId(req.body._id)) {
     Response.sendResponseWithoutData(
       res,
       resCode.WENT_WRONG,
       resMessage.ENTER_VALID_USER_ID
     );
-   } else {
+  } else {
     Customers.find({ _id: req.body._id })
       .lean()
       .exec((err, result) => {
@@ -1073,7 +1076,6 @@ const addClientDetail = async (req, res) => {
     }
   });
 };
-
 
 const deleteEmergencyContactByContactId = (req, res) => {
   if (!req.body.contactId) {
@@ -2039,133 +2041,135 @@ const musculoskeletalHistory = async (req, res) => {
       resMessage.ENTER_VALID_USER_ID
     );
   } else {
-    var { customerId, 
-      injuredYourHead ,
-      injuredYourHeadDescription ,
-      injuredYourFace ,
-      injuredYourFaceDescription ,
-      injuredYourNeck ,
-      injuredYourNeckDescription ,
-      injuredYourShoulder ,
-      injuredYourShoulderDescription ,
-      injuredAnUpperArm ,
-      injuredAnUpperArmDescription ,
-      injuredAnElbow ,
-      injuredAnElbowDescription ,
-      injuredAForearm ,
-      injuredAForearmDescription ,
-      injuredAWrist ,
-      injuredAWristDescription ,
-      injuredAHand ,
-      injuredAHandDescription ,
-      injuredAFinger ,
-      injuredAFingerDescription ,
-      injuredYourAbdomen ,
-      injuredYourAbdomenDescription ,
-      injuredYourChest ,
-      injuredYourChestDescription ,
-      injuredYourRibs ,
-      injuredYourRibsDescription ,
-      injuredYourBack ,
-      injuredYourBackDescription ,
-      injuredYourPelvis ,
-      injuredYourPelvisDescription ,
-      injuredYourHip ,
-      injuredYourHipDescription ,
-      injuredYourGroin ,
-      injuredYourGroinDescription ,
-      injuredYourThigh ,
-      injuredYourThighDescription ,
-      injuredYourHamstring ,
-      injuredYourHamStringDescription ,
-      injuredAKnee ,
-      injuredAKneeDescription ,
-      injuredALowerLeg ,
-      injuredALowerLegDescription ,
-      injuredAnAnkle ,
-      injuredAnAnkleDescription ,
-      injuredAFoot ,
-      injuredAFootDescription ,
-      injuredAToeDescription ,
-      injuredAnotherPart ,
-      injuredAnotherPartDescription ,
-      hadSpecialTest ,
-      hadSpecialTestDescription ,
-      beenAdvisedToHaveSurgeryButNotYetBeenDone ,
-      beenAdvisedToHaveSurgeryButNotYetBeenDoneDescription ,
-      beenAdvisedToNotHaveSurgery ,
-      beenAdvisedToNotHaveSurgeryDescription ,  
-      hadAnyPlatesScrewsOrPinInBody ,
-      hadAnyPlatesScrewsOrPinInBodyDescription ,
-      
-      otherMusculoskeletalHistory ,
-      otherMusculoskeletalHistoryDescription , } = req.body;
+    var {
+      customerId,
+      injuredYourHead,
+      injuredYourHeadDescription,
+      injuredYourFace,
+      injuredYourFaceDescription,
+      injuredYourNeck,
+      injuredYourNeckDescription,
+      injuredYourShoulder,
+      injuredYourShoulderDescription,
+      injuredAnUpperArm,
+      injuredAnUpperArmDescription,
+      injuredAnElbow,
+      injuredAnElbowDescription,
+      injuredAForearm,
+      injuredAForearmDescription,
+      injuredAWrist,
+      injuredAWristDescription,
+      injuredAHand,
+      injuredAHandDescription,
+      injuredAFinger,
+      injuredAFingerDescription,
+      injuredYourAbdomen,
+      injuredYourAbdomenDescription,
+      injuredYourChest,
+      injuredYourChestDescription,
+      injuredYourRibs,
+      injuredYourRibsDescription,
+      injuredYourBack,
+      injuredYourBackDescription,
+      injuredYourPelvis,
+      injuredYourPelvisDescription,
+      injuredYourHip,
+      injuredYourHipDescription,
+      injuredYourGroin,
+      injuredYourGroinDescription,
+      injuredYourThigh,
+      injuredYourThighDescription,
+      injuredYourHamstring,
+      injuredYourHamStringDescription,
+      injuredAKnee,
+      injuredAKneeDescription,
+      injuredALowerLeg,
+      injuredALowerLegDescription,
+      injuredAnAnkle,
+      injuredAnAnkleDescription,
+      injuredAFoot,
+      injuredAFootDescription,
+      injuredAToeDescription,
+      injuredAnotherPart,
+      injuredAnotherPartDescription,
+      hadSpecialTest,
+      hadSpecialTestDescription,
+      beenAdvisedToHaveSurgeryButNotYetBeenDone,
+      beenAdvisedToHaveSurgeryButNotYetBeenDoneDescription,
+      beenAdvisedToNotHaveSurgery,
+      beenAdvisedToNotHaveSurgeryDescription,
+      hadAnyPlatesScrewsOrPinInBody,
+      hadAnyPlatesScrewsOrPinInBodyDescription,
+
+      otherMusculoskeletalHistory,
+      otherMusculoskeletalHistoryDescription,
+    } = req.body;
     var musculoskeletalHistoryINFO = await MusculoskeletalHistory.findOne({
       customerId: customerId,
     }).exec();
 
     var musculoskeletalHistoryROW = {
       customerId,
-      injuredYourHead ,
-      injuredYourHeadDescription ,
-      injuredYourFace ,
-      injuredYourFaceDescription ,
-      injuredYourNeck ,
-      injuredYourNeckDescription ,
-      injuredYourShoulder ,
-      injuredYourShoulderDescription ,
-      injuredAnUpperArm ,
-      injuredAnUpperArmDescription ,
-      injuredAnElbow ,
-      injuredAnElbowDescription ,
-      injuredAForearm ,
-      injuredAForearmDescription ,
-      injuredAWrist ,
-      injuredAWristDescription ,
-      injuredAHand ,
-      injuredAHandDescription ,
-      injuredAFinger ,
-      injuredAFingerDescription ,
-      injuredYourAbdomen ,
-      injuredYourAbdomenDescription ,
-      injuredYourChest ,
-      injuredYourChestDescription ,
-      injuredYourRibs ,
-      injuredYourRibsDescription ,
-      injuredYourBack ,
-      injuredYourBackDescription ,
-      injuredYourPelvis ,
-      injuredYourPelvisDescription ,
-      injuredYourHip ,
-      injuredYourHipDescription ,
-      injuredYourGroin ,
-      injuredYourGroinDescription ,
-      injuredYourThigh ,
-      injuredYourThighDescription ,
-      injuredYourHamstring ,
-      injuredYourHamStringDescription ,
-      injuredAKnee ,
-      injuredAKneeDescription ,
-      injuredALowerLeg ,
-      injuredALowerLegDescription ,
-      injuredAnAnkle ,
-      injuredAnAnkleDescription ,
-      injuredAFoot ,
-      injuredAFootDescription ,
-      injuredAToeDescription ,
-      injuredAnotherPart ,
-      injuredAnotherPartDescription ,
-      hadSpecialTest ,
-      hadSpecialTestDescription ,
-      beenAdvisedToHaveSurgeryButNotYetBeenDone ,
-      beenAdvisedToHaveSurgeryButNotYetBeenDoneDescription ,
-      beenAdvisedToNotHaveSurgery ,
-      beenAdvisedToNotHaveSurgeryDescription ,  
-      hadAnyPlatesScrewsOrPinInBody ,
-      hadAnyPlatesScrewsOrPinInBodyDescription ,
-      
-      otherMusculoskeletalHistory ,
-      otherMusculoskeletalHistoryDescription ,
+      injuredYourHead,
+      injuredYourHeadDescription,
+      injuredYourFace,
+      injuredYourFaceDescription,
+      injuredYourNeck,
+      injuredYourNeckDescription,
+      injuredYourShoulder,
+      injuredYourShoulderDescription,
+      injuredAnUpperArm,
+      injuredAnUpperArmDescription,
+      injuredAnElbow,
+      injuredAnElbowDescription,
+      injuredAForearm,
+      injuredAForearmDescription,
+      injuredAWrist,
+      injuredAWristDescription,
+      injuredAHand,
+      injuredAHandDescription,
+      injuredAFinger,
+      injuredAFingerDescription,
+      injuredYourAbdomen,
+      injuredYourAbdomenDescription,
+      injuredYourChest,
+      injuredYourChestDescription,
+      injuredYourRibs,
+      injuredYourRibsDescription,
+      injuredYourBack,
+      injuredYourBackDescription,
+      injuredYourPelvis,
+      injuredYourPelvisDescription,
+      injuredYourHip,
+      injuredYourHipDescription,
+      injuredYourGroin,
+      injuredYourGroinDescription,
+      injuredYourThigh,
+      injuredYourThighDescription,
+      injuredYourHamstring,
+      injuredYourHamStringDescription,
+      injuredAKnee,
+      injuredAKneeDescription,
+      injuredALowerLeg,
+      injuredALowerLegDescription,
+      injuredAnAnkle,
+      injuredAnAnkleDescription,
+      injuredAFoot,
+      injuredAFootDescription,
+      injuredAToeDescription,
+      injuredAnotherPart,
+      injuredAnotherPartDescription,
+      hadSpecialTest,
+      hadSpecialTestDescription,
+      beenAdvisedToHaveSurgeryButNotYetBeenDone,
+      beenAdvisedToHaveSurgeryButNotYetBeenDoneDescription,
+      beenAdvisedToNotHaveSurgery,
+      beenAdvisedToNotHaveSurgeryDescription,
+      hadAnyPlatesScrewsOrPinInBody,
+      hadAnyPlatesScrewsOrPinInBodyDescription,
+
+      otherMusculoskeletalHistory,
+      otherMusculoskeletalHistoryDescription,
     };
     if (musculoskeletalHistoryINFO) {
       await MusculoskeletalHistory.findOneAndUpdate(
@@ -2216,6 +2220,141 @@ const musculoskeletalHistory = async (req, res) => {
   }
 };
 
+const concentAndCertification = async (req, res) => {
+  const {
+    customerId,
+    appointment,
+    readAndAgree,
+    authorizedRepresentative,
+    authorizedRepresentativeName,
+    clientName,
+    date,
+    files,
+    signatureDate,
+  } = req.body;
+  var signature = "";
+  try {
+    signature = files[0].location + "/" + files[0].fileName;
+  } catch (errInFile) {
+    console.log("errInFile", errInFile);
+  }
+
+  var CAC = new ConsentAndCertification({
+    customer:customerId,
+    appointment,
+    readAndAgree,
+    authorizedRepresentative,
+    authorizedRepresentativeName,
+    clientName,
+    date,
+    signature,
+    signatureDate,
+  });
+
+  await CAC.save(async (err, result) => {
+    if (err) {
+      console.log(err);
+      return await Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.INTERNAL_SERVER_ERROR
+      );
+    } else {
+      return await Response.sendResponseWithData(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        "Consent and certification save successfully.",
+        result
+      );
+    }
+  });
+};
+
+const signatureUpload = (req, res, next) => {
+  var fileLocation = "public/uploads/user/signature";
+  var fileFieldName = "signature";
+  var fileCount = 1;
+  try {
+    !fs.existsSync(`./${fileLocation}`) &&
+      fs.mkdirSync(`./${fileLocation}`, { recursive: true });
+  } catch (e) {
+    console.log("Already Exist.");
+  }
+  var filesData = [];
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, fileLocation);
+    },
+    filename: function (req, file, cb) {
+      // console.log(req.body, file);
+      var extname = path.extname(file.originalname).toLowerCase();
+      var fileName = file.fieldname + "-" + Date.now() + extname;
+      console.log("fileName", fileName);
+      let fileObj = {};
+      //   req.body[file.fieldname] = fileName;
+      //   req.body.mimetype = file.mimetype;
+      //   req.body.location = fileLocation;
+      fileObj.fileName = fileName;
+      fileObj.mimetype = file.mimetype;
+      fileObj.location = fileLocation;
+      filesData.push(fileObj);
+      req.body.signature = fileLocation + "/" + fileName;
+      req.body.files = filesData;
+      cb(null, fileName);
+    },
+  });
+
+  var upload = multer({
+    storage: storage,
+    limits: { fileSize: maxSize },
+    fileFilter: (req, file, cb) => {
+      console.log(req.body, file);
+      if (
+        file.mimetype == "image/png" ||
+        file.mimetype == "image/jpg" ||
+        file.mimetype == "image/jpeg" ||
+        file.mimetype == "application/pdf"
+      ) {
+        cb(null, true);
+      } else {
+        cb(null, false);
+        // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+        req.file = {
+          error: true,
+          title: file.fieldname,
+          msg: "Only .png, .jpg and .jpeg format allowed!",
+          status: -6,
+        };
+      }
+    },
+    onFileSizeLimit: function (file) {
+      req.file = {
+        error: true,
+        title: file.fieldname,
+        msg: "Image file is to large",
+        status: -6,
+      };
+    },
+  }).fields([
+    {
+      name: fileFieldName,
+      maxCount: fileCount,
+    },
+  ]);
+
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      console.log("uploading_err", err);
+      // A Multer error occurred when uploading.
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.log("uploading_err", err);
+    }
+    next();
+    // Everything went fine.
+  });
+};
+
 module.exports = {
   loginWithMobile,
   resendMobileOtp,
@@ -2244,4 +2383,6 @@ module.exports = {
   surgicalHistory,
   femalesOnly,
   musculoskeletalHistory,
+  concentAndCertification,
+  signatureUpload,
 };
