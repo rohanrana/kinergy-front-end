@@ -222,7 +222,7 @@ const Servicedetails = () => {
                           <Button
                             className="btn btn-theme pl-2 pr-2"
                             id="formBtn"
-                            style={{marginBottom:10}}
+                            style={{ marginBottom: 10 }}
                             onClick={handleShow1}
                           >
                             + Add Service
