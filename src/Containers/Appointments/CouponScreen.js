@@ -9,11 +9,14 @@ import AppointmentDetailsSection from "../../Components/common/AppointmentDetail
 import BackButton from "../../Components/common/BackButton";
 import { useSelector } from "react-redux";
 import { currencies, verifyObject } from "../../utilities/utils";
+import { appRoutesConst } from "../../App/navigation";
+import { useNavigate } from "react-router";
 
 export default function CouponScreen() {
   const [state, setState] = useState({
     couponCode: "",
   });
+  const navigate = useNavigate();
   const localStore = useSelector((state) => state.localStore);
   const amount = verifyObject(
     localStore,
@@ -98,7 +101,9 @@ export default function CouponScreen() {
                           //   dateState === null || state.selectedTimeSlot === null
                           // }
                           className="btn btn-form btn-sm w-100"
-                          // onClick={_handleAppointment}
+                          onClick={() => {
+                            navigate(appRoutesConst.paymentMethods);
+                          }}
                         >
                           <span>
                             Proceed{" "}

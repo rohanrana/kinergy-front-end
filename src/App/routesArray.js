@@ -39,7 +39,12 @@ const SomeoneElseSignUp = lazy(() =>
 );
 const HomePage = lazy(() => import("../Containers/Home"));
 const ConsentForm = lazy(() => import("../Containers/ConsentForm/ConsentForm"));
-const CouponScreen = lazy(() => import("../Containers/Appointments/CouponScreen"));
+const CouponScreen = lazy(() =>
+  import("../Containers/Appointments/CouponScreen")
+);
+const PaymentMethodScreen = lazy(() =>
+  import("../Containers/Appointments/PaymentMethodScreen")
+);
 
 //isPrivateRoute
 //isOpenRoute
@@ -139,6 +144,11 @@ export const routesArray = [
   {
     path: appRoutesConst.couponScreen,
     element: CouponScreen,
+    isPrivateRoute: true,
+  },
+  {
+    path: appRoutesConst.paymentMethods,
+    element: PaymentMethodScreen,
     isPrivateRoute: true,
   },
 ];

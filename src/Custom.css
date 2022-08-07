@@ -142,3 +142,9 @@ div.signatureCanvas {
 .appointment-details-row .appointment-detail-col-2 {
   max-height: unset !important;
 }
+.policy-desc-container {
+  padding: 60px;
+}
+.ml-10 {
+  margin-left: 10px;
+}

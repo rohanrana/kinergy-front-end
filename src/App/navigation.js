@@ -22,6 +22,8 @@ export const appRoutesConst = {
   homepage: "/home-page",
   consentForm: "/consentForm",
   couponScreen: "/couponScreen",
+  paymentMethods: "/paymentMethods",
+
 };
 
 // const config = {
