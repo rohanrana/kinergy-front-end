@@ -23,6 +23,8 @@ export const appRoutesConst = {
   createForms: "/create-form",
   Createfornext: "/create-form-next",
   Formpreview: "/form-preview",
+  Editform: "/edit-form",
+  Formedit: "/form-edit",
 };
 
 // const config = {

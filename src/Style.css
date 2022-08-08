@@ -1347,3 +1347,41 @@ img.addimg {
   border-radius: 50%;
   width: 48px;
 }
+/*rupali css start for form edit*/
+.formedit-dlt{
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.formedit-edit{border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  border-radius: 6px;
+  background: #000;
+  color: #fff;
+
+}
+.edit-fth{font-size: 16px;
+    padding-bottom: 5px;}
+
+  .edit-ftp{font-size: 12px;}
+
+.edit-card-content p{font-size: 18px; font-weight: 700; margin-bottom: 32px; margin-top: 33px;}
+.edit-card{
+  font-family: 'Inter';
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0.3px;
+    color: rgb(23 23 23 / 50%);
+    border: 1px solid #C7C7C770;
+    border-radius: 10px;
+    padding: 34px 18px;
+    margin: 8px 8px;
+    width: 23%;
+}
+.edit-card-content h5{font-size: 24px; font-weight: 800; 
+    margin-bottom: 35px;}
+    .msg{margin-top: 67px;}
+.d-wrap{flex-wrap: wrap;}
+/*rupali css end for form edit*/
