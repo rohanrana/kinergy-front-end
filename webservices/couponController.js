@@ -684,7 +684,7 @@ const apply = async (req, res, next) => {
     status: "ACTIVE",
   })
     .select(
-      "_id couponCode  title startDate endDate perUserLimit hits value couponType"
+      "_id couponCode  title startDate endDate perUserLimit hits couponValue couponType"
     )
     .lean()
     .exec(async (err, CouponData) => {

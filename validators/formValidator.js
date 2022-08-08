@@ -4,18 +4,27 @@ const resMessage = require("../helper/httpResponseMessage.js");
 const Response = require("../common_functions/response_handler");
 const Form = require("../models/formBuilderModel");
 const Staff = require("../models/staffModel");
-// const path = require('path');
-// const fs = require('fs');
+const path = require('path');
+const fs = require('fs');
 const generateAddValidation = (req, res, next) => [
   check("title")
     .custom((value) => {
-      return Form.findOne({ title: value }).then((formTitle) => {
-        console.log("formTitle", formTitle);
-        if (formTitle) {
-          // return false;
-          return Promise.reject(resMessage.FORM_TITLE_ALREADY_EXIST);
-        }
-      });
+      try{
+        return Form.findOne({ title: value }).then((formTitle) => {
+          console.log("formTitle", formTitle);
+          if (formTitle) {
+            // return false;
+            return Promise.reject(resMessage.FORM_TITLE_ALREADY_EXIST);
+          }
+        });
+      }catch(err){
+        Response.sendResponseWithError(
+          res,
+          resCode.WENT_WRONG,
+          "Something went wrong. Please Try again some time."
+        );
+      }
+      
     })
     .withMessage(resMessage.FORM_TITLE_ALREADY_EXIST)
     .trim()
@@ -48,7 +57,46 @@ const generateEditValidation = (req, res, next) => [
     .withMessage(resMessage.ENTER_FORM_ID),
 ];
 
+const submitForm = (req, res, next) => [
+  check("formId")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Enter formId")
+];
+
+
+
 const reporter = (req, res, next) => {
+  console.log('req.body',req.body);
+  if (req.file) {
+    if (req.file.error != "undefined" && req.file.error == true) {
+      for (let i = 0; i < Object.keys(req.files).length; i++) {
+        // console.log('files', i, req.files);
+        let fieldname = Object.keys(req.files)[i];
+        let filePath = "public/uploads/form" + "/" + req.body[fieldname];
+        // console.log('path', filePath)
+        fs.unlink(filePath, function (err) {
+          if (!err) {
+            console.log("removed");
+          } else {
+            console.log("removing_file_error", err);
+          }
+        });
+      }
+      // return res.status(resCode.UNPROCESSABLE_ENTITY).json({
+      //     errors: req.file
+      // });
+      Response.sendResponseWithError(
+        res,
+        resCode.UNPROCESSABLE_ENTITY,
+        "Validation Errors",
+        req.file
+      );
+    }
+  }
+
   var errors = validationResult(req);
   // console.log(errors);
   if (!errors.isEmpty()) {
@@ -59,7 +107,7 @@ const reporter = (req, res, next) => {
     const dedupThings = Array.from(
       errorMessages.reduce((m, t) => m.set(t.title, t), new Map()).values()
     );
-    Response.sendResponseWithError(
+   return  Response.sendResponseWithError(
       res,
       resCode.UNPROCESSABLE_ENTITY,
       "Validation Errors",
@@ -73,4 +121,5 @@ const reporter = (req, res, next) => {
 module.exports = {
   add: [generateAddValidation(), reporter],
   edit: [generateEditValidation(), reporter],
+  submitForm: [submitForm(), reporter],
 };

@@ -51,18 +51,11 @@ const blockCalenderRoutes = require("./routes/blockCalenderRoute");
 const availabilityCalenderRoutes = require("./routes/availabilityCalenderRoute");
 const scheduleCalenderRoutes = require("./routes/scheduleCalenderRoute");
 
-const fileUpload = require("express-fileupload");
 
 const environment = config();
 
 app.use(express.static(__dirname + '/'));
-// app.use(fileUpload());
-app.use(fileUpload({
-  limits: {
-      fileSize: 1024 * 1024 // 1 MB
-  },
-  abortOnLimit: true
-}));
+
 app.listen(environment.port, () => {
   console.log(`Server is running on ${environment.port}`);
 });

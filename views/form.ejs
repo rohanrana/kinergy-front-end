@@ -287,11 +287,10 @@ form .page .btns button.next {
                      }
                     return optionHtml; 
                 }
-                function getOptions(optionType,options,required,questionId){
-                    console.log(questionId);
+                function getOptions(optionType,options,required,questionId,fileParameter=null,questionIdString=null){
+                    console.log('fileParameter',fileParameter);
                     var optionHtml  = '';
-                    var optionH  = '';
-                    
+                    var optionH  = '';                  
                     if(optionType == "radio" || optionType == "checkBox"){
                         optionHtml += '<div>'+getOptionHtml(options,optionType,questionId,required)+'\
                             </div>';
@@ -305,6 +304,7 @@ form .page .btns button.next {
                         optionHtml += '<div><input type="date" required="'+required+'" name="'+questionId+'"></div>';
                     }else if(optionType == "file"){
                         optionHtml += '<div><input type="file" required="'+required+'" name="'+questionId+'"></div>';
+                        // optionHtml += '<div><textarea name="validation['+questionIdString+']" >'+JSON.stringify(fileParameter).replace(" ","")+'</textarea></div>';
                     }
                     return optionHtml;
                 }
@@ -318,7 +318,13 @@ form .page .btns button.next {
                     var questionHtml = '';
                     if(formData.section[i].question && formData.section[i].question.length > 0){
                             for(let j = 0;j< Object.keys(formData.section[i].question).length;j++){
-                                options = getOptions(formData.section[i].question[j].optionType,formData.section[i].question[j].options,formData.section[i].question[j].required,"question["+formData.section[i].question[j]._id+"][]");
+                                let fileParameter = formData.section[i].question[j].file;
+                                let optionType = formData.section[i].question[j].optionType;
+                                let QuesOpetion = formData.section[i].question[j].options;
+                                let required = formData.section[i].question[j].required;
+                                let questionId = "question["+formData.section[i].question[j]._id+"][]";
+                                let questionIdString = formData.section[i].question[j]._id;
+                                options = getOptions(optionType,QuesOpetion,required,questionId,fileParameter,questionIdString);
                                 questionHtml += '<hr/><div class="page slide-page">\
                                     <div  style="width:100%;">\
                                     <p> Question : '+formData.section[i].question[j].title+'</p>\

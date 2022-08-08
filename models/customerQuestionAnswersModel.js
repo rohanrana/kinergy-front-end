@@ -21,6 +21,18 @@ const customerQuestionAnswersSchema = new Schema({
     type: String,
     default: null,
   },
+  file: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false,
+  },
+  mimeType:{
+    type: String,
+    default: null,
+  },
+  fileName:{
+    type: String,
+    default: null,
+  },
 });
 module.exports = mongoose.model(
   "CustomerQuestionAnswers",

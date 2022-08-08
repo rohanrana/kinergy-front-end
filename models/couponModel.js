@@ -36,7 +36,7 @@ const couponSchema = new Schema(
       enum: ["PERCENTAGE", "AMOUNT"],
       default: "AMOUNT",
     },
-    value: {
+    couponValue: {
       type: String,
       default: 0,
     },

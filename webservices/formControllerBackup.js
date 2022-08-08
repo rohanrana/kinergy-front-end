@@ -28,12 +28,12 @@ const addFormAnswer = async (customerId, formId, questionId, questionData) => {
       { $set: questionData }, //new values you want to set
       { upsert: true, new: true }
     ).exec(async (errRespoinse, successResponse) => {
-      // console.log(
-      //   "errRespoinse",
-      //   errRespoinse,
-      //   "successResponse",
-      //   successResponse.value + " Inserted"
-      // );
+      console.log(
+        "errRespoinse",
+        errRespoinse,
+        "successResponse",
+        successResponse.value + " Inserted"
+      );
     });
   } catch (err) {
     return null;
@@ -255,6 +255,7 @@ const formApis = {
         if (data[0] && data[0].section && data[0].section.length > 0) {
           data[0].section.map((section, sectionKey) => {
             // Section Payload==========================
+            // console.log(sectionData);
             sectionData = {
               title: section.title,
               slug: generalHelper.slugify(section.title),
@@ -276,28 +277,86 @@ const formApis = {
                 ) {
                   // Question And Options -=================================
                   var questionObj = {};
+
                   section.question.map((question, questionKey) => {
-                    question.title = question.title;
-                    question.slug = generalHelper.slugify(question.title);
-                    question.sort = question.sort;
-                    question.optionType = question.optionType;
-                    question.comment = question.comment;
-                    question.required = question.required;
+                    questionObj =
+                      question.title &&
+                      question.title != null &&
+                      question.title != "undefined"
+                        ? { ...questionObj, title: question.title }
+                        : { ...questionObj };
+                    questionObj =
+                      question.title &&
+                      question.title != null &&
+                      question.title != "undefined"
+                        ? {
+                            ...questionObj,
+                            slug: generalHelper.slugify(question.title),
+                          }
+                        : { ...questionObj };
+                    questionObj =
+                      question.sort &&
+                      question.sort != null &&
+                      question.sort != "undefined"
+                        ? { ...questionObj, sort: question.sort }
+                        : { ...questionObj };
+                    questionObj =
+                      question.optionType &&
+                      question.optionType != null &&
+                      question.optionType != "undefined"
+                        ? { ...questionObj, optionType: question.optionType }
+                        : { ...questionObj };
+                    questionObj =
+                      question.comment &&
+                      question.comment != null &&
+                      question.comment != "undefined"
+                        ? { ...questionObj, comment: question.comment }
+                        : { ...questionObj };
+                    questionObj =
+                      question.required &&
+                      question.required != null &&
+                      question.required != "undefined"
+                        ? { ...questionObj, required: question.required }
+                        : { ...questionObj };
 
                     if (
                       question.optionType == "file" ||
                       question.optionType == "sign"
                     ) {
-                      questionObj.options = [];
-                      var fileObj = {
+                      var fileObj = {};
+                      questionObj = { ...questionObj, options: [] };
+                      fileObj = {
+                        ...fileObj,
                         active: question.file.active,
-                        maxFiles: question.file.maxFiles,
-                        maxFileSize: question.file.maxFileSize,
-                        fileType: question.file.fileType,
                       };
-                      questionObj.file = fileObj;
+                      fileObj = {
+                        ...fileObj,
+                        maxFiles: question.file.maxFiles,
+                      };
+                      fileObj = {
+                        ...fileObj,
+                        maxFileSize: question.file.maxFileSize,
+                      };
+
+                      let fileTypesExt = {};
+                      if (
+                        question.file.type &&
+                        question.file.type != "undefined"
+                      ) {
+                        var TypesArr = question.file.type;
+                        console.log("TypesArr", TypesArr);
+                        fileTypesExt = TypesArr;
+                        fileObj = {
+                          ...fileObj,
+                          fileType: fileTypesExt,
+                        };
+                      }
+                      questionObj = { ...questionObj, file: fileObj };
+                      // console.log(questionObj);
                       questionDoc = new Question(questionObj);
                       questionDoc.save((err, questionResult) => {
+                        console.log("quesion_Add_ERR2", err);
+                        console.log("questionResult", questionResult);
                         addQuestionInSection(sectionResult._id, questionResult);
                       });
                     } else if (
@@ -309,17 +368,18 @@ const formApis = {
                       if (question.options.length > 0) {
                         var optionArr = [];
                         question.options.map((option, optionKey) => {
-                          var optionObj = {
-                            label: option.label,
-                            value: option.value,
-                          };
+                          var optionObj = {};
+                          optionObj = { ...optionObj, label: option.label };
+                          optionObj = { ...optionObj, value: option.value };
                           optionArr.push(optionObj);
                         });
-                        questionObj.options = optionArr;
-                        questionObj.file = null;
-                        questionObj.section = sectionResult._id;
-                        questionObj.form = formResult._id;
-
+                        questionObj = { ...questionObj, options: optionArr };
+                        questionObj = { ...questionObj, file: null };
+                        questionObj = {
+                          ...questionObj,
+                          section: sectionResult._id,
+                        };
+                        questionObj = { ...questionObj, form: formResult._id };
                         questionDoc = new Question(questionObj);
                         questionDoc.save((err, questionResult) => {
                           console.log("quesion_Add_ERR1", err);
@@ -330,7 +390,7 @@ const formApis = {
                         });
                       }
                     } else {
-                      questionObj.options = [];
+                      questionObj = { ...questionObj, options: [] };
                       questionDoc = new Question(questionObj);
                       questionDoc.save((err, questionResult) => {
                         console.log("quesion_Add_ERR2", err);
@@ -383,6 +443,10 @@ const formApis = {
             if (data[0] && data[0].section && data[0].section.length > 0) {
               var sectionPromise = data[0].section.map(
                 (section, sectionKey) => {
+                  // console.log("section", section);
+                  // console.log("111111111111111IDDDD", new ObjectID());
+                  // Section Payload==========================
+                  // console.log(sectionData);
                   sectionData = {
                     title: section.title,
                     sort: section.sort,
@@ -419,6 +483,7 @@ const formApis = {
                       );
                       if (!err) {
                         addSectionInForm(formResult._id, sectionResult);
+
                         // Add Questions===================================================
                         if (
                           section &&
@@ -427,30 +492,85 @@ const formApis = {
                         ) {
                           // Question And Options -=================================
                           var questionObj = {};
+
                           section.question.map((question, questionKey) => {
-                            questionObj.title = question.title;
-                            questionObj.sort = question.sort;
-                            questionObj.optionType = question.optionType;
-                            questionObj.comment = question.comment;
-                            questionObj.required = question.required;
+                            console.log("-1-1-1-1--1", question.title);
+                            questionObj =
+                              question.title &&
+                              question.title != null &&
+                              question.title != "undefined"
+                                ? { ...questionObj, title: question.title }
+                                : { ...questionObj };
+
+                            questionObj =
+                              question.sort &&
+                              question.sort != null &&
+                              question.sort != "undefined"
+                                ? { ...questionObj, sort: question.sort }
+                                : { ...questionObj };
+                            questionObj =
+                              question.optionType &&
+                              question.optionType != null &&
+                              question.optionType != "undefined"
+                                ? {
+                                    ...questionObj,
+                                    optionType: question.optionType,
+                                  }
+                                : { ...questionObj };
+                            questionObj =
+                              question.comment &&
+                              question.comment != null &&
+                              question.comment != "undefined"
+                                ? { ...questionObj, comment: question.comment }
+                                : { ...questionObj };
+                            questionObj =
+                              question.required &&
+                              question.required != null &&
+                              question.required != "undefined"
+                                ? {
+                                    ...questionObj,
+                                    required: question.required,
+                                  }
+                                : { ...questionObj };
 
                             if (
                               question.optionType == "file" ||
                               question.optionType == "sign"
                             ) {
                               console.log("Question TYPE FILE");
-                              questionObj.options = [];
-                              var fileObj = {
+                              var fileObj = {};
+                              questionObj = { ...questionObj, options: [] };
+                              fileObj = {
+                                ...fileObj,
                                 active: question.file.active,
-                                maxFiles: question.file.maxFiles,
-                                maxFileSize: question.file.maxFileSize,
-                                fileType: question.file.fileType,
                               };
-                              questionObj.file = fileObj;
+                              fileObj = {
+                                ...fileObj,
+                                maxFiles: question.file.maxFiles,
+                              };
+                              fileObj = {
+                                ...fileObj,
+                                maxFileSize: question.file.maxFileSize,
+                              };
+
+                              let fileTypesExt = {};
+                              if (
+                                question.file.type &&
+                                question.file.type != "undefined"
+                              ) {
+                                var TypesArr = question.file.type;
+                                console.log("TypesArr", TypesArr);
+                                fileTypesExt = TypesArr;
+                                fileObj = {
+                                  ...fileObj,
+                                  fileType: fileTypesExt,
+                                };
+                              }
+                              questionObj = { ...questionObj, file: fileObj };
                               // console.log(questionObj);
                               // questionDoc = new Question(questionObj);
                               // questionDoc.save((err, questionResult) => {
-                              console.log("fileObj1", fileObj);
+                              console.log("fileObj", question);
                               Question.findOneAndUpdate(
                                 {
                                   _id:
@@ -478,21 +598,34 @@ const formApis = {
                               question.optionType == "radio" ||
                               question.optionType == "dropdown"
                             ) {
-                              questionObj.file = {};
+                              questionObj = { ...questionObj, file: {} };
                               if (question.options.length > 0) {
                                 var optionArr = [];
                                 question.options.map((option, optionKey) => {
-                                  var optionObj = {
+                                  var optionObj = {};
+                                  optionObj = {
+                                    ...optionObj,
                                     label: option.label,
+                                  };
+                                  optionObj = {
+                                    ...optionObj,
                                     value: option.value,
                                   };
                                   optionArr.push(optionObj);
                                 });
-
-                                questionObj.options = optionArr;
-                                questionObj.file = null;
-                                questionObj.section = sectionResult._id;
-                                questionObj.form = formResult._id;
+                                questionObj = {
+                                  ...questionObj,
+                                  options: optionArr,
+                                };
+                                questionObj = { ...questionObj, file: null };
+                                questionObj = {
+                                  ...questionObj,
+                                  section: sectionResult._id,
+                                };
+                                questionObj = {
+                                  ...questionObj,
+                                  form: formResult._id,
+                                };
                                 // questionDoc = new Question(questionObj);
                                 // questionDoc.save((err, questionResult) => {
                                 Question.findOneAndUpdate(
@@ -872,8 +1005,7 @@ const formApis = {
     }
   },
   formSubmit: async (req, res) => {
-    // console.log("formData", req.body);
-    // console.log
+    console.log("formData", req.body);
 
     const { customerId, formId, question, files } = JSON.parse(
       JSON.stringify(req.body)
@@ -912,7 +1044,7 @@ const formApis = {
           addFormAnswer(customerId, formId, key, questionData);
         }
       }
-      // console.log("files", files);
+      console.log("files", files);
       files &&
         files.length > 0 &&
         files.map(async (v, x) => {
@@ -967,10 +1099,10 @@ const formApis = {
           .replace("]", "")
           .replace("question", "")
           .replace("[]", "");
-        // console.log("##Form", req.body, file);
+        console.log("##Form", req.body, file);
         var extname = path.extname(file.originalname).toLowerCase();
         var fileName = fileObj.fieldName + Date.now() + extname;
-        // console.log("fileName", fileName);
+        console.log("fileName", fileName);
         //   req.body[file.fieldname] = fileName;
         //   req.body.mimetype = file.mimetype;
         //   req.body.location = fileLocation;
@@ -995,51 +1127,25 @@ const formApis = {
       storage: storage,
       limits: { fileSize: maxSize },
       fileFilter: (req, file, cb) => {
+
+        // console.log("---------------------------", req.body, file);
         cb(null, true); 
-        // var validationFileType = "";
-        // try {
-        //   console.log(req.body);
-        //   var BODY = JSON.parse(JSON.stringify(req.body));
-        //   validationObj = BODY.validation;
-        //   var validaitonDATA = JSON.parse(
-        //     validationObj[Object.keys(validationObj)[0]]
-        //   );
-        //   var validationArr = [];
-        //   validationArr.push(validaitonDATA);
-        //   console.log("______validation", validationArr[0].fileType);
-        //   validationFileType = validationArr[0].fileType;
-        //   console.log("----------------f-----------", req.body, file);
-        //   // cb(null, true);
-        //   fileMimeTypeArr = file.mimetype.split("/");
-        //   var validationFileTypeArr = validationFileType.split(",");
-        //   if (validationFileTypeArr.length > 0 && validationFileTypeArr[0] && validationFileTypeArr[0] != "" ) {
-        //     if (validationFileTypeArr.includes(fileMimeTypeArr[1])) {
-        //       cb(null, true);
-        //       console.log('1212123');
-        //     } else {
-        //       cb(null, false);
-        //       console.log(
-        //         "-----------------------------",
-        //         validationFileTypeArr
-        //       );
-        //       // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
-        //       req.file = {
-        //         error: true,
-        //         title: file.fieldname,
-        //         msg:
-        //           "Only " +
-        //           validationFileTypeArr.toString() +
-        //           " format allowed!",
-        //         status: -6,
-        //       };
-        //       console.log("==================", req.file);
-              
-        //     }
-        //   }else{
-        //     cb(null, true);
-        //   }
-        // } catch (validaitionErr) {
-        //   console.log("validationError", validaitionErr);
+        // if (
+        //   file.mimetype == "image/png" ||
+        //   file.mimetype == "image/jpg" ||
+        //   (file.mimetype == "image/jpeg") |
+        //     (file.mimetype == "application/pdf")
+        // ) {
+        //   cb(null, true);
+        // } else {
+        //   cb(null, false);
+        //   // return new cb(new Error("Only/ .png, .jpg and .jpeg format allowed!"));
+        //   req.file = {
+        //     error: true,
+        //     title: file.fieldname,
+        //     msg: "Only .png, .jpg and .jpeg .pdf format allowed!",
+        //     status: -6,
+        //   };
         // }
       },
       onFileSizeLimit: async (file) => {
@@ -1059,7 +1165,7 @@ const formApis = {
     // ]);
 
     upload(req, res, function (err) {
-      // console.log("errBOdy", req.body);
+      console.log("errBOdy", req.body);
       if (err instanceof multer.MulterError) {
         console.log("uploading_err", err);
         // A Multer error occurred when uploading.
