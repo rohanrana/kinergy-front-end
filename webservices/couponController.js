@@ -688,7 +688,14 @@ const apply = async (req, res, next) => {
     )
     .lean()
     .exec(async (err, CouponData) => {
-
+      console.log('----+----',CouponData.endDate.getTime() ,'<', new Date().getTime())
+      if( CouponData.startDate.getTime() > new Date().getTime()  || CouponData.endDate.getTime() < new Date().getTime()){
+        return await Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          "Coupon expired."
+        );
+      }
       if (await CouponData) {
         console.log("Coupon Code Match");
         console.log('_id',CouponData._id);
@@ -700,11 +707,11 @@ const apply = async (req, res, next) => {
             })
             .lean()
             .exec(async (CouponServiceErr, CouponServiceData) => {
-              console.log('CouponServiceData',CouponServiceData);
+              // console.log('CouponServiceData',CouponServiceData);
               if(await CouponData.perUserLimit <= CouponData.hits){
                 return await Response.sendResponseWithoutData(
                   res,
-                  resCode.EVERYTHING_IS_OK,
+                  resCode.WENT_WRONG,
                   "Coupon limit reached."
                 );
               }
@@ -720,7 +727,7 @@ const apply = async (req, res, next) => {
               } else {
                 return await Response.sendResponseWithoutData(
                   res,
-                  resCode.EVERYTHING_IS_OK,
+                  resCode.WENT_WRONG,
                   "Coupon not applicable ."
                 );
               }
