@@ -30,9 +30,13 @@ const stringToUpperCase = (string) => {
   return string ? string.toUpperCase() : string;
 };
 
-const removeFile = (oldImage, path) => {
-  if (oldImage != "undefined" && oldImage != null) {
-    let filePath = path + "/" + oldImage;
+const removeFile = (oldImage, path ,filePath=null) => {
+  if (oldImage != "undefined" && oldImage != null && filePath == null) {
+     filePath = path + "/" + oldImage;
+    fs.unlink(filePath, function (err) {
+      if (!err) console.log("removed");
+    });
+  }else{
     fs.unlink(filePath, function (err) {
       if (!err) console.log("removed");
     });

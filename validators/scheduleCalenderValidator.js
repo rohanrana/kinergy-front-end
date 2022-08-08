@@ -9,6 +9,15 @@ const generateAddValidation = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Please enter provider."),
+  check("rules")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter rules.")
+];
+
+const addDays = (req, res, next) => [
   check("name")
     .trim()
     .escape()
@@ -47,4 +56,5 @@ const reporter = (req, res, next) => {
 
 module.exports = {
   add: [generateAddValidation(), reporter],
+  addDays: [addDays(), reporter],
 };

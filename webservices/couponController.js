@@ -688,17 +688,14 @@ const apply = async (req, res, next) => {
     )
     .lean()
     .exec(async (err, CouponData) => {
-      console.log('----+----',CouponData.endDate.getTime() ,'<', new Date().getTime())
+      // console.log('----+----',CouponData.endDate.getTime() ,'<', new Date().getTime())
+      // console.log('----+----',CouponData.endDate.getTime() ,'<', new Date().getTime())
       if( CouponData.startDate.getTime() > new Date().getTime()  || CouponData.endDate.getTime() < new Date().getTime()){
-        return await Response.sendResponseWithoutData(
-          res,
-          resCode.WENT_WRONG,
-          "Coupon expired."
-        );
+        return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon expired.");
       }
       if (await CouponData) {
-        console.log("Coupon Code Match");
-        console.log('_id',CouponData._id);
+        // console.log("Coupon Code Match");
+        // console.log('_id',CouponData._id);
         if (await CouponData._id) {
           await CouonService
             .findOne({
@@ -708,37 +705,20 @@ const apply = async (req, res, next) => {
             .lean()
             .exec(async (CouponServiceErr, CouponServiceData) => {
               // console.log('CouponServiceData',CouponServiceData);
-              if(await CouponData.perUserLimit <= CouponData.hits){
-                return await Response.sendResponseWithoutData(
-                  res,
-                  resCode.WENT_WRONG,
-                  "Coupon limit reached."
-                );
-              }
-              if (await CouponServiceData) {
-                console.log("Coupon Code Match");
-                // return res.send(CouponData);
-                return await Response.sendResponseWithData(
-                  res,
-                  resCode.EVERYTHING_IS_OK,
-                  "Coupon applied successfully.",
-                  CouponData
-                );
-              } else {
-                return await Response.sendResponseWithoutData(
-                  res,
-                  resCode.WENT_WRONG,
-                  "Coupon not applicable ."
-                );
-              }
+                if(await CouponData.perUserLimit <= CouponData.hits){
+                  return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon limit reached.");
+                }
+                if (await CouponServiceData) {
+                  console.log("Coupon Code Match");
+                  // return res.send(CouponData);
+                  return await Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Coupon applied successfully.",CouponData);
+                } else {
+                  return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon not applicable .");
+                }
             });
         }
       } else {
-        return await Response.sendResponseWithoutData(
-          res,
-          resCode.WENT_WRONG,
-          "invalid coupon."
-        );
+        return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"invalid coupon.");
       }
     });
 };

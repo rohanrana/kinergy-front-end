@@ -12,7 +12,6 @@ const fileHelper = require("../helper/fileHelper");
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
-var formidable = require("formidable");
 const maxSize = 1 * 1024 * 1024;
 const CustomerQuestionAnswers = require("../models/CustomerQuestionAnswersModel");
 var ObjectID = require("mongodb").ObjectID;
@@ -20,6 +19,43 @@ var oldSections = null;
 function setValue(result) {
   oldSections = result;
 }
+
+const deleteAllQuestionsAnswerByCustomer = (customerId,formId)=>{
+  CustomerQuestionAnswers.find({customerId:customerId,formId:formId}).exec(async(AnswersErr,AnswerResult)=>{
+    
+    if(!AnswersErr){
+      console.log("AnswerResult11",AnswerResult);
+      AnswerResult && AnswerResult.length > 0 && AnswerResult.map(async (ans,ansX)=>{
+        if(ans.file){
+          await generalHelper.removeFile(null,null,ans.value);
+          var response = await CustomerQuestionAnswers.findByIdAndDelete({_id:ans._id}).exec();
+          console.log('response',response);          
+        }else{
+          CustomerQuestionAnswers.findByIdAndDelete({_id:ans._id}).exec();          
+        }
+      })
+    }
+  })
+}
+const getCustomerAnswer = async (questionId,formId=null,customerId=null)=>{
+    var customerQues =  await CustomerQuestionAnswers.findOne({formId:formId,customerId:customerId,question:questionId}).lean().exec();
+    if(customerQues) return customerQues.value;else return null;
+}
+const  checkForRemoveOldFile = async (customerId, formId, questionId)=>{
+  // console.log('---------------------',customerId, formId, questionId);
+  var Query = {customerId:customerId, formId:formId, question:questionId};
+  // console.log('Query',Query)
+  await CustomerQuestionAnswers.findOne(Query).lean().exec(async (err,result)=>{
+      if(result){
+        console.log('ResultValue',result.value)
+        var value = result.value;
+        if(await result.file) await generalHelper.removeFile(null,null,value);
+      }else{
+        console.log('findErr',err);
+      }
+  })
+  
+};
 
 const addFormAnswer = async (customerId, formId, questionId, questionData) => {
   try {
@@ -82,33 +118,39 @@ const getServiceCategory = async (formId) => {
   return await Promise.all(servicePromise);
 };
 
-const getManageQuestion = async (section) => {
-  if (!section || section.length == 0) return await null;
-  sectionData =
-    section &&
-    section.map(async (s, x) => {
-      returnObj = {
-        _id: s._id,
-        title: s.title,
-        slug: s.slug,
-        description: s.description,
-      };
-      returnObj.optionType = s.optionType;
-      returnObj.required = s.required;
-      if (s.optionType == "radio") returnObj.options = s.options;
-      else if (s.optionType == "dropdown") returnObj.options = s.options;
-      else if (s.optionType == "file") returnObj.file = s.file;
-      else if (s.optionType == "checkBox") returnObj.options = s.options;
+const getManageQuestion = async (question,formId=null,customerId=null) => {
+  if (!question || question.length == 0) return await null;
+  console.log('#QUESTION - ','formId',formId,'customerId',customerId);
+  questionData =
+  question &&
+  question.map(async (q, x) => {
 
-      returnObj.comment = s.comment;
-      returnObj.sort = s.sort;
+      returnObj = {
+        _id: q._id,
+        value: await getCustomerAnswer(q._id,formId,customerId),
+        title: q.title,
+        slug: q.slug,
+        description: q.description,
+      };
+     
+      returnObj.optionType = q.optionType;
+      returnObj.required = q.required;
+      if (q.optionType == "radio"){ returnObj.options = q.options;}
+      else if (q.optionType == "dropdown") {returnObj.options = q.options;}
+      else if (q.optionType == "file") {returnObj.file = q.file;}
+      else if (q.optionType == "checkBox"){ returnObj.options = q.options;}
+
+      returnObj.comment = q.comment;
+      returnObj.sort = q.sort;
+
       return returnObj;
     });
-  return await Promise.all(sectionData);
+  return await Promise.all(questionData);
 };
 
-const manageSection = async (section) => {
+const manageSection = async (section,formId=null,customerId=null) => {
   if (!section || section.length == 0) return await null;
+  console.log('#SECTION - ','formId',formId,'customerId',customerId);
   sectionData =
     section &&
     section.map(async (s, x) => {
@@ -117,7 +159,7 @@ const manageSection = async (section) => {
         title: s.title,
         slug: s.slug,
         description: s.description,
-        question: await getManageQuestion(s.question),
+        question: await getManageQuestion(s.question,formId,customerId),
       };
     });
   return await Promise.all(sectionData);
@@ -700,6 +742,55 @@ const formApis = {
         }
       });
   },
+
+  customerFormByIdWithAnswerDetails: async (req, res) => {
+    if (!req.body._id) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.ENTER_FORM_ID);
+    if (!req.body.customerId) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,'Enter customer id');
+    const {_id,customerId} = req.body;
+    Form.findOne({ _id: req.body._id })
+      .populate({
+        path: "section",
+        options: { sort: { sort: 1 } },
+        populate: {
+          path: "question",
+          options: { sort: { sort: 1 } },
+        },
+      })
+
+      .lean()
+      .exec(async (err, result) => {
+        // console.log(result.length);
+        if (err)
+          return await Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0)
+          return await Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            "Form Not Found."
+          );
+        else {
+          finalFormResult = {
+            _id: result._id,
+            title: result.title,
+            slug: result.slug,
+            description: result.description,
+            section: await manageSection(result.section,_id,customerId),
+          };
+
+          console.log('#FORM - ','formId',_id,'customerId',customerId);
+          return await Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Form Found Successfully.",
+            finalFormResult
+          );
+        }
+      });
+  },
   delete: (req, res) => {
     if (!req.body._id) {
       Response.sendResponseWithoutData(
@@ -898,9 +989,13 @@ const formApis = {
         "Please enter question data."
       );
     try {
+      
+      deleteAllQuestionsAnswerByCustomer(customerId,formId);
+      // CustomerQuestionAnswers.deleteOne({customerId: customerId,formId: formId}).exec();
       for (let key in question) {
         if (question.hasOwnProperty(key)) {
           //  console.log(key, question[key]);
+          
           var questionData = {
             customerId: customerId,
             formId: formId,
@@ -916,6 +1011,7 @@ const formApis = {
       files &&
         files.length > 0 &&
         files.map(async (v, x) => {
+         await  checkForRemoveOldFile(customerId, formId, v.fieldName);
           var questionData = {
             customerId: customerId,
             formId: formId,
@@ -925,8 +1021,9 @@ const formApis = {
             mimeType: v.mimetype,
             fileName: v.fileName,
           };
+          // console.log('fileDATA',questionData);
 
-          addFormAnswer(customerId, formId, v.fieldName, questionData);
+          await addFormAnswer(customerId, formId, v.fieldName, questionData);
         });
     } catch (formEr) {
       return await Response.sendResponseWithoutData(
@@ -946,7 +1043,6 @@ const formApis = {
   formFileUpload: async (req, res, next) => {
     // console.log('req.files',req.files);
     var fileLocation = await "public/uploads/form";
-    var fileFieldName = "";
     var fileCount = await 10;
     try {
       !fs.existsSync(`./${fileLocation}`) &&

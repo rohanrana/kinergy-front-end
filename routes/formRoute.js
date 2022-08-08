@@ -9,6 +9,7 @@ router.post('/create', authHandler.auth_func, formsValidator.add, formsApis.crea
 router.post('/edit', authHandler.auth_func, formsValidator.edit, formsApis.edit); 
 router.post('/formById', authHandler.auth_func, formsApis.formById); 
 router.post('/formByIdDetails', authHandler.auth_func, formsApis.formByIdDetails);    
+router.post('/customerFormByIdWithAnswerDetails', authHandler.auth_func, formsApis.customerFormByIdWithAnswerDetails);    
 router.post('/formList', authHandler.auth_func, formsApis.list); 
 router.post('/delete', authHandler.auth_func, formsApis.delete); 
 router.post('/status', authHandler.auth_func, formsApis.status); 

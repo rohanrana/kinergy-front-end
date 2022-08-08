@@ -12,7 +12,6 @@ const fileHelper = require("../helper/fileHelper");
 const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
-var formidable = require("formidable");
 const maxSize = 1 * 1024 * 1024;
 const CustomerQuestionAnswers = require("../models/CustomerQuestionAnswersModel");
 var ObjectID = require("mongodb").ObjectID;
