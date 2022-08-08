@@ -22,3 +22,11 @@ export const bookAppointment = (data) => {
   };
   return post(request);
 };
+
+export const applyCoupon = (data) => {
+  const request = {
+    subUrl: `/coupon/apply`,
+    data,
+  };
+  return post(request);
+};

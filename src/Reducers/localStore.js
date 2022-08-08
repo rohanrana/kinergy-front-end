@@ -8,6 +8,7 @@ const initialState = {
   appointmentBookingDetails: null,
   selectedProviders: null,
   clientDetails: null,
+  isSeenPolicy: false,
 
   // dynamicInputs: null,
 };
@@ -19,6 +20,7 @@ export const actionTypes = {
   SET_APPOINTMENT_PROVIDER: "appointments/SET_APPOINTMENT_PROVIDER",
   SET_CLIENT_DETAILS: "appointments/SET_CLIENT_DETAILS",
   CLEAR_USER_PROVIDER: "appointments/CLEAR_USER_PROVIDER",
+  ON_SEEN_POLICY: "ON_SEEN_POLICY",
 };
 export const localStore = (state = initialState, action) => {
   switch (action.type) {
@@ -45,6 +47,9 @@ export const localStore = (state = initialState, action) => {
     }
     case actionTypes.SET_CLIENT_DETAILS: {
       return { ...state, clientDetails: action.payload };
+    }
+    case actionTypes.ON_SEEN_POLICY: {
+      return { ...state, isSeenPolicy: action.payload };
     }
     case actionTypes.CLEAR_USER_PROVIDER: {
       return {

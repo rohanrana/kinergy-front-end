@@ -148,3 +148,44 @@ div.signatureCanvas {
 .ml-10 {
   margin-left: 10px;
 }
+
+.booking-confirmatiom-modal {
+  display: flex !important;
+}
+
+.booking-confirmatiom-content {
+  width: 320px !important;
+  text-align: center;
+}
+
+.font-10 {
+  font-size: 10px;
+}
+.font-bold {
+  font-weight: bold;
+}
+
+.conf-btn-container {
+  display: flex;
+}
+
+button.btn-confirm-appt {
+  margin-left: 15px !important;
+  height: 36px !important;
+  width: 162px !important;
+  font-size: 12px !important;
+}
+
+button.btn-print {
+  height: 36px !important;
+  width: 267px !important;
+  font-size: 12px !important;
+  background-color: #fff !important;
+  border-color: #fff !important;
+}
+.booking-time-date {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}

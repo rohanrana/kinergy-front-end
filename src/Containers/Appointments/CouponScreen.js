@@ -8,14 +8,22 @@ import Call from "../../images/call.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
 import { useSelector } from "react-redux";
-import { currencies, verifyObject } from "../../utilities/utils";
+import {
+  currencies,
+  errorToast,
+  getErrorObject,
+  verifyObject,
+} from "../../utilities/utils";
 import { appRoutesConst } from "../../App/navigation";
 import { useNavigate } from "react-router";
+import { applyCoupon } from "../../Services/appointments";
 
 export default function CouponScreen() {
   const [state, setState] = useState({
     couponCode: "",
+    loading: false,
   });
+
   const navigate = useNavigate();
   const localStore = useSelector((state) => state.localStore);
   const amount = verifyObject(
@@ -23,8 +31,43 @@ export default function CouponScreen() {
     "appointmentBookingDetails.price",
     null
   );
+  const service_id = verifyObject(localStore, "selectedService._id", null);
+  const handleChange = (e) => {
+    setState({
+      ...state,
+      couponCode: e.target.value,
+    });
+  };
 
-  const handleChange = () => {};
+  const _applyCoupon = async () => {
+    try {
+      // let phone = JSON.parse(localStorage.getItem("otp-phone"));
+      await setState({ ...state, loading: true });
+      let response = await applyCoupon({
+        couponCode: state.couponCode,
+        serviceId: service_id,
+      });
+      console.log("response", response);
+      let timeSlots = verifyObject(response, "data.result", []);
+      // let serviceName = verifyObject(response, "data.result[0].title", []);
+      // console.log("initialConsultation", priceDetails);
+      await setState({
+        ...state,
+        discountedAmounted: timeSlots,
+        loading: false,
+      });
+    } catch (error) {
+      const { message } = getErrorObject(error);
+      errorToast({
+        content: message,
+      });
+      setState({
+        ...state,
+        loading: false,
+        // timeSlots: [],
+      });
+    }
+  };
   return (
     <div className="therapy-services">
       <Container>
@@ -57,6 +100,14 @@ export default function CouponScreen() {
                           value={state.couponCode}
                           placeholder="Enter Coupon Codes"
                         />
+                        <br />
+                        <button
+                          disabled={state.couponCode === "" || state.loading}
+                          className="btn btn-form btn-sm  btn btn-primary"
+                          onClick={_applyCoupon}
+                        >
+                          {state.loading ? "Applying..." : "Apply"}
+                        </button>
                       </Form.Group>
                     </Col>
                     <Col lg={4} sm={4} xs={12}></Col>

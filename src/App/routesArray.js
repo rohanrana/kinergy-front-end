@@ -149,6 +149,6 @@ export const routesArray = [
   {
     path: appRoutesConst.paymentMethods,
     element: PaymentMethodScreen,
-    isPrivateRoute: true,
+    isOpenRoute: true,
   },
 ];

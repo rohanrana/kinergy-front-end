@@ -7,29 +7,40 @@ import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import Call from "../../images/call.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { currencies, verifyObject } from "../../utilities/utils";
 import VisaImg from "../../images/visa.png";
 import PayPalImg from "../../images/paypal.png";
+import LockImg from "../../images/lock.png";
 import { PolicyModal } from "./PolicyModal";
+import { actionTypes } from "../../Reducers/localStore";
+import { BookingConfirmationModal } from "./BookingConfirmatiomModal";
 
 export default function PaymentMethodeScreen() {
   const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow2, setModalShow2] = React.useState(false);
 
   const [state, setState] = useState({
     couponCode: "",
     paymentMethod: null,
   });
   const localStore = useSelector((state) => state.localStore);
+  const dispatch = useDispatch();
   const amount = verifyObject(
     localStore,
     "appointmentBookingDetails.price",
     null
   );
 
+  const isSeenPolicy = verifyObject(localStore, "isSeenPolicy", false);
+
   const _handleCheckbox = (e) => {
     if (e.target.checked) {
       setModalShow(true);
+      dispatch({
+        type: actionTypes.ON_SEEN_POLICY,
+        payload: true,
+      });
     }
   };
 
@@ -109,9 +120,15 @@ export default function PaymentMethodeScreen() {
                     style={{ display: "flex" }}
                     className="float-left mt-10"
                   >
-                    <span>
-                      <input onChange={_handleCheckbox} type="checkbox" />
-                    </span>
+                    {isSeenPolicy ? (
+                      <span>
+                        <img src={LockImg} alt={LockImg} />
+                      </span>
+                    ) : (
+                      <span>
+                        <input onChange={_handleCheckbox} type="checkbox" />
+                      </span>
+                    )}
 
                     <p className="ml-10">
                       Review the Attendance/ Cancellation Policy
@@ -200,7 +217,9 @@ export default function PaymentMethodeScreen() {
                           //   dateState === null || state.selectedTimeSlot === null
                           // }
                           className="btn btn-form btn-sm w-100"
-                          // onClick={_handleAppointment}
+                          onClick={() => {
+                            setModalShow2(true);
+                          }}
                         >
                           <span>
                             Proceed{" "}
@@ -217,6 +236,10 @@ export default function PaymentMethodeScreen() {
         </Row>
       </Container>
       <PolicyModal show={modalShow} onHide={() => setModalShow(false)} />
+      <BookingConfirmationModal
+        show={modalShow2}
+        onHide={() => setModalShow2(false)}
+      />
     </div>
   );
 }
