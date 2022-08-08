@@ -8,7 +8,7 @@ const Days = require("../models/daysModel");
 
 const add = async (req, res, next) => {
   var { provider, rules } = req.body;
-  console.log('req.body',req.body)
+  console.log('req.body',req.body);
   rules && rules.length > 0 && rules.map(async (SDAY,SDAYX)=>{
     var name = SDAY.name;
     var type = SDAY.type;

@@ -313,12 +313,27 @@
             );
           }
           var timeArr = [];
+          const getDayName = (d) =>{
+            if(d == 1) return "monday";
+            if(d == 2) return "tuesday";
+            if(d == 3) return "wednesday";
+            if(d == 4) return "thrusday";
+            if(d == 5) return "friday";
+            if(d == 6) return "saturday";
+            if(d == 7) return "sunday";
+          }
           for (d = 1; d <= 7; d++) {
             timeArr.push({
-              day: d,
-              status: rangeTimes[d][0] === undefined ? 0 : 1,
-              startDate: rangeTimes[d][0] === undefined ? "" : rangeTimes[d][0],
-              endDate: rangeTimes[d][1] === undefined ? "" : rangeTimes[d][1],
+              name: getDayName(d),
+              type: "wday",
+              intervals:[{
+                    from: rangeTimes[d][0] === undefined ? "" : rangeTimes[d][0],
+                    to: rangeTimes[d][1] === undefined ? "" : rangeTimes[d][1]
+                }],
+
+              // status: rangeTimes[d][0] === undefined ? 0 : 1,
+              // startDate: rangeTimes[d][0] === undefined ? "" : rangeTimes[d][0],
+              // endDate: rangeTimes[d][1] === undefined ? "" : rangeTimes[d][1],
             });
             $("#schedule tbody").append(
               "<tr>" +
@@ -335,12 +350,19 @@
             );
           }
           console.log(timeArr);
-          $.ajax({ 
-            url: "http://localhost:8080/api/v1/scheduleCalender/addDays", 
-            type: "POST", 
-            data: timeArr,
-            success:(res)=>{console.log(res)}
-           });
+          $.ajax({
+            url: "http://localhost:8080/api/v1/scheduleCalender/add",
+            type: "POST",
+            data: {
+              provider: "6282888014c807cfd6804066",
+              token:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjUwODRlYTU1NGE2MzI3ZWUxNTMzNmQiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkLmhaRkxHNG5vbjRKZkJHT3VGY25CT3AxUXlTWlNlU2JmLmVWbzEwUVpOeXRDRS8vYWdPNnUiLCJpYXQiOjE2NDk2NjYzOTR9.FrYRY79Nej3HS-ae6pXkvUU3aS7RkThBHVqUbqeAa_E",
+              rules: timeArr,
+            },
+            success: (res) => {
+              console.log(res);
+            },
+          });
         }
 
         function getTime(hours, minutes) {
