@@ -75,6 +75,11 @@ const appointmentSchema = new Schema(
       ref: "CaseRecord",
       default: null,
     },
+    wavier: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Waiver",
+      default: null,
+    },
     location: {
       type: String,
       default: null,

@@ -222,6 +222,7 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
     files,
     waiverAndReleaseOfLiabilityAuthorizedDate,
     waiverAndReleaseOfLiabilityAuthorizedRepresentative,
+    waiverAndReleaseOfLiabilityClientName,
     waiverAndReleaseOfLiabilityIamAuthorized,
     waiverAndReleaseOfLiabilityNeedSign,
     waiverAndReleaseOfLiabilityValidFor,
@@ -289,6 +290,7 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
         validFor: waiverAndReleaseOfLiabilityValidFor,
         iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,
         needSign: waiverAndReleaseOfLiabilityNeedSign,
+        clientName:waiverAndReleaseOfLiabilityClientName,
         signature: files && files.length > 0 ? files[0].fileName : null,
       });
       await waiver.save(async (waiverErr, waiverResult) => {
@@ -340,6 +342,7 @@ const bookingAppointmentMySelf = async (req, res, next) => {
     waiverAndReleaseOfLiabilityIamAuthorized,
     waiverAndReleaseOfLiabilityNeedSign,
     waiverAndReleaseOfLiabilityValidFor,
+    waiverAndReleaseOfLiabilityClientName,
     couponId,
     couponTitle,
     couponCode,
@@ -401,6 +404,7 @@ const bookingAppointmentMySelf = async (req, res, next) => {
         validFor: waiverAndReleaseOfLiabilityValidFor,
         iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,
         needSign: waiverAndReleaseOfLiabilityNeedSign,
+        clientName:waiverAndReleaseOfLiabilityClientName,
         signature: files && files.length > 0 ? files[0].fileName : null,
       });
       await waiver.save(async (waiverErr, waiverResult) => {

@@ -166,6 +166,11 @@ const dateIsValid = (dateStr) => {
   return date.toISOString().startsWith(dateStr);
 }
 
+
+const trimNumber = (number)=>{
+  number = number.replace(/\D/g,"");
+  return number;
+}
 module.exports = {
   managePriceDuration,
   stringToUpperCase,
@@ -179,5 +184,5 @@ module.exports = {
   checkValueExist,
   isObjectEmpty,
   checkObjectId,
-  dateIsValid
+  dateIsValid,trimNumber
 };

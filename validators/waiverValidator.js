@@ -18,6 +18,12 @@ const waiver = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Please enter signature."),
+    check("type")
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage("Please enter type."),
 ];
 const reporter = (req, res, next) => {
   // ================== IF FILE ERROR =============

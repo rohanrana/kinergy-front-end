@@ -19,14 +19,15 @@ const add = async (req, res, next) => {
     iamAuthorized,
     authorizedRepresentativeName,
     clientName,
-    date,
+    appointment,
+    date,type,
     files,
   } = req.body;
   await Waiver.findOneAndUpdate(
-    { type: "PROFILE", appointment: null, customer: customer },
+    { type: type, appointment: appointment, customer: customer },
     {
-      type: "PROFILE",
-      appointment: null,
+      type: type,
+      appointment: appointment,
       customer: customer,
       authorizedRepresentativeName: authorizedRepresentativeName,
       date: date,

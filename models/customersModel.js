@@ -206,6 +206,11 @@ const customersSchema = new Schema(
       ref: "MusculoskeletalHistory",
       default: null,
     },
+    linkedUsers:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "LinkUsers",
+      default: null,
+    }]
     
   },
 
