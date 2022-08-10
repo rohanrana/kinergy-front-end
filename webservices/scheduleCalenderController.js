@@ -8,8 +8,10 @@ const Days = require("../models/daysModel");
 
 const add = async (req, res, next) => {
   var { provider, rules } = req.body;
-  console.log('req.body',req.body);
-  rules && rules.length > 0 && rules.map(async (SDAY,SDAYX)=>{
+  // console.log('req.body',req.body);
+  // console.log('rules[0]',rules[0]);
+  
+  rules && typeof rules != 'string'  && rules.length > 0 && rules.map(async (SDAY,SDAYX)=>{
     var name = SDAY.name;
     var type = SDAY.type;
     var intervals  = SDAY.intervals;    
@@ -38,13 +40,17 @@ const add = async (req, res, next) => {
           return await Response.sendResponseWithData(
             res,
             resCode.EVERYTHING_IS_OK,
-            "Schedule calender weekly add day successfully.",
+            "Schedule calender availability  add  successfully.",
             schedulCalenderResult
           );
         }
       });
   })
-  
+  return await Response.sendResponseWithoutData(
+    res,
+    resCode.WENT_WRONG,
+    "Schedule calender availability  not added.",
+  );
 };
 
 
@@ -81,9 +87,9 @@ const addDays = async (req, res, next) => {
 
 const get = async (req, res, next) => {
   if (!req.body.provider) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Please enter provider id.");
-  
+  var query = {provider:req.body.provider};
   await schedulCalender
-    .find({provider:req.body.provider})
+    .find(query)
     .exec(async (schedulCalenderErr, schedulCalenderResult) => {
       if (await schedulCalenderErr) {
         return await Response.sendResponseWithoutData(

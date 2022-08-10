@@ -13,7 +13,7 @@ const languageHelper = require("../helper/languageHelper");
 const path = require("path");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
-
+const schedulCalender = require("../models/timeScheduleModel");
 const returnPagination = (result) => {
   delete result.docs;
   return result;
@@ -21,6 +21,7 @@ const returnPagination = (result) => {
 
 const facilityApis = {
   add: async (req, res, next) => {
+    console.log("body",req.body);
     try {
       const {
         facilityName,
@@ -40,7 +41,13 @@ const facilityApis = {
         experience,
         about,
         language,
+        rules
       } = req.body;
+
+      var facilityExist =  await Facility.findOne({facilityName: facilityName}).exec();
+      if(facilityExist) return  Response.sendResponseWithData(
+        res, resCode.WENT_WRONG, "Facility already exist."  );
+
       let phoneArr = [];
       if (phone) {
         phone.map(async (value, index) => {
@@ -75,6 +82,7 @@ const facilityApis = {
       await facility.save(async (err, result) => {
         // console.log(err, result);
         if (!err) {
+          facilityHelper.scheduleCalenderAvailability(result._id,rules);
           await facilityHelper.addInterval(result._id);
           return await Response.sendResponseWithData(
             res,
@@ -125,7 +133,7 @@ const facilityApis = {
         speciality,
         experience,
         about,
-        language,
+        language,rules
       } = req.body;
       let phoneArr = [];
       if (phone) {
@@ -165,8 +173,9 @@ const facilityApis = {
       Facility.findOneAndUpdate({ _id: req.body._id }, editData, { new: true })
         .lean()
         .exec(async (err, result) => {
-          console.log(err);
-          if (!err) {
+          console.log(err,result);
+          if (!err && result) {
+            await facilityHelper.scheduleCalenderAvailability(result._id,rules);
             return await Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
@@ -249,6 +258,7 @@ const facilityApis = {
             //     .select("_id title slug category").populate("category","_id title slug").lean().exec();
             // }
             if (req.body.serviceCategory) {
+              
               result[0].serviceInformation = await ServiceCategory.find({
                 _id: req.body.serviceCategory,
               })
@@ -261,6 +271,7 @@ const facilityApis = {
                 .lean()
                 .exec();
             }
+            result[0].availability = await facilityHelper.getSchedulerCalender(req.body._id);
             return await Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
@@ -493,6 +504,57 @@ const facilityApis = {
         }
       });
   },
+  getFacilityAvailability:async(req,res)=>{
+    if (!req.body.provider) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Please enter provider id.");
+  var query = {provider:req.body.provider};
+  await schedulCalender
+    .find(query)
+    .exec(async (schedulCalenderErr, schedulCalenderResult) => {
+      if (await schedulCalenderErr) {
+        return await Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      } else {
+        return await Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Schedule calender weekly list.",
+          schedulCalenderResult
+        );
+      }
+    });
+  },
+  getFacilityAvailabilityByDate:async(req,res)=>{
+    if (!req.body.provider) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Please enter provider id.");
+    if (! req.body.date) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Please enter date.");
+    if (! generalHelper.dateIsValid(req.body.date)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Please enter valid date format yyyy-mm-dd.");
+    let date = new Date(req.body.date);
+let day = date.toLocaleString('en-us', {weekday: 'long'});
+if(day) day = day.toLowerCase();
+if(!day) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.WENT_WRONG);
+console.log('day',day);
+  var query = {provider:req.body.provider,name:day};
+  await schedulCalender
+    .findOne(query).select("available intervals")
+    .exec(async (schedulCalenderErr, schedulCalenderResult) => {
+      if (await schedulCalenderErr) {
+        return await Response.sendResponseWithoutData(
+          res,
+          resCode.WENT_WRONG,
+          resMessage.WENT_WRONG
+        );
+      } else {
+        return await Response.sendResponseWithData(
+          res,
+          resCode.EVERYTHING_IS_OK,
+          "Schedule calender weekly list.",
+          schedulCalenderResult
+        );
+      }
+    });
+  }
 };
 
 module.exports = facilityApis;

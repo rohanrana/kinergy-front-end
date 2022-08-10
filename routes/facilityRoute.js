@@ -12,6 +12,8 @@ router.post('/facilityList', authHandler.auth_func, facilityApis.facilityList);
 
 
 router.post('/facilityById', facilityApis.facilityById);
+router.post('/getFacilityAvailability', facilityApis.getFacilityAvailability);
+router.post('/getFacilityAvailabilityByDate', facilityApis.getFacilityAvailabilityByDate);
 router.post('/changeStatus', authHandler.auth_func, facilityApis.changeStatus);
 // Client Side 
 router.post('/getProviderBookedSlot',  facilityApis.getProviderBookedSlot);

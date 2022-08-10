@@ -10,12 +10,12 @@ const addInterval = async (provider) => {
     "monday",
     "tuesday",
     "wednesday",
-    "thursday",
+    "thrusday",
     "friday",
     "saturday",
   ];
   var days = 7;
-  for (let i = 1; i <= days; i++) {
+  for (let i = 1; i < days; i++) {
     await schedulCalender
       .findOneAndUpdate(
         { name: weekday[i], type: "wday", provider: provider },
@@ -48,7 +48,43 @@ const syncSpeciality = async (specialities) => {
   })
   return await Promise.all(specialityPromise);
 };
+
+
+const scheduleCalenderAvailability = (provider, rules)=>{
+  console.log('rules',rules);
+  provider && rules && typeof rules != 'string'  && rules.length > 0 && rules.map(async (SDAY,SDAYX)=>{
+    if(SDAY.name && SDAY.name != "" && SDAY.name != null){ 
+    var name = SDAY.name;
+    var type = SDAY.type;
+    var intervals = SDAY.intervals;    
+    available = intervals && intervals.length > 0 ? 1 : 0;
+    console.log('name',name)
+   
+   await schedulCalender
+      .findOneAndUpdate(
+        { name: name, type: type, provider: provider },
+        {
+          name,
+          type,
+          provider: provider,
+          available: available,
+          intervals: intervals,
+        },
+        { new: true, upsert: true }
+      )
+      .exec(async (schedulCalenderErr, schedulCalenderResult) => {
+        console.log('schedulCalenderErr',schedulCalenderErr,' schedulCalenderResult', schedulCalenderResult);    
+      });
+    }
+  })
+}
+
+const getSchedulerCalender = async (provider)=>{
+  return await schedulCalender
+  .find({provider:provider}).select("name available intervals")
+  .exec();
+}
 module.exports = {
-  addInterval,
-  syncSpeciality,
+  addInterval,getSchedulerCalender,
+  syncSpeciality,scheduleCalenderAvailability
 };

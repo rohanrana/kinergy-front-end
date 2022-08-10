@@ -164,17 +164,17 @@ insData  =await Insurance.insertMany(insuranceArr);
       resMessage.WENT_WRONG
     );
   } else {
-    UserAuthorizedDetailModel.deleteMany({rel:"insurance",customer:clientId}).lean().exec();
-   var UserAuthorizedDetailData =  new UserAuthorizedDetailModel({
-      rel:"insurance",
-      customer:clientId,
-      iamAnAuthorizedRepresentativeForClient:iamAnAuthorizedRepresentativeForClient,
-      underStandAboveInformation:underStandAboveInformation,
-      authorizedRepresentativeName:authorizedRepresentativeName,
-      clientName:clientName,
-      date:date,
-      sign:files[0].location + files[0].fileName, 
-    });
+  //   UserAuthorizedDetailModel.deleteMany({rel:"insurance",customer:clientId}).lean().exec();
+  //  var UserAuthorizedDetailData =  new UserAuthorizedDetailModel({
+  //     rel:"insurance",
+  //     customer:clientId,
+  //     iamAnAuthorizedRepresentativeForClient:iamAnAuthorizedRepresentativeForClient,
+  //     underStandAboveInformation:underStandAboveInformation,
+  //     authorizedRepresentativeName:authorizedRepresentativeName,
+  //     clientName:clientName,
+  //     date:date,
+  //     sign:files[0].location + files[0].fileName, 
+  //   });
     UserAuthorizedDetailData.save();
     return Response.sendResponseWithData(
       res,

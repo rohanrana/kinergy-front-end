@@ -50,6 +50,7 @@ const documentRoutes = require("./routes/documentRoute");
 const blockCalenderRoutes = require("./routes/blockCalenderRoute");
 const availabilityCalenderRoutes = require("./routes/availabilityCalenderRoute");
 const scheduleCalenderRoutes = require("./routes/scheduleCalenderRoute");
+const waiverRoutes = require("./routes/waiverRoute");
 
 
 const environment = config();
@@ -111,6 +112,7 @@ app.use("/api/v1/document", documentRoutes);
 app.use("/api/v1/blockCalender", blockCalenderRoutes);
 app.use("/api/v1/scheduleCalender", scheduleCalenderRoutes);
 app.use("/api/v1/availabilityCalender", availabilityCalenderRoutes);
+app.use("/api/v1/waiver", waiverRoutes);
 // app.use(express.static(path.join(__dirname, "dist")));
 
 app.get("*", (req, res) => {

@@ -284,6 +284,7 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
         appointment: result._id,
         authorizedRepresentativeName:
           waiverAndReleaseOfLiabilityAuthorizedRepresentative,
+        type: "APPOINTMENT",
         date: waiverAndReleaseOfLiabilityAuthorizedDate,
         validFor: waiverAndReleaseOfLiabilityValidFor,
         iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,
@@ -395,6 +396,7 @@ const bookingAppointmentMySelf = async (req, res, next) => {
         appointment: result._id,
         authorizedRepresentativeName:
           waiverAndReleaseOfLiabilityAuthorizedRepresentative,
+        type: "APPOINTMENT",
         date: waiverAndReleaseOfLiabilityAuthorizedDate,
         validFor: waiverAndReleaseOfLiabilityValidFor,
         iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,

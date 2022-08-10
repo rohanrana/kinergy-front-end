@@ -8,7 +8,8 @@ const Facility = require('../models/facilityModel');
 const generateAddValidation = (req, res, next) => [
     check('facilityName')
     .custom((value, {req, loc, path}) => {
-        let userOptions = {};
+        try{
+            let userOptions = {};
         userOptions = {...userOptions,facilityName:value};
 
         // console.log('userOptions',userOptions);
@@ -18,6 +19,10 @@ const generateAddValidation = (req, res, next) => [
                 return Promise.reject(resMessage.ALL_READY_EXIST_NAME);
             }
         });
+        }catch(err){
+            return Promise.reject(resMessage.ALL_READY_EXIST_NAME);
+        }
+        
     })
     .trim()
     .escape()
