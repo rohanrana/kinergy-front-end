@@ -23,6 +23,10 @@ const fs = require("fs");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
 const generalHelper = require("../helper/general.js");
+const returnPagination = (result) => {
+  delete result.docs;
+  return result;
+};
 
 const makeContactArray = async (phoneType, phone, primary) => {
   const returnArr = [0, 1, 0];
@@ -787,31 +791,41 @@ const editClientDetails = (req, res) => {
 };
 
 const getList = (req, res) => {
-  Customers.find({})
-    .lean()
-    .exec((err, result) => {
-      if (err) {
-        Response.sendResponseWithoutData(
-          res,
-          resCode.WENT_WRONG,
-          resMessage.WENT_WRONG
-        );
-      } else if (result.length == 0) {
-        Response.sendResponseWithData(
-          res,
-          resCode.EVERYTHING_IS_OK,
-          "Customer not found .",
-          result
-        );
-      } else {
-        Response.sendResponseWithData(
-          res,
-          resCode.EVERYTHING_IS_OK,
-          "Customer found successfully.",
-          result
-        );
-      }
-    });
+  const perPage = 10,
+    page =  req.body.page != "undefined" && req.body.page
+        ? Math.max(0, req.body.page)
+        : 1;
+  var options = {
+    lean: true,
+    limit: perPage,
+    page: page,
+  };
+  Customers.paginate({},{},function (err, result){
+    if (err) {
+      Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        resMessage.WENT_WRONG
+      );
+    } else if (result.length == 0) {
+      Response.sendResponseWithData(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        "Customer not found .",
+        result
+      );
+    } else {
+      Response.sendResponseWithPagination(
+        res,
+        resCode.EVERYTHING_IS_OK,
+        "Customer found successfully.",        
+        result.docs,
+        returnPagination(result)
+      );
+    }
+  })
+    // .lean()
+    // .exec();
 };
 
 const getCustomerById = (req, res) => {

@@ -13,7 +13,7 @@ const path = require("path");
 const fs = require("fs");
 const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
-const CustomerQuestionAnswers = require("../models/CustomerQuestionAnswersModel");
+const CustomerQuestionAnswers = require("../models/customerQuestionAnswersModel");
 var ObjectID = require("mongodb").ObjectID;
 var oldSections = null;
 function setValue(result) {

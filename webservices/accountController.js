@@ -12,20 +12,25 @@ const multer = require("multer");
 const maxSize = 1 * 1024 * 1024;
 
 
-// const manageAccessUsersData = async (result) => {
-//     result && result.length > 0 && result.map(async(v,x)=>{
-//         return {
-//               _id:v._id,
-//               userLinked:{
-//                 userId:v.userLinked._id,
-//                 firstName:v.userLinked.firstName,
-//                 lastName:v.userLinked.lastName,
-//                 email:v.userLinked.lastName,
-
-//               }  
-//         }
-//     })
-// }
+const manageAccessUsersData = async (result) => {
+   var returnPromise =   result && result.length > 0 && result.map(async(v,x)=>{
+        return {
+              _id:v._id,
+              userLinked:{
+                userId:v.userLinked._id,
+                firstName:v.userLinked.firstName,
+                lastName:v.userLinked.lastName,
+                email:v.userLinked.email,
+                phone:v.userLinked.phone,
+                hasProfiles:v.userLinked.linkedUsers? v.userLinked.linkedUsers.length:0
+              },
+              canBookAppointment:v.canBookAppointment,
+              canUnlinkOther:v.canUnlinkOther,
+              status:v.status  
+        }
+    })
+    return await Promise.all(returnPromise);
+}
 const search = async (req, res, next) => {
   const { name, email, phone } = req.body;
   if (!name)
@@ -206,11 +211,12 @@ const getAccessGrantList = async (req, res) => {
             "No account have been added yet."
           );
       }else{
-        // finalResult  = await manageAccessUsersData(result);
+        finalResult  = await manageAccessUsersData(result);
+        console.log('finalResult',finalResult)
         return Response.sendResponseWithData(
             res,
             resCode.EVERYTHING_IS_OK,
-            "Account list.",result
+            "Account list.",finalResult
           );
       }
     });
