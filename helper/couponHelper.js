@@ -4,7 +4,7 @@ const couponHit = (couponId) => {
     { _id: couponId },
     { $inc: { hits: 1 } }
   ).exec((couponHitErr, couponHitData) => {
-    console.log('couponHitErr',couponHitErr,'couponHitData',couponHitData);
+    // console.log('couponHitErr',couponHitErr,'couponHitData',couponHitData);
   });
 };
 module.exports = { couponHit };

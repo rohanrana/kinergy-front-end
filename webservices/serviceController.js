@@ -57,7 +57,7 @@ const serviceApis = {
       followUpAppointmentTitle,
       followUpAppointmentPrice,
       followUpAppointmentDuration,
-      imageUrl
+      imageUrl,
     } = req.body;
     var initialConsultationPriceArr = [];
     var followUpAppointmentPriceArr = [];
@@ -97,7 +97,7 @@ const serviceApis = {
       title: title,
       description: description,
       image: image,
-      imageUrl:imageUrl,
+      imageUrl: imageUrl,
       slug: slug,
       addBy: addBy,
       status: generalHelper.stringToUpperCase(status),
@@ -148,7 +148,8 @@ const serviceApis = {
       const {
         title,
         description,
-        image,imageUrl,
+        image,
+        imageUrl,
         status,
         addBy,
         category,
@@ -344,32 +345,6 @@ const serviceApis = {
         .exec((err, result) => {
           // console.log(result.length);
           if (err)
-            Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.WENT_WRONG);
-          else if (!result || result.length == 0)
-            Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Service not found.");
-          else
-            Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Service found successfully.",result);
-        });
-    }
-  },
-  
-  getServiceProvider: (req, res) => {
-    if (!req.body.service) {
-      Response.sendResponseWithoutData(
-        res,
-        resCode.WENT_WRONG,
-        "Please Enter Service Id."
-      );
-    } else {
-      Service.find({ _id: req.body.service })
-        .populate({
-          path: "providers",
-        })
-        .select({ providers: 1, _id: 0 })
-        .lean()
-        .exec((err, result) => {
-          // console.log(result.length);
-          if (err)
             Response.sendResponseWithoutData(
               res,
               resCode.WENT_WRONG,
@@ -379,17 +354,78 @@ const serviceApis = {
             Response.sendResponseWithoutData(
               res,
               resCode.WENT_WRONG,
-              "Service Not Found."
+              "Service not found."
             );
           else
             Response.sendResponseWithData(
               res,
               resCode.EVERYTHING_IS_OK,
-              "Service Found Successfully.",
+              "Service found successfully.",
               result
             );
         });
     }
+  },
+
+  getServiceProvider: async (req, res) => {
+    if (!req.body.service)
+      return Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please enter service id."
+      );
+    if (!(await generalHelper.checkObjectId(req.body.service)))
+      return Response.sendResponseWithoutData(
+        res,
+        resCode.WENT_WRONG,
+        "Please enter valid service id."
+      );
+    // } else {
+    await Service.find({ _id: req.body.service })
+
+      // .populate("address.city", "_id name")
+      // .populate("address.state", "_id name")
+      // .populate("speciality", "_id name")
+      // .populate("language", "_id code name")
+      .populate({
+        path: "providers",
+        populate: [
+          {
+            path: "speciality",
+            select: "_id name",
+          },
+          {
+            path: "language",
+            select: "_id name",
+          },
+        ],
+      })
+      .select({ providers: 1, _id: 0 })
+
+      .lean()
+      .exec((err, result) => {
+        // console.log(result.length);
+        if (err)
+          return Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            resMessage.WENT_WRONG
+          );
+        else if (!result || result.length == 0)
+          return Response.sendResponseWithoutData(
+            res,
+            resCode.WENT_WRONG,
+            "Service Not Found."
+          );
+        else
+          return Response.sendResponseWithData(
+            res,
+            resCode.EVERYTHING_IS_OK,
+            "Service Found Successfully.",
+            result
+          );
+      });
+    // }
   },
 
   delete: (req, res) => {
@@ -483,7 +519,7 @@ const serviceApis = {
         var imageName = file.fieldname + "-" + Date.now() + extname;
         // console.log(imageName);
         req.body[file.fieldname] = imageName;
-        req.body.imageUrl =  fileLocation + "/" + imageName;
+        req.body.imageUrl = fileLocation + "/" + imageName;
         cb(null, imageName);
       },
     });

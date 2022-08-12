@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate");
 const Schema = mongoose.Schema;
 const STATUS = require("../helper/status");
-
+const SubUserActivity = require("../models/subUserActivityModel");
 const appointmentSchema = new Schema(
   {
     appointmentType: {
@@ -51,7 +51,7 @@ const appointmentSchema = new Schema(
       ref: "Customers",
       default: null,
     },
-    customerReferance: {
+    refCustomer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Customers",
       default: null,
@@ -75,7 +75,7 @@ const appointmentSchema = new Schema(
       ref: "CaseRecord",
       default: null,
     },
-    wavier: {
+    waiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Waiver",
       default: null,
@@ -139,4 +139,73 @@ const appointmentSchema = new Schema(
 );
 
 appointmentSchema.plugin(mongoosePaginate);
+
+// var options = {customCollectionName: "subUserActivity"}
+// var historyModels  = {};
+
+
+
+
+// function createHistoryDoc(d, operation) {
+//   const { __v, ...doc } = d;
+
+//   let historyDoc = {};
+//   historyDoc['t'] = new Date();
+//   historyDoc['o'] = operation;
+//   historyDoc['d'] = doc;
+
+//   return historyDoc;
+// }
+
+// appointmentSchema.pre('save', function(next) {
+//   let historyDoc = {};
+
+//   console.log('this',this.collection.name);
+//   diffOnly = false; 
+//   if(diffOnly && !this.isNew) {
+//     var original = this._original;
+//     delete this._original;
+//     var d = this.toObject();
+//     var diff = {};
+//     diff['_id'] = d['_id'];
+//     for(var k in d){
+//       if(customDiffAlgo) {
+//         var customDiff = customDiffAlgo(k, d[k], original[k]);
+//         if(customDiff) {
+//           diff[k] = customDiff.diff;
+//         }
+//       } else {
+//         if(String(d[k]) != String(original[k])){
+//           diff[k] = d[k];
+//         }
+//       }
+//     }
+
+//     historyDoc = createHistoryDoc(diff, 'u');
+//   } else {
+//     var d = this.toObject();
+//     let operation = this.isNew ? 'i' : 'u';
+//     historyDoc = createHistoryDoc(d, operation);
+//   }
+
+//   saveHistoryModel(original, d, historyDoc, this.collection.name, next);
+// });
+
+
+// function saveHistoryModel(original, d, historyDoc, collectionName, next) {
+//   let history = new SubUserActivity(historyDoc);
+//     history.save(async(err,doc)=>{
+//       if(err){
+//         console.log('err',err);
+//       }else{
+//         console.log('doc',doc);
+//       }
+//       next();
+//     });
+// }
+
 module.exports = mongoose.model("Appointment", appointmentSchema);
+
+
+  // Create a copy when insert or update, or a diff log
+  

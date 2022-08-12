@@ -379,12 +379,12 @@ const followUpBooking = (req, res, next) => [
     .not()
     .isEmpty()
     .withMessage("Please enter totalAmount"),
-  check("case")
+  check("caseId")
     .trim()
     .escape()
     .not()
     .isEmpty()
-    .withMessage("Please enter case"),
+    .withMessage("Please enter case id."),
   check("appointmentType")
     .trim()
     .escape()
@@ -623,7 +623,7 @@ check("provider")
     .not()
     .isEmpty()
     .withMessage("Please select appointmentTime"),
-  // check("staff")
+  // check("staff")/
   //   .trim()
   //   .escape()
   //   .not()

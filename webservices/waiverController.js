@@ -13,14 +13,15 @@ const maxSize = 1 * 1024 * 1024;
 
 const add = async (req, res, next) => {
   const {
+    type,
     customer,
+    appointment,    
     validFor,
     needSign,
     iamAuthorized,
     authorizedRepresentativeName,
-    clientName,
-    appointment,
-    date,type,
+    clientName,    
+    date,    
     files,
   } = req.body;
   await Waiver.findOneAndUpdate(
@@ -57,6 +58,18 @@ const add = async (req, res, next) => {
         );
     });
 };
+
+const get = async (req,res)=>{
+  const {_id} = req.body;
+  if(!_id) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter waiver id.");
+  if(! await generalHelper.checkObjectId(_id)) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid waiver id.");
+
+   Waiver.findOne({_id:_id}).select({__v:0}).lean().exec(async(err,document)=>{
+      if(err) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,resMessage.WENT_WRONG);
+      else if(!document) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Waiver not found.");
+      else  return Response.sendResponseWithData(res,resCode.EVERYTHING_IS_OK,"Waiver found successfully.",document);
+   })
+}
 
 const fileUpload = (req, res, next) => {
   var fileLocation = "public/uploads/user/signature";
@@ -145,4 +158,5 @@ const fileUpload = (req, res, next) => {
 module.exports = {
   add,
   fileUpload,
+  get
 };

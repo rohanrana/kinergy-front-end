@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const generalHelper = require("../helper/general");
 const appointmentHelper = require("../helper/appointmentHelper");
 var mongodb = require("mongodb");
+const CouponModel = require("../models/couponModel");
 var objectid = mongodb.ObjectID;
 const couponHelper = require("../helper/couponHelper");
 const moment = require("moment");
@@ -29,6 +30,7 @@ const book = async (req, res, next) => {
     servicePrice,
     appointmentDate,
     appointmentTime,
+    waiverAndReliability,
     spentTime,
     serviceType,
     service,
@@ -37,7 +39,11 @@ const book = async (req, res, next) => {
     status,
     location,
     department,
-    coupon,
+    couponId,
+    couponTitle,
+    couponCode,
+    couponType,
+    couponValue,
     amount,
     taxAmount,
     discountAmount,
@@ -47,18 +53,17 @@ const book = async (req, res, next) => {
   } = req.body;
 
   // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
-  if (
-    !(await appointmentHelper.checkAvailability(
-      appointmentDate,
-      appointmentTime
-    ))
-  )
-    return Response.sendResponseWithoutData(
-      res,
-      resCode.WENT_WRONG,
-      "Slot is already booked.Please choose another slot."
-    );
+  if (!(await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)))
+    return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
 
+
+    if(couponId){
+      if(! generalHelper.checkObjectId(couponId))
+      return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Invalid coupon id.");
+      var couponExec = await CouponModel.findOne({_id:couponId,couponCode:couponCode,couponType:couponType,couponValue:couponValue}).exec();    
+      if(!couponExec) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon not found.");
+    }
+  
   const appointment = new Appointment({
     spentTime,
     serviceType,
@@ -76,8 +81,14 @@ const book = async (req, res, next) => {
     customer: customer,
     provider: provider,
     status: await generalHelper.stringToUpperCase(status),
-    couponApplied: coupon && coupon._id ? 1 : 0,
-    coupon: coupon,
+    couponApplied: couponId && couponId ? 1 : 0,
+    coupon: {
+      _id: couponId,
+      title: couponTitle,
+      couponCode: couponCode,
+      couponType: couponType,
+      value: couponValue,
+    },
     amount: amount,
     taxAmount: taxAmount,
     discountAmount: discountAmount,
@@ -88,8 +99,18 @@ const book = async (req, res, next) => {
   console.log("appointment", appointment);
 
   appointment.save(async (err, result) => {
-    console.log(err, result);
-    await couponHelper.couponHit(coupon._id);
+    
+    try {
+      await couponHelper.couponHit(couponId);
+    } catch (errCouponHit) {
+      console.log("errCouponHit", errCouponHit);
+    }
+    try{
+      await appointmentHelper.addAppointmentToWaiverAndRelibality(result._id,waiverAndReliability);
+    }catch(errWaiverAndRelibality){
+      console.log('errWaiverAndRelibility',errWaiverAndRelibality)
+    }
+
     if (!err)
       await Response.sendResponseWithData(
         res,
@@ -112,6 +133,7 @@ const customerBooking = async (req, res, next) => {
   const {
     appointmentType,
     appointmentFor,
+    waiverAndReliability,
     servicePrice,
     appointmentDate,
     appointmentTime,
@@ -124,26 +146,35 @@ const customerBooking = async (req, res, next) => {
     status,
     location,
     department,
-    coupon,
     amount,
     taxAmount,
     discountAmount,
     totalAmount,
     serviceDuration,
     serviceAmount,
+    couponId,
+    couponTitle,
+    couponCode,
+    couponType,
+    couponValue,
   } = req.body;
-  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
-  if (
-    !(await appointmentHelper.checkAvailability(
-      appointmentDate,
-      appointmentTime
-    ))
-  )
-    return Response.sendResponseWithoutData(
-      res,
-      resCode.WENT_WRONG,
-      "Slot is already booked.Please choose another slot."
-    );
+
+  
+
+    if (!(await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)))
+    return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
+
+    if(couponId){
+      if(! generalHelper.checkObjectId(couponId))
+      return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Invalid coupon id.");
+      var couponExec = await CouponModel.findOne({_id:couponId,couponCode:couponCode,couponType:couponType,couponValue:couponValue}).exec();    
+      if(!couponExec) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon not found.");
+    }
+  
+
+  if(! await appointmentHelper.checkWaiver(waiverAndReliability))
+  return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Waiver and reliability id not found.");
 
   const appointment = new Appointment({
     appointmentType: appointmentType,
@@ -158,14 +189,21 @@ const customerBooking = async (req, res, next) => {
     refCustomer: refCustomer,
     provider: provider,
     status: await generalHelper.stringToUpperCase(status),
-    couponApplied: coupon && coupon._id ? 1 : 0,
-    coupon: coupon,
+    couponApplied: couponId ? 1 : 0,
+    coupon: {
+      _id: couponId,
+      title: couponTitle,
+      couponCode: couponCode,
+      couponType: couponType,
+      value: couponValue,
+    },
     amount: amount,
     taxAmount: taxAmount,
     discountAmount: discountAmount,
     totalAmount: totalAmount,
     serviceDuration,
     serviceAmount,
+    waiver:waiverAndReliability
   });
 
   console.log("appointment", appointment);
@@ -174,9 +212,14 @@ const customerBooking = async (req, res, next) => {
     console.log(err, result);
     if (!err) {
       try {
-        await couponHelper.couponHit(coupon._id);
+        await couponHelper.couponHit(couponId);
       } catch (errCouponHit) {
         console.log("errCouponHit", errCouponHit);
+      }
+      try{
+        await appointmentHelper.addAppointmentToWaiverAndRelibality(result._id,waiverAndReliability);
+      }catch(errWaiverAndRelibality){
+        console.log('errWaiverAndRelibility',errWaiverAndRelibality)
       }
 
       return await Response.sendResponseWithData(
@@ -219,13 +262,7 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
     taxAmount,
     discountAmount,
     totalAmount,
-    files,
-    waiverAndReleaseOfLiabilityAuthorizedDate,
-    waiverAndReleaseOfLiabilityAuthorizedRepresentative,
-    waiverAndReleaseOfLiabilityClientName,
-    waiverAndReleaseOfLiabilityIamAuthorized,
-    waiverAndReleaseOfLiabilityNeedSign,
-    waiverAndReleaseOfLiabilityValidFor,
+    waiverAndReliability,
     couponId,
     couponTitle,
     couponCode,
@@ -233,18 +270,17 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
     couponValue,
   } = req.body;
 
-  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
-  if (
-    !(await appointmentHelper.checkAvailability(
-      appointmentDate,
-      appointmentTime
-    ))
-  )
-    return Response.sendResponseWithoutData(
-      res,
-      resCode.WENT_WRONG,
-      "Slot is already booked.Please choose another slot."
-    );
+  if (!(await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)))
+  return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
+
+  if(couponId){
+    if(! generalHelper.checkObjectId(couponId))
+    return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Invalid coupon id.");
+    var couponExec = await CouponModel.findOne({_id:couponId,couponCode:couponCode,couponType:couponType,couponValue:couponValue}).exec();    
+    if(!couponExec) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon not found.");
+  }
+
 
   const appointment = new Appointment({
     appointmentType: appointmentType,
@@ -273,6 +309,7 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
     totalAmount: totalAmount,
     serviceDuration,
     serviceAmount,
+    waiver:waiverAndReliability,
   });
 
   console.log("appointment", appointment);
@@ -280,23 +317,19 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
   await appointment.save(async (err, result) => {
     console.log(err, result);
     if (!err) {
-      await couponHelper.couponHit(couponId);
-      waiver = new Waiver({
-        appointment: result._id,
-        authorizedRepresentativeName:
-          waiverAndReleaseOfLiabilityAuthorizedRepresentative,
-        type: "APPOINTMENT",
-        date: waiverAndReleaseOfLiabilityAuthorizedDate,
-        validFor: waiverAndReleaseOfLiabilityValidFor,
-        iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,
-        needSign: waiverAndReleaseOfLiabilityNeedSign,
-        clientName:waiverAndReleaseOfLiabilityClientName,
-        signature: files && files.length > 0 ? files[0].fileName : null,
-      });
-      await waiver.save(async (waiverErr, waiverResult) => {
-        console.log("waiverSave Err", waiverErr);
-        console.log("waiverSave Success", waiverResult);
-      });
+      
+      try {
+        await couponHelper.couponHit(couponId);
+      } catch (errCouponHit) {
+        console.log("errCouponHit", errCouponHit);
+      }
+      try{
+        await appointmentHelper.addAppointmentToWaiverAndRelibality(result._id,waiverAndReliability);
+      }catch(errWaiverAndRelibality){
+        console.log('errWaiverAndRelibility',errWaiverAndRelibality)
+      }
+
+
       await Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
@@ -315,10 +348,11 @@ const bookingAppointmentSomeOneElse = async (req, res, next) => {
   });
 };
 const bookingAppointmentMySelf = async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   const {
     appointmentType,
     appointmentFor,
+    waiverAndReliability,
     service,
     servicePrice,
     serviceDuration,
@@ -336,13 +370,6 @@ const bookingAppointmentMySelf = async (req, res, next) => {
     taxAmount,
     discountAmount,
     totalAmount,
-    files,
-    waiverAndReleaseOfLiabilityAuthorizedDate,
-    waiverAndReleaseOfLiabilityAuthorizedRepresentative,
-    waiverAndReleaseOfLiabilityIamAuthorized,
-    waiverAndReleaseOfLiabilityNeedSign,
-    waiverAndReleaseOfLiabilityValidFor,
-    waiverAndReleaseOfLiabilityClientName,
     couponId,
     couponTitle,
     couponCode,
@@ -350,18 +377,17 @@ const bookingAppointmentMySelf = async (req, res, next) => {
     couponValue,
   } = req.body;
 
-  // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
-  if (
-    !(await appointmentHelper.checkAvailability(
-      appointmentDate,
-      appointmentTime
-    ))
-  )
-    return Response.sendResponseWithoutData(
-      res,
-      resCode.WENT_WRONG,
-      "Slot is already booked.Please choose another slot."
-    );
+  if (!(await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)))
+  return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
+
+  if(couponId){
+    if(! generalHelper.checkObjectId(couponId))
+    return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Invalid coupon id.");
+    var couponExec = await CouponModel.findOne({_id:couponId,couponCode:couponCode,couponType:couponType,couponValue:couponValue}).exec();    
+    if(!couponExec) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon not found.");
+  }
+
 
   const appointment = new Appointment({
     appointmentType: appointmentType,
@@ -387,30 +413,25 @@ const bookingAppointmentMySelf = async (req, res, next) => {
     totalAmount: totalAmount,
     serviceDuration,
     serviceAmount,
+    waiver:waiverAndReliability
   });
 
-  console.log("appointment", appointment);
+  // console.log("appointment", appointment);
 
   await appointment.save(async (err, result) => {
     console.log(err, result);
     if (!err) {
-      await couponHelper.couponHit(couponId);
-      waiver = new Waiver({
-        appointment: result._id,
-        authorizedRepresentativeName:
-          waiverAndReleaseOfLiabilityAuthorizedRepresentative,
-        type: "APPOINTMENT",
-        date: waiverAndReleaseOfLiabilityAuthorizedDate,
-        validFor: waiverAndReleaseOfLiabilityValidFor,
-        iamAuthorized: waiverAndReleaseOfLiabilityIamAuthorized,
-        needSign: waiverAndReleaseOfLiabilityNeedSign,
-        clientName:waiverAndReleaseOfLiabilityClientName,
-        signature: files && files.length > 0 ? files[0].fileName : null,
-      });
-      await waiver.save(async (waiverErr, waiverResult) => {
-        console.log("waiverSave Err", waiverErr);
-        console.log("waiverSave Success", waiverResult);
-      });
+      try{
+        await couponHelper.couponHit(couponId);
+      }catch(errCoupon){
+        // console.log('errCoupon',errorCoupon);
+      }
+      
+      try{
+        await appointmentHelper.addAppointmentToWaiverAndRelibality(result._id,waiverAndReliability);
+      }catch(errWaiverAndRelibality){
+        // console.log('errWaiverAndRelibility',errWaiverAndRelibality)
+      }
       await Response.sendResponseWithData(
         res,
         resCode.EVERYTHING_IS_OK,
@@ -433,6 +454,7 @@ const followUpBooking = async (req, res, next) => {
       appointmentType,
       servicePrice,
       appointmentDate,
+      waiverAndReliability,
       appointmentTime,
       provider,
       spentTime,
@@ -441,8 +463,9 @@ const followUpBooking = async (req, res, next) => {
       customer,
       status,
       location,
+      
       department,
-      coupon,
+      refCustomer,
       amount,
       caseId,
       taxAmount,
@@ -450,20 +473,24 @@ const followUpBooking = async (req, res, next) => {
       totalAmount,
       serviceDuration,
       serviceAmount,
+      couponId,
+    couponTitle,
+    couponCode,
+    couponType,
+    couponValue,
     } = req.body;
 
-    // if(! await appointmentHelper.checkValidTime(appointmentTime)) return await Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Enter valid time format.");
-    if (
-      !(await appointmentHelper.checkAvailability(
-        appointmentDate,
-        appointmentTime
-      ))
-    )
-      return Response.sendResponseWithoutData(
-        res,
-        resCode.WENT_WRONG,
-        "Slot is already booked.Please choose another slot."
-      );
+    if (!(await appointmentHelper.checkAvailability(appointmentDate,appointmentTime)))
+    return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Slot is already booked.Please choose another slot.");
+
+
+    if(couponId){
+      if(! generalHelper.checkObjectId(couponId))
+      return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Invalid coupon id.");
+      var couponExec = await CouponModel.findOne({_id:couponId,couponCode:couponCode,couponType:couponType,couponValue:couponValue}).exec();    
+      if(!couponExec) return Response.sendResponseWithoutData(res,resCode.WENT_WRONG,"Coupon not found.");
+    }
+  
 
     const appointment = new Appointment({
       case: caseId,
@@ -474,15 +501,23 @@ const followUpBooking = async (req, res, next) => {
       appointmentTime: appointmentTime,
       customer: customer,
       provider: provider,
+      refCustomer:refCustomer,
       status: await generalHelper.stringToUpperCase(status),
-      couponApplied: coupon && coupon._id ? 1 : 0,
-      coupon: coupon,
+      couponApplied: couponId && couponId ? 1 : 0,
+      coupon: {
+        _id: couponId,
+        title: couponTitle,
+        couponCode: couponCode,
+        couponType: couponType,
+        value: couponValue,
+      },
       amount: amount,
       taxAmount: taxAmount,
       discountAmount: discountAmount,
       totalAmount: totalAmount,
       serviceDuration,
       serviceAmount,
+      waiver:waiverAndReliability
     });
 
     console.log("appointment", appointment);
@@ -490,7 +525,18 @@ const followUpBooking = async (req, res, next) => {
     await appointment.save(async (err, result) => {
       console.log(err, result);
       if (!err) {
-        await couponHelper.couponHit(coupon._id);
+        
+        try {
+          await couponHelper.couponHit(couponId);
+        } catch (errCouponHit) {
+          console.log("errCouponHit", errCouponHit);
+        }
+        try{
+          await appointmentHelper.addAppointmentToWaiverAndRelibality(result._id,waiverAndReliability);
+        }catch(errWaiverAndRelibality){
+          console.log('errWaiverAndRelibility',errWaiverAndRelibality)
+        }
+
         await Response.sendResponseWithData(
           res,
           resCode.EVERYTHING_IS_OK,
@@ -972,6 +1018,7 @@ const getAppointmentDetail = async (req, res) => {
       )
       .populate("provider")
       .populate("department")
+      .populate("waiver")
       .exec(async (err, result) => {
         console.log(err, result);
         if (err)
@@ -987,6 +1034,7 @@ const getAppointmentDetail = async (req, res) => {
             "Appointment Not Found."
           );
         else {
+          console.log(result);
           var appointmentArr = [];
           var appointmentPromice = await result.map(async (a, ax) => {
             let obj = {};
@@ -1007,6 +1055,7 @@ const getAppointmentDetail = async (req, res) => {
               provider: a.provider,
               department: a.department,
               case: a.case,
+              waiver: a.waiver,
               location: a.location,
               spentTime: a.spentTime,
               status: a.status,

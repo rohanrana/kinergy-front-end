@@ -1,5 +1,6 @@
 const Appointment = require("../models/appointmentModel");
 const Service = require("../models/serviceModel");
+const Waiver = require("../models/waiverModel");
 const TimeArray = [
   "9:00AM-10:00AM",
   "09:00AM-10:00AM",
@@ -79,7 +80,7 @@ const checkAvailability = async (AppointDate, Time) => {
   Time = await generalHelper.stringToUpperCase(Time).replaceAll(" ", "");
   var AppointDate = moment(new Date(AppointDate)).toISOString();
   var AppointDate2 = moment(new Date(AppointDate)).add(1, "days").toISOString();
-  console.log("AppointDate", AppointDate, "AppointDate2", AppointDate2);
+  // console.log("AppointDate", AppointDate, "AppointDate2", AppointDate2);
   appoinmentExist = await Appointment.find({
     appointmentDate: {
       //   $lte: AppointDate
@@ -88,7 +89,7 @@ const checkAvailability = async (AppointDate, Time) => {
     },
     appointmentTime: Time,
   }).exec();
-  console.log("appoinmentExist", appoinmentExist);
+  // console.log("appoinmentExist", appoinmentExist);
   if ((await appoinmentExist) && (await appoinmentExist.length) > 0)
     returnVar = await false;
   console.log(returnVar);
@@ -104,7 +105,7 @@ const groups = appointment.reduce((groups, appoint) => {
     return groups;
   }, {});  
   // Edit: to add it in the array format instead
-  console.log('groups',groups);
+  // console.log('groups',groups);
   const groupArrays = Object.keys(groups).map((date) => {
     return {
       date,
@@ -135,11 +136,35 @@ const manageAvailbilityTime = async (appointment) => {
     return groupArrays;
   };
 
+
+const addAppointmentToWaiverAndRelibality = async (appointmentId,waiverId)=>{
+  try{
+    var wavierFound = await Waiver.findOne({_id:waiverId}).exec();
+    if(!wavierFound) return 404;
+
+    var appointmentUpdate = await Appointment.findByIdAndUpdate({_id:appointmentId},{waiver:waiverId},{new:true}).exec();
+    var waiverUpdate = await Waiver.findByIdAndUpdate({_id:waiverId},{appointment:appointmentId},{new:true}).exec();
+    if(appointmentUpdate) return 200;
+    else return 400;
+  }catch(err){
+    console.log("Waiver add to appointment error",err);
+    return 400;
+
+  }   
+}
+
+const checkWaiver = async (waiverId)=>{
+  return  await Waiver.findOne({_id:waiverId}).exec();
+}
+
+
 module.exports = {
   getServicePriceDetails,
   getServicePrice,
   checkValidTime,
   checkAvailability,
   manageProviderSlot,
-  manageAvailbilityTime
+  manageAvailbilityTime,
+  addAppointmentToWaiverAndRelibality,
+  checkWaiver
 };
