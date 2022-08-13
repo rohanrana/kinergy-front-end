@@ -4,9 +4,8 @@ import {
   CardNumberElement,
   CardCvcElement,
   CardExpiryElement,
-  CardElement,
 } from "@stripe/react-stripe-js";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import LockImg from "../../../images/lock.png";
 
 import CardSection from "./CardSection";

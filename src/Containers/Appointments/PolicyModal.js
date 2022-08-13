@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Row, Col, Modal } from "react-bootstrap";
-import Run from "../../images/about2.svg";
-import { baseURL } from "../../Services";
+// import Run from "../../images/about2.svg";
+// import { baseURL } from "../../Services";
 import PolicyImg from "../../images/policy.png";
 
 export function PolicyModal(props) {

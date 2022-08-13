@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 // import Service1 from "../../images/service1.jpg";
 import InfoIcon from "../../images/arrow-2.svg";
-import Service2 from "../../images/service2.png";
+// import Service2 from "../../images/service2.png";
 import BackButton from "../../Components/common/BackButton";
 import "./AppointmentsTypes.css";
 import { Link } from "react-router-dom";

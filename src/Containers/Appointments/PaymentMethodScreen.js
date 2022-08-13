@@ -8,11 +8,9 @@ import BackButton from "../../Components/common/BackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { currencies, verifyObject } from "../../utilities/utils";
 import VisaImg from "../../images/visa.png";
-import PayPalImg from "../../images/paypal.png";
 import { PolicyModal } from "./PolicyModal";
 import { actionTypes } from "../../Reducers/localStore";
 import { BookingConfirmationModal } from "./BookingConfirmatiomModal";
-import { ValidateCreditCardInput } from "./validateCreditCard";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -56,21 +54,21 @@ export default function PaymentMethodeScreen() {
     }
   };
 
-  const handleChange = async (e, name) => {
-    e.preventDefault();
+  // const handleChange = async (e, name) => {
+  //   e.preventDefault();
 
-    let errors = null;
+  //   let errors = null;
 
-    if (state.errors) {
-      errors = Object.assign("", state.errors);
-      delete errors[name ? name : e.target.name];
-    }
-    await setState({
-      ...state,
-      [name ? name : e.target.name]: e.target.value,
-      errors: { ...state.errors, [name ? name : e.target.name]: null },
-    });
-  };
+  //   if (state.errors) {
+  //     errors = Object.assign("", state.errors);
+  //     delete errors[name ? name : e.target.name];
+  //   }
+  //   await setState({
+  //     ...state,
+  //     [name ? name : e.target.name]: e.target.value,
+  //     errors: { ...state.errors, [name ? name : e.target.name]: null },
+  //   });
+  // };
 
   // const _handleSubmit = async (e) => {
   //   let data = {

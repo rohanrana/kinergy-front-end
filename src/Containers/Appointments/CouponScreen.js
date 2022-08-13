@@ -2,9 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import "react-calendar/dist/Calendar.css";
-import moment from "moment";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import Call from "../../images/call.png";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
 import { useSelector } from "react-redux";
