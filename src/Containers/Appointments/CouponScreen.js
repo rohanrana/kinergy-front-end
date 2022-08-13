@@ -22,6 +22,9 @@ export default function CouponScreen() {
   const [state, setState] = useState({
     couponCode: "",
     loading: false,
+    discountedAmounted: null,
+    totalAmount: 0,
+    tax: 10,
   });
 
   const navigate = useNavigate();
@@ -39,6 +42,10 @@ export default function CouponScreen() {
     });
   };
 
+  useEffect(() => {
+    setState({ ...state, totalAmount: amount });
+  }, []);
+
   const _applyCoupon = async () => {
     try {
       // let phone = JSON.parse(localStorage.getItem("otp-phone"));
@@ -53,7 +60,8 @@ export default function CouponScreen() {
       // console.log("initialConsultation", priceDetails);
       await setState({
         ...state,
-        discountedAmounted: timeSlots,
+        totalAmount: amount - verifyObject(timeSlots, "couponValue", 0),
+        discountedAmounted: verifyObject(timeSlots, "couponValue", 0),
         loading: false,
       });
     } catch (error) {
@@ -119,7 +127,9 @@ export default function CouponScreen() {
                       <div className="price-lable-container">
                         <span>Amount</span>
                         <span>Tax</span>
-                        <span className="dark">Discount</span>
+                        {state.discountedAmounted && (
+                          <span className="dark">Discount</span>
+                        )}
                         <span className="dark">Total Amount</span>
                       </div>
                     </Col>
@@ -131,15 +141,19 @@ export default function CouponScreen() {
                         </span>
                         <span>
                           {currencies.dollor.symbol}{" "}
-                          {parseInt(amount, 10).toFixed(2)}
+                          {parseInt(state.tax, 10).toFixed(2)}
                         </span>
+                        {state.discountedAmounted && (
+                          <span className="dark">
+                            {"-"} {currencies.dollor.symbol}{" "}
+                            {parseInt(state.discountedAmounted, 10).toFixed(2)}
+                          </span>
+                        )}
                         <span className="dark">
                           {currencies.dollor.symbol}{" "}
-                          {parseInt(amount, 10).toFixed(2)}
-                        </span>
-                        <span className="dark">
-                          {currencies.dollor.symbol}{" "}
-                          {parseInt(amount, 10).toFixed(2)}
+                          {parseInt(state.totalAmount + state.tax, 10).toFixed(
+                            2
+                          )}
                         </span>
                       </div>
                     </Col>

@@ -9,7 +9,7 @@ export const getProviders = (data) => {
 
 export const getProvidersAvailability = (data) => {
   const request = {
-    subUrl: `/scheduleCalender/getDays`,
+    subUrl: `/availabilityCalender/getByDate`,
     data,
   };
   return post(request);
@@ -26,6 +26,14 @@ export const bookAppointment = (data) => {
 export const applyCoupon = (data) => {
   const request = {
     subUrl: `/coupon/apply`,
+    data,
+  };
+  return post(request);
+};
+
+export const addWaiver = (data) => {
+  const request = {
+    subUrl: `/waiver/add`,
     data,
   };
   return post(request);

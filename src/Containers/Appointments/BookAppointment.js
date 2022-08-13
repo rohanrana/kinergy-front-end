@@ -51,7 +51,7 @@ const BookAppointment = () => {
 
   useEffect(() => {
     _getProvidersAvailibility();
-  }, []);
+  }, [dateState]);
 
   const _getProvidersAvailibility = async () => {
     try {
@@ -59,9 +59,10 @@ const BookAppointment = () => {
       await setState({ ...state, loading: true });
       let response = await getProvidersAvailability({
         provider: provider_id,
+        date: moment(dateState).format("YYYY-MM-DD"),
       });
       console.log("response", response);
-      let timeSlots = verifyObject(response, "data.result[0].intervals", []);
+      let timeSlots = verifyObject(response, "data.result[0].times", []);
       // let serviceName = verifyObject(response, "data.result[0].title", []);
       // console.log("initialConsultation", priceDetails);
       await setState({
@@ -198,7 +199,9 @@ const BookAppointment = () => {
                                     d._id === state.selectedSlotID &&
                                     "active-timeslot"
                                   }`}
-                                >{`${d.from}-${d.to}`}</a>
+                                >{`${moment(d.from).format("hh:mm A")}-${moment(
+                                  d.to
+                                ).format("hh:mm A")}`}</a>
                               </li>
                             );
                           })}

@@ -1,20 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useState } from "react";
 import "react-calendar/dist/Calendar.css";
-import moment from "moment";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
-import Call from "../../images/call.png";
+import { Container, Row, Col } from "react-bootstrap";
 import AppointmentDetailsSection from "../../Components/common/AppointmentDetailsSection";
 import BackButton from "../../Components/common/BackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { currencies, verifyObject } from "../../utilities/utils";
 import VisaImg from "../../images/visa.png";
 import PayPalImg from "../../images/paypal.png";
-import LockImg from "../../images/lock.png";
 import { PolicyModal } from "./PolicyModal";
 import { actionTypes } from "../../Reducers/localStore";
 import { BookingConfirmationModal } from "./BookingConfirmatiomModal";
+import { ValidateCreditCardInput } from "./validateCreditCard";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+import CheckoutForm from "./StripeGateway/CheckoutForm";
+import PayPalGateway from "./PayPal/PayPalGateway";
+import { STRIP_TOKEN } from "../../Constants/common";
+
+const stripePromise = loadStripe(`${STRIP_TOKEN}`);
 
 export default function PaymentMethodeScreen() {
   const [modalShow, setModalShow] = React.useState(false);
@@ -23,6 +29,10 @@ export default function PaymentMethodeScreen() {
   const [state, setState] = useState({
     couponCode: "",
     paymentMethod: null,
+    cardName: "",
+    cardNumber: "",
+    cardExpiration: "",
+    cardSecurityCode: "",
   });
   const localStore = useSelector((state) => state.localStore);
   const dispatch = useDispatch();
@@ -35,6 +45,8 @@ export default function PaymentMethodeScreen() {
   const isSeenPolicy = verifyObject(localStore, "isSeenPolicy", false);
 
   const _handleCheckbox = (e) => {
+    e.preventDefault();
+
     if (e.target.checked) {
       setModalShow(true);
       dispatch({
@@ -43,6 +55,68 @@ export default function PaymentMethodeScreen() {
       });
     }
   };
+
+  const handleChange = async (e, name) => {
+    e.preventDefault();
+
+    let errors = null;
+
+    if (state.errors) {
+      errors = Object.assign("", state.errors);
+      delete errors[name ? name : e.target.name];
+    }
+    await setState({
+      ...state,
+      [name ? name : e.target.name]: e.target.value,
+      errors: { ...state.errors, [name ? name : e.target.name]: null },
+    });
+  };
+
+  // const _handleSubmit = async (e) => {
+  //   let data = {
+  //     cardName: state.cardName,
+  //     cardNumber: state.cardNumber,
+  //     cardExpiration: state.cardExpiration,
+  //     cardSecurityCode: state.cardSecurityCode,
+  //   };
+  //   const errors = ValidateCreditCardInput(data);
+
+  //   if (!errors.isValid) {
+  //     setState({ ...state, errors: errors.errors });
+  //   } else {
+  //     // let payload = {
+  //     //   cardName: state.cardName,
+  //     //   cardNumber: state.cardNumber,
+  //     //   cardExpiration: state.cardExpiration,
+  //     //   cardSecurityCode: state.cardSecurityCode,
+  //     // };
+  //     //   try {
+  //     //     // let phone = JSON.parse(localStorage.getItem("otp-phone"));
+  //     //     await setState({ ...state, loading: true });
+  //     //     let response = await registerNewCustomer(payload);
+  //     //     let user = verifyObject(response, "data.result", null);
+  //     //     console.log("respoinse", response);
+  //     //     console.log("user", user);
+  //     //     if (user) {
+  //     //       dispatch({
+  //     //         type: sessionTypes.LOGIN_SUCCESS,
+  //     //         payload: { token: user.jwtToken, user: user },
+  //     //       });
+  //     //       navigate(`${appRoutesConst.appointmentFor}`);
+  //     //     }
+  //     //     await setState({ ...state, signingUpResponse: response });
+  //     //   } catch (error) {
+  //     //     if (error.data && error.data.errors && isArray(error.data.errors)) {
+  //     //       console.log("errrr", error.data.errors);
+  //     //       setState({
+  //     //         ...state,
+  //     //         loading: false,
+  //     //         serverErrors: error.data.errors,
+  //     //       });
+  //     //     }
+  //     //   }
+  //   }
+  // };
 
   const handleMethod = (method) => {
     setState({ ...state, paymentMethod: method });
@@ -66,7 +140,7 @@ export default function PaymentMethodeScreen() {
                   </h6>
                 </p>
 
-                <Form className="mt-5">
+                <div className="mt-5">
                   <span>Select Payment Method</span>
                   <span onClick={() => handleMethod("visa")}>
                     <div className={`appointment-for-row`}>
@@ -79,20 +153,20 @@ export default function PaymentMethodeScreen() {
                         </span>
                       </div>
                       <div className="appointment-for-col-2">
-                        <h6>Visa/ Mastercards</h6>
+                        <div className="payment-item">
+                          <h6>Visa/ Mastercards</h6>
 
-                        <p>
-                          <span className="float-right">
+                          <span>
                             <input
                               checked={state.paymentMethod === "visa"}
                               type="checkbox"
                             />
                           </span>
-                        </p>
+                        </div>
                       </div>
                     </div>
                   </span>
-                  <span onClick={() => handleMethod("paypal")}>
+                  {/* <span onClick={() => handleMethod("paypal")}>
                     <div className={`appointment-for-row`}>
                       <div className="appointment-for-col-1">
                         <span
@@ -103,20 +177,118 @@ export default function PaymentMethodeScreen() {
                         </span>
                       </div>
                       <div className="appointment-for-col-2">
-                        <h6>PayPal</h6>
-
-                        <p>
-                          <span className="float-right">
+                        <div className="payment-item">
+                          <h6>PayPal</h6>
+                          <span>
                             <input
                               checked={state.paymentMethod === "paypal"}
                               type="checkbox"
                             />
                           </span>
-                        </p>
+                        </div>
                       </div>
                     </div>
-                  </span>
-                  <span
+                  </span> */}
+                  <PayPalGateway
+                    handlePaymentMethod={() => {
+                      setState({ ...state, paymentMethod: null });
+                    }}
+                    amount={amount}
+                  />
+
+                  {/* {state.paymentMethod === "paypal" && (
+                    <PayPalGateway amount={amount} />
+                  )} */}
+
+                  {state.paymentMethod === "visa" && (
+                    <div>
+                      <Elements stripe={stripePromise}>
+                        <CheckoutForm
+                          isSeenPolicy={isSeenPolicy}
+                          _handleCheckbox={_handleCheckbox}
+                          confirmBooking={() => setModalShow2(true)}
+                        />
+                      </Elements>
+                    </div>
+                  )}
+
+                  {/* {state.paymentMethod === "visa" && (
+                    <Fragment>
+                      <Row>
+                        <Col lg={12} sm={12} xs={12}>
+                          <Form.Group className="mb-3">
+                            <Form.Label>Card Number</Form.Label>
+                            <Form.Control
+                              onChange={handleChange}
+                              name={"cardNumber"}
+                              value={state.cardNumber}
+                              placeholder="Card Number"
+                            />
+                         
+                          </Form.Group>
+                        </Col>
+                        <Col lg={12} sm={12} xs={12}>
+                          <Form.Group className="mb-3">
+                            <Form.Label>Name on Credit Card</Form.Label>
+                            <Form.Control
+                              onChange={handleChange}
+                              name={"cardName"}
+                              value={state.cardName}
+                              placeholder="Name on Credit Card"
+                            />
+                            {state.errors && (
+                              <span className="text-danger">
+                                {state.errors.cardName}
+                              </span>
+                            )}
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Form.Group className="mb-3">
+                            <Form.Label>Expiry Date</Form.Label>
+
+                            <InputMask
+                              mask="99/99"
+                              onChange={(e) =>
+                                handleChange(e, "cardExpiration")
+                              }
+                              name={"cardExpiration"}
+                              value={state.cardExpiration}
+                            >
+                              {(inputProps) => (
+                                <Form.Control placeholder="Expiry Date" />
+                              )}
+                            </InputMask>
+
+                            {state.errors && (
+                              <span className="text-danger">
+                                {state.errors.cardExpiration}
+                              </span>
+                            )}
+                          </Form.Group>
+                        </Col>
+                        <Col>
+                          <Form.Group className="mb-3">
+                            <Form.Label>CVV</Form.Label>
+                            <Form.Control
+                              onChange={handleChange}
+                              name={"cardSecurityCode"}
+                              value={state.cardSecurityCode}
+                              placeholder="CVV"
+                            />
+                            {state.errors && (
+                              <span className="text-danger">
+                                {state.errors.cardSecurityCode}
+                              </span>
+                            )}
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </Fragment>
+                  )} */}
+                  {/* <span
                     style={{ display: "flex" }}
                     className="float-left mt-10"
                   >
@@ -134,91 +306,14 @@ export default function PaymentMethodeScreen() {
                       Review the Attendance/ Cancellation Policy
                     </p>
                   </span>
-                  {state.paymentMethod === "visa" && (
-                    <Fragment>
-                      <Row>
-                        <Form>
-                          <Col lg={12} sm={12} xs={12}>
-                            <Form.Group className="mb-3">
-                              <Form.Label>Card Number</Form.Label>
-                              <Form.Control
-                                onChange={{}}
-                                name={"firstName"}
-                                value={state.firstName}
-                                placeholder="Card Number"
-                              />
-                              {state.errors && (
-                                <span className="text-danger">
-                                  {state.errors.firstName}
-                                </span>
-                              )}
-                            </Form.Group>
-                          </Col>
-                          <Col lg={12} sm={12} xs={12}>
-                            <Form.Group className="mb-3">
-                              <Form.Label>Name on Credit Card</Form.Label>
-                              <Form.Control
-                                onChange={{}}
-                                name={"firstName"}
-                                value={state.firstName}
-                                placeholder="Name on Credit Card"
-                              />
-                              {state.errors && (
-                                <span className="text-danger">
-                                  {state.errors.firstName}
-                                </span>
-                              )}
-                            </Form.Group>
-                          </Col>
-                        </Form>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Form.Group className="mb-3">
-                            <Form.Label>Expiry Date</Form.Label>
-                            <Form.Control
-                              onChange={{}}
-                              name={"firstName"}
-                              value={state.firstName}
-                              placeholder="Expiry Date"
-                            />
-                            {state.errors && (
-                              <span className="text-danger">
-                                {state.errors.firstName}
-                              </span>
-                            )}
-                          </Form.Group>
-                        </Col>
-                        <Col>
-                          <Form.Group className="mb-3">
-                            <Form.Label>CVV</Form.Label>
-                            <Form.Control
-                              onChange={{}}
-                              name={"firstName"}
-                              value={state.firstName}
-                              placeholder="CVV"
-                            />
-                            {state.errors && (
-                              <span className="text-danger">
-                                {state.errors.firstName}
-                              </span>
-                            )}
-                          </Form.Group>
-                        </Col>
-                      </Row>
-                    </Fragment>
-                  )}
-
                   <Row>
                     <Col Col lg={12} sm={12} xs={12}>
                       <div className="text-center mt-3">
                         <Button
-                          // disabled={
-                          //   dateState === null || state.selectedTimeSlot === null
-                          // }
+                          disabled={!isSeenPolicy}
                           className="btn btn-form btn-sm w-100"
                           onClick={() => {
-                            setModalShow2(true);
+                            _handleSubmit();
                           }}
                         >
                           <span>
@@ -228,8 +323,8 @@ export default function PaymentMethodeScreen() {
                         </Button>
                       </div>
                     </Col>
-                  </Row>
-                </Form>
+                  </Row> */}
+                </div>
               </div>
             </div>
           </Col>

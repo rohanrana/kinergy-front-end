@@ -4,11 +4,13 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { DatePicker } from "react-rainbow-components";
 import { useSelector } from "react-redux";
 import SignaturePad from "react-signature-canvas";
-import { verifyObject } from "../../utilities/utils";
+import { successToast, verifyObject } from "../../utilities/utils";
 import DatePickerImage from "../../images/Vector.png";
 import { ValidateConsentForm } from "./ConsentFormValidations";
 import { appRoutesConst } from "../../App/navigation";
 import { useNavigate } from "react-router";
+import { addWaiver } from "../../Services/appointments";
+import { isArray } from "lodash";
 
 export default function ConsentForm() {
   const [state, setState] = useState({
@@ -22,13 +24,15 @@ export default function ConsentForm() {
   });
   const sigCanvas = useRef({});
   const navigate = useNavigate();
-  //   const localStore = useSelector((state) => state.localStore);
+  const localStore = useSelector((state) => state.localStore);
 
   //   const clientName = `${verifyObject(
   //     localStore,
   //     "clientDetails.firstName",
   //     null
   //   )} ${verifyObject(localStore, "clientDetails.lastName", null)}`;
+
+  const clientID = verifyObject(localStore, "clientDetails._id", null);
 
   //   const providerName = `${verifyObject(
   //     localStore,
@@ -100,40 +104,43 @@ export default function ConsentForm() {
     if (!errors.isValid) {
       setState({ ...state, errors: errors.errors });
     } else {
-      navigate(appRoutesConst.couponScreen);
-      //   let payload = {
-      //     firstName: data.firstName,
-      //     lastName: data.lastName,
-      //     email: data.email,
-      //     phone: data.contact,
-      //     dob: data.dob,
-      //     gender: verifyObject(state, "gender.name", null),
-      //   };
-      //   try {
-      //     // let phone = JSON.parse(localStorage.getItem("otp-phone"));
-      //     await setState({ ...state, loading: true });
-      //     let response = await registerNewCustomer(payload);
-      //     let user = verifyObject(response, "data.result", null);
-      //     console.log("respoinse", response);
-      //     console.log("user", user);
-      //     if (user) {
-      //       dispatch({
-      //         type: sessionTypes.LOGIN_SUCCESS,
-      //         payload: { token: user.jwtToken, user: user },
-      //       });
-      //       navigate(`${appRoutesConst.appointmentFor}`);
-      //     }
-      //     await setState({ ...state, signingUpResponse: response });
-      //   } catch (error) {
-      //     if (error.data && error.data.errors && isArray(error.data.errors)) {
-      //       console.log("errrr", error.data.errors);
-      //       setState({
-      //         ...state,
-      //         loading: false,
-      //         serverErrors: error.data.errors,
-      //       });
-      //     }
-      //   }
+      let payload = {
+        type: "APPOINTMENT",
+        customer: clientID,
+        validFor: data.checkbox2 ? 1 : 0,
+        needSign: data.checkbox3 ? 1 : 0,
+        iamAuthorized: data.checkbox1 ? 1 : 0,
+        authorizedRepresentativeName: data.authPersonName,
+        clientName: data.clientName,
+        date: data.date,
+        signature: data.signImage,
+      };
+      try {
+        // let phone = JSON.parse(localStorage.getItem("otp-phone"));
+        await setState({ ...state, loading: true });
+        let response = await addWaiver(payload);
+        // let user = verifyObject(response, "data.result", null);
+        // console.log("respoinse", response);
+        // console.log("user", user);
+        if (response) {
+          successToast({
+            content: verifyObject(response, "data.response_message", "Success"),
+          });
+          navigate(appRoutesConst.couponScreen);
+        }
+        // navigate(appRoutesConst.couponScreen);
+
+        await setState({ ...state, signingUpResponse: response });
+      } catch (error) {
+        if (error.data && error.data.errors && isArray(error.data.errors)) {
+          console.log("errrr", error.data.errors);
+          setState({
+            ...state,
+            loading: false,
+            serverErrors: error.data.errors,
+          });
+        }
+      }
     }
   };
   const clear = () => {
